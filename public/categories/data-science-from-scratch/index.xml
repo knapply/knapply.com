@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data-science-from-scratch on Brendan Knapp</title>
+    <link>/categories/data-science-from-scratch/</link>
+    <description>Recent content in data-science-from-scratch on Brendan Knapp</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/data-science-from-scratch/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Measures of Central Tendency</title>
+      <link>/post/central-tendency/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/central-tendency/</guid>
+      <description>Toy ValuesPython listR vectorLengthPython’s len()R’s length()Unique ValuesPython’s set()R’s unique()MaxPython’s max()R’s max()MinPython’s min()R’s min()SumPython’s sum()R’s sum()MeanPython’s statistics.mean()R’s mean()ModePython’s statistics.mode()R’s modeMedianPythonREnvironmentRather than letting R and Python do all the work for us (i.</description>
+    </item>
+    
+    <item>
+      <title>Bubble Sort</title>
+      <link>/post/bubble-sort/</link>
+      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bubble-sort/</guid>
+      <description>PythonUnsorted listBubble Sort FunctionResultRUnsorted vectorBubble Sort FunctionResultEnvironmentPythonUnsorted listunsorted = [9, 2, 8, 3, 7, 4, 6, 5, 1]Bubble Sort Functiondef bubble_sort(unsorted_sequence):sorted_sequence = unsorted_sequencefor iteration, _ in enumerate(sorted_sequence):for i, _ in enumerate(sorted_sequence):if i + 1 &amp;lt;= len(sorted_sequence) - 1:current_value = sorted_sequence[i]next_value = sorted_sequence[i + 1]if current_value &amp;gt; next_value:sorted_sequence[i] = next_valuesorted_sequence[i + 1] = current_valueprint(f&amp;#39;Iteration #{iteration + 1}: {&amp;quot;, &amp;quot;.</description>
+    </item>
+    
+  </channel>
+</rss>

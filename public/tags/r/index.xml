@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>r on Brendan Knapp</title>
+    <link>/tags/r/</link>
+    <description>Recent content in r on Brendan Knapp</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Mon, 09 Jul 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>R-Python Thesaurus</title>
+      <link>/post/r-python-thesaurus/</link>
+      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-python-thesaurus/</guid>
+      <description>TypesCollections: Vectors, Lists, and DictionariesCommon TasksIterationPythonRSequencesComparisonsArithmeticStatisticsDates and TimesStrings and Regular ExpressionsTypesPython TypePython ExampleR TypeR Exampleint1integer1Lfloat3.14numeric &amp;amp; double3.14string‘hi’character“hi”boolTruelogicalTRUECollections: Vectors, Lists, and DictionariesPython TypePython ExampleR TypeR ExampleValuesscalar1vector1homogeneouslist[1, 1]vectorc(1, 2)homogeneouslist[1, ‘string’]listlist(1, “string”)heterogenoustuple(1, ‘string’]listlist(1, “string”)heterogenousdict{‘a’:1, ‘b’:‘string’}listlist(a = 1, b = “string”)heterogenousvectorc(a = 1, b = 2)homogeneousNote:  dicts are not ordered.</description>
+    </item>
+    
+  </channel>
+</rss>

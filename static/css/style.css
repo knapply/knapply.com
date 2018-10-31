@@ -1,0 +1,17 @@
+.r::before {
+  content: "# > R\A";
+  font-weight: 200;
+  color: blue;
+  }
+
+.python::before {
+  content:"# >> Python\A";
+  font-weight: 200;
+  color:green;
+  }
+  
+.cpp::before {
+  content:"# C++\A";
+  font-weight: 200;
+  color:red;
+  }

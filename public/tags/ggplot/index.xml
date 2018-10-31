@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>ggplot on Brendan Knapp</title>
+    <link>/tags/ggplot/</link>
+    <description>Recent content in ggplot on Brendan Knapp</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Sat, 17 Mar 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/ggplot/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Thoughts on Teaching R and Yet Another Tidyverse Intro</title>
+      <link>/post/yet-another-tidyverse-intro/</link>
+      <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/yet-another-tidyverse-intro/</guid>
+      <description>ContextReflectionResources Up Fronttibble%&amp;gt;%“Tidy” Dataselect() columnsfilter() Rowsmutate() Columnsarrange() Rowsgroup_by() for Grouped Datasummarize()Image credit to R Memes for Statistical Fiends
+
+Considering this is a blog post, I’m going to get all bloggy here before jumping into the code.
+ContextI recently had the opportunity to teach some R coding to colleagues and classmates in a series of workshops.</description>
+    </item>
+    
+  </channel>
+</rss>

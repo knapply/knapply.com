@@ -1,0 +1,304 @@
+---
+title: "Data Frame Operations Thesaurus"
+draft: true
+author: Brendan Knapp
+date: '2018-07-24'
+slug: data-frame-operations
+categories:
+  - data-carpentry
+  - Python
+  - R
+  - tutorial
+tags:
+  - dplyr
+  - pandas
+thumbnailImage: 
+metaAlignment: center
+coverMeta: out
+header:
+  image: 
+  caption: "Essential Data Frame Operations in Python (w/ pandas) and R (with dplyr)."
+summary: "Essential Data Frame Operations in Python (w/ pandas) and R (with dplyr)."
+output:
+  # html_document:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 3
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- <style> -->
+    <!-- <link rel="stylesheet" href="{{ .Site.BaseURL }}/css/style.css" /> -->
+<!-- </style> -->
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, cache = FALSE, fig.align = "center",
+                      message = FALSE, warning = FALSE)
+
+library(reticulate)
+use_condaenv("r-reticulate", required = TRUE)
+```
+
+
+# Set Up
+
+#### Data Frame Packages
+
+```{r}
+library(tidyverse) # includes {dplyr}
+```
+
+```{r, echo=FALSE}
+library(kableExtra)
+prettify <- function(df, n = 10, cols_changed = NULL, rows_changed = NULL, footnote = TRUE) {
+  pretty_df <- df %>%
+    head(n) %>%
+    kable() %>%
+    kable_styling(full_width = FALSE)
+  
+  if(!is.null(cols_changed)) {
+    pretty_df <- pretty_df %>%
+      column_spec(cols_changed, bold = T, color = "black", background = "#C8FAE3")
+  }
+  
+  if(!is.null(rows_changed)) {
+    pretty_df <- pretty_df %>%
+      row_spec(rows_changed, bold = T, color = "black", background = "#C8FAE3")
+  }
+  
+  if(footnote) {
+    pretty_df <- pretty_df %>% 
+    footnote(symbol = "First 10 Rows")
+  }
+  
+  pretty_df
+}
+```
+
+
+```{python}
+import pandas as pd
+```
+
+# Data
+
+```{r}
+library(gapminder)
+
+(df <- gapminder %>% rename(population = pop)) # pandas uses pop() as a method
+```
+
+```{python}
+df = r.df #.round(4)
+#
+print(df.head(10))
+```
+
+# Subset Columns
+
+```{r echo=FALSE}
+knitr::include_graphics("http://res.cloudinary.com/syknapptic/image/upload/v1521304413/select_dtuw73.png")
+```
+
+## Basic Example: Select Columns by Name
+
+```{r}
+df %>% select(country, population)
+```
+
+```{python}
+res = df[['country', 'population']]
+#
+print(res.head(10))
+```
+
+## Drop Columns by Name
+
+```{r}
+df %>% select(-country, -population)
+```
+
+```{python}
+res = df.drop(['country', 'population'], axis=1)
+#
+print(res.head(10))
+```
+
+## Select Columns by Name Range
+
+```{r}
+df %>% select(lifeExp:gdpPercap)
+```
+
+```{python}
+res = df.loc[:, 'lifeExp':'gdpPercap']
+#
+print(res.head(10))
+```
+
+## Drop Columns by Name Range
+
+```{r}
+df %>% select(-(lifeExp:gdpPercap))
+```
+
+```{python}
+# there has to be a better way...
+res = df.drop(df.loc[:, 'lifeExp':'gdpPercap'].head(0).columns, axis=1)
+#
+print(res.head(10))
+```
+
+## Select Columns by Index Range
+
+```{r}
+df %>% select(2:4)
+```
+
+```{python}
+res = df[df.columns[1:4]]
+#
+print(res.head(10))
+```
+
+## Drop Columns by Index Range
+
+```{r}
+df %>% select(-(2:4))
+```
+
+```{python}
+res = df.drop(df.columns[1:4], axis = 1)
+#
+print(res.head(10))
+```
+
+# Subset Rows
+
+```{r echo=FALSE}
+knitr::include_graphics("http://res.cloudinary.com/syknapptic/image/upload/v1521304410/filter_rbnuxp.png")
+```
+
+## Filter Rows, Single Logical Comparison
+
+```{r}
+df %>% filter(gdpPercap < 500)
+```
+
+```{python}
+res = df[df.gdpPercap < 500]
+#
+print(res.head(10))
+```
+
+## Filter Rows, Multiple Logical Comparisons
+
+```{r}
+df %>% filter(year > 1990, lifeExp < 40)
+```
+
+```{python}
+res = df[(df.year > 1990) & (df.lifeExp < 40)]
+#
+print(res.head(10))
+```
+
+```{r}
+df %>% filter(population < 10000 | gdpPercap > 100000)
+```
+
+```{python}
+res = df[(df.population < 10000) | (df.gdpPercap > 100000)]
+#
+print(res.head(10))
+```
+
+```{r}
+df %>% filter(year == 1997 & continent == "Europe") # dplyr can use either `,` or `&` for "and"
+```
+
+```{python}
+res = df[(df.year == 1997) & (df.continent == "Europe")]
+#
+print(res.head(10))
+```
+
+# Transform Column Values
+
+```{r echo=FALSE}
+knitr::include_graphics("http://res.cloudinary.com/syknapptic/image/upload/v1521304413/mutate_cskmnx.png")
+```
+
+## Basic Example: Calculate Population in Thousands
+
+```{r}
+df %>% 
+  select(population) %>% 
+  mutate(pop_in_thousands = population / 1000) 
+```
+
+```{python}
+res = df[['population']].assign(pop_in_thousands = df.population / 1000)
+#
+print(res.head(10))
+```
+
+## Calculate Total GDP
+
+```{r}
+df %>%
+  select(population, gdpPercap) %>% 
+  mutate(total_GDP = population * gdpPercap)
+```
+
+```{python}
+res = df[['population', 'gdpPercap']].assign(total_GDP = df.population * df.gdpPercap)
+#
+print(res.head(10))
+```
+
+## Calculate Z Scores of 1977 GDP per Capita
+
+$$ z = \frac {x_i -\mu_x} {\sigma_x}$$
+
+* $x$ = `gdpPercap`
+* $\mu_x$ = the mean of $x$ = `mean(gdpPercap)` or `gdpPercap.mean()`
+* $\sigma_x$ = the standard deviation of x = `sd(gdpPercap)` or `gdpPercap.std()`
+
+```{r}
+df %>% 
+  filter(year == 1977) %>%
+  select(gdpPercap) %>% 
+  mutate(gdp_per_cap_z_score = (gdpPercap - mean(gdpPercap)) / sd(gdpPercap))
+```
+
+
+```{python}
+df_1977 = df[df.year == 1977][['gdpPercap']] # intermediate assignment
+#
+res = df_1977.assign(gdp_per_cap_z_score = (df_1977.gdpPercap - df_1977.gdpPercap.mean()) / df_1977.gdpPercap.std())
+#
+print(res.head(10))
+```
+
+
+
+
+> __النهاية__
+
+# Environment
+
+```{python}
+print(sys.version)
+print(pd.__version__)
+```
+
+```{r}
+sessionInfo()
+```
+
+
+
+

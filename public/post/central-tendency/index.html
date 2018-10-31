@@ -1,0 +1,1149 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Measures of central tendency (from scratch!) in both R and Python.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/central-tendency/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Brendan Knapp">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Brendan Knapp">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/central-tendency/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="Brendan Knapp">
+  <meta property="og:url" content="/post/central-tendency/">
+  <meta property="og:title" content="Measures of Central Tendency | Brendan Knapp">
+  <meta property="og:description" content="Measures of central tendency (from scratch!) in both R and Python.">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-07-18T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-07-18T00:00:00&#43;00:00">
+  
+
+  
+
+  
+
+  <title>Measures of Central Tendency | Brendan Knapp</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Brendan Knapp</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/tutorial/">
+            
+            <span>Resources</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/files/cv.pdf">
+            
+            <span>CV</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Measures of Central Tendency</h1>
+
+  
+
+  
+    
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-07-18 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-07-18 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Jul 18, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/central-tendency/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science-from-scratch/">data-science-from-scratch</a>, 
+    
+    <a href="/categories/r/">R</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Measures%20of%20Central%20Tendency&amp;url=%2fpost%2fcentral-tendency%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcentral-tendency%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcentral-tendency%2f&amp;title=Measures%20of%20Central%20Tendency"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcentral-tendency%2f&amp;title=Measures%20of%20Central%20Tendency"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Measures%20of%20Central%20Tendency&amp;body=%2fpost%2fcentral-tendency%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<div id="TOC">
+<ul>
+<li><a href="#toy-values">Toy Values</a><ul>
+<li><a href="#python-list">Python <code>list</code></a></li>
+<li><a href="#r-vector">R <code>vector</code></a></li>
+</ul></li>
+<li><a href="#length">Length</a><ul>
+<li><a href="#pythons-len">Python’s <code>len()</code></a></li>
+<li><a href="#rs-length">R’s <code>length()</code></a></li>
+</ul></li>
+<li><a href="#unique-values">Unique Values</a><ul>
+<li><a href="#pythons-set">Python’s <code>set()</code></a></li>
+<li><a href="#rs-unique">R’s <code>unique()</code></a></li>
+</ul></li>
+<li><a href="#max">Max</a><ul>
+<li><a href="#pythons-max">Python’s <code>max()</code></a></li>
+<li><a href="#rs-max">R’s <code>max()</code></a></li>
+</ul></li>
+<li><a href="#min">Min</a><ul>
+<li><a href="#pythons-min">Python’s <code>min()</code></a></li>
+<li><a href="#rs-min">R’s <code>min()</code></a></li>
+</ul></li>
+<li><a href="#sum">Sum</a><ul>
+<li><a href="#pythons-sum">Python’s <code>sum()</code></a></li>
+<li><a href="#rs-sum">R’s <code>sum()</code></a></li>
+</ul></li>
+<li><a href="#mean">Mean</a><ul>
+<li><a href="#pythons-statistics.mean">Python’s <code>statistics.mean()</code></a></li>
+<li><a href="#rs-mean">R’s <code>mean()</code></a></li>
+</ul></li>
+<li><a href="#mode">Mode</a><ul>
+<li><a href="#pythons-statistics.mode">Python’s <code>statistics.mode()</code></a></li>
+<li><a href="#rs-mode">R’s mode</a></li>
+</ul></li>
+<li><a href="#median">Median</a><ul>
+<li><a href="#python">Python</a></li>
+<li><a href="#r">R</a></li>
+</ul></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<p><link rel="stylesheet" href="/css/style.css" /></p>
+<p>Rather than letting R and Python do all the work for us (i.e. cheating, as a no-nonsense former professor would call it), the best way to understand what any calculation actually means is to walk through the steps. I doubt I’m the only one who wishes they started to code this way.</p>
+<p>With that in mind, here’s a collection of “from scratch” functions implemented in both R and Python that provide <em>minimal</em> hand-holding.</p>
+<p>This should (hopefully) also serve as a handy reference for useRs and Pythonistas curious about the greenness of the grass on the other side. My goal here is to lay a foundation before writing similar walkthroughs covering more complicated workflows, statistical models, and machine learning.</p>
+<p><br></p>
+<p><em>A quick note:</em></p>
+<p>In R, experience has taught me to use <code>[[</code> instead of <code>[</code> <em>whenever it’s possible to obtain the desired results with <code>[[</code></em>. With that in mind, I try to use <code>[[</code> in the R examples (unless swapping between R and Python messed me up).</p>
+<p>Clearly, <a href="https://stackoverflow.com/questions/1169456/the-difference-between-and-notations-for-accessing-the-elements-of-a-lis">useRs have an assortment of opinions</a> on how to use <code>[[</code> and <code>[</code>, but this is probably as simple an explanation as you can get:</p>
+<p><img src="https://i.stack.imgur.com/6Vwry.png" style="display: block; margin: auto;" /></p>
+<p><br>
+<br></p>
+<p>All that said, let’s get to it.</p>
+<div id="toy-values" class="section level1">
+<h1>Toy Values</h1>
+<p>We’ll use the same values for <code>x</code> throughout:</p>
+<div id="python-list" class="section level3">
+<h3>Python <code>list</code></h3>
+<pre class="python"><code>x = [25.88, 37.05, 38.46, 76.78, 76.78, 71.97, 33.99, 73.29, 2.53, 76.78, 
+     74.94, 73.4, 64.87, 57.8, 42.82, 76.78, 7.95, 60.26, 2.14, 59.51]</code></pre>
+</div>
+<div id="r-vector" class="section level3">
+<h3>R <code>vector</code></h3>
+<pre class="r"><code>x &lt;- c(25.88, 37.05, 38.46, 76.78, 76.78, 71.97, 33.99, 73.29, 2.53, 76.78,
+       74.94, 73.4, 64.87, 57.8, 42.82, 76.78, 7.95, 60.26, 2.14, 59.51)</code></pre>
+<p>The first thing we need to do is define some helper functions. In order to calculate mean, median, and mode, we will also need to find the:</p>
+<ul>
+<li>length of the sequence: <code>my_length()</code></li>
+<li>unique values in a sequence: <code>my_unique()</code></li>
+<li>maximum value in a sequence: <code>my_max()</code>
+<ul>
+<li><code>my_min()</code> is also included for reference</li>
+</ul></li>
+<li>sum of values in a sequence: <code>my_sum()</code></li>
+</ul>
+</div>
+</div>
+<div id="length" class="section level1">
+<h1>Length</h1>
+<div id="pythons-len" class="section level3">
+<h3>Python’s <code>len()</code></h3>
+<pre class="python"><code>def my_length(x):          # `def`ine the function, which takes the parameter `x`
+  length = 0               # declare a `length` variable that initially equals `0`
+  
+  for item in x:           # `for` each `item` in `x`
+    length += 1            # add `1` to `length` (same as `length = length + 1`)
+  
+  return length            # finally, `return` the calculated `length`</code></pre>
+<pre class="python"><code>print(my_length(x))</code></pre>
+<pre><code>## 20</code></pre>
+<pre class="python"><code>print(len(x) == my_length(x)) # does our custom function give the same result as Python&#39;s built-in?</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="rs-length" class="section level3">
+<h3>R’s <code>length()</code></h3>
+<pre class="r"><code>my_length &lt;- function(x) {  # declare the `function`, which takes the parameter `x`
+  length &lt;- 0L              # declare a `length` variable that initially equals `0L`...
+                            # ... in R, numbers are treated as `double`s unless we...
+                            # ... specifiy them to be `integer`s. `0L` is the same as...
+                            # ... `as.integer(0)`.
+                            # `length` doesn&#39;t NEED to be an `integer`, but if we&#39;re ... 
+                            # ... careful about types early, we&#39;ll save headaches later.
+
+  for(item in x) {          # `for` each `item` in `x`
+    length &lt;- length + 1L   # add `1L` to length
+  }
+  
+  length                    # finally, return the calculated `length`...
+                            # we can use `return(length)`, but `return` in R is best used ...
+                            # ... only when you&#39;re breaking from a function early
+}</code></pre>
+<pre class="r"><code>my_length(x)</code></pre>
+<pre><code>## [1] 20</code></pre>
+<pre class="r"><code>                       # does our custom function give the same result as R&#39;s built-in?
+length(x) == my_length(x)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="unique-values" class="section level1">
+<h1>Unique Values</h1>
+<div id="pythons-set" class="section level3">
+<h3>Python’s <code>set()</code></h3>
+<pre class="python"><code>def my_unique(x):               # `def`ine the function, which takes the parameter `x`
+  unique_x = []                 # declare an empty `list` named `unique_x`
+  
+  for item in x:                # for each `item` in `x`
+    if item not in unique_x:    # if the `item` is not in `unique_x`
+      unique_x.append(item)     # `append` the `item` to `unique_x`
+      
+  return unique_x               # finally, `return` the list of `unique_x`&#39;s values</code></pre>
+<pre class="python"><code>print(my_unique(x))</code></pre>
+<pre><code>## [25.88, 37.05, 38.46, 76.78, 71.97, 33.99, 73.29, 2.53, 74.94, 73.4, 64.87, 57.8, 42.82, 7.95, 60.26, 2.14, 59.51]</code></pre>
+<p>In order to test Python’s <code>my_unique()</code>, we need to use a loop as Python <code>set()</code>s are not ordered.</p>
+<p>Here, we’ll use a “list-comprehension”.</p>
+<p>In Python, we <em>can</em> do this…</p>
+<pre class="python"><code>matches = []
+for item in my_unique(x):
+  matches.append(item in set(x))
+  
+print(all(matches))</code></pre>
+<pre><code>## True</code></pre>
+<p>… but it’s considered more “Pythonic” to use a list-comprehension in this scenario…</p>
+<pre class="python"><code>matches = [item in set(x) for item in my_unique(x)]
+print(all(matches))</code></pre>
+<pre><code>## True</code></pre>
+<p>… which we can wrap up in a one-liner…</p>
+<pre class="python"><code>print(all([item in set(x) for item in my_unique(x)]))</code></pre>
+<pre><code>## True</code></pre>
+<p><img src="http://res.cloudinary.com/syknapptic/image/upload/v1531937508/2e99mn_s5lxip.jpg" style="display: block; margin: auto;" /></p>
+<p>Jokes aside, list-comprehensions are generally faster. Considering “pure” Python isn’t vectorized like R, they are quite handy.</p>
+</div>
+<div id="rs-unique" class="section level3">
+<h3>R’s <code>unique()</code></h3>
+<pre class="r"><code>my_unique &lt;- function(x) {           # declare the `function`, which takes the parameter `x`
+  unique_x &lt;- vector(mode = mode(x)) # declare an empty `vector` with the same `mode` as `x`...
+                                     # ... in R, it&#39;s a good habit to enforce data types ...
+                                     # ... to maximize performance. In a perfect world, we
+                                     # ... would also want to set `unique_x`&#39;s `length`.
+  for(item in x) {
+    if(!item %in% unique_x) {       # in R, `%in%` is a vectorized match that returns a `logical` vector
+      unique_x &lt;- c(unique_x, item)
+    }
+  }
+  
+  unique_x
+}</code></pre>
+<pre class="r"><code>my_unique(x)</code></pre>
+<pre><code>##  [1] 25.88 37.05 38.46 76.78 71.97 33.99 73.29  2.53 74.94 73.40 64.87
+## [12] 57.80 42.82  7.95 60.26  2.14 59.51</code></pre>
+<pre class="r"><code>                         # does our custom function give the same result as R&#39;s built-in?
+all(unique(x) == my_unique(x))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="max" class="section level1">
+<h1>Max</h1>
+<div id="pythons-max" class="section level3">
+<h3>Python’s <code>max()</code></h3>
+<pre class="python"><code>def my_max(x):
+  max = x[0]
+
+  for item in x:
+    if item &gt; max:
+      max = item
+  
+  return max</code></pre>
+<pre class="python"><code>print(my_max(x))
+                 # does our custom function give the same result as Pythons&#39;s built-in?</code></pre>
+<pre><code>## 76.78</code></pre>
+<pre class="python"><code>print(max(x) == my_max(x))</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="rs-max" class="section level3">
+<h3>R’s <code>max()</code></h3>
+<pre class="r"><code>my_max &lt;- function(x) {
+  max &lt;- x[[1]]
+  
+  for(item in x) {
+    if(item &gt; max) {
+      max &lt;- item
+    }
+  }
+  max
+}</code></pre>
+<pre class="r"><code>my_max(x)</code></pre>
+<pre><code>## [1] 76.78</code></pre>
+<pre class="r"><code>                 # does our custom function give the same result as R&#39;s built-in?
+max(x) == my_max(x)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="min" class="section level1">
+<h1>Min</h1>
+<div id="pythons-min" class="section level3">
+<h3>Python’s <code>min()</code></h3>
+<pre class="python"><code>def my_min(x):
+  min = x[0]        # Python indexing starts at `0`, so `min` starts as the first item in `x`
+  
+  for item in x:
+    if item &lt; min:
+      min = item
+  
+  return min</code></pre>
+<pre class="python"><code>print(my_min(x))
+                 # does our custom function give the same result as Python&#39;s built-in?</code></pre>
+<pre><code>## 2.14</code></pre>
+<pre class="python"><code>print(min(x) == my_min(x))</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="rs-min" class="section level3">
+<h3>R’s <code>min()</code></h3>
+<pre class="r"><code>my_min &lt;- function(x) {
+  min &lt;- x[[1]]     # R indexing starts at `1`, so `min` starts as the first item in `x`
+  
+  for(item in x) {
+    if(item &lt; min) {
+      min &lt;- item
+    }
+  }
+  min
+}</code></pre>
+<pre class="r"><code>my_min(x)</code></pre>
+<pre><code>## [1] 2.14</code></pre>
+<pre class="r"><code>                 # does our custom function give the same result as Python&#39;s built-in?
+min(x) == my_min(x)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="sum" class="section level1">
+<h1>Sum</h1>
+<div id="pythons-sum" class="section level3">
+<h3>Python’s <code>sum()</code></h3>
+<pre class="python"><code>def my_sum(x):     # `def`ine the function, which takes the parameter `x`
+  sum = 0          # declare a `sum` variable that initially equals `0`
+  for item in x:   # `for` each `item` in `x`
+    sum += item    # add the `item`&#39;s value to `sum`
+  
+  return sum       # finally, return the calculated `sum`</code></pre>
+<pre class="python"><code>print(my_sum(x))
+                 # does our custom function give the same result as Python&#39;s built-in?</code></pre>
+<pre><code>## 1033.98</code></pre>
+<pre class="python"><code>print(sum(x) == my_sum(x))</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="rs-sum" class="section level3">
+<h3>R’s <code>sum()</code></h3>
+<pre class="r"><code>my_sum &lt;- function(x) { # declare the `function`, which takes the parameter `x`
+  sum &lt;- 0              # declare a `sum` variable that initially equals `0`...
+  
+  for(item in x) {      # `for` each `item` in x
+    sum &lt;- sum + item   # add the `item` to `sum`
+  }
+  
+  sum                   # finally, call `sum` to return its value
+}</code></pre>
+<pre class="r"><code>sum(x)</code></pre>
+<pre><code>## [1] 1033.98</code></pre>
+<pre class="r"><code>                 # does our custom function give the same result as R&#39;s built-in?
+sum(x) == my_sum(x)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<p><br>
+<br>
+<br></p>
+<blockquote>
+<p>Now that we’ve built our helper functions, let’s take on the measures of central tendency.</p>
+</blockquote>
+<p><img src="http://res.cloudinary.com/syknapptic/image/upload/v1531921800/cent-tend.png" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="mean" class="section level1">
+<h1>Mean</h1>
+<div id="pythons-statistics.mean" class="section level3">
+<h3>Python’s <code>statistics.mean()</code></h3>
+<pre class="python"><code>def my_mean(x):
+  return float(my_sum(x) / my_length(x))</code></pre>
+<pre class="python"><code>print(my_mean(x))</code></pre>
+<pre><code>## 51.699</code></pre>
+<pre class="python"><code>import statistics          # in Python, `mean()` is kept in the `statistics` module, which ...
+                           # ... we `import` like this
+                            
+                           # does our custom function give the same result as &#39;s built-in?
+print(statistics.mean(x) == my_mean(x))</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="rs-mean" class="section level3">
+<h3>R’s <code>mean()</code></h3>
+<pre class="r"><code>my_mean &lt;- function(x) {
+  my_sum(x) / my_length(x)
+}</code></pre>
+<pre class="r"><code>my_mean(x)</code></pre>
+<pre><code>## [1] 51.699</code></pre>
+<pre class="r"><code>mean(x) == my_mean(x)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+</div>
+<div id="mode" class="section level1">
+<h1>Mode</h1>
+<div id="pythons-statistics.mode" class="section level3">
+<h3>Python’s <code>statistics.mode()</code></h3>
+<pre class="python"><code>def my_mode(x):
+  unique_x = my_unique(x)
+  occurrences = {}         # create and empty `dict()` to which we will be adding items
+  
+  for item in unique_x:
+    count = my_length([value for value in x if value == item]) # count up the occurrences of each `item`
+    occurrences.update({item: count})    # add the count to the the `occurrences` `dict()`
+  
+  keys = list(occurrences.keys())     # `dict()`s are unordered, so we make a list of `keys`...
+  values = list(occurrences.values()) # ... and a list of `values`
+  
+  return keys[values.index(my_max(values))]  # get the index of the max value and select that key</code></pre>
+<pre class="python"><code>print(my_mode(x))</code></pre>
+<pre><code>## 76.78</code></pre>
+<pre class="python"><code>import statistics
+print(statistics.mode(x) == my_mode(x))</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="rs-mode" class="section level3">
+<h3>R’s mode</h3>
+<pre class="r"><code>my_mode &lt;- function(x) {
+  unique_x &lt;- my_unique(x)
+  occurences &lt;- vector(mode = mode(unique_x), length = length(unique_x))
+
+  for(item in unique_x) {
+    count &lt;- c(item = my_length(x[x == item])) # because we&#39;re dealing with vectors in R we can... 
+                                               # ... boolean mask with `[]` instead  of using a loop
+    names(count) &lt;- item                       # we turn `count` into a named `vector`...
+                                               # but this coerces the `names` to `character`
+    occurences &lt;- c(occurences, count)
+  }
+  as.numeric(names(occurences[occurences == my_max(occurences)]))  # convert the `names` back to `numeric`
+}</code></pre>
+<pre class="r"><code>my_mode(x) # R doesn&#39;t have a built-in function for a statistical mode as it&#39;s not commonly used</code></pre>
+<pre><code>## [1] 76.78</code></pre>
+</div>
+</div>
+<div id="median" class="section level1">
+<h1>Median</h1>
+<p>For <code>median()</code>, we need to be able to sort the list. We’re just going to use built-in functions, but you can see how a bubble sort is performed <a href="https://syknapptic.netlify.com/2018/07/bubble-sort/">here</a>.</p>
+<div id="python" class="section level3">
+<h3>Python</h3>
+<pre class="python"><code>def my_median(x):
+  sorted_x = sorted(x)
+  length_x = my_length(x)
+  middle_index = (length_x - 1) // 2  # `//` is Python&#39;s operator for integer division
+                                      # `%` is Python&#39;s operator for remainder
+  if length_x % 2:                    # if `x`&#39;s length is an odd value
+    median = sorted_x[middle_index]
+  elif not length_x % 2:                # if `x`&#39;s length is an even value
+    median = my_mean([sorted_x[middle_index], sorted_x[middle_index + 1]])
+
+  return median</code></pre>
+<pre class="python"><code>print(my_median(x))</code></pre>
+<pre><code>## 59.885</code></pre>
+<pre class="python"><code>import statistics
+print(statistics.median(x) == my_median(x))</code></pre>
+<pre><code>## True</code></pre>
+</div>
+<div id="r" class="section level3">
+<h3>R</h3>
+<pre class="r"><code>my_median &lt;- function(x) {
+  sorted_x &lt;- sort(x)
+  length_x &lt;- my_length(x)
+  middle_index &lt;- length_x %/% 2 # `%/%` is R&#39;s operator for integer division
+  
+  if(length_x %% 2) {            # `%%` is R&#39;s operator for remainder
+    median = sorted_x[[middle_index]]
+  }
+  else if(!length_x %% 2) {
+    median = my_mean(c(sorted_x[[middle_index]], sorted_x[[middle_index + 1]]))
+  }
+
+  median
+}</code></pre>
+<pre class="r"><code>my_median(x)</code></pre>
+<pre><code>## [1] 59.885</code></pre>
+<pre class="r"><code>median(x) == my_median(x)</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<blockquote>
+<p><strong>النهاية</strong></p>
+</blockquote>
+</div>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<pre class="python"><code>print(sys.version)</code></pre>
+<pre><code>## 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.5.1 (2018-07-02)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 17134)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.19.3         bookdown_0.7.21        lattice_0.20-35       
+##  [4] digest_0.6.18          grid_3.5.1             jsonlite_1.5          
+##  [7] magrittr_1.5           evaluate_0.12          blogdown_0.9.1        
+## [10] stringi_1.2.4          Matrix_1.2-14          reticulate_1.10.0.9002
+## [13] rmarkdown_1.10.14      htmldeps_0.1.1         tools_3.5.1           
+## [16] stringr_1.3.1.9000     xfun_0.4               yaml_2.2.0            
+## [19] compiler_3.5.1         htmltools_0.3.6        knitr_1.20.21</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/statistics/">statistics</a>
+  
+  <a class="badge badge-light" href="/tags/data-science-from-scratch/">data-science-from-scratch</a>
+  
+  <a class="badge badge-light" href="/tags/r/">R</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/portrait.jpg" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
+  
+
+  <p class="powered-by">
+    &copy; 2018 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.500a6cbb2c0f345fcecc21b3116d6637aa78f1f11db8081ea581abe05390c2e8f3bbffe61be3cf0217baf785c40efceabe51050a4f007e69af94efd3643260e8.js" integrity="sha512-UApsuywPNF/OzCGzEW1mN6p48fEduAgepYGr4FOQwujzu//mG&#43;PPAhe694XEDvzqvlEFCk8AfmmvlO/TZDJg6A=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+
