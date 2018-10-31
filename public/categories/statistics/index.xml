@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>data-science-from-scratch on Brendan Knapp</title>
-    <link>/tags/data-science-from-scratch/</link>
-    <description>Recent content in data-science-from-scratch on Brendan Knapp</description>
+    <title>statistics on Brendan Knapp</title>
+    <link>/categories/statistics/</link>
+    <description>Recent content in statistics on Brendan Knapp</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
     <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/tags/data-science-from-scratch/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/categories/statistics/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>

@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Essential Data Frame Operations in Python (w/ pandas) and R (with dplyr).">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/data-frame-operations/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Brendan Knapp">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Brendan Knapp">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/data-frame-operations/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="Brendan Knapp">
+  <meta property="og:url" content="/post/data-frame-operations/">
+  <meta property="og:title" content="Data Frame Operations Thesaurus | Brendan Knapp">
+  <meta property="og:description" content="Essential Data Frame Operations in Python (w/ pandas) and R (with dplyr).">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-07-24T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-10-30T18:01:04-07:00">
+  
+
+  
+
+  
+
+  <title>Data Frame Operations Thesaurus | Brendan Knapp</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">Brendan Knapp</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/tutorial/">
+            
+            <span>Resources</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/files/cv.pdf">
+            
+            <span>CV</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Data Frame Operations Thesaurus</h1>
+
+  
+
+  
+    
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+        Last updated on
+    
+    <meta content="2018-07-24 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-10-30 18:01:04 -0700 PDT" itemprop="dateModified">
+      Oct 30, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    12 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/data-frame-operations/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-carpentry/">data-carpentry</a>, 
+    
+    <a href="/categories/python/">Python</a>, 
+    
+    <a href="/categories/r/">R</a>, 
+    
+    <a href="/categories/tutorial/">tutorial</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Data%20Frame%20Operations%20Thesaurus&amp;url=%2fpost%2fdata-frame-operations%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fdata-frame-operations%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fdata-frame-operations%2f&amp;title=Data%20Frame%20Operations%20Thesaurus"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fdata-frame-operations%2f&amp;title=Data%20Frame%20Operations%20Thesaurus"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Data%20Frame%20Operations%20Thesaurus&amp;body=%2fpost%2fdata-frame-operations%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<div id="TOC">
+<ul>
+<li><a href="#set-up">Set Up</a></li>
+<li><a href="#data">Data</a></li>
+<li><a href="#subset-columns">Subset Columns</a><ul>
+<li><a href="#basic-example-select-columns-by-name">Basic Example: Select Columns by Name</a></li>
+<li><a href="#drop-columns-by-name">Drop Columns by Name</a></li>
+<li><a href="#select-columns-by-name-range">Select Columns by Name Range</a></li>
+<li><a href="#drop-columns-by-name-range">Drop Columns by Name Range</a></li>
+<li><a href="#select-columns-by-index-range">Select Columns by Index Range</a></li>
+<li><a href="#drop-columns-by-index-range">Drop Columns by Index Range</a></li>
+</ul></li>
+<li><a href="#subset-rows">Subset Rows</a><ul>
+<li><a href="#filter-rows-single-logical-comparison">Filter Rows, Single Logical Comparison</a></li>
+<li><a href="#filter-rows-multiple-logical-comparisons">Filter Rows, Multiple Logical Comparisons</a></li>
+</ul></li>
+<li><a href="#transform-column-values">Transform Column Values</a><ul>
+<li><a href="#basic-example-calculate-population-in-thousands">Basic Example: Calculate Population in Thousands</a></li>
+<li><a href="#calculate-total-gdp">Calculate Total GDP</a></li>
+<li><a href="#calculate-z-scores-of-1977-gdp-per-capita">Calculate Z Scores of 1977 GDP per Capita</a></li>
+</ul></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<!-- <style> -->
+<pre><code>&lt;!-- &lt;link rel=&quot;stylesheet&quot; href=&quot;{{ .Site.BaseURL }}/css/style.css&quot; /&gt; --&gt;</code></pre>
+<!-- </style> -->
+<div id="set-up" class="section level1">
+<h1>Set Up</h1>
+<div id="data-frame-packages" class="section level4">
+<h4>Data Frame Packages</h4>
+<pre class="r"><code>library(tidyverse) # includes {dplyr}</code></pre>
+<pre class="python"><code>import pandas as pd</code></pre>
+</div>
+</div>
+<div id="data" class="section level1">
+<h1>Data</h1>
+<pre class="r"><code>library(gapminder)
+
+(df &lt;- gapminder %&gt;% rename(population = pop)) # pandas uses pop() as a method</code></pre>
+<pre><code>## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp population gdpPercap
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan Asia       1952    28.8    8425333      779.
+##  2 Afghanistan Asia       1957    30.3    9240934      821.
+##  3 Afghanistan Asia       1962    32.0   10267083      853.
+##  4 Afghanistan Asia       1967    34.0   11537966      836.
+##  5 Afghanistan Asia       1972    36.1   13079460      740.
+##  6 Afghanistan Asia       1977    38.4   14880372      786.
+##  7 Afghanistan Asia       1982    39.9   12881816      978.
+##  8 Afghanistan Asia       1987    40.8   13867957      852.
+##  9 Afghanistan Asia       1992    41.7   16317921      649.
+## 10 Afghanistan Asia       1997    41.8   22227415      635.
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>df = r.df #.round(4)
+#
+print(df.head(10))</code></pre>
+<pre><code>##        country continent  year  lifeExp  population   gdpPercap
+## 0  Afghanistan      Asia  1952   28.801     8425333  779.445314
+## 1  Afghanistan      Asia  1957   30.332     9240934  820.853030
+## 2  Afghanistan      Asia  1962   31.997    10267083  853.100710
+## 3  Afghanistan      Asia  1967   34.020    11537966  836.197138
+## 4  Afghanistan      Asia  1972   36.088    13079460  739.981106
+## 5  Afghanistan      Asia  1977   38.438    14880372  786.113360
+## 6  Afghanistan      Asia  1982   39.854    12881816  978.011439
+## 7  Afghanistan      Asia  1987   40.822    13867957  852.395945
+## 8  Afghanistan      Asia  1992   41.674    16317921  649.341395
+## 9  Afghanistan      Asia  1997   41.763    22227415  635.341351</code></pre>
+</div>
+<div id="subset-columns" class="section level1">
+<h1>Subset Columns</h1>
+<p><img src="http://res.cloudinary.com/syknapptic/image/upload/v1521304413/select_dtuw73.png" style="display: block; margin: auto;" /></p>
+<div id="basic-example-select-columns-by-name" class="section level2">
+<h2>Basic Example: Select Columns by Name</h2>
+<pre class="r"><code>df %&gt;% select(country, population)</code></pre>
+<pre><code>## # A tibble: 1,704 x 2
+##    country     population
+##    &lt;fct&gt;            &lt;int&gt;
+##  1 Afghanistan    8425333
+##  2 Afghanistan    9240934
+##  3 Afghanistan   10267083
+##  4 Afghanistan   11537966
+##  5 Afghanistan   13079460
+##  6 Afghanistan   14880372
+##  7 Afghanistan   12881816
+##  8 Afghanistan   13867957
+##  9 Afghanistan   16317921
+## 10 Afghanistan   22227415
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df[[&#39;country&#39;, &#39;population&#39;]]
+#
+print(res.head(10))</code></pre>
+<pre><code>##        country  population
+## 0  Afghanistan     8425333
+## 1  Afghanistan     9240934
+## 2  Afghanistan    10267083
+## 3  Afghanistan    11537966
+## 4  Afghanistan    13079460
+## 5  Afghanistan    14880372
+## 6  Afghanistan    12881816
+## 7  Afghanistan    13867957
+## 8  Afghanistan    16317921
+## 9  Afghanistan    22227415</code></pre>
+</div>
+<div id="drop-columns-by-name" class="section level2">
+<h2>Drop Columns by Name</h2>
+<pre class="r"><code>df %&gt;% select(-country, -population)</code></pre>
+<pre><code>## # A tibble: 1,704 x 4
+##    continent  year lifeExp gdpPercap
+##    &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;     &lt;dbl&gt;
+##  1 Asia       1952    28.8      779.
+##  2 Asia       1957    30.3      821.
+##  3 Asia       1962    32.0      853.
+##  4 Asia       1967    34.0      836.
+##  5 Asia       1972    36.1      740.
+##  6 Asia       1977    38.4      786.
+##  7 Asia       1982    39.9      978.
+##  8 Asia       1987    40.8      852.
+##  9 Asia       1992    41.7      649.
+## 10 Asia       1997    41.8      635.
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df.drop([&#39;country&#39;, &#39;population&#39;], axis=1)
+#
+print(res.head(10))</code></pre>
+<pre><code>##   continent  year  lifeExp   gdpPercap
+## 0      Asia  1952   28.801  779.445314
+## 1      Asia  1957   30.332  820.853030
+## 2      Asia  1962   31.997  853.100710
+## 3      Asia  1967   34.020  836.197138
+## 4      Asia  1972   36.088  739.981106
+## 5      Asia  1977   38.438  786.113360
+## 6      Asia  1982   39.854  978.011439
+## 7      Asia  1987   40.822  852.395945
+## 8      Asia  1992   41.674  649.341395
+## 9      Asia  1997   41.763  635.341351</code></pre>
+</div>
+<div id="select-columns-by-name-range" class="section level2">
+<h2>Select Columns by Name Range</h2>
+<pre class="r"><code>df %&gt;% select(lifeExp:gdpPercap)</code></pre>
+<pre><code>## # A tibble: 1,704 x 3
+##    lifeExp population gdpPercap
+##      &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+##  1    28.8    8425333      779.
+##  2    30.3    9240934      821.
+##  3    32.0   10267083      853.
+##  4    34.0   11537966      836.
+##  5    36.1   13079460      740.
+##  6    38.4   14880372      786.
+##  7    39.9   12881816      978.
+##  8    40.8   13867957      852.
+##  9    41.7   16317921      649.
+## 10    41.8   22227415      635.
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df.loc[:, &#39;lifeExp&#39;:&#39;gdpPercap&#39;]
+#
+print(res.head(10))</code></pre>
+<pre><code>##    lifeExp  population   gdpPercap
+## 0   28.801     8425333  779.445314
+## 1   30.332     9240934  820.853030
+## 2   31.997    10267083  853.100710
+## 3   34.020    11537966  836.197138
+## 4   36.088    13079460  739.981106
+## 5   38.438    14880372  786.113360
+## 6   39.854    12881816  978.011439
+## 7   40.822    13867957  852.395945
+## 8   41.674    16317921  649.341395
+## 9   41.763    22227415  635.341351</code></pre>
+</div>
+<div id="drop-columns-by-name-range" class="section level2">
+<h2>Drop Columns by Name Range</h2>
+<pre class="r"><code>df %&gt;% select(-(lifeExp:gdpPercap))</code></pre>
+<pre><code>## # A tibble: 1,704 x 3
+##    country     continent  year
+##    &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;
+##  1 Afghanistan Asia       1952
+##  2 Afghanistan Asia       1957
+##  3 Afghanistan Asia       1962
+##  4 Afghanistan Asia       1967
+##  5 Afghanistan Asia       1972
+##  6 Afghanistan Asia       1977
+##  7 Afghanistan Asia       1982
+##  8 Afghanistan Asia       1987
+##  9 Afghanistan Asia       1992
+## 10 Afghanistan Asia       1997
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code># there has to be a better way...
+res = df.drop(df.loc[:, &#39;lifeExp&#39;:&#39;gdpPercap&#39;].head(0).columns, axis=1)
+#
+print(res.head(10))</code></pre>
+<pre><code>##        country continent  year
+## 0  Afghanistan      Asia  1952
+## 1  Afghanistan      Asia  1957
+## 2  Afghanistan      Asia  1962
+## 3  Afghanistan      Asia  1967
+## 4  Afghanistan      Asia  1972
+## 5  Afghanistan      Asia  1977
+## 6  Afghanistan      Asia  1982
+## 7  Afghanistan      Asia  1987
+## 8  Afghanistan      Asia  1992
+## 9  Afghanistan      Asia  1997</code></pre>
+</div>
+<div id="select-columns-by-index-range" class="section level2">
+<h2>Select Columns by Index Range</h2>
+<pre class="r"><code>df %&gt;% select(2:4)</code></pre>
+<pre><code>## # A tibble: 1,704 x 3
+##    continent  year lifeExp
+##    &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;
+##  1 Asia       1952    28.8
+##  2 Asia       1957    30.3
+##  3 Asia       1962    32.0
+##  4 Asia       1967    34.0
+##  5 Asia       1972    36.1
+##  6 Asia       1977    38.4
+##  7 Asia       1982    39.9
+##  8 Asia       1987    40.8
+##  9 Asia       1992    41.7
+## 10 Asia       1997    41.8
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df[df.columns[1:4]]
+#
+print(res.head(10))</code></pre>
+<pre><code>##   continent  year  lifeExp
+## 0      Asia  1952   28.801
+## 1      Asia  1957   30.332
+## 2      Asia  1962   31.997
+## 3      Asia  1967   34.020
+## 4      Asia  1972   36.088
+## 5      Asia  1977   38.438
+## 6      Asia  1982   39.854
+## 7      Asia  1987   40.822
+## 8      Asia  1992   41.674
+## 9      Asia  1997   41.763</code></pre>
+</div>
+<div id="drop-columns-by-index-range" class="section level2">
+<h2>Drop Columns by Index Range</h2>
+<pre class="r"><code>df %&gt;% select(-(2:4))</code></pre>
+<pre><code>## # A tibble: 1,704 x 3
+##    country     population gdpPercap
+##    &lt;fct&gt;            &lt;int&gt;     &lt;dbl&gt;
+##  1 Afghanistan    8425333      779.
+##  2 Afghanistan    9240934      821.
+##  3 Afghanistan   10267083      853.
+##  4 Afghanistan   11537966      836.
+##  5 Afghanistan   13079460      740.
+##  6 Afghanistan   14880372      786.
+##  7 Afghanistan   12881816      978.
+##  8 Afghanistan   13867957      852.
+##  9 Afghanistan   16317921      649.
+## 10 Afghanistan   22227415      635.
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df.drop(df.columns[1:4], axis = 1)
+#
+print(res.head(10))</code></pre>
+<pre><code>##        country  population   gdpPercap
+## 0  Afghanistan     8425333  779.445314
+## 1  Afghanistan     9240934  820.853030
+## 2  Afghanistan    10267083  853.100710
+## 3  Afghanistan    11537966  836.197138
+## 4  Afghanistan    13079460  739.981106
+## 5  Afghanistan    14880372  786.113360
+## 6  Afghanistan    12881816  978.011439
+## 7  Afghanistan    13867957  852.395945
+## 8  Afghanistan    16317921  649.341395
+## 9  Afghanistan    22227415  635.341351</code></pre>
+</div>
+</div>
+<div id="subset-rows" class="section level1">
+<h1>Subset Rows</h1>
+<p><img src="http://res.cloudinary.com/syknapptic/image/upload/v1521304410/filter_rbnuxp.png" style="display: block; margin: auto;" /></p>
+<div id="filter-rows-single-logical-comparison" class="section level2">
+<h2>Filter Rows, Single Logical Comparison</h2>
+<pre class="r"><code>df %&gt;% filter(gdpPercap &lt; 500)</code></pre>
+<pre><code>## # A tibble: 63 x 6
+##    country  continent  year lifeExp population gdpPercap
+##    &lt;fct&gt;    &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+##  1 Burundi  Africa     1952    39.0    2445618      339.
+##  2 Burundi  Africa     1957    40.5    2667518      380.
+##  3 Burundi  Africa     1962    42.0    2961915      355.
+##  4 Burundi  Africa     1967    43.5    3330989      413.
+##  5 Burundi  Africa     1972    44.1    3529983      464.
+##  6 Burundi  Africa     1997    45.3    6121610      463.
+##  7 Burundi  Africa     2002    47.4    7021078      446.
+##  8 Burundi  Africa     2007    49.6    8390505      430.
+##  9 Cambodia Asia       1952    39.4    4693836      368.
+## 10 Cambodia Asia       1957    41.4    5322536      434.
+## # ... with 53 more rows</code></pre>
+<pre class="python"><code>res = df[df.gdpPercap &lt; 500]
+#
+print(res.head(10))</code></pre>
+<pre><code>##       country continent  year  lifeExp  population   gdpPercap
+## 204   Burundi    Africa  1952   39.031     2445618  339.296459
+## 205   Burundi    Africa  1957   40.533     2667518  379.564628
+## 206   Burundi    Africa  1962   42.045     2961915  355.203227
+## 207   Burundi    Africa  1967   43.548     3330989  412.977514
+## 208   Burundi    Africa  1972   44.057     3529983  464.099504
+## 213   Burundi    Africa  1997   45.326     6121610  463.115148
+## 214   Burundi    Africa  2002   47.360     7021078  446.403513
+## 215   Burundi    Africa  2007   49.580     8390505  430.070692
+## 216  Cambodia      Asia  1952   39.417     4693836  368.469286
+## 217  Cambodia      Asia  1957   41.366     5322536  434.038336</code></pre>
+</div>
+<div id="filter-rows-multiple-logical-comparisons" class="section level2">
+<h2>Filter Rows, Multiple Logical Comparisons</h2>
+<pre class="r"><code>df %&gt;% filter(year &gt; 1990, lifeExp &lt; 40)</code></pre>
+<pre><code>## # A tibble: 8 x 6
+##   country      continent  year lifeExp population gdpPercap
+##   &lt;fct&gt;        &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+## 1 Rwanda       Africa     1992    23.6    7290203      737.
+## 2 Rwanda       Africa     1997    36.1    7212583      590.
+## 3 Sierra Leone Africa     1992    38.3    4260884     1069.
+## 4 Sierra Leone Africa     1997    39.9    4578212      575.
+## 5 Somalia      Africa     1992    39.7    6099799      927.
+## 6 Swaziland    Africa     2007    39.6    1133066     4513.
+## 7 Zambia       Africa     2002    39.2   10595811     1072.
+## 8 Zimbabwe     Africa     2002    40.0   11926563      672.</code></pre>
+<pre class="python"><code>res = df[(df.year &gt; 1990) &amp; (df.lifeExp &lt; 40)]
+#
+print(res.head(10))</code></pre>
+<pre><code>##            country continent     ...       population    gdpPercap
+## 1292        Rwanda    Africa     ...          7290203   737.068595
+## 1293        Rwanda    Africa     ...          7212583   589.944505
+## 1352  Sierra Leone    Africa     ...          4260884  1068.696278
+## 1353  Sierra Leone    Africa     ...          4578212   574.648158
+## 1400       Somalia    Africa     ...          6099799   926.960296
+## 1463     Swaziland    Africa     ...          1133066  4513.480643
+## 1690        Zambia    Africa     ...         10595811  1071.613938
+## 1702      Zimbabwe    Africa     ...         11926563   672.038623
+## 
+## [8 rows x 6 columns]</code></pre>
+<pre class="r"><code>df %&gt;% filter(population &lt; 10000 | gdpPercap &gt; 100000)</code></pre>
+<pre><code>## # A tibble: 3 x 6
+##   country continent  year lifeExp population gdpPercap
+##   &lt;fct&gt;   &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+## 1 Kuwait  Asia       1952    55.6     160000   108382.
+## 2 Kuwait  Asia       1957    58.0     212846   113523.
+## 3 Kuwait  Asia       1972    67.7     841934   109348.</code></pre>
+<pre class="python"><code>res = df[(df.population &lt; 10000) | (df.gdpPercap &gt; 100000)]
+#
+print(res.head(10))</code></pre>
+<pre><code>##     country continent  year  lifeExp  population    gdpPercap
+## 852  Kuwait      Asia  1952   55.565      160000  108382.3529
+## 853  Kuwait      Asia  1957   58.033      212846  113523.1329
+## 856  Kuwait      Asia  1972   67.712      841934  109347.8670</code></pre>
+<pre class="r"><code>df %&gt;% filter(year == 1997 &amp; continent == &quot;Europe&quot;) # dplyr can use either `,` or `&amp;` for &quot;and&quot;</code></pre>
+<pre><code>## # A tibble: 30 x 6
+##    country                continent  year lifeExp population gdpPercap
+##    &lt;fct&gt;                  &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;      &lt;int&gt;     &lt;dbl&gt;
+##  1 Albania                Europe     1997    73.0    3428038     3193.
+##  2 Austria                Europe     1997    77.5    8069876    29096.
+##  3 Belgium                Europe     1997    77.5   10199787    27561.
+##  4 Bosnia and Herzegovina Europe     1997    73.2    3607000     4766.
+##  5 Bulgaria               Europe     1997    70.3    8066057     5970.
+##  6 Croatia                Europe     1997    73.7    4444595     9876.
+##  7 Czech Republic         Europe     1997    74.0   10300707    16049.
+##  8 Denmark                Europe     1997    76.1    5283663    29804.
+##  9 Finland                Europe     1997    77.1    5134406    23724.
+## 10 France                 Europe     1997    78.6   58623428    25890.
+## # ... with 20 more rows</code></pre>
+<pre class="python"><code>res = df[(df.year == 1997) &amp; (df.continent == &quot;Europe&quot;)]
+#
+print(res.head(10))</code></pre>
+<pre><code>##                     country continent      ...       population     gdpPercap
+## 21                  Albania    Europe      ...          3428038   3193.054604
+## 81                  Austria    Europe      ...          8069876  29095.920660
+## 117                 Belgium    Europe      ...         10199787  27561.196630
+## 153  Bosnia and Herzegovina    Europe      ...          3607000   4766.355904
+## 189                Bulgaria    Europe      ...          8066057   5970.388760
+## 381                 Croatia    Europe      ...          4444595   9875.604515
+## 405          Czech Republic    Europe      ...         10300707  16048.514240
+## 417                 Denmark    Europe      ...          5283663  29804.345670
+## 525                 Finland    Europe      ...          5134406  23723.950200
+## 537                  France    Europe      ...         58623428  25889.784870
+## 
+## [10 rows x 6 columns]</code></pre>
+</div>
+</div>
+<div id="transform-column-values" class="section level1">
+<h1>Transform Column Values</h1>
+<p><img src="http://res.cloudinary.com/syknapptic/image/upload/v1521304413/mutate_cskmnx.png" style="display: block; margin: auto;" /></p>
+<div id="basic-example-calculate-population-in-thousands" class="section level2">
+<h2>Basic Example: Calculate Population in Thousands</h2>
+<pre class="r"><code>df %&gt;% 
+  select(population) %&gt;% 
+  mutate(pop_in_thousands = population / 1000) </code></pre>
+<pre><code>## # A tibble: 1,704 x 2
+##    population pop_in_thousands
+##         &lt;int&gt;            &lt;dbl&gt;
+##  1    8425333            8425.
+##  2    9240934            9241.
+##  3   10267083           10267.
+##  4   11537966           11538.
+##  5   13079460           13079.
+##  6   14880372           14880.
+##  7   12881816           12882.
+##  8   13867957           13868.
+##  9   16317921           16318.
+## 10   22227415           22227.
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df[[&#39;population&#39;]].assign(pop_in_thousands = df.population / 1000)
+#
+print(res.head(10))</code></pre>
+<pre><code>##    population  pop_in_thousands
+## 0     8425333          8425.333
+## 1     9240934          9240.934
+## 2    10267083         10267.083
+## 3    11537966         11537.966
+## 4    13079460         13079.460
+## 5    14880372         14880.372
+## 6    12881816         12881.816
+## 7    13867957         13867.957
+## 8    16317921         16317.921
+## 9    22227415         22227.415</code></pre>
+</div>
+<div id="calculate-total-gdp" class="section level2">
+<h2>Calculate Total GDP</h2>
+<pre class="r"><code>df %&gt;%
+  select(population, gdpPercap) %&gt;% 
+  mutate(total_GDP = population * gdpPercap)</code></pre>
+<pre><code>## # A tibble: 1,704 x 3
+##    population gdpPercap    total_GDP
+##         &lt;int&gt;     &lt;dbl&gt;        &lt;dbl&gt;
+##  1    8425333      779.  6567086330.
+##  2    9240934      821.  7585448670.
+##  3   10267083      853.  8758855797.
+##  4   11537966      836.  9648014150.
+##  5   13079460      740.  9678553274.
+##  6   14880372      786. 11697659231.
+##  7   12881816      978. 12598563401.
+##  8   13867957      852. 11820990309.
+##  9   16317921      649. 10595901589.
+## 10   22227415      635. 14121995875.
+## # ... with 1,694 more rows</code></pre>
+<pre class="python"><code>res = df[[&#39;population&#39;, &#39;gdpPercap&#39;]].assign(total_GDP = df.population * df.gdpPercap)
+#
+print(res.head(10))</code></pre>
+<pre><code>##    population   gdpPercap     total_GDP
+## 0     8425333  779.445314  6.567086e+09
+## 1     9240934  820.853030  7.585449e+09
+## 2    10267083  853.100710  8.758856e+09
+## 3    11537966  836.197138  9.648014e+09
+## 4    13079460  739.981106  9.678553e+09
+## 5    14880372  786.113360  1.169766e+10
+## 6    12881816  978.011439  1.259856e+10
+## 7    13867957  852.395945  1.182099e+10
+## 8    16317921  649.341395  1.059590e+10
+## 9    22227415  635.341351  1.412200e+10</code></pre>
+</div>
+<div id="calculate-z-scores-of-1977-gdp-per-capita" class="section level2">
+<h2>Calculate Z Scores of 1977 GDP per Capita</h2>
+<p><span class="math display">\[ z = \frac {x_i -\mu_x} {\sigma_x}\]</span></p>
+<ul>
+<li><span class="math inline">\(x\)</span> = <code>gdpPercap</code></li>
+<li><span class="math inline">\(\mu_x\)</span> = the mean of <span class="math inline">\(x\)</span> = <code>mean(gdpPercap)</code> or <code>gdpPercap.mean()</code></li>
+<li><span class="math inline">\(\sigma_x\)</span> = the standard deviation of x = <code>sd(gdpPercap)</code> or <code>gdpPercap.std()</code></li>
+</ul>
+<pre class="r"><code>df %&gt;% 
+  filter(year == 1977) %&gt;%
+  select(gdpPercap) %&gt;% 
+  mutate(gdp_per_cap_z_score = (gdpPercap - mean(gdpPercap)) / sd(gdpPercap))</code></pre>
+<pre><code>## # A tibble: 142 x 2
+##    gdpPercap gdp_per_cap_z_score
+##        &lt;dbl&gt;               &lt;dbl&gt;
+##  1      786.              -0.781
+##  2     3533.              -0.452
+##  3     4910.              -0.287
+##  4     3009.              -0.515
+##  5    10079.               0.331
+##  6    18334.               1.32 
+##  7    19749.               1.49 
+##  8    19340.               1.44 
+##  9      660.              -0.796
+## 10    19118.               1.41 
+## # ... with 132 more rows</code></pre>
+<pre class="python"><code>df_1977 = df[df.year == 1977][[&#39;gdpPercap&#39;]] # intermediate assignment
+#
+res = df_1977.assign(gdp_per_cap_z_score = (df_1977.gdpPercap - df_1977.gdpPercap.mean()) / df_1977.gdpPercap.std())
+#
+print(res.head(10))</code></pre>
+<pre><code>##         gdpPercap  gdp_per_cap_z_score
+## 5      786.113360            -0.780516
+## 17    3533.003910            -0.452038
+## 29    4910.416756            -0.287325
+## 41    3008.647355            -0.514741
+## 53   10079.026740             0.330746
+## 65   18334.197510             1.317913
+## 77   19749.422300             1.487148
+## 89   19340.101960             1.438200
+## 101    659.877232            -0.795611
+## 113  19117.974480             1.411638</code></pre>
+<blockquote>
+<p><strong>النهاية</strong></p>
+</blockquote>
+</div>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<pre class="python"><code>print(sys.version)</code></pre>
+<pre><code>## 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
+<pre class="python"><code>print(pd.__version__)</code></pre>
+<pre><code>## 0.23.4</code></pre>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.5.1 (2018-07-02)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 17134)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] gapminder_0.3.0        kableExtra_0.9.0       forcats_0.3.0         
+##  [4] stringr_1.3.1.9000     dplyr_0.7.99.9000      purrr_0.2.4.9000      
+##  [7] readr_1.1.1            tidyr_0.8.1.9000       tibble_1.4.2          
+## [10] ggplot2_3.1.0.9000     tidyverse_1.2.1.9000   reticulate_1.10.0.9002
+## 
+## loaded via a namespace (and not attached):
+##  [1] tidyselect_0.2.5      xfun_0.4              haven_1.1.2.9000     
+##  [4] lattice_0.20-35       colorspace_1.3-2      generics_0.0.1.9000  
+##  [7] viridisLite_0.3.0     htmltools_0.3.6       yaml_2.2.0           
+## [10] utf8_1.1.4            rlang_0.3.0.9000      pillar_1.3.0.9000    
+## [13] glue_1.3.0            withr_2.1.2.9000      modelr_0.1.2         
+## [16] readxl_1.1.0          plyr_1.8.4            munsell_0.5.0        
+## [19] blogdown_0.9.1        gtable_0.2.0          cellranger_1.1.0     
+## [22] rvest_0.3.2           evaluate_0.12         knitr_1.20.21        
+## [25] fansi_0.3.0           broom_0.5.0.9001      Rcpp_0.12.19.3       
+## [28] backports_1.1.2       scales_1.0.0.9000     jsonlite_1.5         
+## [31] hms_0.4.2             digest_0.6.18         stringi_1.2.4        
+## [34] bookdown_0.7.21       grid_3.5.1            cli_1.0.1            
+## [37] tools_3.5.1           magrittr_1.5          lazyeval_0.2.1       
+## [40] crayon_1.3.4          pkgconfig_2.0.2       Matrix_1.2-14        
+## [43] xml2_1.2.0            lubridate_1.7.4       assertthat_0.2.0     
+## [46] rmarkdown_1.10.14     httr_1.3.1            rstudioapi_0.8.0.9000
+## [49] htmldeps_0.1.1        R6_2.3.0              compiler_3.5.1</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/dplyr/">dplyr</a>
+  
+  <a class="badge badge-light" href="/tags/pandas/">pandas</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/portrait.jpg" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/yet-another-tidyverse-intro/">Thoughts on Teaching R and Yet Another Tidyverse Intro</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
+  
+
+  <p class="powered-by">
+    &copy; 2018 &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.500a6cbb2c0f345fcecc21b3116d6637aa78f1f11db8081ea581abe05390c2e8f3bbffe61be3cf0217baf785c40efceabe51050a4f007e69af94efd3643260e8.js" integrity="sha512-UApsuywPNF/OzCGzEW1mN6p48fEduAgepYGr4FOQwujzu//mG&#43;PPAhe694XEDvzqvlEFCk8AfmmvlO/TZDJg6A=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+

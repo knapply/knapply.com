@@ -12,6 +12,14 @@
     
     <url>
     
+      <loc>/post/data-frame-operations/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
       <loc>/post/central-tendency/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
@@ -29,6 +37,14 @@
     <url>
     
       <loc>/post/r-python-thesaurus/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/privacy/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
@@ -138,6 +154,15 @@
     
     <url>
     
+      <loc>/categories/python/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    <url>
+    
       <loc>/tags/r/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
@@ -158,15 +183,6 @@
     
       <loc>/talk/example/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/categories/r-bloggers/</loc>
-      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
-      <priority>0</priority>
     </url>
     
   
@@ -226,7 +242,7 @@
     
     <url>
     
-      <loc>/categories/data-carpentry/</loc>
+      <loc>/tags/data-carpentry/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
@@ -235,7 +251,7 @@
     
     <url>
     
-      <loc>/tags/data-science-from-scratch/</loc>
+      <loc>/categories/data-carpentry/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
@@ -263,6 +279,15 @@
     <url>
     
       <loc>/tags/ggplot/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/tags/pandas/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
@@ -315,7 +340,7 @@
     
     <url>
     
-      <loc>/tags/tidyr/</loc>
+      <loc>/categories/statistics/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
@@ -325,6 +350,15 @@
     <url>
     
       <loc>/tags/tidyverse/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/tags/tutorial/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>

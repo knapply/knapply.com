@@ -5,16 +5,18 @@ author: Brendan Knapp
 date: '2018-07-18'
 slug: central-tendency
 categories:
-  - data-science-from-scratch
   - R
-tags:
   - statistics
-  - data-science-from-scratch
+  - tutorial
+tags:
   - R
-thumbnailImage: http://res.cloudinary.com/syknapptic/image/upload/v1531921800/cent-tend.png
-metaAlignment: center
-coverMeta: out
-summary: Measures of central tendency (from scratch!) in both R and Python.
+  - statistics
+  - tutorial
+header:
+  caption: ''
+  image: 'headers/central-tendency.gif'
+  preview: yes
+summary: Measures of central tendency, from scratch.
 output:
   # html_document:
   blogdown::html_page:

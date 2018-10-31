@@ -11,6 +11,560 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Data Frame Operations Thesaurus</title>
+      <link>/post/data-frame-operations/</link>
+      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/data-frame-operations/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#set-up&#34;&gt;Set Up&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#data&#34;&gt;Data&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#subset-columns&#34;&gt;Subset Columns&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#basic-example-select-columns-by-name&#34;&gt;Basic Example: Select Columns by Name&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#drop-columns-by-name&#34;&gt;Drop Columns by Name&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#select-columns-by-name-range&#34;&gt;Select Columns by Name Range&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#drop-columns-by-name-range&#34;&gt;Drop Columns by Name Range&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#select-columns-by-index-range&#34;&gt;Select Columns by Index Range&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#drop-columns-by-index-range&#34;&gt;Drop Columns by Index Range&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#subset-rows&#34;&gt;Subset Rows&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#filter-rows-single-logical-comparison&#34;&gt;Filter Rows, Single Logical Comparison&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#filter-rows-multiple-logical-comparisons&#34;&gt;Filter Rows, Multiple Logical Comparisons&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#transform-column-values&#34;&gt;Transform Column Values&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#basic-example-calculate-population-in-thousands&#34;&gt;Basic Example: Calculate Population in Thousands&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#calculate-total-gdp&#34;&gt;Calculate Total GDP&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#calculate-z-scores-of-1977-gdp-per-capita&#34;&gt;Calculate Z Scores of 1977 GDP per Capita&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;!-- &lt;style&gt; --&gt;
+&lt;pre&gt;&lt;code&gt;&amp;lt;!-- &amp;lt;link rel=&amp;quot;stylesheet&amp;quot; href=&amp;quot;{{ .Site.BaseURL }}/css/style.css&amp;quot; /&amp;gt; --&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- &lt;/style&gt; --&gt;
+&lt;div id=&#34;set-up&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Set Up&lt;/h1&gt;
+&lt;div id=&#34;data-frame-packages&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Data Frame Packages&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(tidyverse) # includes {dplyr}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import pandas as pd&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Data&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(gapminder)
+
+(df &amp;lt;- gapminder %&amp;gt;% rename(population = pop)) # pandas uses pop() as a method&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 6
+##    country     continent  year lifeExp population gdpPercap
+##    &amp;lt;fct&amp;gt;       &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+##  1 Afghanistan Asia       1952    28.8    8425333      779.
+##  2 Afghanistan Asia       1957    30.3    9240934      821.
+##  3 Afghanistan Asia       1962    32.0   10267083      853.
+##  4 Afghanistan Asia       1967    34.0   11537966      836.
+##  5 Afghanistan Asia       1972    36.1   13079460      740.
+##  6 Afghanistan Asia       1977    38.4   14880372      786.
+##  7 Afghanistan Asia       1982    39.9   12881816      978.
+##  8 Afghanistan Asia       1987    40.8   13867957      852.
+##  9 Afghanistan Asia       1992    41.7   16317921      649.
+## 10 Afghanistan Asia       1997    41.8   22227415      635.
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;df = r.df #.round(4)
+#
+print(df.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##        country continent  year  lifeExp  population   gdpPercap
+## 0  Afghanistan      Asia  1952   28.801     8425333  779.445314
+## 1  Afghanistan      Asia  1957   30.332     9240934  820.853030
+## 2  Afghanistan      Asia  1962   31.997    10267083  853.100710
+## 3  Afghanistan      Asia  1967   34.020    11537966  836.197138
+## 4  Afghanistan      Asia  1972   36.088    13079460  739.981106
+## 5  Afghanistan      Asia  1977   38.438    14880372  786.113360
+## 6  Afghanistan      Asia  1982   39.854    12881816  978.011439
+## 7  Afghanistan      Asia  1987   40.822    13867957  852.395945
+## 8  Afghanistan      Asia  1992   41.674    16317921  649.341395
+## 9  Afghanistan      Asia  1997   41.763    22227415  635.341351&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;subset-columns&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Subset Columns&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1521304413/select_dtuw73.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;basic-example-select-columns-by-name&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Basic Example: Select Columns by Name&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% select(country, population)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 2
+##    country     population
+##    &amp;lt;fct&amp;gt;            &amp;lt;int&amp;gt;
+##  1 Afghanistan    8425333
+##  2 Afghanistan    9240934
+##  3 Afghanistan   10267083
+##  4 Afghanistan   11537966
+##  5 Afghanistan   13079460
+##  6 Afghanistan   14880372
+##  7 Afghanistan   12881816
+##  8 Afghanistan   13867957
+##  9 Afghanistan   16317921
+## 10 Afghanistan   22227415
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[[&amp;#39;country&amp;#39;, &amp;#39;population&amp;#39;]]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##        country  population
+## 0  Afghanistan     8425333
+## 1  Afghanistan     9240934
+## 2  Afghanistan    10267083
+## 3  Afghanistan    11537966
+## 4  Afghanistan    13079460
+## 5  Afghanistan    14880372
+## 6  Afghanistan    12881816
+## 7  Afghanistan    13867957
+## 8  Afghanistan    16317921
+## 9  Afghanistan    22227415&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;drop-columns-by-name&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Drop Columns by Name&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% select(-country, -population)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 4
+##    continent  year lifeExp gdpPercap
+##    &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;
+##  1 Asia       1952    28.8      779.
+##  2 Asia       1957    30.3      821.
+##  3 Asia       1962    32.0      853.
+##  4 Asia       1967    34.0      836.
+##  5 Asia       1972    36.1      740.
+##  6 Asia       1977    38.4      786.
+##  7 Asia       1982    39.9      978.
+##  8 Asia       1987    40.8      852.
+##  9 Asia       1992    41.7      649.
+## 10 Asia       1997    41.8      635.
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df.drop([&amp;#39;country&amp;#39;, &amp;#39;population&amp;#39;], axis=1)
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   continent  year  lifeExp   gdpPercap
+## 0      Asia  1952   28.801  779.445314
+## 1      Asia  1957   30.332  820.853030
+## 2      Asia  1962   31.997  853.100710
+## 3      Asia  1967   34.020  836.197138
+## 4      Asia  1972   36.088  739.981106
+## 5      Asia  1977   38.438  786.113360
+## 6      Asia  1982   39.854  978.011439
+## 7      Asia  1987   40.822  852.395945
+## 8      Asia  1992   41.674  649.341395
+## 9      Asia  1997   41.763  635.341351&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;select-columns-by-name-range&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Select Columns by Name Range&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% select(lifeExp:gdpPercap)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 3
+##    lifeExp population gdpPercap
+##      &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+##  1    28.8    8425333      779.
+##  2    30.3    9240934      821.
+##  3    32.0   10267083      853.
+##  4    34.0   11537966      836.
+##  5    36.1   13079460      740.
+##  6    38.4   14880372      786.
+##  7    39.9   12881816      978.
+##  8    40.8   13867957      852.
+##  9    41.7   16317921      649.
+## 10    41.8   22227415      635.
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df.loc[:, &amp;#39;lifeExp&amp;#39;:&amp;#39;gdpPercap&amp;#39;]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    lifeExp  population   gdpPercap
+## 0   28.801     8425333  779.445314
+## 1   30.332     9240934  820.853030
+## 2   31.997    10267083  853.100710
+## 3   34.020    11537966  836.197138
+## 4   36.088    13079460  739.981106
+## 5   38.438    14880372  786.113360
+## 6   39.854    12881816  978.011439
+## 7   40.822    13867957  852.395945
+## 8   41.674    16317921  649.341395
+## 9   41.763    22227415  635.341351&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;drop-columns-by-name-range&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Drop Columns by Name Range&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% select(-(lifeExp:gdpPercap))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 3
+##    country     continent  year
+##    &amp;lt;fct&amp;gt;       &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;
+##  1 Afghanistan Asia       1952
+##  2 Afghanistan Asia       1957
+##  3 Afghanistan Asia       1962
+##  4 Afghanistan Asia       1967
+##  5 Afghanistan Asia       1972
+##  6 Afghanistan Asia       1977
+##  7 Afghanistan Asia       1982
+##  8 Afghanistan Asia       1987
+##  9 Afghanistan Asia       1992
+## 10 Afghanistan Asia       1997
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;# there has to be a better way...
+res = df.drop(df.loc[:, &amp;#39;lifeExp&amp;#39;:&amp;#39;gdpPercap&amp;#39;].head(0).columns, axis=1)
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##        country continent  year
+## 0  Afghanistan      Asia  1952
+## 1  Afghanistan      Asia  1957
+## 2  Afghanistan      Asia  1962
+## 3  Afghanistan      Asia  1967
+## 4  Afghanistan      Asia  1972
+## 5  Afghanistan      Asia  1977
+## 6  Afghanistan      Asia  1982
+## 7  Afghanistan      Asia  1987
+## 8  Afghanistan      Asia  1992
+## 9  Afghanistan      Asia  1997&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;select-columns-by-index-range&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Select Columns by Index Range&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% select(2:4)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 3
+##    continent  year lifeExp
+##    &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;
+##  1 Asia       1952    28.8
+##  2 Asia       1957    30.3
+##  3 Asia       1962    32.0
+##  4 Asia       1967    34.0
+##  5 Asia       1972    36.1
+##  6 Asia       1977    38.4
+##  7 Asia       1982    39.9
+##  8 Asia       1987    40.8
+##  9 Asia       1992    41.7
+## 10 Asia       1997    41.8
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[df.columns[1:4]]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##   continent  year  lifeExp
+## 0      Asia  1952   28.801
+## 1      Asia  1957   30.332
+## 2      Asia  1962   31.997
+## 3      Asia  1967   34.020
+## 4      Asia  1972   36.088
+## 5      Asia  1977   38.438
+## 6      Asia  1982   39.854
+## 7      Asia  1987   40.822
+## 8      Asia  1992   41.674
+## 9      Asia  1997   41.763&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;drop-columns-by-index-range&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Drop Columns by Index Range&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% select(-(2:4))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 3
+##    country     population gdpPercap
+##    &amp;lt;fct&amp;gt;            &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+##  1 Afghanistan    8425333      779.
+##  2 Afghanistan    9240934      821.
+##  3 Afghanistan   10267083      853.
+##  4 Afghanistan   11537966      836.
+##  5 Afghanistan   13079460      740.
+##  6 Afghanistan   14880372      786.
+##  7 Afghanistan   12881816      978.
+##  8 Afghanistan   13867957      852.
+##  9 Afghanistan   16317921      649.
+## 10 Afghanistan   22227415      635.
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df.drop(df.columns[1:4], axis = 1)
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##        country  population   gdpPercap
+## 0  Afghanistan     8425333  779.445314
+## 1  Afghanistan     9240934  820.853030
+## 2  Afghanistan    10267083  853.100710
+## 3  Afghanistan    11537966  836.197138
+## 4  Afghanistan    13079460  739.981106
+## 5  Afghanistan    14880372  786.113360
+## 6  Afghanistan    12881816  978.011439
+## 7  Afghanistan    13867957  852.395945
+## 8  Afghanistan    16317921  649.341395
+## 9  Afghanistan    22227415  635.341351&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;subset-rows&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Subset Rows&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1521304410/filter_rbnuxp.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;filter-rows-single-logical-comparison&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Filter Rows, Single Logical Comparison&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% filter(gdpPercap &amp;lt; 500)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 63 x 6
+##    country  continent  year lifeExp population gdpPercap
+##    &amp;lt;fct&amp;gt;    &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+##  1 Burundi  Africa     1952    39.0    2445618      339.
+##  2 Burundi  Africa     1957    40.5    2667518      380.
+##  3 Burundi  Africa     1962    42.0    2961915      355.
+##  4 Burundi  Africa     1967    43.5    3330989      413.
+##  5 Burundi  Africa     1972    44.1    3529983      464.
+##  6 Burundi  Africa     1997    45.3    6121610      463.
+##  7 Burundi  Africa     2002    47.4    7021078      446.
+##  8 Burundi  Africa     2007    49.6    8390505      430.
+##  9 Cambodia Asia       1952    39.4    4693836      368.
+## 10 Cambodia Asia       1957    41.4    5322536      434.
+## # ... with 53 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[df.gdpPercap &amp;lt; 500]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##       country continent  year  lifeExp  population   gdpPercap
+## 204   Burundi    Africa  1952   39.031     2445618  339.296459
+## 205   Burundi    Africa  1957   40.533     2667518  379.564628
+## 206   Burundi    Africa  1962   42.045     2961915  355.203227
+## 207   Burundi    Africa  1967   43.548     3330989  412.977514
+## 208   Burundi    Africa  1972   44.057     3529983  464.099504
+## 213   Burundi    Africa  1997   45.326     6121610  463.115148
+## 214   Burundi    Africa  2002   47.360     7021078  446.403513
+## 215   Burundi    Africa  2007   49.580     8390505  430.070692
+## 216  Cambodia      Asia  1952   39.417     4693836  368.469286
+## 217  Cambodia      Asia  1957   41.366     5322536  434.038336&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;filter-rows-multiple-logical-comparisons&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Filter Rows, Multiple Logical Comparisons&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% filter(year &amp;gt; 1990, lifeExp &amp;lt; 40)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 8 x 6
+##   country      continent  year lifeExp population gdpPercap
+##   &amp;lt;fct&amp;gt;        &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+## 1 Rwanda       Africa     1992    23.6    7290203      737.
+## 2 Rwanda       Africa     1997    36.1    7212583      590.
+## 3 Sierra Leone Africa     1992    38.3    4260884     1069.
+## 4 Sierra Leone Africa     1997    39.9    4578212      575.
+## 5 Somalia      Africa     1992    39.7    6099799      927.
+## 6 Swaziland    Africa     2007    39.6    1133066     4513.
+## 7 Zambia       Africa     2002    39.2   10595811     1072.
+## 8 Zimbabwe     Africa     2002    40.0   11926563      672.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[(df.year &amp;gt; 1990) &amp;amp; (df.lifeExp &amp;lt; 40)]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##            country continent     ...       population    gdpPercap
+## 1292        Rwanda    Africa     ...          7290203   737.068595
+## 1293        Rwanda    Africa     ...          7212583   589.944505
+## 1352  Sierra Leone    Africa     ...          4260884  1068.696278
+## 1353  Sierra Leone    Africa     ...          4578212   574.648158
+## 1400       Somalia    Africa     ...          6099799   926.960296
+## 1463     Swaziland    Africa     ...          1133066  4513.480643
+## 1690        Zambia    Africa     ...         10595811  1071.613938
+## 1702      Zimbabwe    Africa     ...         11926563   672.038623
+## 
+## [8 rows x 6 columns]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% filter(population &amp;lt; 10000 | gdpPercap &amp;gt; 100000)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 6
+##   country continent  year lifeExp population gdpPercap
+##   &amp;lt;fct&amp;gt;   &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+## 1 Kuwait  Asia       1952    55.6     160000   108382.
+## 2 Kuwait  Asia       1957    58.0     212846   113523.
+## 3 Kuwait  Asia       1972    67.7     841934   109348.&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[(df.population &amp;lt; 10000) | (df.gdpPercap &amp;gt; 100000)]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##     country continent  year  lifeExp  population    gdpPercap
+## 852  Kuwait      Asia  1952   55.565      160000  108382.3529
+## 853  Kuwait      Asia  1957   58.033      212846  113523.1329
+## 856  Kuwait      Asia  1972   67.712      841934  109347.8670&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% filter(year == 1997 &amp;amp; continent == &amp;quot;Europe&amp;quot;) # dplyr can use either `,` or `&amp;amp;` for &amp;quot;and&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 30 x 6
+##    country                continent  year lifeExp population gdpPercap
+##    &amp;lt;fct&amp;gt;                  &amp;lt;fct&amp;gt;     &amp;lt;int&amp;gt;   &amp;lt;dbl&amp;gt;      &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;
+##  1 Albania                Europe     1997    73.0    3428038     3193.
+##  2 Austria                Europe     1997    77.5    8069876    29096.
+##  3 Belgium                Europe     1997    77.5   10199787    27561.
+##  4 Bosnia and Herzegovina Europe     1997    73.2    3607000     4766.
+##  5 Bulgaria               Europe     1997    70.3    8066057     5970.
+##  6 Croatia                Europe     1997    73.7    4444595     9876.
+##  7 Czech Republic         Europe     1997    74.0   10300707    16049.
+##  8 Denmark                Europe     1997    76.1    5283663    29804.
+##  9 Finland                Europe     1997    77.1    5134406    23724.
+## 10 France                 Europe     1997    78.6   58623428    25890.
+## # ... with 20 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[(df.year == 1997) &amp;amp; (df.continent == &amp;quot;Europe&amp;quot;)]
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##                     country continent      ...       population     gdpPercap
+## 21                  Albania    Europe      ...          3428038   3193.054604
+## 81                  Austria    Europe      ...          8069876  29095.920660
+## 117                 Belgium    Europe      ...         10199787  27561.196630
+## 153  Bosnia and Herzegovina    Europe      ...          3607000   4766.355904
+## 189                Bulgaria    Europe      ...          8066057   5970.388760
+## 381                 Croatia    Europe      ...          4444595   9875.604515
+## 405          Czech Republic    Europe      ...         10300707  16048.514240
+## 417                 Denmark    Europe      ...          5283663  29804.345670
+## 525                 Finland    Europe      ...          5134406  23723.950200
+## 537                  France    Europe      ...         58623428  25889.784870
+## 
+## [10 rows x 6 columns]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;transform-column-values&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Transform Column Values&lt;/h1&gt;
+&lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1521304413/mutate_cskmnx.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;basic-example-calculate-population-in-thousands&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Basic Example: Calculate Population in Thousands&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% 
+  select(population) %&amp;gt;% 
+  mutate(pop_in_thousands = population / 1000) &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 2
+##    population pop_in_thousands
+##         &amp;lt;int&amp;gt;            &amp;lt;dbl&amp;gt;
+##  1    8425333            8425.
+##  2    9240934            9241.
+##  3   10267083           10267.
+##  4   11537966           11538.
+##  5   13079460           13079.
+##  6   14880372           14880.
+##  7   12881816           12882.
+##  8   13867957           13868.
+##  9   16317921           16318.
+## 10   22227415           22227.
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[[&amp;#39;population&amp;#39;]].assign(pop_in_thousands = df.population / 1000)
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    population  pop_in_thousands
+## 0     8425333          8425.333
+## 1     9240934          9240.934
+## 2    10267083         10267.083
+## 3    11537966         11537.966
+## 4    13079460         13079.460
+## 5    14880372         14880.372
+## 6    12881816         12881.816
+## 7    13867957         13867.957
+## 8    16317921         16317.921
+## 9    22227415         22227.415&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;calculate-total-gdp&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Calculate Total GDP&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;%
+  select(population, gdpPercap) %&amp;gt;% 
+  mutate(total_GDP = population * gdpPercap)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 1,704 x 3
+##    population gdpPercap    total_GDP
+##         &amp;lt;int&amp;gt;     &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;
+##  1    8425333      779.  6567086330.
+##  2    9240934      821.  7585448670.
+##  3   10267083      853.  8758855797.
+##  4   11537966      836.  9648014150.
+##  5   13079460      740.  9678553274.
+##  6   14880372      786. 11697659231.
+##  7   12881816      978. 12598563401.
+##  8   13867957      852. 11820990309.
+##  9   16317921      649. 10595901589.
+## 10   22227415      635. 14121995875.
+## # ... with 1,694 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = df[[&amp;#39;population&amp;#39;, &amp;#39;gdpPercap&amp;#39;]].assign(total_GDP = df.population * df.gdpPercap)
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##    population   gdpPercap     total_GDP
+## 0     8425333  779.445314  6.567086e+09
+## 1     9240934  820.853030  7.585449e+09
+## 2    10267083  853.100710  8.758856e+09
+## 3    11537966  836.197138  9.648014e+09
+## 4    13079460  739.981106  9.678553e+09
+## 5    14880372  786.113360  1.169766e+10
+## 6    12881816  978.011439  1.259856e+10
+## 7    13867957  852.395945  1.182099e+10
+## 8    16317921  649.341395  1.059590e+10
+## 9    22227415  635.341351  1.412200e+10&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;calculate-z-scores-of-1977-gdp-per-capita&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Calculate Z Scores of 1977 GDP per Capita&lt;/h2&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[ z = \frac {x_i -\mu_x} {\sigma_x}\]&lt;/span&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; = &lt;code&gt;gdpPercap&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mu_x\)&lt;/span&gt; = the mean of &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt; = &lt;code&gt;mean(gdpPercap)&lt;/code&gt; or &lt;code&gt;gdpPercap.mean()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\sigma_x\)&lt;/span&gt; = the standard deviation of x = &lt;code&gt;sd(gdpPercap)&lt;/code&gt; or &lt;code&gt;gdpPercap.std()&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;df %&amp;gt;% 
+  filter(year == 1977) %&amp;gt;%
+  select(gdpPercap) %&amp;gt;% 
+  mutate(gdp_per_cap_z_score = (gdpPercap - mean(gdpPercap)) / sd(gdpPercap))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 142 x 2
+##    gdpPercap gdp_per_cap_z_score
+##        &amp;lt;dbl&amp;gt;               &amp;lt;dbl&amp;gt;
+##  1      786.              -0.781
+##  2     3533.              -0.452
+##  3     4910.              -0.287
+##  4     3009.              -0.515
+##  5    10079.               0.331
+##  6    18334.               1.32 
+##  7    19749.               1.49 
+##  8    19340.               1.44 
+##  9      660.              -0.796
+## 10    19118.               1.41 
+## # ... with 132 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;df_1977 = df[df.year == 1977][[&amp;#39;gdpPercap&amp;#39;]] # intermediate assignment
+#
+res = df_1977.assign(gdp_per_cap_z_score = (df_1977.gdpPercap - df_1977.gdpPercap.mean()) / df_1977.gdpPercap.std())
+#
+print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##         gdpPercap  gdp_per_cap_z_score
+## 5      786.113360            -0.780516
+## 17    3533.003910            -0.452038
+## 29    4910.416756            -0.287325
+## 41    3008.647355            -0.514741
+## 53   10079.026740             0.330746
+## 65   18334.197510             1.317913
+## 77   19749.422300             1.487148
+## 89   19340.101960             1.438200
+## 101    659.877232            -0.795611
+## 113  19117.974480             1.411638&lt;/code&gt;&lt;/pre&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;النهاية&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;environment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Environment&lt;/h1&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(sys.version)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(pd.__version__)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 0.23.4&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## R version 3.5.1 (2018-07-02)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 17134)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] gapminder_0.3.0        kableExtra_0.9.0       forcats_0.3.0         
+##  [4] stringr_1.3.1.9000     dplyr_0.7.99.9000      purrr_0.2.4.9000      
+##  [7] readr_1.1.1            tidyr_0.8.1.9000       tibble_1.4.2          
+## [10] ggplot2_3.1.0.9000     tidyverse_1.2.1.9000   reticulate_1.10.0.9002
+## 
+## loaded via a namespace (and not attached):
+##  [1] tidyselect_0.2.5      xfun_0.4              haven_1.1.2.9000     
+##  [4] lattice_0.20-35       colorspace_1.3-2      generics_0.0.1.9000  
+##  [7] viridisLite_0.3.0     htmltools_0.3.6       yaml_2.2.0           
+## [10] utf8_1.1.4            rlang_0.3.0.9000      pillar_1.3.0.9000    
+## [13] glue_1.3.0            withr_2.1.2.9000      modelr_0.1.2         
+## [16] readxl_1.1.0          plyr_1.8.4            munsell_0.5.0        
+## [19] blogdown_0.9.1        gtable_0.2.0          cellranger_1.1.0     
+## [22] rvest_0.3.2           evaluate_0.12         knitr_1.20.21        
+## [25] fansi_0.3.0           broom_0.5.0.9001      Rcpp_0.12.19.3       
+## [28] backports_1.1.2       scales_1.0.0.9000     jsonlite_1.5         
+## [31] hms_0.4.2             digest_0.6.18         stringi_1.2.4        
+## [34] bookdown_0.7.21       grid_3.5.1            cli_1.0.1            
+## [37] tools_3.5.1           magrittr_1.5          lazyeval_0.2.1       
+## [40] crayon_1.3.4          pkgconfig_2.0.2       Matrix_1.2-14        
+## [43] xml2_1.2.0            lubridate_1.7.4       assertthat_0.2.0     
+## [46] rmarkdown_1.10.14     httr_1.3.1            rstudioapi_0.8.0.9000
+## [49] htmldeps_0.1.1        R6_2.3.0              compiler_3.5.1&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Measures of Central Tendency</title>
       <link>/post/central-tendency/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
@@ -1682,6 +2236,16 @@ R
     </item>
     
     <item>
+      <title>Privacy Policy</title>
+      <link>/privacy/</link>
+      <pubDate>Thu, 28 Jun 2018 00:00:00 -0700</pubDate>
+      
+      <guid>/privacy/</guid>
+      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Thoughts on Teaching R and Yet Another Tidyverse Intro</title>
       <link>/post/yet-another-tidyverse-intro/</link>
       <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
@@ -1690,22 +2254,6 @@ R
       <description>
 &lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
 
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#context&#34;&gt;Context&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#reflection&#34;&gt;Reflection&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#resources-up-front&#34;&gt;Resources Up Front&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#tibble&#34;&gt;&lt;code&gt;tibble&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#section&#34;&gt;&lt;code&gt;%&amp;gt;%&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#tidy-data&#34;&gt;“Tidy” Data&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#select-columns&#34;&gt;&lt;code&gt;select()&lt;/code&gt; columns&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#filter-rows&#34;&gt;&lt;code&gt;filter()&lt;/code&gt; Rows&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#mutate-columns&#34;&gt;&lt;code&gt;mutate()&lt;/code&gt; Columns&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#arrange-rows&#34;&gt;&lt;code&gt;arrange()&lt;/code&gt; Rows&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#group_by-for-grouped-data&#34;&gt;&lt;code&gt;group_by()&lt;/code&gt; for Grouped Data&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#summarize&#34;&gt;&lt;code&gt;summarize()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
 
 &lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1521320144/tidyverse_meme_oceake.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;Image credit to &lt;a href=&#34;https://www.facebook.com/Rmemes0/&#34;&gt;R Memes for Statistical Fiends&lt;/a&gt;&lt;/p&gt;

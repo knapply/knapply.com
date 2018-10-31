@@ -4,45 +4,23 @@ draft: false
 author: Brendan Knapp
 date: '2018-03-17'
 slug: yet-another-tidyverse-intro
-categories:
-  - R
-  - R-bloggers
-  - data carpentry
-  - tutorial
-tags:
-  - tidyverse
-  - ggplot
-  - dplyr
-  - tidyr
-thumbnailImagePosition: left
-thumbnailImage: http://res.cloudinary.com/syknapptic/image/upload/v1521124488/tidyverse_awesome_dukagq.png
-metaAlignment: center
-coverMeta: out
+categories: ["R", "data-carpentry", "tutorial"]
+tags: ["R", "data-carpentry", "tutorial", "tidyverse", "ggplot", "dplyr"]
+header:
+  caption: 'Image credit: [R for Data Science](https://r4ds.had.co.nz/)'
+  image: 'https://r4ds.had.co.nz/diagrams/data-science-explore.png'
 summary: A (hopefully) gentle introduction to R's tidyverse that I used as a primer for a short workshop series I taught.
-output:
-  blogdown::html_page:
-    toc: true
-    toc_depth: 1
+# output:
+#   blogdown::html_page:
+#     toc: true
+#     toc_depth: 1
+# image:
+#   caption: ''
+#   focal_point: ''
 ---
 
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
-<div id="TOC">
-<ul>
-<li><a href="#context">Context</a></li>
-<li><a href="#reflection">Reflection</a></li>
-<li><a href="#resources-up-front">Resources Up Front</a></li>
-<li><a href="#tibble"><code>tibble</code></a></li>
-<li><a href="#section"><code>%&gt;%</code></a></li>
-<li><a href="#tidy-data">“Tidy” Data</a></li>
-<li><a href="#select-columns"><code>select()</code> columns</a></li>
-<li><a href="#filter-rows"><code>filter()</code> Rows</a></li>
-<li><a href="#mutate-columns"><code>mutate()</code> Columns</a></li>
-<li><a href="#arrange-rows"><code>arrange()</code> Rows</a></li>
-<li><a href="#group_by-for-grouped-data"><code>group_by()</code> for Grouped Data</a></li>
-<li><a href="#summarize"><code>summarize()</code></a></li>
-</ul>
-</div>
 
 <p><img src="http://res.cloudinary.com/syknapptic/image/upload/v1521320144/tidyverse_meme_oceake.png" style="display: block; margin: auto;" /></p>
 <p>Image credit to <a href="https://www.facebook.com/Rmemes0/">R Memes for Statistical Fiends</a></p>

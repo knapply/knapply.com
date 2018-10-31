@@ -7,18 +7,30 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Mon, 09 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>R-Python Thesaurus</title>
-      <link>/post/r-python-thesaurus/</link>
-      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
+      <title>Measures of Central Tendency</title>
+      <link>/post/central-tendency/</link>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/r-python-thesaurus/</guid>
-      <description>TypesCollections: Vectors, Lists, and DictionariesCommon TasksIterationPythonRSequencesComparisonsArithmeticStatisticsDates and TimesStrings and Regular ExpressionsTypesPython TypePython ExampleR TypeR Exampleint1integer1Lfloat3.14numeric &amp;amp; double3.14string‘hi’character“hi”boolTruelogicalTRUECollections: Vectors, Lists, and DictionariesPython TypePython ExampleR TypeR ExampleValuesscalar1vector1homogeneouslist[1, 1]vectorc(1, 2)homogeneouslist[1, ‘string’]listlist(1, “string”)heterogenoustuple(1, ‘string’]listlist(1, “string”)heterogenousdict{‘a’:1, ‘b’:‘string’}listlist(a = 1, b = “string”)heterogenousvectorc(a = 1, b = 2)homogeneousNote:  dicts are not ordered.</description>
+      <guid>/post/central-tendency/</guid>
+      <description>Toy ValuesPython listR vectorLengthPython’s len()R’s length()Unique ValuesPython’s set()R’s unique()MaxPython’s max()R’s max()MinPython’s min()R’s min()SumPython’s sum()R’s sum()MeanPython’s statistics.mean()R’s mean()ModePython’s statistics.mode()R’s modeMedianPythonREnvironmentRather than letting R and Python do all the work for us (i.</description>
+    </item>
+    
+    <item>
+      <title>Thoughts on Teaching R and Yet Another Tidyverse Intro</title>
+      <link>/post/yet-another-tidyverse-intro/</link>
+      <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/yet-another-tidyverse-intro/</guid>
+      <description>Image credit to R Memes for Statistical Fiends
+
+Considering this is a blog post, I’m going to get all bloggy here before jumping into the code.
+ContextI recently had the opportunity to teach some R coding to colleagues and classmates in a series of workshops. Some had already dabbled in R or other programming languages, but it was the first time that the majority of participants had written a single line of code.</description>
     </item>
     
   </channel>
