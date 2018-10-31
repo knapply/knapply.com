@@ -7,19 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Tue, 24 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Data Frame Operations Thesaurus</title>
-      <link>/post/data-frame-operations/</link>
-      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/data-frame-operations/</guid>
-      <description>Set UpDataSubset ColumnsBasic Example: Select Columns by NameDrop Columns by NameSelect Columns by Name RangeDrop Columns by Name RangeSelect Columns by Index RangeDrop Columns by Index RangeSubset RowsFilter Rows, Single Logical ComparisonFilter Rows, Multiple Logical ComparisonsTransform Column ValuesBasic Example: Calculate Population in ThousandsCalculate Total GDPCalculate Z Scores of 1977 GDP per CapitaEnvironment--&amp;lt;!</description>
-    </item>
     
     <item>
       <title>Measures of Central Tendency</title>

@@ -5,15 +5,7 @@
     <url>
     
       <loc>/tutorial/</loc>
-      <lastmod>2018-09-09T00:00:00-07:00</lastmod>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/post/data-frame-operations/</loc>
-      <lastmod>2018-07-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -21,7 +13,7 @@
     <url>
     
       <loc>/post/central-tendency/</loc>
-      <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -29,7 +21,7 @@
     <url>
     
       <loc>/post/bubble-sort/</loc>
-      <lastmod>2018-07-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -37,15 +29,7 @@
     <url>
     
       <loc>/post/r-python-thesaurus/</loc>
-      <lastmod>2018-07-09T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/privacy/</loc>
-      <lastmod>2018-06-28T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -53,7 +37,7 @@
     <url>
     
       <loc>/post/yet-another-tidyverse-intro/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -61,7 +45,7 @@
     <url>
     
       <loc>/post/</loc>
-      <lastmod>2017-01-01T00:00:00-08:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -69,7 +53,7 @@
     <url>
     
       <loc>/publication/</loc>
-      <lastmod>2017-01-01T00:00:00-08:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -77,7 +61,7 @@
     <url>
     
       <loc>/talk/</loc>
-      <lastmod>2017-01-01T00:00:00-08:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -85,7 +69,7 @@
     <url>
     
       <loc>/publication/geo4nonpro/</loc>
-      <lastmod>2013-07-01T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -93,7 +77,7 @@
     <url>
     
       <loc>/publication_types/2/</loc>
-      <lastmod>2013-07-01T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -102,7 +86,7 @@
     <url>
     
       <loc>/</loc>
-      <lastmod>2017-10-15T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -119,7 +103,7 @@
     <url>
     
       <loc>/tags/geospatial/</loc>
-      <lastmod>2013-07-01T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -128,6 +112,7 @@
     <url>
     
       <loc>/tags/network-analysis/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -136,6 +121,7 @@
     <url>
     
       <loc>/project/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -144,16 +130,7 @@
     <url>
     
       <loc>/publication_types/</loc>
-      <lastmod>2013-07-01T00:00:00-07:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/categories/python/</loc>
-      <lastmod>2018-07-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -162,7 +139,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -171,7 +148,7 @@
     <url>
     
       <loc>/categories/r/</loc>
-      <lastmod>2018-07-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -180,6 +157,7 @@
     <url>
     
       <loc>/talk/example/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -187,7 +165,7 @@
     <url>
     
       <loc>/categories/r-bloggers/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -196,7 +174,7 @@
     <url>
     
       <loc>/tags/remote-sensing/</loc>
-      <lastmod>2013-07-01T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -205,6 +183,7 @@
     <url>
     
       <loc>/slides/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -213,6 +192,7 @@
     <url>
     
       <loc>/slides/example-slides/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -220,7 +200,7 @@
     <url>
     
       <loc>/tags/</loc>
-      <lastmod>2013-07-01T00:00:00-07:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -229,7 +209,7 @@
     <url>
     
       <loc>/tags/algorithms/</loc>
-      <lastmod>2018-07-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -238,7 +218,7 @@
     <url>
     
       <loc>/tags/computer-science/</loc>
-      <lastmod>2018-07-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -247,16 +227,7 @@
     <url>
     
       <loc>/categories/data-carpentry/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/categories/data-carpentry/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -265,7 +236,7 @@
     <url>
     
       <loc>/tags/data-science-from-scratch/</loc>
-      <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -274,7 +245,7 @@
     <url>
     
       <loc>/categories/data-science-from-scratch/</loc>
-      <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -283,7 +254,7 @@
     <url>
     
       <loc>/tags/dplyr/</loc>
-      <lastmod>2018-07-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -292,16 +263,7 @@
     <url>
     
       <loc>/tags/ggplot/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/tags/pandas/</loc>
-      <lastmod>2018-07-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -310,7 +272,7 @@
     <url>
     
       <loc>/tags/programming/</loc>
-      <lastmod>2018-07-16T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -319,7 +281,7 @@
     <url>
     
       <loc>/tags/python/</loc>
-      <lastmod>2018-07-09T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -328,7 +290,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2018-07-09T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -337,6 +299,7 @@
     <url>
     
       <loc>/project/snatools/</loc>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -344,7 +307,7 @@
     <url>
     
       <loc>/tags/statistics/</loc>
-      <lastmod>2018-07-18T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -353,7 +316,7 @@
     <url>
     
       <loc>/tags/tidyr/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -362,7 +325,7 @@
     <url>
     
       <loc>/tags/tidyverse/</loc>
-      <lastmod>2018-03-17T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -371,7 +334,7 @@
     <url>
     
       <loc>/categories/tutorial/</loc>
-      <lastmod>2018-07-24T00:00:00+00:00</lastmod>
+      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
     </url>
     

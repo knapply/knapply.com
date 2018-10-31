@@ -12,18 +12,9 @@
     
     
     <item>
-      <title>Python</title>
-      <link>/categories/python/</link>
-      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/python/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>R</title>
       <link>/categories/r/</link>
-      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/r/</guid>
       <description></description>
@@ -48,15 +39,6 @@
     </item>
     
     <item>
-      <title>data-carpentry</title>
-      <link>/categories/data-carpentry/</link>
-      <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/categories/data-carpentry/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>data-science-from-scratch</title>
       <link>/categories/data-science-from-scratch/</link>
       <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
@@ -68,7 +50,7 @@
     <item>
       <title>tutorial</title>
       <link>/categories/tutorial/</link>
-      <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/tutorial/</guid>
       <description></description>
