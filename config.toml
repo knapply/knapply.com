@@ -61,7 +61,7 @@ enableGitInfo = true
   # organizations = [ { name = "Stanford University", url = "" } ]
 
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)
-  avatar = "portrait.jpg"  # Specify an avatar image (in `static/img/` folder) or delete value to disable avatar.
+  avatar = "logo.png"  # Specify an avatar image (in `static/img/` folder) or delete value to disable avatar.
 
   # Details for the Contact Widget
   email = "brendan.g.knapp@gmail.com"
@@ -105,7 +105,7 @@ enableGitInfo = true
 
   # Font style.
   #   Choose from `default`, `classic`, or `playfair`.
-  font = "default"
+  font = "classic"
 
   # Description for social sharing and search engines. If undefined, author role is used in place.
   description = ""
@@ -166,7 +166,7 @@ enableGitInfo = true
   #   https://sourcethemes.com/academic/docs/writing-markdown-latex/#highlighting-options
   highlight = true
   highlight_languages = []
-  highlight_style = "github"
+#  highlight_style = "github"
 
   # Enable native social sharing buttons?
   sharing = true
@@ -297,7 +297,7 @@ enableGitInfo = true
   weight = 2
   
 [[menu.main]]
-  name = "Resources"
+  name = "Tutorials & Resources"
   url = "/tutorial/"
   weight = 3
 
