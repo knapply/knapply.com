@@ -20,12 +20,12 @@ weight = 5
 
 # List your qualifications (such as academic degrees).
 [[education.courses]]
-  course = "MA, Nonproliferation & Terrorism Studies"
+  course = "MA in Nonproliferation & Terrorism Studies"
   institution = "Middlebury Institute of International Studies"
   year = 2018
 
 [[education.courses]]
-  course = "BA, International Studies"
+  course = "BA in International Studies"
   institution = "Middlebury Institute of International Studies"
   year = 2017
  
