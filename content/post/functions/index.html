@@ -16,12 +16,13 @@ tags:
   - programming
 image:
   caption: ''
-  focal_point: 'TopLeft'
+  focal_point: 'Smart'
 summary: Defining functions in R, Python, and C++/Rcpp.
 output:
   blogdown::html_page:
     toc: true
     toc_depth: 2
+citation_url: https://knapply.com/post/functions/
 ---
 
 
@@ -76,52 +77,19 @@ int cpp_doubler(int x) {
 </td>
 </tr>
 </table>
-<!-- ```{Rcpp, eval=FALSE} -->
-<!-- #include <Rcpp.h> -->
-<!-- // [[Rcpp::export]] -->
-<!-- int cpp_doubler(int x) { -->
-<!--   return x * 2; -->
-<!-- } -->
-<!-- ``` -->
-<!-- # Our Test Values -->
-<!-- <table style="font-size:14px" class="table table-bordered"> -->
-<!-- <tr> -->
-<!-- <td valign="top"> -->
-<!-- ```{r} -->
-<!-- x_R <- c(1.5, 2, 3.25, 4.9, 5, -->
-<!--          6.1, 7.39, 8, 9.9) -->
-<!-- x_R -->
-<!-- ``` -->
-<!-- </td> -->
-<!-- <td valign="top"> -->
-<!-- ```{python} -->
-<!-- x_PY = [1.5, 2, 3.25, 4.9, 5,  -->
-<!--         6.1, 7.39, 8, 9.9] -->
-<!-- print(x_PY) -->
-<!-- ``` -->
-<!-- </td> -->
-<!-- </td> -->
-<!-- <td valign="top"> -->
-<!-- ```{Rcpp, eval=TRUE} -->
-<!-- // [[Rcpp::plugins("cpp11")]] -->
-<!-- #include <Rcpp.h> -->
-<!-- #include <vector> -->
-<!-- // [[Rcpp::export]] -->
-<!-- void x_cpp() { -->
-<!--   std::vector<float> x { -->
-<!--     1.5, 2, 3.25, 4.9, 5, -->
-<!--     6.1, 7.39, 8, 9.9 -->
-<!--     }; -->
-<!--   for (auto i: x) { -->
-<!--     Rcpp::Rcout << i << " "; -->
-<!--   } -->
-<!--   Rcpp::Rcout << std::endl; -->
-<!-- } -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- x_cpp() -->
-<!-- ``` -->
-<!-- </td> -->
-<!-- </tr> -->
-<!-- </table> -->
+<p><br><br><br></p>
+<div id="citation" class="section level3">
+<h3>Citation</h3>
+<p>For attribution, you can cite this page as</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 1). Functions. Retrieved from https://knapply.com/post/functions/</code></pre>
+<p>BibTex</p>
+<pre class="citation"><code>@misc{functions,
+  author = {Knapp, Brendan},
+  title  = {Functions}
+  url    = {https://knapply.com/post/functions/},
+  year   = 2018
+  month  = Nov
+  day    = 1
+}</code></pre>
+</div>
 </div>

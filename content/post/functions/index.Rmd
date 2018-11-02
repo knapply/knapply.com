@@ -16,12 +16,13 @@ tags:
   - programming
 image:
   caption: ''
-  focal_point: 'TopLeft'
+  focal_point: 'Smart'
 summary: Defining functions in R, Python, and C++/Rcpp.
 output:
   blogdown::html_page:
     toc: true
     toc_depth: 2
+citation_url: https://knapply.com/post/functions/
 ---
 
 ```{r setup, include = FALSE}
@@ -101,72 +102,47 @@ cpp_doubler(x = 4)
 </table>
 
 
-<!-- ```{Rcpp, eval=FALSE} -->
-<!-- #include <Rcpp.h> -->
+<br><br><br>
 
-<!-- // [[Rcpp::export]] -->
-<!-- int cpp_doubler(int x) { -->
-<!--   return x * 2; -->
-<!-- } -->
-<!-- ``` -->
+### Citation
 
-<!-- # Our Test Values -->
+```{r, echo=FALSE}
+title <- rmarkdown::metadata$title
+index <- stringr::str_to_lower(stringr::str_replace_all(title, "\\s+", "-"))
+author <- rmarkdown::metadata$author
+date <- as.Date(rmarkdown::metadata$date)
+year <- lubridate::year(date)
+month <- months.Date(date, abbreviate = TRUE)
+day <- lubridate::day(date)
+citation_url <- rmarkdown::metadata$citation_url
+```
 
-<!-- <table style="font-size:14px" class="table table-bordered"> -->
-<!-- <tr> -->
-<!-- <td valign="top"> -->
+For attribution, you can cite this page as
 
-<!-- ```{r} -->
-<!-- x_R <- c(1.5, 2, 3.25, 4.9, 5, -->
-<!--          6.1, 7.39, 8, 9.9) -->
-
-<!-- x_R -->
-<!-- ``` -->
-
-<!-- </td> -->
-<!-- <td valign="top"> -->
-
-<!-- ```{python} -->
-<!-- x_PY = [1.5, 2, 3.25, 4.9, 5,  -->
-<!--         6.1, 7.39, 8, 9.9] -->
-
-<!-- print(x_PY) -->
-<!-- ``` -->
-
-<!-- </td> -->
-
-<!-- </td> -->
-<!-- <td valign="top"> -->
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+glue::glue('Knapp, B. (<<year>>, <<month>>. <<day>>). <<title>>. Retrieved from <<citation_url>>',
+           .open = "<<", .close = ">>")
+```
 
 
-<!-- ```{Rcpp, eval=TRUE} -->
-<!-- // [[Rcpp::plugins("cpp11")]] -->
-<!-- #include <Rcpp.h> -->
-<!-- #include <vector> -->
-
-<!-- // [[Rcpp::export]] -->
-<!-- void x_cpp() { -->
-<!--   std::vector<float> x { -->
-<!--     1.5, 2, 3.25, 4.9, 5, -->
-<!--     6.1, 7.39, 8, 9.9 -->
-<!--     }; -->
-
-<!--   for (auto i: x) { -->
-<!--     Rcpp::Rcout << i << " "; -->
-<!--   } -->
-<!--   Rcpp::Rcout << std::endl; -->
-<!-- } -->
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- x_cpp() -->
-<!-- ``` -->
-
-<!-- </td> -->
-<!-- </tr> -->
-<!-- </table> -->
+BibTex
 
 
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+build_bibtex <- function() {
+  # cat("```\n")
+  out <- glue::glue('@misc{<<index>>,
+                      author = {Knapp, Brendan},
+                      title  = {<<title>>}
+                      url    = {<<citation_url>>},
+                      year   = <<year>>
+                      month  = <<month>>
+                      day    = <<day>>
+                    }',
+             .open = "<<", .close = ">>")
+  cat(out)
+  # cat("\n```\n")
+}
 
-
-
+build_bibtex()
+```

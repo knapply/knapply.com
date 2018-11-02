@@ -26,3 +26,9 @@
 .home-section {
     padding: 20px 0 20px 0;
 }
+
+.citation * {
+  color: rgba(150, 150, 150, 1);
+  font-weight: normal;
+  font-size: 11px;
+}
