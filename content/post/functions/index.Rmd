@@ -1,0 +1,172 @@
+---
+title: Functions
+author: Brendan Knapp
+date: '2018-11-01'
+slug: index
+categories:
+  - tutorial
+  - data-science-from-scratch
+  - programming
+tags:
+  - R
+  - Python
+  - Cpp
+  - tutorial
+  - data-science-from-scratch
+  - programming
+image:
+  caption: ''
+  focal_point: 'TopLeft'
+summary: Defining functions in R, Python, and C++/Rcpp.
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include = FALSE}
+# knitr::opts_chunk$set(cache = TRUE)
+```
+
+
+
+```{Rcpp, ref.label=knitr::all_rcpp_labels(), include=FALSE}
+```
+
+## Define `doubler_*()` Function
+
+<table style="font-size:14px" class="table table-bordered">
+<tr>
+<td valign="top">
+      
+```{r}
+r_doubler <- function(x) {
+  x * 2
+}
+```
+      
+</td>
+<td valign="top">
+    
+```{python}
+def py_doubler(x):
+  return x * 2
+```
+    
+</td>
+</td>
+<td valign="top">
+
+```{Rcpp}
+#include <Rcpp.h>
+
+// [[Rcpp::export]]
+int cpp_doubler(int x) {
+  return x * 2;
+}
+```
+  
+</td>
+</tr>
+</table>
+
+
+## Run `doubler_*()` Function
+
+<table style="font-size:14px" class="table table-bordered">
+<tr>
+<td valign="top">
+      
+```{r}
+r_doubler(x = 4)
+```
+      
+</td>
+<td valign="top">
+    
+```{python}
+print(py_doubler(x = 4))
+```
+    
+</td>
+</td>
+<td valign="top">
+
+```{r}
+cpp_doubler(x = 4)
+```
+  
+</td>
+</tr>
+</table>
+
+
+<!-- ```{Rcpp, eval=FALSE} -->
+<!-- #include <Rcpp.h> -->
+
+<!-- // [[Rcpp::export]] -->
+<!-- int cpp_doubler(int x) { -->
+<!--   return x * 2; -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- # Our Test Values -->
+
+<!-- <table style="font-size:14px" class="table table-bordered"> -->
+<!-- <tr> -->
+<!-- <td valign="top"> -->
+
+<!-- ```{r} -->
+<!-- x_R <- c(1.5, 2, 3.25, 4.9, 5, -->
+<!--          6.1, 7.39, 8, 9.9) -->
+
+<!-- x_R -->
+<!-- ``` -->
+
+<!-- </td> -->
+<!-- <td valign="top"> -->
+
+<!-- ```{python} -->
+<!-- x_PY = [1.5, 2, 3.25, 4.9, 5,  -->
+<!--         6.1, 7.39, 8, 9.9] -->
+
+<!-- print(x_PY) -->
+<!-- ``` -->
+
+<!-- </td> -->
+
+<!-- </td> -->
+<!-- <td valign="top"> -->
+
+
+<!-- ```{Rcpp, eval=TRUE} -->
+<!-- // [[Rcpp::plugins("cpp11")]] -->
+<!-- #include <Rcpp.h> -->
+<!-- #include <vector> -->
+
+<!-- // [[Rcpp::export]] -->
+<!-- void x_cpp() { -->
+<!--   std::vector<float> x { -->
+<!--     1.5, 2, 3.25, 4.9, 5, -->
+<!--     6.1, 7.39, 8, 9.9 -->
+<!--     }; -->
+
+<!--   for (auto i: x) { -->
+<!--     Rcpp::Rcout << i << " "; -->
+<!--   } -->
+<!--   Rcpp::Rcout << std::endl; -->
+<!-- } -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- x_cpp() -->
+<!-- ``` -->
+
+<!-- </td> -->
+<!-- </tr> -->
+<!-- </table> -->
+
+
+
+
+

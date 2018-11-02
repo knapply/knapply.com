@@ -14,7 +14,6 @@ weight = 5
     "Statistics",
     "Network Analysis",
     "Geocomputation",
-    "Remote Sensing",
     "Natural Language Processing"
   ]
 

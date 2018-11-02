@@ -6,7 +6,7 @@ active = true
 date = '2016-04-20T00:00:00'
 
 title = 'Recent Posts'
-subtitle = '[See All](/post)'
+# subtitle = '[See All](/post)'
 
 # Order that this section will appear in.
 weight = 10
@@ -19,4 +19,10 @@ tags_exclude = []
 
 # Number of posts to list.
 count = 5
+
+# List format.
+#   0 = Simple
+#   1 = Detailed
+#   2 = Stream
+list_format = 1
 +++

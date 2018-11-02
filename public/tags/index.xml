@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Mon, 01 Jul 2013 00:00:00 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 01 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cpp</title>
+      <link>/tags/cpp/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/cpp/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Geospatial</title>
@@ -31,9 +40,18 @@
     </item>
     
     <item>
+      <title>Python</title>
+      <link>/tags/python/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/python/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>R</title>
       <link>/tags/r/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -76,6 +94,15 @@
     </item>
     
     <item>
+      <title>data-science-from-scratch</title>
+      <link>/tags/data-science-from-scratch/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-science-from-scratch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>dplyr</title>
       <link>/tags/dplyr/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
@@ -105,7 +132,7 @@
     <item>
       <title>programming</title>
       <link>/tags/programming/</link>
-      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/programming/</guid>
       <description></description>
@@ -123,7 +150,7 @@
     <item>
       <title>r</title>
       <link>/tags/r/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/r/</guid>
       <description></description>
@@ -150,7 +177,7 @@
     <item>
       <title>tutorial</title>
       <link>/tags/tutorial/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/tutorial/</guid>
       <description></description>

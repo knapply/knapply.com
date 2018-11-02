@@ -11,6 +11,117 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Functions</title>
+      <link>/post/functions/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/functions/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#define-doubler_-function&#34;&gt;Define &lt;code&gt;doubler_*()&lt;/code&gt; Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#run-doubler_-function&#34;&gt;Run &lt;code&gt;doubler_*()&lt;/code&gt; Function&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;define-doubler_-function&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Define &lt;code&gt;doubler_*()&lt;/code&gt; Function&lt;/h2&gt;
+&lt;table style=&#34;font-size:14px&#34; class=&#34;table table-bordered&#34;&gt;
+&lt;tr&gt;
+&lt;td valign=&#34;top&#34;&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_doubler &amp;lt;- function(x) {
+  x * 2
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt;
+&lt;td valign=&#34;top&#34;&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def py_doubler(x):
+  return x * 2&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/td&gt;
+&lt;td valign=&#34;top&#34;&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+
+// [[Rcpp::export]]
+int cpp_doubler(int x) {
+  return x * 2;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;run-doubler_-function&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Run &lt;code&gt;doubler_*()&lt;/code&gt; Function&lt;/h2&gt;
+&lt;table style=&#34;font-size:14px&#34; class=&#34;table table-bordered&#34;&gt;
+&lt;tr&gt;
+&lt;td valign=&#34;top&#34;&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_doubler(x = 4)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 8&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt;
+&lt;td valign=&#34;top&#34;&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(py_doubler(x = 4))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 8&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/td&gt;
+&lt;td valign=&#34;top&#34;&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_doubler(x = 4)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 8&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;!-- ```{Rcpp, eval=FALSE} --&gt;
+&lt;!-- #include &lt;Rcpp.h&gt; --&gt;
+&lt;!-- // [[Rcpp::export]] --&gt;
+&lt;!-- int cpp_doubler(int x) { --&gt;
+&lt;!--   return x * 2; --&gt;
+&lt;!-- } --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- # Our Test Values --&gt;
+&lt;!-- &lt;table style=&#34;font-size:14px&#34; class=&#34;table table-bordered&#34;&gt; --&gt;
+&lt;!-- &lt;tr&gt; --&gt;
+&lt;!-- &lt;td valign=&#34;top&#34;&gt; --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- x_R &lt;- c(1.5, 2, 3.25, 4.9, 5, --&gt;
+&lt;!--          6.1, 7.39, 8, 9.9) --&gt;
+&lt;!-- x_R --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/td&gt; --&gt;
+&lt;!-- &lt;td valign=&#34;top&#34;&gt; --&gt;
+&lt;!-- ```{python} --&gt;
+&lt;!-- x_PY = [1.5, 2, 3.25, 4.9, 5,  --&gt;
+&lt;!--         6.1, 7.39, 8, 9.9] --&gt;
+&lt;!-- print(x_PY) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/td&gt; --&gt;
+&lt;!-- &lt;/td&gt; --&gt;
+&lt;!-- &lt;td valign=&#34;top&#34;&gt; --&gt;
+&lt;!-- ```{Rcpp, eval=TRUE} --&gt;
+&lt;!-- // [[Rcpp::plugins(&#34;cpp11&#34;)]] --&gt;
+&lt;!-- #include &lt;Rcpp.h&gt; --&gt;
+&lt;!-- #include &lt;vector&gt; --&gt;
+&lt;!-- // [[Rcpp::export]] --&gt;
+&lt;!-- void x_cpp() { --&gt;
+&lt;!--   std::vector&lt;float&gt; x { --&gt;
+&lt;!--     1.5, 2, 3.25, 4.9, 5, --&gt;
+&lt;!--     6.1, 7.39, 8, 9.9 --&gt;
+&lt;!--     }; --&gt;
+&lt;!--   for (auto i: x) { --&gt;
+&lt;!--     Rcpp::Rcout &lt;&lt; i &lt;&lt; &#34; &#34;; --&gt;
+&lt;!--   } --&gt;
+&lt;!--   Rcpp::Rcout &lt;&lt; std::endl; --&gt;
+&lt;!-- } --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- x_cpp() --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/td&gt; --&gt;
+&lt;!-- &lt;/tr&gt; --&gt;
+&lt;!-- &lt;/table&gt; --&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Data Frame Operations Thesaurus</title>
       <link>/post/data-frame-operations/</link>
       <pubDate>Tue, 24 Jul 2018 00:00:00 +0000</pubDate>
@@ -1011,10 +1122,10 @@ print(statistics.median(x) == my_median(x))&lt;/code&gt;&lt;/pre&gt;
     
     <item>
       <title>Bubble Sort</title>
-      <link>/post/bubble-sort/</link>
+      <link>/post/bubble-sort/bubble-sort/</link>
       <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/bubble-sort/</guid>
+      <guid>/post/bubble-sort/bubble-sort/</guid>
       <description>
 
 &lt;div id=&#34;TOC&#34;&gt;

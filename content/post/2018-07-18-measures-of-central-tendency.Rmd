@@ -1,6 +1,6 @@
 ---
 title: Measures of Central Tendency
-draft: false
+draft: true
 author: Brendan Knapp
 date: '2018-07-18'
 slug: central-tendency
