@@ -330,8 +330,8 @@ enableGitInfo = true
    weight = 7
    
 [[menu.main]]
-  name = "Search"
-  url = "#search"
+  name = "Tags"
+  url = "#tags"
   weight = 8
 
 [[menu.main]]

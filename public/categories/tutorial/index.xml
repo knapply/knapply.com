@@ -50,5 +50,14 @@ Considering this is a blog post, I’m going to get all bloggy here before jumpi
 ContextI recently had the opportunity to teach some R coding to colleagues and classmates in a series of workshops. Some had already dabbled in R or other programming languages, but it was the first time that the majority of participants had written a single line of code.</description>
     </item>
     
+    <item>
+      <title>Tutorials and Learning Resources</title>
+      <link>/tutorial/</link>
+      <pubDate>Thu, 01 Nov 2018 17:27:11 -0700</pubDate>
+      
+      <guid>/tutorial/</guid>
+      <description>ProgrammingProgrammingTopicRPythonC++/RcppFirst StepsFunctions Disqus comments not available by default when the website is previewed locally.var disqus_config = function () {};(function() {if ([&#34;localhost&#34;, &#34;127.0.0.1&#34;].indexOf(window.location.hostname) != -1) {document.getElementById(&#39;disqus_thread&#39;).innerHTML = &#39;Disqus comments not available by default when the website is previewed locally.</description>
+    </item>
+    
   </channel>
 </rss>

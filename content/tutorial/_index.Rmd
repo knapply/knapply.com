@@ -1,14 +1,17 @@
 ---
-title: ""
-author: "Brendan Knapp"
-date: "Sys.Date()"
+title: 'Tutorials and Learning Resources'
+author: 'Brendan Knapp'
+date: 'Sys.Date()'
+categories:
+  - tutorial
 output:
-  md_document:
+  blogdown::html_page:
     toc: true
-    toc_depth: 2
-always_allow_html: yes
+    toc_depth: 4
+summary: Tutorials
 editor_options:
   chunk_output_type: console
+citation_url: https://knapply.com/post/tutorial/
 ---
 
 ```{r setup, include=FALSE}
@@ -21,11 +24,6 @@ library(kableExtra)
 library(stringr)
 ```
 
-<style>
-.zoom:hover {
-    transform: scale(1.25);
-}
-</style>
 
 ```{r}
 check <- '<input type="checkbox" checked onclick="return false;">'
@@ -42,9 +40,7 @@ render_preview <- function(slug) {
 ```
 
 
-## Tutorials
-
-### Programming
+## Programming
 
 ```{r}
 tribble(
@@ -63,6 +59,23 @@ tribble(
 ```
 
 
-<br>
 
-## Resources
+<section id="comments">
+  <div id="disqus_thread">Disqus comments not available by default when the website is previewed locally.</div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
