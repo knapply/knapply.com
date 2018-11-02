@@ -122,7 +122,7 @@ glue::glue('Knapp, B. (<<year>>, <<month>>. <<day>>). <<title>>. Retrieved from 
 build_bibtex <- function() {
   out <- glue::glue('@misc{<<index>>,
                       author = {Knapp, Brendan},
-                      title  = {<<title>>}
+                      title  = {<<title>>},
                       url    = {<<citation_url>>},
                       year   = <<year>>,
                       month  = <<month>>,
