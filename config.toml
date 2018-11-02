@@ -9,7 +9,7 @@
 baseurl = "/"
 
 # Title of your site
-title = "Brendan Knapp"
+title = "knapply()"
 
 # Your copyright notice - appears in site footer.
 # To display a copyright symbol, type `&copy;`.
@@ -322,16 +322,17 @@ enableGitInfo = true
    name = "Résumé"
    url = "files/cv.pdf"
    weight = 7
+   
+[[menu.main]]
+  name = "Search"
+  url = "#search"
+  weight = 8
 
 [[menu.main]]
   name = "Contact"
   url = "#contact"
-  weight = 8
-  
-[[menu.main]]
-  name = "Search"
-  url = "#search"
   weight = 9
+
 
 # Search.
 [params.search]

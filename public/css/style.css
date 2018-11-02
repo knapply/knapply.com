@@ -29,6 +29,17 @@
 
 .citation * {
   color: rgba(150, 150, 150, 1);
-  font-weight: normal;
+  font-weight: bold;
   font-size: 11px;
 }
+
+.navbar-brand {
+  font-family: 'Roboto Mono', monospace;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.navbar-light .navbar-brand {
+  font-size: 1.5em;
+}
+

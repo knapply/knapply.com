@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on Brendan Knapp</title>
+    <title>Tags on knapply()</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on Brendan Knapp</description>
+    <description>Recent content in Tags on knapply()</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
@@ -90,15 +90,6 @@
       <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/data-carpentry/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>data-science-from-scratch</title>
-      <link>/tags/data-science-from-scratch/</link>
-      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/tags/data-science-from-scratch/</guid>
       <description></description>
     </item>
     

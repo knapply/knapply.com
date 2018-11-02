@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>tidyverse on Brendan Knapp</title>
+    <title>tidyverse on knapply()</title>
     <link>/tags/tidyverse/</link>
-    <description>Recent content in tidyverse on Brendan Knapp</description>
+    <description>Recent content in tidyverse on knapply()</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>

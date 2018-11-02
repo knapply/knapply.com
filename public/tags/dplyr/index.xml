@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>dplyr on Brendan Knapp</title>
+    <title>dplyr on knapply()</title>
     <link>/tags/dplyr/</link>
-    <description>Recent content in dplyr on Brendan Knapp</description>
+    <description>Recent content in dplyr on knapply()</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>

@@ -1,25 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>data-science-from-scratch on Brendan Knapp</title>
+    <title>data-science-from-scratch on knapply()</title>
     <link>/categories/data-science-from-scratch/</link>
-    <description>Recent content in data-science-from-scratch on Brendan Knapp</description>
+    <description>Recent content in data-science-from-scratch on knapply()</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Thu, 01 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 16 Jul 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/categories/data-science-from-scratch/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Functions</title>
-      <link>/post/functions/</link>
-      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/functions/</guid>
-      <description>Define doubler_*() FunctionRun doubler_*() FunctionDefine doubler_*() Functionr_doubler &amp;lt;- function(x) {x * 2}def py_doubler(x):return x * 2#include &amp;lt;Rcpp.h&amp;gt;// [[Rcpp::export]]int cpp_doubler(int x) {return x * 2;}Run doubler_*() Functionr_doubler(x = 4)## [1] 8print(py_doubler(x = 4))## 8cpp_doubler(x = 4)## [1] 8</description>
-    </item>
     
     <item>
       <title>Bubble Sort</title>
