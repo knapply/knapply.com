@@ -5,7 +5,7 @@
     <url>
     
       <loc>/post/functions/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
     </url>
     
   
@@ -54,6 +54,30 @@
     
       <loc>/post/yet-another-tidyverse-intro/</loc>
       <lastmod>2018-10-31T11:54:54-07:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/talk/r-for-data-carpentry/</loc>
+      <lastmod>2018-02-23T00:00:00-08:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/talk/intro-to-r/</loc>
+      <lastmod>2017-09-22T00:00:00-07:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/talk/intro-to-python/</loc>
+      <lastmod>2017-03-31T00:00:00-07:00</lastmod>
     </url>
     
   
@@ -118,7 +142,7 @@
     <url>
     
       <loc>/tags/cpp/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -163,7 +187,7 @@
     <url>
     
       <loc>/tags/python/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -181,7 +205,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -192,14 +216,6 @@
       <loc>/categories/r/</loc>
       <lastmod>2018-10-30T18:01:04-07:00</lastmod>
       <priority>0</priority>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/talk/example/</loc>
-      <lastmod>2018-10-30T18:01:04-07:00</lastmod>
     </url>
     
   
@@ -233,7 +249,7 @@
     <url>
     
       <loc>/tags/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -323,7 +339,7 @@
     <url>
     
       <loc>/tags/programming/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -332,7 +348,7 @@
     <url>
     
       <loc>/categories/programming/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -350,7 +366,7 @@
     <url>
     
       <loc>/tags/r/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -394,7 +410,7 @@
     <url>
     
       <loc>/tags/tutorial/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -403,7 +419,7 @@
     <url>
     
       <loc>/categories/tutorial/</loc>
-      <lastmod>2018-11-02T11:15:15-07:00</lastmod>
+      <lastmod>2018-11-02T11:50:46-07:00</lastmod>
       <priority>0</priority>
     </url>
     

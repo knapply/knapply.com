@@ -13,7 +13,7 @@ title = "knapply()"
 
 # Your copyright notice - appears in site footer.
 # To display a copyright symbol, type `&copy;`.
-copyright = "&copy; 2018"
+copyright = "&copy; 2018 Brendan Knapp"
 
 theme = "hugo-academic"
 enableEmoji = true
@@ -308,7 +308,7 @@ enableGitInfo = true
   
 [[menu.main]]
   name = "Talks"
-  url = "/talks/"
+  url = "/talk/"
   weight = 5
   
 [[menu.main]]
@@ -342,13 +342,6 @@ enableGitInfo = true
   #   2: Algolia (https://www.algolia.com)
   engine = 1
 
-  # Configuration of Algolia search engine.
-  # Paste the values from your Algolia dashboard.
-  # [params.search.algolia]
-  #   app_id = ""
-  #   api_key = ""
-  #   index_name = ""
-  #   show_logo = false
 
 # Taxonomies.
 [taxonomies]
