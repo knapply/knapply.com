@@ -40,7 +40,7 @@ tags = ["R"]
 # url_pdf = ""
 # url_slides = "slides/example-slides"
 # url_video = ""
-# url_code = ""
+url_code = "https://www.knapply.com/post/yet-another-tidyverse-intro/"
 
 # Does the content use math formatting?
 math = true
