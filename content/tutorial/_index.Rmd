@@ -58,9 +58,13 @@ tribble(
   collapse_rows(columns = 1, valign = "top")
 ```
 
+
+
 ```{r, echo=FALSE}
 htmltools::includeHTML(here::here("static/html/disqus.html"))
 ```
+
+
 
 <!-- <section id="comments"> -->
 <!--   <div id="disqus_thread">Disqus comments not available by default when the website is previewed locally.</div> -->

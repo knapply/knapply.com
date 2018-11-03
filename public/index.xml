@@ -22,6 +22,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#define-doubler_-function&#34;&gt;Define &lt;code&gt;doubler_*()&lt;/code&gt; Function&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#run-doubler_-function&#34;&gt;Run &lt;code&gt;doubler_*()&lt;/code&gt; Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#citation-and-normalsizetextrm-b-scriptsizetextrmib-normalsizetex&#34;&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
@@ -69,8 +70,9 @@ int cpp_doubler(int x) {
 &lt;/td&gt;
 &lt;/tr&gt;
 &lt;/table&gt;
-&lt;div id=&#34;citation&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Citation&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;citation-and-normalsizetextrm-b-scriptsizetextrmib-normalsizetex&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/h2&gt;
 &lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Nov. 1). Functions. Retrieved from https://knapply.com/post/functions/&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{functions,
   author = {Knapp, Brendan},
@@ -80,7 +82,6 @@ int cpp_doubler(int x) {
   month  = Nov,
   day    = 1,
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>

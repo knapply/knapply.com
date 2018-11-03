@@ -5,7 +5,7 @@
       "tutorial",
       "programming"
     ],
-    "content": "\r\rDefine doubler_*() Function\rRun doubler_*() Function\r\r\rDefine doubler_*() Function\r\rr_doubler \u0026lt;- function(x) {\rx * 2\r}\r\rdef py_doubler(x):\rreturn x * 2\r\r\r#include \u0026lt;Rcpp.h\u0026gt;\r// [[Rcpp::export]]\rint cpp_doubler(int x) {\rreturn x * 2;\r}\r\r\r\r\rRun doubler_*() Function\r\rr_doubler(x = 4)\r## [1] 8\r\rprint(py_doubler(x = 4))\r## 8\r\r\rcpp_doubler(x = 4)\r## [1] 8\r\r\r\rCitation\rKnapp, B. (2018, Nov. 1). Functions. Retrieved from https://knapply.com/post/functions/\r@misc{functions,\rauthor = {Knapp, Brendan},\rtitle = {Functions},\rurl = {https://knapply.com/post/functions/},\ryear = 2018,\rmonth = Nov,\rday = 1,\r}\r\r\r",
+    "content": "\r\rDefine doubler_*() Function\rRun doubler_*() Function\rCitation and \\(\\normalsize{\\textrm B} \\scriptsize{\\textrm{IB}} \\normalsize{\\TeX}\\)\r\r\rDefine doubler_*() Function\r\rr_doubler \u0026lt;- function(x) {\rx * 2\r}\r\rdef py_doubler(x):\rreturn x * 2\r\r\r#include \u0026lt;Rcpp.h\u0026gt;\r// [[Rcpp::export]]\rint cpp_doubler(int x) {\rreturn x * 2;\r}\r\r\r\r\rRun doubler_*() Function\r\rr_doubler(x = 4)\r## [1] 8\r\rprint(py_doubler(x = 4))\r## 8\r\r\rcpp_doubler(x = 4)\r## [1] 8\r\r\r\r\rCitation and \\(\\normalsize{\\textrm B} \\scriptsize{\\textrm{IB}} \\normalsize{\\TeX}\\)\rKnapp, B. (2018, Nov. 1). Functions. Retrieved from https://knapply.com/post/functions/\r@misc{functions,\rauthor = {Knapp, Brendan},\rtitle = {Functions},\rurl = {https://knapply.com/post/functions/},\ryear = 2018,\rmonth = Nov,\rday = 1,\r}\r\r",
     "date": 1541030400,
     "expirydate": -62135596800,
     "kind": "page",
