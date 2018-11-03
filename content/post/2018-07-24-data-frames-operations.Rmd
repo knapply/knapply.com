@@ -1,6 +1,6 @@
 ---
 title: "Data Frame Operations Thesaurus"
-draft: true
+draft: false
 author: Brendan Knapp
 date: '2018-07-24'
 slug: data-frame-operations
