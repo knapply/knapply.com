@@ -4,14 +4,14 @@ widget = "talks"
 active = true
 date = 2018-02-23T00:00:00  # Schedule page publish date.
 
-title = "Recent & Upcoming Talks"
+title = "Talks & Presentations"
 subtitle = ""
 
 # Order that this section will appear in.
 weight = 25
 
 # Number of talks to list.
-count = 10
+count = 3
 
 # List format.
 #   0 = Simple
