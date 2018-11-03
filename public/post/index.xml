@@ -40,24 +40,6 @@
     </item>
     
     <item>
-      <title>Bubble Sort</title>
-      <link>/post/bubble-sort/bubble-sort/</link>
-      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/bubble-sort/bubble-sort/</guid>
-      <description>PythonUnsorted listBubble Sort FunctionResultRUnsorted vectorBubble Sort FunctionResultEnvironmentPythonUnsorted listunsorted = [9, 2, 8, 3, 7, 4, 6, 5, 1]Bubble Sort Functiondef bubble_sort(unsorted_sequence):sorted_sequence = unsorted_sequencefor iteration, _ in enumerate(sorted_sequence):for i, _ in enumerate(sorted_sequence):if i + 1 &amp;lt;= len(sorted_sequence) - 1:current_value = sorted_sequence[i]next_value = sorted_sequence[i + 1]if current_value &amp;gt; next_value:sorted_sequence[i] = next_valuesorted_sequence[i + 1] = current_valueprint(f&amp;#39;Iteration #{iteration + 1}: {&amp;quot;, &amp;quot;.</description>
-    </item>
-    
-    <item>
-      <title>R-Python Thesaurus</title>
-      <link>/post/r-python-thesaurus/</link>
-      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/r-python-thesaurus/</guid>
-      <description>TypesCollections: Vectors, Lists, and DictionariesCommon TasksIterationPythonRSequencesComparisonsArithmeticStatisticsDates and TimesStrings and Regular ExpressionsTypesPython TypePython ExampleR TypeR Exampleint1integer1Lfloat3.14numeric &amp;amp; double3.14string‘hi’character“hi”boolTruelogicalTRUECollections: Vectors, Lists, and DictionariesPython TypePython ExampleR TypeR ExampleValuesscalar1vector1homogeneouslist[1, 1]vectorc(1, 2)homogeneouslist[1, ‘string’]listlist(1, “string”)heterogenoustuple(1, ‘string’]listlist(1, “string”)heterogenousdict{‘a’:1, ‘b’:‘string’}listlist(a = 1, b = “string”)heterogenousvectorc(a = 1, b = 2)homogeneousNote:  dicts are not ordered.</description>
-    </item>
-    
-    <item>
       <title>Thoughts on Teaching R and Yet Another Tidyverse Intro</title>
       <link>/post/yet-another-tidyverse-intro/</link>
       <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
