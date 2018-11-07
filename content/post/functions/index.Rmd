@@ -7,9 +7,9 @@ categories:
   - tutorial
   - programming
 tags:
-  - R
-  - Python
-  - Cpp
+  - r
+  - python
+  - cpp
   - tutorial
   - programming
 image:
@@ -72,32 +72,25 @@ int cpp_doubler(int x) {
 
 ## Run `doubler_*()` Function
 
-<table style="font-size:14px" class="table table-bordered">
-<tr>
-<td valign="top">
+<table style="font-size:14px" class="table table-bordered"><tr><td valign="top">
       
 ```{r}
 r_doubler(x = 4)
 ```
       
-</td>
-<td valign="top">
+</td><td valign="top">
     
 ```{python}
 print(py_doubler(x = 4))
 ```
     
-</td>
-</td>
-<td valign="top">
+</td></td><td valign="top">
 
 ```{r}
 cpp_doubler(x = 4)
 ```
   
-</td>
-</tr>
-</table>
+</td></tr></table>
 
 
 ## Citation and $\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}$

@@ -1,34 +1,16 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>R on knapply()</title>
+    <title>r on knapply()</title>
     <link>/tags/r/</link>
-    <description>Recent content in R on knapply()</description>
+    <description>Recent content in r on knapply()</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
-    <lastBuildDate>Thu, 01 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 17 Mar 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Functions</title>
-      <link>/post/functions/</link>
-      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/functions/</guid>
-      <description>Define doubler_*() FunctionRun doubler_*() FunctionCitation and \(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)Define doubler_*() Functionr_doubler &amp;lt;- function(x) {x * 2}def py_doubler(x):return x * 2#include &amp;lt;Rcpp.h&amp;gt;// [[Rcpp::export]]int cpp_doubler(int x) {return x * 2;}Run doubler_*() Functionr_doubler(x = 4)## [1] 8print(py_doubler(x = 4))## 8cpp_doubler(x = 4)## [1] 8Citation and \(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)Knapp, B.</description>
-    </item>
-    
-    <item>
-      <title>Measures of Central Tendency</title>
-      <link>/post/central-tendency/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/central-tendency/</guid>
-      <description>Toy ValuesPython listR vectorLengthPython’s len()R’s length()Unique ValuesPython’s set()R’s unique()MaxPython’s max()R’s max()MinPython’s min()R’s min()SumPython’s sum()R’s sum()MeanPython’s statistics.mean()R’s mean()ModePython’s statistics.mode()R’s modeMedianPythonREnvironmentRather than letting R and Python do all the work for us (i.</description>
-    </item>
     
     <item>
       <title>Thoughts on Teaching R and Yet Another Tidyverse Intro</title>

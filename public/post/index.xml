@@ -13,6 +13,15 @@
     
     
     <item>
+      <title>Foundational Programming</title>
+      <link>/post/foundational-programming/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/foundational-programming/</guid>
+      <description>LengthFrom Scratch: How you could do itBuilt-In: How you Should do itSets of Unique ValuesFrom Scratch: How you Could Do It YourselfBuilt-In: How you Should do itMinimum and Maximum ValuesFrom Scratch: How you Could Do It YourselfBuilt-In: How you Should do itLengthFrom Scratch: How you could do it--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPySets of Unique ValuesFrom Scratch: How you Could Do It Yourself--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPyMinimum and Maximum ValuesFrom Scratch: How you Could Do It Yourself--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPy</description>
+    </item>
+    
+    <item>
       <title>Functions</title>
       <link>/post/functions/</link>
       <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
@@ -28,15 +37,6 @@
       
       <guid>/post/data-frame-operations/</guid>
       <description>Set UpDataSubset ColumnsBasic Example: Select Columns by NameDrop Columns by NameSelect Columns by Name RangeDrop Columns by Name RangeSelect Columns by Index RangeDrop Columns by Index RangeSubset RowsFilter Rows, Single Logical ComparisonFilter Rows, Multiple Logical ComparisonsTransform Column ValuesBasic Example: Calculate Population in ThousandsCalculate Total GDPCalculate Z Scores of 1977 GDP per CapitaEnvironment--&amp;lt;!</description>
-    </item>
-    
-    <item>
-      <title>Measures of Central Tendency</title>
-      <link>/post/central-tendency/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/central-tendency/</guid>
-      <description>Toy ValuesPython listR vectorLengthPython’s len()R’s length()Unique ValuesPython’s set()R’s unique()MaxPython’s max()R’s max()MinPython’s min()R’s min()SumPython’s sum()R’s sum()MeanPython’s statistics.mean()R’s mean()ModePython’s statistics.mode()R’s modeMedianPythonREnvironmentRather than letting R and Python do all the work for us (i.</description>
     </item>
     
     <item>

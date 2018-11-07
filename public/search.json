@@ -2,6 +2,35 @@
   {
     "authors": null,
     "categories": [
+      "programming",
+      "tutorial"
+    ],
+    "content": "\r\rLength\rFrom Scratch: How you could do it\rBuilt-In: How you Should do it\r\rSets of Unique Values\rFrom Scratch: How you Could Do It Yourself\rBuilt-In: How you Should do it\r\rMinimum and Maximum Values\rFrom Scratch: How you Could Do It Yourself\rBuilt-In: How you Should do it\r\r\r\rLength\rFrom Scratch: How you could do it\r\r\r--\rR\r\r\r Python\r\r\r Rcpp\r\r\r Cpp\r\r\r\r\r\r\r\r\r\r\r\r\rBuilt-In: How you Should do it\r\r\r--\rR\r\r\r Python\r\r\r Rcpp\r\r\r Cpp\r\r\r NumPy\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rSets of Unique Values\rFrom Scratch: How you Could Do It Yourself\r\r\r--\rR\r\r\r Python\r\r\r Rcpp\r\r\r Cpp\r\r\r\r\r\r\r\r\r\r\r\r\rBuilt-In: How you Should do it\r\r\r--\rR\r\r\r Python\r\r\r Rcpp\r\r\r Cpp\r\r\r NumPy\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rMinimum and Maximum Values\rFrom Scratch: How you Could Do It Yourself\r\r\r--\rR\r\r\r Python\r\r\r Rcpp\r\r\r Cpp\r\r\r\r\r\r\r\r\r\r\r\r\rBuilt-In: How you Should do it\r\r\r--\rR\r\r\r Python\r\r\r Rcpp\r\r\r Cpp\r\r\r NumPy\r\r\r\r\r\r\r\r\r\r\r\r\r\nCitation and \\(\\normalsize{\\textrm B} \\scriptsize{\\textrm{IB}} \\normalsize{\\TeX}\\)\nWhen using this post, please consider citing it.\nKnapp, B. (2018, Nov. 3). Foundational Programming. Retrieved from https://knapply.com/post/foundational-programming/\r@misc{foundational-programming,\rauthor = {Knapp, Brendan},\rtitle = {Foundational Programming},\rurl = {https://knapply.com/post/foundational-programming/},\ryear = 2018,\rmonth = Nov,\rday = 3,\r}\r\r\r",
+    "date": 1541203200,
+    "expirydate": -62135596800,
+    "kind": "page",
+    "lang": "en",
+    "lastmod": 1541203200,
+    "objectID": "eed2d9a72e938b433c2e4b6592dd8266",
+    "permalink": "/post/foundational-programming/",
+    "publishdate": "2018-11-03T00:00:00Z",
+    "relpermalink": "/post/foundational-programming/",
+    "section": "post",
+    "summary": "Foundational programming examples, such as finding lengths, minimums, maximums, and unique sets.",
+    "tags": [
+      "programming",
+      "r",
+      "python",
+      "cpp",
+      "rcpp",
+      "numpy"
+    ],
+    "title": "Foundational Programming",
+    "type": "post"
+  },
+  {
+    "authors": null,
+    "categories": [
       "tutorial",
       "programming"
     ],
@@ -18,9 +47,9 @@
     "section": "post",
     "summary": "Defining functions in R, Python, and C++/Rcpp.",
     "tags": [
-      "R",
-      "Python",
-      "Cpp",
+      "r",
+      "python",
+      "cpp",
       "tutorial",
       "programming"
     ],
@@ -52,33 +81,6 @@
       "pandas"
     ],
     "title": "Data Frame Operations Thesaurus",
-    "type": "post"
-  },
-  {
-    "authors": null,
-    "categories": [
-      "R",
-      "statistics",
-      "tutorial"
-    ],
-    "content": "\r\rToy Values\rPython list\rR vector\r\rLength\rPython’s len()\rR’s length()\r\rUnique Values\rPython’s set()\rR’s unique()\r\rMax\rPython’s max()\rR’s max()\r\rMin\rPython’s min()\rR’s min()\r\rSum\rPython’s sum()\rR’s sum()\r\rMean\rPython’s statistics.mean()\rR’s mean()\r\rMode\rPython’s statistics.mode()\rR’s mode\r\rMedian\rPython\rR\r\rEnvironment\r\r\rRather than letting R and Python do all the work for us (i.e. cheating, as a no-nonsense former professor would call it), the best way to understand what any calculation actually means is to walk through the steps. I doubt I’m the only one who wishes they started to code this way.\nWith that in mind, here’s a collection of “from scratch” functions implemented in both R and Python that provide minimal hand-holding.\nThis should (hopefully) also serve as a handy reference for useRs and Pythonistas curious about the greenness of the grass on the other side. My goal here is to lay a foundation before writing similar walkthroughs covering more complicated workflows, statistical models, and machine learning.\n\nA quick note:\nIn R, experience has taught me to use [[ instead of [ whenever it’s possible to obtain the desired results with [[. With that in mind, I try to use [[ in the R examples (unless swapping between R and Python messed me up).\nClearly, useRs have an assortment of opinions on how to use [[ and [, but this is probably as simple an explanation as you can get:\n\nAll that said, let’s get to it.\nToy Values\rWe’ll use the same values for x throughout:\nPython list\rx = [25.88, 37.05, 38.46, 76.78, 76.78, 71.97, 33.99, 73.29, 2.53, 76.78, 74.94, 73.4, 64.87, 57.8, 42.82, 76.78, 7.95, 60.26, 2.14, 59.51]\r\rR vector\rx \u0026lt;- c(25.88, 37.05, 38.46, 76.78, 76.78, 71.97, 33.99, 73.29, 2.53, 76.78,\r74.94, 73.4, 64.87, 57.8, 42.82, 76.78, 7.95, 60.26, 2.14, 59.51)\rThe first thing we need to do is define some helper functions. In order to calculate mean, median, and mode, we will also need to find the:\n\rlength of the sequence: my_length()\runique values in a sequence: my_unique()\rmaximum value in a sequence: my_max()\r\rmy_min() is also included for reference\r\rsum of values in a sequence: my_sum()\r\r\r\rLength\rPython’s len()\rdef my_length(x): # `def`ine the function, which takes the parameter `x`\rlength = 0 # declare a `length` variable that initially equals `0`\rfor item in x: # `for` each `item` in `x`\rlength += 1 # add `1` to `length` (same as `length = length + 1`)\rreturn length # finally, `return` the calculated `length`\rprint(my_length(x))\r## 20\rprint(len(x) == my_length(x)) # does our custom function give the same result as Python\u0026#39;s built-in?\r## True\r\rR’s length()\rmy_length \u0026lt;- function(x) { # declare the `function`, which takes the parameter `x`\rlength \u0026lt;- 0L # declare a `length` variable that initially equals `0L`...\r# ... in R, numbers are treated as `double`s unless we...\r# ... specifiy them to be `integer`s. `0L` is the same as...\r# ... `as.integer(0)`.\r# `length` doesn\u0026#39;t NEED to be an `integer`, but if we\u0026#39;re ... # ... careful about types early, we\u0026#39;ll save headaches later.\rfor(item in x) { # `for` each `item` in `x`\rlength \u0026lt;- length + 1L # add `1L` to length\r}\rlength # finally, return the calculated `length`...\r# we can use `return(length)`, but `return` in R is best used ...\r# ... only when you\u0026#39;re breaking from a function early\r}\rmy_length(x)\r## [1] 20\r # does our custom function give the same result as R\u0026#39;s built-in?\rlength(x) == my_length(x)\r## [1] TRUE\r\r\rUnique Values\rPython’s set()\rdef my_unique(x): # `def`ine the function, which takes the parameter `x`\runique_x = [] # declare an empty `list` named `unique_x`\rfor item in x: # for each `item` in `x`\rif item not in unique_x: # if the `item` is not in `unique_x`\runique_x.append(item) # `append` the `item` to `unique_x`\rreturn unique_x # finally, `return` the list of `unique_x`\u0026#39;s values\rprint(my_unique(x))\r## [25.88, 37.05, 38.46, 76.78, 71.97, 33.99, 73.29, 2.53, 74.94, 73.4, 64.87, 57.8, 42.82, 7.95, 60.26, 2.14, 59.51]\rIn order to test Python’s my_unique(), we need to use a loop as Python set()s are not ordered.\nHere, we’ll use a “list-comprehension”.\nIn Python, we can do this…\nmatches = []\rfor item in my_unique(x):\rmatches.append(item in set(x))\rprint(all(matches))\r## True\r… but it’s considered more “Pythonic” to use a list-comprehension in this scenario…\nmatches = [item in set(x) for item in my_unique(x)]\rprint(all(matches))\r## True\r… which we can wrap up in a one-liner…\nprint(all([item in set(x) for item in my_unique(x)]))\r## True\rJokes aside, list-comprehensions are generally faster. Considering “pure” Python isn’t vectorized like R, they are quite handy.\n\rR’s unique()\rmy_unique \u0026lt;- function(x) { # declare the `function`, which takes the parameter `x`\runique_x \u0026lt;- vector(mode = mode(x)) # declare an empty `vector` with the same `mode` as `x`...\r# ... in R, it\u0026#39;s a good habit to enforce data types ...\r# ... to maximize performance. In a perfect world, we\r# ... would also want to set `unique_x`\u0026#39;s `length`.\rfor(item in x) {\rif(!item %in% unique_x) { # in R, `%in%` is a vectorized match that returns a `logical` vector\runique_x \u0026lt;- c(unique_x, item)\r}\r}\runique_x\r}\rmy_unique(x)\r## [1] 25.88 37.05 38.46 76.78 71.97 33.99 73.29 2.53 74.94 73.40 64.87\r## [12] 57.80 42.82 7.95 60.26 2.14 59.51\r # does our custom function give the same result as R\u0026#39;s built-in?\rall(unique(x) == my_unique(x))\r## [1] TRUE\r\r\rMax\rPython’s max()\rdef my_max(x):\rmax = x[0]\rfor item in x:\rif item \u0026gt; max:\rmax = item\rreturn max\rprint(my_max(x))\r# does our custom function give the same result as Pythons\u0026#39;s built-in?\r## 76.78\rprint(max(x) == my_max(x))\r## True\r\rR’s max()\rmy_max \u0026lt;- function(x) {\rmax \u0026lt;- x[[1]]\rfor(item in x) {\rif(item \u0026gt; max) {\rmax \u0026lt;- item\r}\r}\rmax\r}\rmy_max(x)\r## [1] 76.78\r # does our custom function give the same result as R\u0026#39;s built-in?\rmax(x) == my_max(x)\r## [1] TRUE\r\r\rMin\rPython’s min()\rdef my_min(x):\rmin = x[0] # Python indexing starts at `0`, so `min` starts as the first item in `x`\rfor item in x:\rif item \u0026lt; min:\rmin = item\rreturn min\rprint(my_min(x))\r# does our custom function give the same result as Python\u0026#39;s built-in?\r## 2.14\rprint(min(x) == my_min(x))\r## True\r\rR’s min()\rmy_min \u0026lt;- function(x) {\rmin \u0026lt;- x[[1]] # R indexing starts at `1`, so `min` starts as the first item in `x`\rfor(item in x) {\rif(item \u0026lt; min) {\rmin \u0026lt;- item\r}\r}\rmin\r}\rmy_min(x)\r## [1] 2.14\r # does our custom function give the same result as Python\u0026#39;s built-in?\rmin(x) == my_min(x)\r## [1] TRUE\r\r\rSum\rPython’s sum()\rdef my_sum(x): # `def`ine the function, which takes the parameter `x`\rsum = 0 # declare a `sum` variable that initially equals `0`\rfor item in x: # `for` each `item` in `x`\rsum += item # add the `item`\u0026#39;s value to `sum`\rreturn sum # finally, return the calculated `sum`\rprint(my_sum(x))\r# does our custom function give the same result as Python\u0026#39;s built-in?\r## 1033.98\rprint(sum(x) == my_sum(x))\r## True\r\rR’s sum()\rmy_sum \u0026lt;- function(x) { # declare the `function`, which takes the parameter `x`\rsum \u0026lt;- 0 # declare a `sum` variable that initially equals `0`...\rfor(item in x) { # `for` each `item` in x\rsum \u0026lt;- sum + item # add the `item` to `sum`\r}\rsum # finally, call `sum` to return its value\r}\rsum(x)\r## [1] 1033.98\r # does our custom function give the same result as R\u0026#39;s built-in?\rsum(x) == my_sum(x)\r## [1] TRUE\r\n\rNow that we’ve built our helper functions, let’s take on the measures of central tendency.\n\r\r\rMean\rPython’s statistics.mean()\rdef my_mean(x):\rreturn float(my_sum(x) / my_length(x))\rprint(my_mean(x))\r## 51.699\rimport statistics # in Python, `mean()` is kept in the `statistics` module, which ...\r# ... we `import` like this\r# does our custom function give the same result as \u0026#39;s built-in?\rprint(statistics.mean(x) == my_mean(x))\r## True\r\rR’s mean()\rmy_mean \u0026lt;- function(x) {\rmy_sum(x) / my_length(x)\r}\rmy_mean(x)\r## [1] 51.699\rmean(x) == my_mean(x)\r## [1] TRUE\r\r\rMode\rPython’s statistics.mode()\rdef my_mode(x):\runique_x = my_unique(x)\roccurrences = {} # create and empty `dict()` to which we will be adding items\rfor item in unique_x:\rcount = my_length([value for value in x if value == item]) # count up the occurrences of each `item`\roccurrences.update({item: count}) # add the count to the the `occurrences` `dict()`\rkeys = list(occurrences.keys()) # `dict()`s are unordered, so we make a list of `keys`...\rvalues = list(occurrences.values()) # ... and a list of `values`\rreturn keys[values.index(my_max(values))] # get the index of the max value and select that key\rprint(my_mode(x))\r## 76.78\rimport statistics\rprint(statistics.mode(x) == my_mode(x))\r## True\r\rR’s mode\rmy_mode \u0026lt;- function(x) {\runique_x \u0026lt;- my_unique(x)\roccurences \u0026lt;- vector(mode = mode(unique_x), length = length(unique_x))\rfor(item in unique_x) {\rcount \u0026lt;- c(item = my_length(x[x == item])) # because we\u0026#39;re dealing with vectors in R we can... # ... boolean mask with `[]` instead of using a loop\rnames(count) \u0026lt;- item # we turn `count` into a named `vector`...\r# but this coerces the `names` to `character`\roccurences \u0026lt;- c(occurences, count)\r}\ras.numeric(names(occurences[occurences == my_max(occurences)])) # convert the `names` back to `numeric`\r}\rmy_mode(x) # R doesn\u0026#39;t have a built-in function for a statistical mode as it\u0026#39;s not commonly used\r## [1] 76.78\r\r\rMedian\rFor median(), we need to be able to sort the list. We’re just going to use built-in functions, but you can see how a bubble sort is performed here.\nPython\rdef my_median(x):\rsorted_x = sorted(x)\rlength_x = my_length(x)\rmiddle_index = (length_x - 1) // 2 # `//` is Python\u0026#39;s operator for integer division\r# `%` is Python\u0026#39;s operator for remainder\rif length_x % 2: # if `x`\u0026#39;s length is an odd value\rmedian = sorted_x[middle_index]\relif not length_x % 2: # if `x`\u0026#39;s length is an even value\rmedian = my_mean([sorted_x[middle_index], sorted_x[middle_index + 1]])\rreturn median\rprint(my_median(x))\r## 59.885\rimport statistics\rprint(statistics.median(x) == my_median(x))\r## True\r\rR\rmy_median \u0026lt;- function(x) {\rsorted_x \u0026lt;- sort(x)\rlength_x \u0026lt;- my_length(x)\rmiddle_index \u0026lt;- length_x %/% 2 # `%/%` is R\u0026#39;s operator for integer division\rif(length_x %% 2) { # `%%` is R\u0026#39;s operator for remainder\rmedian = sorted_x[[middle_index]]\r}\relse if(!length_x %% 2) {\rmedian = my_mean(c(sorted_x[[middle_index]], sorted_x[[middle_index + 1]]))\r}\rmedian\r}\rmy_median(x)\r## [1] 59.885\rmedian(x) == my_median(x)\r## [1] TRUE\r\rالنهاية\n\r\r\rEnvironment\rprint(sys.version)\r## 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]\rsessionInfo()\r## R version 3.5.1 (2018-07-02)\r## Platform: x86_64-w64-mingw32/x64 (64-bit)\r## Running under: Windows 10 x64 (build 17134)\r## ## Matrix products: default\r## ## locale:\r## [1] LC_COLLATE=English_United States.1252 ## [2] LC_CTYPE=English_United States.1252 ## [3] LC_MONETARY=English_United States.1252\r## [4] LC_NUMERIC=C ## [5] LC_TIME=English_United States.1252 ## ## attached base packages:\r## [1] stats graphics grDevices utils datasets methods base ## ## loaded via a namespace (and not attached):\r## [1] Rcpp_0.12.19.3 bookdown_0.7.21 lattice_0.20-35 ## [4] digest_0.6.18 grid_3.5.1 jsonlite_1.5 ## [7] magrittr_1.5 evaluate_0.12 blogdown_0.9.1 ## [10] stringi_1.2.4 Matrix_1.2-14 reticulate_1.10.0.9002\r## [13] rmarkdown_1.10.14 htmldeps_0.1.1 tools_3.5.1 ## [16] stringr_1.3.1.9000 xfun_0.4 yaml_2.2.0 ## [19] compiler_3.5.1 htmltools_0.3.6 knitr_1.20.21\r\r",
-    "date": 1531872000,
-    "expirydate": -62135596800,
-    "kind": "page",
-    "lang": "en",
-    "lastmod": 1541204696,
-    "objectID": "f68f7174d74360bd5512a2b254c988f9",
-    "permalink": "/post/central-tendency/",
-    "publishdate": "2018-07-18T00:00:00Z",
-    "relpermalink": "/post/central-tendency/",
-    "section": "post",
-    "summary": "Measures of central tendency, from scratch.",
-    "tags": [
-      "R",
-      "statistics",
-      "tutorial"
-    ],
-    "title": "Measures of Central Tendency",
     "type": "post"
   },
   {
@@ -121,7 +123,7 @@
     "expirydate": -62135596800,
     "kind": "page",
     "lang": "en",
-    "lastmod": 1541196093,
+    "lastmod": 1541209018,
     "objectID": "e13fb265d04922b7d1d0d89ec5551aac",
     "permalink": "/talk/r-for-data-carpentry/",
     "publishdate": "2018-02-23T00:00:00-08:00",

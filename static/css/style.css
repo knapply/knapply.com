@@ -1,20 +1,29 @@
-.r::before {
-  content: "# > R\A";
-  font-weight: 200;
-  color: blue;
-  }
+/*
 
-.python::before {
-  content:"# >> Python\A";
-  font-weight: 200;
-  color:green;
-  }
-  
-.cpp::before {
-  content:"# C++/Rcpp\A";
-  font-weight: 200;
-  color:red;
-  }
+.r * {
+  overflow-x:scroll;
+  font-size: 12px;
+}
+
+
+.python * {
+  overflow-x:scroll;
+  font-size: 12px;
+
+}
+ 
+.cpp {
+  overflow-x:auto;
+  font-size: 12px;
+
+}
+
+.tbody * {
+  max-width: 100%;
+}
+
+*/
+
   
 .article-banner {
   width: auto;
@@ -28,10 +37,11 @@
 }
 
 .citation * {
-  color: rgba(150, 150, 150, 1);
-  font-weight: bold;
+  color: #5e5e5e;
   font-size: 11px;
+  font-weight: normal;
 }
+
 
 .navbar-brand {
   font-family: 'Roboto Mono', monospace;
@@ -42,4 +52,134 @@
 .navbar-light .navbar-brand {
   font-size: 1.5em;
 }
+
+
+
+.toc-table > table > tbody > tr > td {
+  font-family: 'New Rubrik', serif;
+  background-color: white;
+  padding: 5px;
+}
+
+.toc-table > table > thead {
+  padding: 0;
+  font-family: 'Acadami', monospace;
+}
+
+.toc-table > table > thead > tr > th {
+  border-bottom-color:black;
+}
+
+
+
+
+
+
+/* code tab boxes */
+
+/*
+.nav-pills * {
+  background-color: white !important;
+}
+*/
+
+.navbar * {
+  float: right !important;
+  /*display: flex !important;*/
+  /*right: 0 !important;*/
+}
+
+.code-container {
+  max-width: 100%;
+}
+
+.nav-pills > li > a {
+  background-color: white;
+  /*font-size: 5px;*/
+  opacity: 0.35;
+}
+
+.nav > li > a:focus, .nav > li > a:hover {
+  opacity: 0.7;
+}
+
+.nav-pills > li.active > a {
+  background-color: white !important;
+  opacity: 1;
+}
+
+.nav-pills {
+  /*display: inline-block;*/
+  font-size: 40px;
+  font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  padding: 10px 30px 0;
+  display: flex; 
+  justify-content: center;
+  float: none;
+  text-align: center;
+}
+
+
+/*.fa-r-project {
+  color: #276DC3;
+  font-size: 75px;
+  padding: 0 30px 0;
+}
+
+.fa-python {
+  color: #43B02A;
+  font-size: 75px;
+  padding: 0 30px 0;
+}
+
+.devicon-cplusplus-plain {
+  color: red;
+  font-size: 40px;
+  padding: 10px 30px 0;
+}*/
+
+.R-label {
+  color: #276DC3;
+  /*font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  font-size: 40px;
+  padding: 10px 30px 0;*/
+}
+
+.Python-label {
+  color: #43B02A;
+  /*font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  font-size: 40px;
+  padding: 10px 30px 0;*/
+}
+
+.Rcpp-label {
+  color: red;
+  /*font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  font-size: 40px;
+  padding: 10px 30px 0;*/
+}
+
+.Cpp-label {
+  color: #649AD2;
+  /*font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  font-size: 40px;
+  padding: 10px 30px 0;*/
+}
+
+.NumPy-label {
+  color: #FED561;
+  /*font-family: 'Source Code Pro', monospace;
+  font-weight: bold;
+  font-size: 40px;
+  padding: 10px 30px 0;*/
+}
+
+
+
+
 

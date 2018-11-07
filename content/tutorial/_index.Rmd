@@ -1,7 +1,7 @@
 ---
-title: 'Tutorials and Learning Resources'
+title: 'Tutorials'
 author: 'Brendan Knapp'
-date: 'Sys.Date()'
+date: '2018-11-03'
 categories:
   - tutorial
 output:
@@ -9,6 +9,7 @@ output:
     toc: true
     toc_depth: 4
 summary: Tutorials
+slug: tutorial
 editor_options:
   chunk_output_type: console
 citation_url: https://knapply.com/post/tutorial/
@@ -16,12 +17,16 @@ citation_url: https://knapply.com/post/tutorial/
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+
+source(here::here("static/R/html-helpers.R"))
+source(here::here("static/R/citation.R"))
 ```
 
 ```{r}
 library(dplyr)
 library(kableExtra)
 library(stringr)
+library(purrr)
 ```
 
 
@@ -31,31 +36,129 @@ check <- '<input type="checkbox" checked onclick="return false;">'
 uncheck <- '<input type="checkbox" unchecked onclick="return false;">'
 
 build_link <- function(topic, slug, e = parent.frame()) {
-  stringr::str_glue('<a href="/post/{slug}">{topic} </a>')
+  str_glue('<a href="/post/{slug}">{topic} </a>')
 }
 
+# build_header_link <- function(topic, slug, header, e = parent.frame()) {
+#   str_glue('<a href="/post/{slug}">{topic} </a>')
+# }
+
 render_preview <- function(slug) {
-  stringr::str_glue('<a href="/post/{slug}"> <img src="/post/{slug}/thumb.jpg"> </a>')
+  str_glue('<a href="/post/{slug}"> <img src="/post/{slug}/thumb.jpg"> </a>')
 }
 ```
 
 
 ## Programming
 
-```{r}
-tribble(
-  ~` `,            ~Topic,                                ~R,     ~Python,  ~`C++/Rcpp`, ~slug,
-   "First Steps" , build_link("Functions", "functions"),   check,  check,     check,      "functions"
-  
+<div class='toc-table'>
+
+```{r, class.output='toc-table'}
+tibble(
+  ` ` = c(
+    "Basics",
+    "Basics"
+    ),
+  Topic = c(
+    build_link("Defining Functions", "functions"), 
+    build_link("Foundational Programming", "stats-prereqs")
+  ),
+  `R?` = c(check, check),
+  `Python?` = c(check, check),
+  `C++/Rcpp?` = c(check, check),
+  `From Scratch?` = c(check, check),
+  slug = c("functions", "stats-prereqs"),
+  Contents = list(
+    c(build_link("Defining a Basic Function", "functions/#define-doubler_-function"),
+      build_link("Using a Basic Function", "functions/#run-doubler_-function")),
+    c(build_link("Collection Lengths", "stats-prereqs/#length"),
+      build_link("Sets of Unique Values", "stats-prereqs/#sets-of-unique-values"),
+      build_link("Minimum Values", "stats-prereqs/#minimum-and-maximum-values"),
+      build_link("Maximum Values", "stats-prereqs/#minimum-and-maximum-values"),
+      build_link("Summing Collection", "stats-prereqs/#sum")
+      )
+    ) %>% 
+    map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>% 
+    paste0("<ol>", ., "</ol>")
   ) %>% 
-  mutate(`  ` = render_preview(slug)) %>% 
-  select(-slug) %>% 
+  select(-slug) %>%
   kable(escape = FALSE, align = "c") %>% 
-  kable_styling(bootstrap_options = c("hover", "responsive"), font_size = 16) %>% 
-  column_spec(1, bold = TRUE, width = "2cm") %>% 
-  column_spec(2:5, width = "4cm") %>%
-  column_spec(6, width = "40cm") %>%
-  collapse_rows(columns = 1, valign = "top")
+  kable_styling(font_size = 16) %>% 
+  row_spec(row = 1, align = "center") %>% 
+  column_spec(1, bold = TRUE, width = "10%", italic = TRUE, background = "#dee0e2",
+              extra_css = "border-style:solid;font-size:20px;") %>% 
+  column_spec(2, width = "20%") %>%
+  # column_spec(3:5, width = "10%") %>%
+  column_spec(7, width = "30%", extra_css = "text-align:left;") %>%
+  collapse_rows(columns = 1, valign = "middle")
+```
+
+</div>
+
+<br><br>
+
+## Statistics
+
+<div class='toc-table'>
+
+```{r, class.output='toc-table'}
+tibble(
+  ` ` = c(
+    "Basics",
+    "Basics",
+    "Basics",
+    "Linear Models",
+    "Linear Models"
+    ),
+  Topic = c(
+    build_link("Central Tendency", "central-tendency"),
+    build_link("Dispersion", "dispersion"),
+    build_link("Correlation", "correlation"),
+    build_link("Simple Linear Regression", "simple-linear-regression"),
+    build_link("Multiple Linear Regression", "multiple-linear-regression")
+  ),
+  `R?` = c(check, uncheck, uncheck, uncheck, uncheck),
+  `Python?` = c(check, uncheck, uncheck, uncheck, uncheck),
+  `C++/Rcpp?` = c(check, uncheck, uncheck, uncheck, uncheck),
+  `From Scratch?` = c(check, uncheck, uncheck, uncheck, uncheck),
+  slug = c("central-tendency", "dispersion", "correlation",
+           "simple-linear-regression", "multiple-linear-regression"),
+  Contents = list(
+    c(build_link("Mean", "central-tendency/#mean"),
+      build_link("Median", "central-tendency/#median"),
+      build_link("Mode", "central-tendency/#mode")),
+    c(build_link("Standard Deviation", "dispersion/#standard-deviation"),
+      build_link("Variance", "dispersion/#variance")),
+    c(build_link("Pearson", "correlation/#pearsons"),
+      build_link("Spearman", "dispersion/#spearman")),
+    c(build_link("Equation", "simple-linear-regression/#equation")),
+    c(build_link("Equation", "multiple-linear-regression/#equation"))
+    ) %>% 
+    map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>% 
+    paste0("<ol>", ., "</ol>")
+  ) %>% 
+  select(-slug) %>%
+  kable(escape = FALSE, align = "c") %>% 
+  kable_styling(font_size = 16) %>% 
+  row_spec(row = 1, align = "center") %>% 
+  column_spec(1, bold = TRUE, width = "10%", italic = TRUE, background = "#dee0e2",
+              extra_css = "border-style:solid;font-size:20px;") %>% 
+  column_spec(2, width = "20%") %>%
+  # column_spec(3:6, width = "12%") %>%
+  column_spec(7, width = "30%", extra_css = "text-align:left;") %>%
+  collapse_rows(columns = 1, valign = "middle")
+```
+
+</div>
+
+
+```{r, echo=FALSE, comment=NA, results='markup'}
+print_citation_header()
+```
+
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+print_citation()
+print_bibtex()
 ```
 
 

@@ -172,7 +172,7 @@ enableGitInfo = true
   #   https://sourcethemes.com/academic/docs/writing-markdown-latex/#highlighting-options
   highlight = true
   highlight_languages = []
-#  highlight_style = "github"
+#  highlight_style = "vs"
 
   # Enable native social sharing buttons?
   sharing = true
@@ -185,7 +185,7 @@ enableGitInfo = true
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
   custom_css = ["style.css"]
-  custom_js  = []
+  custom_js  = ["copy-code.js"]
 
   # Publication types.
   #   Used to categorize publications.
@@ -203,6 +203,8 @@ enableGitInfo = true
     'Book',  # 5
     'Book section'  # 6
   ]
+  
+  disableInlineCopyToClipBoard = true
 
   # Configuration of talk pages.
   [params.talks]

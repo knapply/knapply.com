@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>numpy on knapply()</title>
+    <link>/tags/numpy/</link>
+    <description>Recent content in numpy on knapply()</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
+    <lastBuildDate>Sat, 03 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/numpy/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Foundational Programming</title>
+      <link>/post/foundational-programming/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/foundational-programming/</guid>
+      <description>LengthFrom Scratch: How you could do itBuilt-In: How you Should do itSets of Unique ValuesFrom Scratch: How you Could Do It YourselfBuilt-In: How you Should do itMinimum and Maximum ValuesFrom Scratch: How you Could Do It YourselfBuilt-In: How you Should do itLengthFrom Scratch: How you could do it--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPySets of Unique ValuesFrom Scratch: How you Could Do It Yourself--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPyMinimum and Maximum ValuesFrom Scratch: How you Could Do It Yourself--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPy</description>
+    </item>
+    
+  </channel>
+</rss>

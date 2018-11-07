@@ -1,0 +1,5 @@
+cd C:\Users\Windows\Documents\knapply.com\gists\programming-fundamentals
+
+cl /EHsc file-name.cpp
+
+file-name

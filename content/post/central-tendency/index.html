@@ -1,0 +1,181 @@
+---
+title: Central Tendency
+draft: true
+author: Brendan Knapp
+date: '2018-11-03'
+slug: central-tendency
+categories:
+  - data-science-from-scratch
+  - statistics
+  - tutorial
+tags:
+  - data-science-from-scratch
+  - statistics
+  - r
+  - python
+  - cpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Measures of central tendency in R, Python, and C++/Rcpp.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+citation_url: https://knapply.com/post/central-tendency/
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#mean">Mean</a><ul>
+<li><a href="#from-scratch">From Scratch</a></li>
+<li><a href="#how-you-should-do-it">How You Should Do It</a></li>
+</ul></li>
+<li><a href="#median">Median</a><ul>
+<li><a href="#from-scratch-1">From Scratch</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="mean" class="section level1">
+<h1>Mean</h1>
+<div id="from-scratch" class="section level2">
+<h2>From Scratch</h2>
+<p><table style="font-size:small" class="table table-bordered"><tr> <td valign="top"><font color="#0000FF"> > R </font></p>
+<pre class="r"><code>r_mean &lt;- function(x) {
+  sum(x) / length(x)
+}
+
+r_vector &lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+r_mean(r_vector)</code></pre>
+<pre><code># [1] 5.48</code></pre>
+<p></td> <td><font color="#008000"> >> Python </font></p>
+<pre class="python"><code>def py_mean(x):
+  return sum(x) / len(x)
+  
+py_list = [1.3, 3.8, 10.1, 2.5, 9.7]
+result = py_mean(py_list)
+
+print(result)</code></pre>
+<pre><code># 5.4799999999999995</code></pre>
+<p></td></tr></td> </tr> </table></p>
+<p><table style="font-size:small" class="table table-bordered"><tr> <td valign="top"><font color="#FF0000"> >>> C++ </font></p>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp11)]]
+#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_mean(NumericVector x) {
+  return sum(x) / x.size();
+}</code></pre>
+<font color="#0000FF"> > R </font>
+<pre class="r"><code>r_vector &lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_mean(r_vector)</code></pre>
+<pre><code># [1] 5.48</code></pre>
+</td> </tr> </table>
+</div>
+<div id="how-you-should-do-it" class="section level2">
+<h2>How You Should Do It</h2>
+<p><table style="font-size:small" class="table table-bordered"><tr> <td valign="top"><font color="#0000FF"> > R </font></p>
+<pre class="r"><code>r_vector &lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+mean(r_vector)</code></pre>
+<pre><code># [1] 5.48</code></pre>
+<p></td> <td><font color="#008000"> >> Python </font></p>
+<pre class="python"><code>import numpy as np
+  
+numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
+result = np.mean(numpy_array)
+
+print(result)</code></pre>
+<pre><code># 5.4799999999999995</code></pre>
+<p></td></tr></td> </tr> </table></p>
+<p><table style="font-size:small" class="table table-bordered"><tr> <td valign="top"><font color="#FF0000"> >>> C++ </font></p>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp11)]]
+#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_mean2(NumericVector x) {
+  return mean(x);
+}</code></pre>
+<font color="#0000FF"> > R </font>
+<pre class="r"><code>r_vector &lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_mean2(r_vector)</code></pre>
+<pre><code># [1] 5.48</code></pre>
+</td> </tr> </table>
+</div>
+</div>
+<div id="median" class="section level1">
+<h1>Median</h1>
+<div id="from-scratch-1" class="section level2">
+<h2>From Scratch</h2>
+<p><table style="font-size:small" class="table table-bordered"><tr> <td valign="top"><font color="#0000FF"> > R </font></p>
+<pre class="r"><code>r_median &lt;- function(x) {
+  sorted &lt;- sort(x)                  # 1.3  2.5  3.8  9.7 10.1
+  n &lt;- length(x)                     # 5
+  middle_index &lt;- n %/% 2            # 2
+  
+  if (n %% 2 != 0) {                 # FALSE, `n` is odd
+    out &lt;- sorted[[middle_index]]    # doesn&#39;t apply unless `n` is even
+  } else {
+    out &lt;- mean(
+      c(sorted[[middle_index]],      # 2.5
+        sorted[[middle_index + 1]])  # 3.8
+      )
+  }
+  out
+}
+
+x &lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+r_median(r_vector)</code></pre>
+<pre><code># [1] 2.5</code></pre>
+<p></td> <td><font color="#006400"> >> NumPy </font></p>
+<pre class="python"><code>import numpy as np
+
+def py_median(x):
+  sorted_x = np.sort(x)               # 1.3  2.5  3.8  9.7 10.1
+  n = np.size(x)                      # 5
+  middle_index = n // 2               # 2
+
+  if n % 2:                           # FALSE, `n` is odd
+    out = sorted_x[middle_index]      # doesn&#39;t apply unless `n` is even
+
+  else:                           # 3.8                     2.5
+    out = np.mean(np.array([sorted_x[middle_index], sorted_x[middle_index - 1]]))
+      
+  return out
+
+numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
+result = py_median(numpy_array)
+
+print(result)</code></pre>
+<pre><code># 3.8</code></pre>
+<p></td></tr></td> </tr> </table></p>
+<p><table style="font-size:small" class="table table-bordered"><tr> <td valign="top"><font color="#FF0000"> >>> C++ </font></p>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp11)]]
+#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_median(NumericVector x) {
+  return sum(x) / x.size();
+}</code></pre>
+<font color="#0000FF"> > R </font>
+<pre class="r"><code>r_vector &lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_median(r_vector)</code></pre>
+<pre><code># [1] 5.48</code></pre>
+</td> </tr> </table>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 3). Central Tendency. Retrieved from https://knapply.com/post/central-tendency/</code></pre>
+<pre class="citation"><code>@misc{central-tendency,
+  author = {Knapp, Brendan},
+  title  = {Central Tendency},
+  url    = {https://knapply.com/post/central-tendency/},
+  year   = 2018,
+  month  = Nov,
+  day    = 3,
+}</code></pre>
+</div>
+</div>

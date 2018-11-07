@@ -29,3 +29,16 @@ print_bibtex <- function() {
              .open = "<<", .close = ">>")
   cat(out)
 }
+
+print_citation_header <- function() {
+  htmltools::HTML(
+'<p><strong>Citation and <span class="math inline">\\(\\normalsize{\\textrm B} \\scriptsize{\\textrm{IB}} \\normalsize{\\TeX}\\)</span></strong></p>
+<p>When using this post, please consider citing it.</p>'
+  )
+}
+
+
+add_citation_info <- function() {
+  print_citation()
+  print_bibtex()
+}

@@ -1,0 +1,304 @@
+---
+title: Central Tendency
+draft: true
+author: Brendan Knapp
+date: '2018-11-03'
+slug: central-tendency
+categories:
+  - data-science-from-scratch
+  - statistics
+  - tutorial
+tags:
+  - data-science-from-scratch
+  - statistics
+  - r
+  - python
+  - cpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Measures of central tendency in R, Python, and C++/Rcpp.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+citation_url: https://knapply.com/post/central-tendency/
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, comment = "#")
+
+source(here::here("static/R/html-helpers.R"))
+source(here::here("static/R/citation.R"))
+```
+
+```{Rcpp, ref.label=knitr::all_rcpp_labels(), include=FALSE}
+```
+
+```{Rcpp, echo=FALSE, eval=FALSE}
+// [[Rcpp::plugins(cpp11)]]
+#include <Rcpp.h>
+#include <algorithm>
+```
+
+
+# Mean
+
+## From Scratch
+
+```{r, echo=FALSE}
+start_table()
+start_row()
+label_r()
+```
+      
+```{r}
+r_mean <- function(x) {
+  sum(x) / length(x)
+}
+
+r_vector <- c(1.3, 3.8, 10.1, 2.5, 9.7)
+r_mean(r_vector)
+```
+      
+
+```{r, echo=FALSE}
+new_col()
+label_py()
+```
+
+    
+```{python}
+def py_mean(x):
+  return sum(x) / len(x)
+  
+py_list = [1.3, 3.8, 10.1, 2.5, 9.7]
+result = py_mean(py_list)
+
+print(result)
+```
+
+```{r, echo=FALSE}
+end_col()
+end_row()
+end_table()
+```
+
+
+
+```{r, echo=FALSE}
+start_table()
+start_row()
+label_cpp()
+```
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::plugins(cpp11)]]
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_mean(NumericVector x) {
+  return sum(x) / x.size();
+}
+```
+
+```{r, echo=FALSE}
+label_r()
+```
+
+```{r}
+r_vector <- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_mean(r_vector)
+```
+
+```{r, echo=FALSE}
+end_table()
+```
+
+
+
+## How You Should Do It
+
+```{r, echo=FALSE}
+start_table()
+start_row()
+label_r()
+```
+      
+```{r}
+r_vector <- c(1.3, 3.8, 10.1, 2.5, 9.7)
+mean(r_vector)
+```
+      
+
+```{r, echo=FALSE}
+new_col()
+label_py()
+```
+
+    
+```{python}
+import numpy as np
+  
+numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
+result = np.mean(numpy_array)
+
+print(result)
+```
+
+```{r, echo=FALSE}
+end_col()
+end_row()
+end_table()
+```
+
+
+
+```{r, echo=FALSE}
+start_table()
+start_row()
+label_cpp()
+```
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::plugins(cpp11)]]
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_mean2(NumericVector x) {
+  return mean(x);
+}
+```
+
+
+```{r, echo=FALSE}
+label_r()
+```
+
+
+```{r}
+r_vector <- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_mean2(r_vector)
+```
+
+
+```{r, echo=FALSE}
+end_table()
+```
+
+
+# Median
+
+## From Scratch
+
+```{r, echo=FALSE}
+start_table()
+start_row()
+label_r()
+```
+      
+```{r}
+r_median <- function(x) {
+  sorted <- sort(x)                  # 1.3  2.5  3.8  9.7 10.1
+  n <- length(x)                     # 5
+  middle_index <- n %/% 2            # 2
+  
+  if (n %% 2 != 0) {                 # FALSE, `n` is odd
+    out <- sorted[[middle_index]]    # doesn't apply unless `n` is even
+  } else {
+    out <- mean(
+      c(sorted[[middle_index]],      # 2.5
+        sorted[[middle_index + 1]])  # 3.8
+      )
+  }
+  out
+}
+
+x <- c(1.3, 3.8, 10.1, 2.5, 9.7)
+r_median(r_vector)
+```
+      
+
+```{r, echo=FALSE}
+new_col()
+label_numpy()
+```
+
+    
+```{python}
+import numpy as np
+
+def py_median(x):
+  sorted_x = np.sort(x)               # 1.3  2.5  3.8  9.7 10.1
+  n = np.size(x)                      # 5
+  middle_index = n // 2               # 2
+
+  if n % 2:                           # FALSE, `n` is odd
+    out = sorted_x[middle_index]      # doesn't apply unless `n` is even
+
+  else:                           # 3.8                     2.5
+    out = np.mean(np.array([sorted_x[middle_index], sorted_x[middle_index - 1]]))
+      
+  return out
+
+numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
+result = py_median(numpy_array)
+
+print(result)
+```
+
+```{r, echo=FALSE}
+end_col()
+end_row()
+end_table()
+```
+
+
+
+```{r, echo=FALSE}
+start_table()
+start_row()
+label_cpp()
+```
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::plugins(cpp11)]]
+#include <Rcpp.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_median(NumericVector x) {
+  return sum(x) / x.size();
+}
+```
+
+```{r, echo=FALSE}
+label_r()
+```
+
+```{r}
+r_vector <- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_median(r_vector)
+```
+
+```{r, echo=FALSE}
+end_table()
+```
+
+
+
+
+
+```{r, echo=FALSE, comment=NA, results='markup'}
+print_citation_header()
+```
+
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+print_citation()
+print_bibtex()
+```
+
+
+

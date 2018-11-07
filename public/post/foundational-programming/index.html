@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Foundational programming examples, such as finding lengths, minimums, maximums, and unique sets.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/foundational-programming/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-115043043-7', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="knapply()">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="knapply()">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/foundational-programming/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="knapply()">
+  <meta property="og:url" content="/post/foundational-programming/">
+  <meta property="og:title" content="Foundational Programming | knapply()">
+  <meta property="og:description" content="Foundational programming examples, such as finding lengths, minimums, maximums, and unique sets.">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-11-03T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-11-03T00:00:00&#43;00:00">
+  
+
+  
+
+  
+
+  <title>Foundational Programming | knapply()</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">knapply()</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/tutorial/">
+            
+            <span>Tutorials</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/talk/">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/files/cv.pdf">
+            
+            <span>Résumé</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Foundational Programming</h1>
+
+  
+
+  
+    
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-11-03 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-11-03 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Nov 3, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    1 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/foundational-programming/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/programming/">programming</a>, 
+    
+    <a href="/categories/tutorial/">tutorial</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Foundational%20Programming&amp;url=%2fpost%2ffoundational-programming%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ffoundational-programming%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ffoundational-programming%2f&amp;title=Foundational%20Programming"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ffoundational-programming%2f&amp;title=Foundational%20Programming"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Foundational%20Programming&amp;body=%2fpost%2ffoundational-programming%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<div id="TOC">
+<ul>
+<li><a href="#length">Length</a><ul>
+<li><a href="#from-scratch-how-you-could-do-it">From Scratch: How you <em>could</em> do it</a></li>
+<li><a href="#built-in-how-you-should-do-it">Built-In: How you <strong><em>Should</em></strong> do it</a></li>
+</ul></li>
+<li><a href="#sets-of-unique-values">Sets of Unique Values</a><ul>
+<li><a href="#from-scratch-how-you-could-do-it-yourself">From Scratch: How you <em>Could</em> Do It Yourself</a></li>
+<li><a href="#built-in-how-you-should-do-it-1">Built-In: How you <strong><em>Should</em></strong> do it</a></li>
+</ul></li>
+<li><a href="#minimum-and-maximum-values">Minimum and Maximum Values</a><ul>
+<li><a href="#from-scratch-how-you-could-do-it-yourself-1">From Scratch: How you <em>Could</em> Do It Yourself</a></li>
+<li><a href="#built-in-how-you-should-do-it-2">Built-In: How you <strong><em>Should</em></strong> do it</a></li>
+</ul></li>
+</ul>
+</div>
+
+<div id="length" class="section level1">
+<h1>Length</h1>
+<div id="from-scratch-how-you-could-do-it" class="section level2">
+<h2>From Scratch: How you <em>could</em> do it</h2>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+-->
+  
+<div class="code-container">
+  <ul class="nav nav-pills">
+
+    <li class="active">
+   <a data-toggle="pill" href="#R-length-from-scratch">
+     <font color="blue" class="R-label">
+       R
+     </font>
+   </a>
+ </li><li> 
+  <a data-toggle="pill" href="#Python-length-from-scratch">
+    <font color="blue" class="Python-label">
+    Python
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Rcpp-length-from-scratch">
+    <font color="blue" class="Rcpp-label">
+    Rcpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Cpp-length-from-scratch">
+    <font color="blue" class="Cpp-label">
+    Cpp
+    </font>
+  </a>
+</li>
+
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="R-length-from-scratch" class="tab-pane fade in active">
+  <script src="https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd.js"></script>
+</div><div id="Python-length-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6.js"></script>
+</div><div id="Rcpp-length-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8.js"></script>
+</div><div id="Cpp-length-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649.js"></script>
+</div>
+
+  </div>
+</div>
+</div>
+<div id="built-in-how-you-should-do-it" class="section level2">
+<h2>Built-In: How you <strong><em>Should</em></strong> do it</h2>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+-->
+  
+<div class="code-container">
+  <ul class="nav nav-pills">
+
+    <li class="active">
+   <a data-toggle="pill" href="#R-length-built-in">
+     <font color="blue" class="R-label">
+       R
+     </font>
+   </a>
+ </li><li> 
+  <a data-toggle="pill" href="#Python-length-built-in">
+    <font color="blue" class="Python-label">
+    Python
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Rcpp-length-built-in">
+    <font color="blue" class="Rcpp-label">
+    Rcpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Cpp-length-built-in">
+    <font color="blue" class="Cpp-label">
+    Cpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#NumPy-length-built-in">
+    <font color="blue" class="NumPy-label">
+    NumPy
+    </font>
+  </a>
+</li>
+
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="R-length-built-in" class="tab-pane fade in active">
+  <script src="https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542.js"></script>
+</div><div id="Python-length-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533.js"></script>
+</div><div id="Rcpp-length-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b.js"></script>
+</div><div id="Cpp-length-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8.js"></script>
+</div><div id="NumPy-length-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598.js"></script>
+</div>
+
+  </div>
+</div>
+</div>
+</div>
+<div id="sets-of-unique-values" class="section level1">
+<h1>Sets of Unique Values</h1>
+<div id="from-scratch-how-you-could-do-it-yourself" class="section level2">
+<h2>From Scratch: How you <em>Could</em> Do It Yourself</h2>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+-->
+  
+<div class="code-container">
+  <ul class="nav nav-pills">
+
+    <li class="active">
+   <a data-toggle="pill" href="#R-unique-from-scratch">
+     <font color="blue" class="R-label">
+       R
+     </font>
+   </a>
+ </li><li> 
+  <a data-toggle="pill" href="#Python-unique-from-scratch">
+    <font color="blue" class="Python-label">
+    Python
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Rcpp-unique-from-scratch">
+    <font color="blue" class="Rcpp-label">
+    Rcpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Cpp-unique-from-scratch">
+    <font color="blue" class="Cpp-label">
+    Cpp
+    </font>
+  </a>
+</li>
+
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="R-unique-from-scratch" class="tab-pane fade in active">
+  <script src="https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6.js"></script>
+</div><div id="Python-unique-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144.js"></script>
+</div><div id="Rcpp-unique-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8.js"></script>
+</div><div id="Cpp-unique-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353.js"></script>
+</div>
+
+  </div>
+</div>
+</div>
+<div id="built-in-how-you-should-do-it-1" class="section level2">
+<h2>Built-In: How you <strong><em>Should</em></strong> do it</h2>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+-->
+  
+<div class="code-container">
+  <ul class="nav nav-pills">
+
+    <li class="active">
+   <a data-toggle="pill" href="#R-unique-built-in">
+     <font color="blue" class="R-label">
+       R
+     </font>
+   </a>
+ </li><li> 
+  <a data-toggle="pill" href="#Python-unique-built-in">
+    <font color="blue" class="Python-label">
+    Python
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Rcpp-unique-built-in">
+    <font color="blue" class="Rcpp-label">
+    Rcpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Cpp-unique-built-in">
+    <font color="blue" class="Cpp-label">
+    Cpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#NumPy-unique-built-in">
+    <font color="blue" class="NumPy-label">
+    NumPy
+    </font>
+  </a>
+</li>
+
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="R-unique-built-in" class="tab-pane fade in active">
+  <script src="https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842.js"></script>
+</div><div id="Python-unique-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3.js"></script>
+</div><div id="Rcpp-unique-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae.js"></script>
+</div><div id="Cpp-unique-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14.js"></script>
+</div><div id="NumPy-unique-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf.js"></script>
+</div>
+
+  </div>
+</div>
+</div>
+</div>
+<div id="minimum-and-maximum-values" class="section level1">
+<h1>Minimum and Maximum Values</h1>
+<div id="from-scratch-how-you-could-do-it-yourself-1" class="section level2">
+<h2>From Scratch: How you <em>Could</em> Do It Yourself</h2>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+-->
+  
+<div class="code-container">
+  <ul class="nav nav-pills">
+
+    <li class="active">
+   <a data-toggle="pill" href="#R-min_max-from-scratch">
+     <font color="blue" class="R-label">
+       R
+     </font>
+   </a>
+ </li><li> 
+  <a data-toggle="pill" href="#Python-min_max-from-scratch">
+    <font color="blue" class="Python-label">
+    Python
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Rcpp-min_max-from-scratch">
+    <font color="blue" class="Rcpp-label">
+    Rcpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Cpp-min_max-from-scratch">
+    <font color="blue" class="Cpp-label">
+    Cpp
+    </font>
+  </a>
+</li>
+
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="R-min_max-from-scratch" class="tab-pane fade in active">
+  <script src="https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c.js"></script>
+</div><div id="Python-min_max-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd.js"></script>
+</div><div id="Rcpp-min_max-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516.js"></script>
+</div><div id="Cpp-min_max-from-scratch" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92.js"></script>
+</div>
+
+  </div>
+</div>
+</div>
+<div id="built-in-how-you-should-do-it-2" class="section level2">
+<h2>Built-In: How you <strong><em>Should</em></strong> do it</h2>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!--
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+-->
+  
+<div class="code-container">
+  <ul class="nav nav-pills">
+
+    <li class="active">
+   <a data-toggle="pill" href="#R-min_max-built-in">
+     <font color="blue" class="R-label">
+       R
+     </font>
+   </a>
+ </li><li> 
+  <a data-toggle="pill" href="#Python-min_max-built-in">
+    <font color="blue" class="Python-label">
+    Python
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Rcpp-min_max-built-in">
+    <font color="blue" class="Rcpp-label">
+    Rcpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#Cpp-min_max-built-in">
+    <font color="blue" class="Cpp-label">
+    Cpp
+    </font>
+  </a>
+</li><li> 
+  <a data-toggle="pill" href="#NumPy-min_max-built-in">
+    <font color="blue" class="NumPy-label">
+    NumPy
+    </font>
+  </a>
+</li>
+
+  </ul>
+
+  <div class="tab-content">
+
+    <div id="R-min_max-built-in" class="tab-pane fade in active">
+  <script src="https://gist.github.com/knapply/453d01831caa793494586a7f26562d57.js"></script>
+</div><div id="Python-min_max-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b.js"></script>
+</div><div id="Rcpp-min_max-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1.js"></script>
+</div><div id="Cpp-min_max-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f.js"></script>
+</div><div id="NumPy-min_max-built-in" class="tab-pane fade">
+  <script src="https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392.js"></script>
+</div>
+
+  </div>
+</div>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 3). Foundational Programming. Retrieved from https://knapply.com/post/foundational-programming/</code></pre>
+<pre class="citation"><code>@misc{foundational-programming,
+  author = {Knapp, Brendan},
+  title  = {Foundational Programming},
+  url    = {https://knapply.com/post/foundational-programming/},
+  year   = 2018,
+  month  = Nov,
+  day    = 3,
+}</code></pre>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/programming/">programming</a>
+  
+  <a class="badge badge-light" href="/tags/r/">r</a>
+  
+  <a class="badge badge-light" href="/tags/python/">python</a>
+  
+  <a class="badge badge-light" href="/tags/cpp/">cpp</a>
+  
+  <a class="badge badge-light" href="/tags/rcpp/">rcpp</a>
+  
+  <a class="badge badge-light" href="/tags/numpy/">numpy</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/logo.png" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/functions/">Functions</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    &copy; 2018 Brendan Knapp &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.500a6cbb2c0f345fcecc21b3116d6637aa78f1f11db8081ea581abe05390c2e8f3bbffe61be3cf0217baf785c40efceabe51050a4f007e69af94efd3643260e8.js" integrity="sha512-UApsuywPNF/OzCGzEW1mN6p48fEduAgepYGr4FOQwujzu//mG&#43;PPAhe694XEDvzqvlEFCk8AfmmvlO/TZDJg6A=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+    <script src="/js/copy-code.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+

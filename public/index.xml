@@ -11,6 +11,445 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Foundational Programming</title>
+      <link>/post/foundational-programming/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/foundational-programming/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#length&#34;&gt;Length&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#from-scratch-how-you-could-do-it&#34;&gt;From Scratch: How you &lt;em&gt;could&lt;/em&gt; do it&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#built-in-how-you-should-do-it&#34;&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sets-of-unique-values&#34;&gt;Sets of Unique Values&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#from-scratch-how-you-could-do-it-yourself&#34;&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#built-in-how-you-should-do-it-1&#34;&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#minimum-and-maximum-values&#34;&gt;Minimum and Maximum Values&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#from-scratch-how-you-could-do-it-yourself-1&#34;&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#built-in-how-you-should-do-it-2&#34;&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;length&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Length&lt;/h1&gt;
+&lt;div id=&#34;from-scratch-how-you-could-do-it&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;From Scratch: How you &lt;em&gt;could&lt;/em&gt; do it&lt;/h2&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+
+
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;!--
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
+--&gt;
+  
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+
+    &lt;li class=&#34;active&#34;&gt;
+   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-length-from-scratch&#34;&gt;
+     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
+       R
+     &lt;/font&gt;
+   &lt;/a&gt;
+ &lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-length-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
+    Python
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-length-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
+    Rcpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-length-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
+    Cpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;div class=&#34;tab-content&#34;&gt;
+
+    &lt;div id=&#34;R-length-from-scratch&#34; class=&#34;tab-pane fade in active&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Python-length-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Rcpp-length-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Cpp-length-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;built-in-how-you-should-do-it&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/h2&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+
+
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;!--
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
+--&gt;
+  
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+
+    &lt;li class=&#34;active&#34;&gt;
+   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-length-built-in&#34;&gt;
+     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
+       R
+     &lt;/font&gt;
+   &lt;/a&gt;
+ &lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-length-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
+    Python
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-length-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
+    Rcpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-length-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
+    Cpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#NumPy-length-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;NumPy-label&#34;&gt;
+    NumPy
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;div class=&#34;tab-content&#34;&gt;
+
+    &lt;div id=&#34;R-length-built-in&#34; class=&#34;tab-pane fade in active&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Python-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Rcpp-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Cpp-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;NumPy-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sets-of-unique-values&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Sets of Unique Values&lt;/h1&gt;
+&lt;div id=&#34;from-scratch-how-you-could-do-it-yourself&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/h2&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+
+
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;!--
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
+--&gt;
+  
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+
+    &lt;li class=&#34;active&#34;&gt;
+   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-unique-from-scratch&#34;&gt;
+     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
+       R
+     &lt;/font&gt;
+   &lt;/a&gt;
+ &lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-unique-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
+    Python
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-unique-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
+    Rcpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-unique-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
+    Cpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;div class=&#34;tab-content&#34;&gt;
+
+    &lt;div id=&#34;R-unique-from-scratch&#34; class=&#34;tab-pane fade in active&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Python-unique-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Rcpp-unique-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Cpp-unique-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;built-in-how-you-should-do-it-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/h2&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+
+
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;!--
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
+--&gt;
+  
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+
+    &lt;li class=&#34;active&#34;&gt;
+   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-unique-built-in&#34;&gt;
+     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
+       R
+     &lt;/font&gt;
+   &lt;/a&gt;
+ &lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-unique-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
+    Python
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-unique-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
+    Rcpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-unique-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
+    Cpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#NumPy-unique-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;NumPy-label&#34;&gt;
+    NumPy
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;div class=&#34;tab-content&#34;&gt;
+
+    &lt;div id=&#34;R-unique-built-in&#34; class=&#34;tab-pane fade in active&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Python-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Rcpp-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Cpp-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;NumPy-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;minimum-and-maximum-values&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Minimum and Maximum Values&lt;/h1&gt;
+&lt;div id=&#34;from-scratch-how-you-could-do-it-yourself-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/h2&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+
+
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;!--
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
+--&gt;
+  
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+
+    &lt;li class=&#34;active&#34;&gt;
+   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-min_max-from-scratch&#34;&gt;
+     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
+       R
+     &lt;/font&gt;
+   &lt;/a&gt;
+ &lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-min_max-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
+    Python
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-min_max-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
+    Rcpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-min_max-from-scratch&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
+    Cpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;div class=&#34;tab-content&#34;&gt;
+
+    &lt;div id=&#34;R-min_max-from-scratch&#34; class=&#34;tab-pane fade in active&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Python-min_max-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Rcpp-min_max-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Cpp-min_max-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;built-in-how-you-should-do-it-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/h2&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+
+
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+
+&lt;!--
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
+--&gt;
+  
+&lt;div class=&#34;code-container&#34;&gt;
+  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+
+    &lt;li class=&#34;active&#34;&gt;
+   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-min_max-built-in&#34;&gt;
+     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
+       R
+     &lt;/font&gt;
+   &lt;/a&gt;
+ &lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-min_max-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
+    Python
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-min_max-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
+    Rcpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-min_max-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
+    Cpp
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt; 
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#NumPy-min_max-built-in&#34;&gt;
+    &lt;font color=&#34;blue&#34; class=&#34;NumPy-label&#34;&gt;
+    NumPy
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;
+
+  &lt;/ul&gt;
+
+  &lt;div class=&#34;tab-content&#34;&gt;
+
+    &lt;div id=&#34;R-min_max-built-in&#34; class=&#34;tab-pane fade in active&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/453d01831caa793494586a7f26562d57.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Python-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Rcpp-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;Cpp-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;&lt;div id=&#34;NumPy-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
+  &lt;script src=&#34;https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392.js&#34;&gt;&lt;/script&gt;
+&lt;/div&gt;
+
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When using this post, please consider citing it.&lt;/p&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Nov. 3). Foundational Programming. Retrieved from https://knapply.com/post/foundational-programming/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{foundational-programming,
+  author = {Knapp, Brendan},
+  title  = {Foundational Programming},
+  url    = {https://knapply.com/post/foundational-programming/},
+  year   = 2018,
+  month  = Nov,
+  day    = 3,
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Functions</title>
       <link>/post/functions/</link>
       <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
@@ -636,451 +1075,6 @@ print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
 ## [43] xml2_1.2.0            lubridate_1.7.4       assertthat_0.2.0     
 ## [46] rmarkdown_1.10.14     httr_1.3.1            rstudioapi_0.8.0.9000
 ## [49] htmldeps_0.1.1        R6_2.3.0              compiler_3.5.1&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Measures of Central Tendency</title>
-      <link>/post/central-tendency/</link>
-      <pubDate>Wed, 18 Jul 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/central-tendency/</guid>
-      <description>
-
-&lt;div id=&#34;TOC&#34;&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#toy-values&#34;&gt;Toy Values&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#python-list&#34;&gt;Python &lt;code&gt;list&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#r-vector&#34;&gt;R &lt;code&gt;vector&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#length&#34;&gt;Length&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-len&#34;&gt;Python’s &lt;code&gt;len()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-length&#34;&gt;R’s &lt;code&gt;length()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#unique-values&#34;&gt;Unique Values&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-set&#34;&gt;Python’s &lt;code&gt;set()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-unique&#34;&gt;R’s &lt;code&gt;unique()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#max&#34;&gt;Max&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-max&#34;&gt;Python’s &lt;code&gt;max()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-max&#34;&gt;R’s &lt;code&gt;max()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#min&#34;&gt;Min&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-min&#34;&gt;Python’s &lt;code&gt;min()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-min&#34;&gt;R’s &lt;code&gt;min()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#sum&#34;&gt;Sum&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-sum&#34;&gt;Python’s &lt;code&gt;sum()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-sum&#34;&gt;R’s &lt;code&gt;sum()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#mean&#34;&gt;Mean&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-statistics.mean&#34;&gt;Python’s &lt;code&gt;statistics.mean()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-mean&#34;&gt;R’s &lt;code&gt;mean()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#mode&#34;&gt;Mode&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pythons-statistics.mode&#34;&gt;Python’s &lt;code&gt;statistics.mode()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#rs-mode&#34;&gt;R’s mode&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#median&#34;&gt;Median&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;/css/style.css&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Rather than letting R and Python do all the work for us (i.e. cheating, as a no-nonsense former professor would call it), the best way to understand what any calculation actually means is to walk through the steps. I doubt I’m the only one who wishes they started to code this way.&lt;/p&gt;
-&lt;p&gt;With that in mind, here’s a collection of “from scratch” functions implemented in both R and Python that provide &lt;em&gt;minimal&lt;/em&gt; hand-holding.&lt;/p&gt;
-&lt;p&gt;This should (hopefully) also serve as a handy reference for useRs and Pythonistas curious about the greenness of the grass on the other side. My goal here is to lay a foundation before writing similar walkthroughs covering more complicated workflows, statistical models, and machine learning.&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;&lt;em&gt;A quick note:&lt;/em&gt;&lt;/p&gt;
-&lt;p&gt;In R, experience has taught me to use &lt;code&gt;[[&lt;/code&gt; instead of &lt;code&gt;[&lt;/code&gt; &lt;em&gt;whenever it’s possible to obtain the desired results with &lt;code&gt;[[&lt;/code&gt;&lt;/em&gt;. With that in mind, I try to use &lt;code&gt;[[&lt;/code&gt; in the R examples (unless swapping between R and Python messed me up).&lt;/p&gt;
-&lt;p&gt;Clearly, &lt;a href=&#34;https://stackoverflow.com/questions/1169456/the-difference-between-and-notations-for-accessing-the-elements-of-a-lis&#34;&gt;useRs have an assortment of opinions&lt;/a&gt; on how to use &lt;code&gt;[[&lt;/code&gt; and &lt;code&gt;[&lt;/code&gt;, but this is probably as simple an explanation as you can get:&lt;/p&gt;
-&lt;p&gt;&lt;img src=&#34;https://i.stack.imgur.com/6Vwry.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;br&gt;&lt;/p&gt;
-&lt;p&gt;All that said, let’s get to it.&lt;/p&gt;
-&lt;div id=&#34;toy-values&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Toy Values&lt;/h1&gt;
-&lt;p&gt;We’ll use the same values for &lt;code&gt;x&lt;/code&gt; throughout:&lt;/p&gt;
-&lt;div id=&#34;python-list&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python &lt;code&gt;list&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;x = [25.88, 37.05, 38.46, 76.78, 76.78, 71.97, 33.99, 73.29, 2.53, 76.78, 
-     74.94, 73.4, 64.87, 57.8, 42.82, 76.78, 7.95, 60.26, 2.14, 59.51]&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;r-vector&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R &lt;code&gt;vector&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;x &amp;lt;- c(25.88, 37.05, 38.46, 76.78, 76.78, 71.97, 33.99, 73.29, 2.53, 76.78,
-       74.94, 73.4, 64.87, 57.8, 42.82, 76.78, 7.95, 60.26, 2.14, 59.51)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The first thing we need to do is define some helper functions. In order to calculate mean, median, and mode, we will also need to find the:&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;length of the sequence: &lt;code&gt;my_length()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;unique values in a sequence: &lt;code&gt;my_unique()&lt;/code&gt;&lt;/li&gt;
-&lt;li&gt;maximum value in a sequence: &lt;code&gt;my_max()&lt;/code&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;my_min()&lt;/code&gt; is also included for reference&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;sum of values in a sequence: &lt;code&gt;my_sum()&lt;/code&gt;&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;length&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Length&lt;/h1&gt;
-&lt;div id=&#34;pythons-len&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;len()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_length(x):          # `def`ine the function, which takes the parameter `x`
-  length = 0               # declare a `length` variable that initially equals `0`
-  
-  for item in x:           # `for` each `item` in `x`
-    length += 1            # add `1` to `length` (same as `length = length + 1`)
-  
-  return length            # finally, `return` the calculated `length`&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_length(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 20&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(len(x) == my_length(x)) # does our custom function give the same result as Python&amp;#39;s built-in?&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-length&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s &lt;code&gt;length()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_length &amp;lt;- function(x) {  # declare the `function`, which takes the parameter `x`
-  length &amp;lt;- 0L              # declare a `length` variable that initially equals `0L`...
-                            # ... in R, numbers are treated as `double`s unless we...
-                            # ... specifiy them to be `integer`s. `0L` is the same as...
-                            # ... `as.integer(0)`.
-                            # `length` doesn&amp;#39;t NEED to be an `integer`, but if we&amp;#39;re ... 
-                            # ... careful about types early, we&amp;#39;ll save headaches later.
-
-  for(item in x) {          # `for` each `item` in `x`
-    length &amp;lt;- length + 1L   # add `1L` to length
-  }
-  
-  length                    # finally, return the calculated `length`...
-                            # we can use `return(length)`, but `return` in R is best used ...
-                            # ... only when you&amp;#39;re breaking from a function early
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_length(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 20&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;                       # does our custom function give the same result as R&amp;#39;s built-in?
-length(x) == my_length(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;unique-values&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Unique Values&lt;/h1&gt;
-&lt;div id=&#34;pythons-set&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;set()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_unique(x):               # `def`ine the function, which takes the parameter `x`
-  unique_x = []                 # declare an empty `list` named `unique_x`
-  
-  for item in x:                # for each `item` in `x`
-    if item not in unique_x:    # if the `item` is not in `unique_x`
-      unique_x.append(item)     # `append` the `item` to `unique_x`
-      
-  return unique_x               # finally, `return` the list of `unique_x`&amp;#39;s values&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_unique(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [25.88, 37.05, 38.46, 76.78, 71.97, 33.99, 73.29, 2.53, 74.94, 73.4, 64.87, 57.8, 42.82, 7.95, 60.26, 2.14, 59.51]&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;In order to test Python’s &lt;code&gt;my_unique()&lt;/code&gt;, we need to use a loop as Python &lt;code&gt;set()&lt;/code&gt;s are not ordered.&lt;/p&gt;
-&lt;p&gt;Here, we’ll use a “list-comprehension”.&lt;/p&gt;
-&lt;p&gt;In Python, we &lt;em&gt;can&lt;/em&gt; do this…&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;matches = []
-for item in my_unique(x):
-  matches.append(item in set(x))
-  
-print(all(matches))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;… but it’s considered more “Pythonic” to use a list-comprehension in this scenario…&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;matches = [item in set(x) for item in my_unique(x)]
-print(all(matches))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;… which we can wrap up in a one-liner…&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(all([item in set(x) for item in my_unique(x)]))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1531937508/2e99mn_s5lxip.jpg&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;Jokes aside, list-comprehensions are generally faster. Considering “pure” Python isn’t vectorized like R, they are quite handy.&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-unique&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s &lt;code&gt;unique()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_unique &amp;lt;- function(x) {           # declare the `function`, which takes the parameter `x`
-  unique_x &amp;lt;- vector(mode = mode(x)) # declare an empty `vector` with the same `mode` as `x`...
-                                     # ... in R, it&amp;#39;s a good habit to enforce data types ...
-                                     # ... to maximize performance. In a perfect world, we
-                                     # ... would also want to set `unique_x`&amp;#39;s `length`.
-  for(item in x) {
-    if(!item %in% unique_x) {       # in R, `%in%` is a vectorized match that returns a `logical` vector
-      unique_x &amp;lt;- c(unique_x, item)
-    }
-  }
-  
-  unique_x
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_unique(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;##  [1] 25.88 37.05 38.46 76.78 71.97 33.99 73.29  2.53 74.94 73.40 64.87
-## [12] 57.80 42.82  7.95 60.26  2.14 59.51&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;                         # does our custom function give the same result as R&amp;#39;s built-in?
-all(unique(x) == my_unique(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;max&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Max&lt;/h1&gt;
-&lt;div id=&#34;pythons-max&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;max()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_max(x):
-  max = x[0]
-
-  for item in x:
-    if item &amp;gt; max:
-      max = item
-  
-  return max&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_max(x))
-                 # does our custom function give the same result as Pythons&amp;#39;s built-in?&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 76.78&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(max(x) == my_max(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-max&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s &lt;code&gt;max()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_max &amp;lt;- function(x) {
-  max &amp;lt;- x[[1]]
-  
-  for(item in x) {
-    if(item &amp;gt; max) {
-      max &amp;lt;- item
-    }
-  }
-  max
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_max(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 76.78&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;                 # does our custom function give the same result as R&amp;#39;s built-in?
-max(x) == my_max(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;min&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Min&lt;/h1&gt;
-&lt;div id=&#34;pythons-min&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;min()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_min(x):
-  min = x[0]        # Python indexing starts at `0`, so `min` starts as the first item in `x`
-  
-  for item in x:
-    if item &amp;lt; min:
-      min = item
-  
-  return min&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_min(x))
-                 # does our custom function give the same result as Python&amp;#39;s built-in?&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 2.14&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(min(x) == my_min(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-min&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s &lt;code&gt;min()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_min &amp;lt;- function(x) {
-  min &amp;lt;- x[[1]]     # R indexing starts at `1`, so `min` starts as the first item in `x`
-  
-  for(item in x) {
-    if(item &amp;lt; min) {
-      min &amp;lt;- item
-    }
-  }
-  min
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_min(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 2.14&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;                 # does our custom function give the same result as Python&amp;#39;s built-in?
-min(x) == my_min(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;sum&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Sum&lt;/h1&gt;
-&lt;div id=&#34;pythons-sum&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;sum()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_sum(x):     # `def`ine the function, which takes the parameter `x`
-  sum = 0          # declare a `sum` variable that initially equals `0`
-  for item in x:   # `for` each `item` in `x`
-    sum += item    # add the `item`&amp;#39;s value to `sum`
-  
-  return sum       # finally, return the calculated `sum`&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_sum(x))
-                 # does our custom function give the same result as Python&amp;#39;s built-in?&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 1033.98&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(sum(x) == my_sum(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-sum&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s &lt;code&gt;sum()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_sum &amp;lt;- function(x) { # declare the `function`, which takes the parameter `x`
-  sum &amp;lt;- 0              # declare a `sum` variable that initially equals `0`...
-  
-  for(item in x) {      # `for` each `item` in x
-    sum &amp;lt;- sum + item   # add the `item` to `sum`
-  }
-  
-  sum                   # finally, call `sum` to return its value
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 1033.98&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;                 # does our custom function give the same result as R&amp;#39;s built-in?
-sum(x) == my_sum(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;br&gt;
-&lt;br&gt;
-&lt;br&gt;&lt;/p&gt;
-&lt;blockquote&gt;
-&lt;p&gt;Now that we’ve built our helper functions, let’s take on the measures of central tendency.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1531921800/cent-tend.png&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;mean&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Mean&lt;/h1&gt;
-&lt;div id=&#34;pythons-statistics.mean&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;statistics.mean()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_mean(x):
-  return float(my_sum(x) / my_length(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_mean(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 51.699&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics          # in Python, `mean()` is kept in the `statistics` module, which ...
-                           # ... we `import` like this
-                            
-                           # does our custom function give the same result as &amp;#39;s built-in?
-print(statistics.mean(x) == my_mean(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-mean&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s &lt;code&gt;mean()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_mean &amp;lt;- function(x) {
-  my_sum(x) / my_length(x)
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_mean(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 51.699&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean(x) == my_mean(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;mode&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Mode&lt;/h1&gt;
-&lt;div id=&#34;pythons-statistics.mode&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python’s &lt;code&gt;statistics.mode()&lt;/code&gt;&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_mode(x):
-  unique_x = my_unique(x)
-  occurrences = {}         # create and empty `dict()` to which we will be adding items
-  
-  for item in unique_x:
-    count = my_length([value for value in x if value == item]) # count up the occurrences of each `item`
-    occurrences.update({item: count})    # add the count to the the `occurrences` `dict()`
-  
-  keys = list(occurrences.keys())     # `dict()`s are unordered, so we make a list of `keys`...
-  values = list(occurrences.values()) # ... and a list of `values`
-  
-  return keys[values.index(my_max(values))]  # get the index of the max value and select that key&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_mode(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 76.78&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics
-print(statistics.mode(x) == my_mode(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;rs-mode&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R’s mode&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_mode &amp;lt;- function(x) {
-  unique_x &amp;lt;- my_unique(x)
-  occurences &amp;lt;- vector(mode = mode(unique_x), length = length(unique_x))
-
-  for(item in unique_x) {
-    count &amp;lt;- c(item = my_length(x[x == item])) # because we&amp;#39;re dealing with vectors in R we can... 
-                                               # ... boolean mask with `[]` instead  of using a loop
-    names(count) &amp;lt;- item                       # we turn `count` into a named `vector`...
-                                               # but this coerces the `names` to `character`
-    occurences &amp;lt;- c(occurences, count)
-  }
-  as.numeric(names(occurences[occurences == my_max(occurences)]))  # convert the `names` back to `numeric`
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_mode(x) # R doesn&amp;#39;t have a built-in function for a statistical mode as it&amp;#39;s not commonly used&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 76.78&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;median&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Median&lt;/h1&gt;
-&lt;p&gt;For &lt;code&gt;median()&lt;/code&gt;, we need to be able to sort the list. We’re just going to use built-in functions, but you can see how a bubble sort is performed &lt;a href=&#34;https://syknapptic.netlify.com/2018/07/bubble-sort/&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;div id=&#34;python&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def my_median(x):
-  sorted_x = sorted(x)
-  length_x = my_length(x)
-  middle_index = (length_x - 1) // 2  # `//` is Python&amp;#39;s operator for integer division
-                                      # `%` is Python&amp;#39;s operator for remainder
-  if length_x % 2:                    # if `x`&amp;#39;s length is an odd value
-    median = sorted_x[middle_index]
-  elif not length_x % 2:                # if `x`&amp;#39;s length is an even value
-    median = my_mean([sorted_x[middle_index], sorted_x[middle_index + 1]])
-
-  return median&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(my_median(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 59.885&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics
-print(statistics.median(x) == my_median(x))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## True&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;r&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_median &amp;lt;- function(x) {
-  sorted_x &amp;lt;- sort(x)
-  length_x &amp;lt;- my_length(x)
-  middle_index &amp;lt;- length_x %/% 2 # `%/%` is R&amp;#39;s operator for integer division
-  
-  if(length_x %% 2) {            # `%%` is R&amp;#39;s operator for remainder
-    median = sorted_x[[middle_index]]
-  }
-  else if(!length_x %% 2) {
-    median = my_mean(c(sorted_x[[middle_index]], sorted_x[[middle_index + 1]]))
-  }
-
-  median
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;my_median(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] 59.885&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;median(x) == my_median(x)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;blockquote&gt;
-&lt;p&gt;&lt;strong&gt;النهاية&lt;/strong&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;environment&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Environment&lt;/h1&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(sys.version)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## R version 3.5.1 (2018-07-02)
-## Platform: x86_64-w64-mingw32/x64 (64-bit)
-## Running under: Windows 10 x64 (build 17134)
-## 
-## Matrix products: default
-## 
-## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
-## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
-## 
-## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
-## loaded via a namespace (and not attached):
-##  [1] Rcpp_0.12.19.3         bookdown_0.7.21        lattice_0.20-35       
-##  [4] digest_0.6.18          grid_3.5.1             jsonlite_1.5          
-##  [7] magrittr_1.5           evaluate_0.12          blogdown_0.9.1        
-## [10] stringi_1.2.4          Matrix_1.2-14          reticulate_1.10.0.9002
-## [13] rmarkdown_1.10.14      htmldeps_0.1.1         tools_3.5.1           
-## [16] stringr_1.3.1.9000     xfun_0.4               yaml_2.2.0            
-## [19] compiler_3.5.1         htmltools_0.3.6        knitr_1.20.21&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 </description>
     </item>
