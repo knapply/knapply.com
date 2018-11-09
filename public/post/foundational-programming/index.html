@@ -123,7 +123,7 @@
   
   <meta property="article:published_time" content="2018-11-03T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-11-03T00:00:00&#43;00:00">
+  <meta property="article:modified_time" content="2018-11-07T14:49:24-08:00">
   
 
   
@@ -377,9 +377,11 @@
 
   <span class="article-date">
     
+        Last updated on
+    
     <meta content="2018-11-03 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-    <time datetime="2018-11-03 00:00:00 &#43;0000 UTC" itemprop="dateModified">
-      Nov 3, 2018
+    <time datetime="2018-11-07 14:49:24 -0800 PST" itemprop="dateModified">
+      Nov 7, 2018
     </time>
   </span>
   <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
@@ -389,7 +391,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    1 min read
+    3 min read
   </span>
   
 
@@ -472,418 +474,394 @@
 
 <div id="TOC">
 <ul>
-<li><a href="#length">Length</a><ul>
-<li><a href="#from-scratch-how-you-could-do-it">From Scratch: How you <em>could</em> do it</a></li>
-<li><a href="#built-in-how-you-should-do-it">Built-In: How you <strong><em>Should</em></strong> do it</a></li>
-</ul></li>
-<li><a href="#sets-of-unique-values">Sets of Unique Values</a><ul>
-<li><a href="#from-scratch-how-you-could-do-it-yourself">From Scratch: How you <em>Could</em> Do It Yourself</a></li>
-<li><a href="#built-in-how-you-should-do-it-1">Built-In: How you <strong><em>Should</em></strong> do it</a></li>
-</ul></li>
-<li><a href="#minimum-and-maximum-values">Minimum and Maximum Values</a><ul>
-<li><a href="#from-scratch-how-you-could-do-it-yourself-1">From Scratch: How you <em>Could</em> Do It Yourself</a></li>
-<li><a href="#built-in-how-you-should-do-it-2">Built-In: How you <strong><em>Should</em></strong> do it</a></li>
-</ul></li>
+<li><a href="#from-scratch">From Scratch</a></li>
+<li><a href="#built-in">Built-in</a></li>
 </ul>
 </div>
 
-<div id="length" class="section level1">
-<h1>Length</h1>
-<div id="from-scratch-how-you-could-do-it" class="section level2">
-<h2>From Scratch: How you <em>could</em> do it</h2>
-
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!--
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
--->
-  
-<div class="code-container">
-  <ul class="nav nav-pills">
-
-    <li class="active">
-   <a data-toggle="pill" href="#R-length-from-scratch">
-     <font color="blue" class="R-label">
-       R
-     </font>
-   </a>
- </li><li> 
-  <a data-toggle="pill" href="#Python-length-from-scratch">
-    <font color="blue" class="Python-label">
-    Python
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
+<div id="from-scratch" class="section level1">
+<h1>From Scratch</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-length1">
+    <font class="R-label">
+      <p title="Base R">
+        <i class="fab fa-r-project"> </i>
+      </p>
     </font>
   </a>
-</li><li> 
-  <a data-toggle="pill" href="#Rcpp-length-from-scratch">
-    <font color="blue" class="Rcpp-label">
-    Rcpp
+</li><li>
+  <a data-toggle="pill" href="#py-length1">
+    <font class="Python-label">
+      <p title="Pure Python">
+        <i class="fab fa-python"></i>
+      </p>
     </font>
   </a>
-</li><li> 
-  <a data-toggle="pill" href="#Cpp-length-from-scratch">
-    <font color="blue" class="Cpp-label">
-    Cpp
+</li><li>
+  <a data-toggle="pill" href="#rcpp-length1">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"></i>
+      </p>
     </font>
   </a>
-</li>
+</li><li>
+  <a data-toggle="pill" href="#cpp-length1">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"></i>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-length1" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_length &lt;- function(x) {
+  out &lt;- 0L
+  for (i in x) {
+    out &lt;- out + 1L
+  }
+  out
+}
 
-  </ul>
+r_vector &lt;- 1:20
+r_vector</code></pre>
+<pre><code>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>r_length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="py-length1" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length1.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>def py_length(x):
+  out = 0  
+  for i in x:
+    out += 1
+  return out
 
-  <div class="tab-content">
+py_generator = range(1, 21)
 
-    <div id="R-length-from-scratch" class="tab-pane fade in active">
-  <script src="https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd.js"></script>
-</div><div id="Python-length-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6.js"></script>
-</div><div id="Rcpp-length-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8.js"></script>
-</div><div id="Cpp-length-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649.js"></script>
+print(list(py_generator))</code></pre>
+<pre><code>#&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]</code></pre>
+<pre class="python"><code>result = py_length(py_generator)
+print(result)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div><div id="rcpp-length1" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator iter = x.begin(); iter != x.end(); iter++) {
+    out++;
+  }
+  return out;
+}
+
+/*** R
+cpp_length(1:20)
+*/</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="cpp-length1" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+int length(vector&lt;double&gt; &amp;x) {
+    int out = 0;
+
+    for (auto it = begin(x); it != end(x); ++it) {
+        out++;
+    }
+
+    return out;
+}
+
+int main() {
+    vector&lt;double&gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+    
+    int result = length(v);
+    
+    cout &lt;&lt; &quot;length: &quot; &lt;&lt; result &lt;&lt; endl;
+    
+    return 0;
+}</code></pre>
+<pre class="bash"><code>g++ cpp-length1.cpp -o cpp-length1 &amp;&amp; ./cpp-length1</code></pre>
+<pre><code>#&gt; length: 20</code></pre>
+<p></div></div></p>
 </div>
-
-  </div>
-</div>
-</div>
-<div id="built-in-how-you-should-do-it" class="section level2">
-<h2>Built-In: How you <strong><em>Should</em></strong> do it</h2>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!--
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
--->
-  
-<div class="code-container">
-  <ul class="nav nav-pills">
-
-    <li class="active">
-   <a data-toggle="pill" href="#R-length-built-in">
-     <font color="blue" class="R-label">
-       R
-     </font>
-   </a>
- </li><li> 
-  <a data-toggle="pill" href="#Python-length-built-in">
-    <font color="blue" class="Python-label">
-    Python
+<div id="built-in" class="section level1">
+<h1>Built-in</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-length2">
+    <font class="R-label">
+      <p title="Base R">
+        <i class="fab fa-r-project"> </i>
+      </p>
     </font>
   </a>
-</li><li> 
-  <a data-toggle="pill" href="#Rcpp-length-built-in">
-    <font color="blue" class="Rcpp-label">
-    Rcpp
+</li><li>
+  <a data-toggle="pill" href="#py-length2">
+    <font class="Python-label">
+      <p title="Pure Python">
+        <i class="fab fa-python"></i>
+      </p>
     </font>
   </a>
-</li><li> 
-  <a data-toggle="pill" href="#Cpp-length-built-in">
-    <font color="blue" class="Cpp-label">
-    Cpp
+</li><li>
+  <a data-toggle="pill" href="#rcpp-length2">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"></i>
+      </p>
     </font>
   </a>
-</li><li> 
-  <a data-toggle="pill" href="#NumPy-length-built-in">
-    <font color="blue" class="NumPy-label">
-    NumPy
+</li><li>
+  <a data-toggle="pill" href="#cpp-length2">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"></i>
+      </p>
     </font>
   </a>
-</li>
-
-  </ul>
-
-  <div class="tab-content">
-
-    <div id="R-length-built-in" class="tab-pane fade in active">
-  <script src="https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542.js"></script>
-</div><div id="Python-length-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533.js"></script>
-</div><div id="Rcpp-length-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b.js"></script>
-</div><div id="Cpp-length-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8.js"></script>
-</div><div id="NumPy-length-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598.js"></script>
-</div>
-
-  </div>
-</div>
-</div>
-</div>
-<div id="sets-of-unique-values" class="section level1">
-<h1>Sets of Unique Values</h1>
-<div id="from-scratch-how-you-could-do-it-yourself" class="section level2">
-<h2>From Scratch: How you <em>Could</em> Do It Yourself</h2>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!--
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
--->
-  
-<div class="code-container">
-  <ul class="nav nav-pills">
-
-    <li class="active">
-   <a data-toggle="pill" href="#R-unique-from-scratch">
-     <font color="blue" class="R-label">
-       R
-     </font>
-   </a>
- </li><li> 
-  <a data-toggle="pill" href="#Python-unique-from-scratch">
-    <font color="blue" class="Python-label">
-    Python
+</li><li>
+  <a data-toggle="pill" href="#numpy-length2">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"></i>
+      </p>
     </font>
   </a>
-</li><li> 
-  <a data-toggle="pill" href="#Rcpp-unique-from-scratch">
-    <font color="blue" class="Rcpp-label">
-    Rcpp
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Cpp-unique-from-scratch">
-    <font color="blue" class="Cpp-label">
-    Cpp
-    </font>
-  </a>
-</li>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-length2" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length2.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector &lt;- 1:20
+r_vector</code></pre>
+<pre><code>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
+<pre class="r"><code>length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="py-length2" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length2.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_generator = range(1, 21)
+print(list(py_generator))</code></pre>
+<pre><code>#&gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]</code></pre>
+<pre class="python"><code>result = len(py_generator)
 
-  </ul>
+print(result)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div><div id="rcpp-length2" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length2.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
 
-  <div class="tab-content">
+// [[Rcpp::export]]
+int cpp_size(NumericVector x) {
+  return x.size();
+}
 
-    <div id="R-unique-from-scratch" class="tab-pane fade in active">
-  <script src="https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6.js"></script>
-</div><div id="Python-unique-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144.js"></script>
-</div><div id="Rcpp-unique-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8.js"></script>
-</div><div id="Cpp-unique-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353.js"></script>
-</div>
+/*** R
+cpp_size(1:20)
+*/</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="cpp-length2" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length2.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
 
-  </div>
-</div>
-</div>
-<div id="built-in-how-you-should-do-it-1" class="section level2">
-<h2>Built-In: How you <strong><em>Should</em></strong> do it</h2>
+using std::cout;
+using std::endl;
+using std::vector;
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+int main() {
+    vector&lt;double&gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+ 
+    int result = v.size();
 
+    cout &lt;&lt; &quot;length: &quot; &lt;&lt; result &lt;&lt; endl;
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    return 0;
+}</code></pre>
+<pre class="bash"><code>g++ cpp-length2.cpp -o cpp-length2 &amp;&amp; ./cpp-length2</code></pre>
+<pre><code>#&gt; length: 20</code></pre>
+<p></div><div id="numpy-length2" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/numpy-length2.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+numpy_array = np.array(range(1, 21))
 
-<!--
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
--->
-  
-<div class="code-container">
-  <ul class="nav nav-pills">
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20]</code></pre>
+<pre class="python"><code>result = np.size(numpy_array)
 
-    <li class="active">
-   <a data-toggle="pill" href="#R-unique-built-in">
-     <font color="blue" class="R-label">
-       R
-     </font>
-   </a>
- </li><li> 
-  <a data-toggle="pill" href="#Python-unique-built-in">
-    <font color="blue" class="Python-label">
-    Python
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Rcpp-unique-built-in">
-    <font color="blue" class="Rcpp-label">
-    Rcpp
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Cpp-unique-built-in">
-    <font color="blue" class="Cpp-label">
-    Cpp
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#NumPy-unique-built-in">
-    <font color="blue" class="NumPy-label">
-    NumPy
-    </font>
-  </a>
-</li>
-
-  </ul>
-
-  <div class="tab-content">
-
-    <div id="R-unique-built-in" class="tab-pane fade in active">
-  <script src="https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842.js"></script>
-</div><div id="Python-unique-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3.js"></script>
-</div><div id="Rcpp-unique-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae.js"></script>
-</div><div id="Cpp-unique-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14.js"></script>
-</div><div id="NumPy-unique-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf.js"></script>
-</div>
-
-  </div>
-</div>
-</div>
-</div>
-<div id="minimum-and-maximum-values" class="section level1">
-<h1>Minimum and Maximum Values</h1>
-<div id="from-scratch-how-you-could-do-it-yourself-1" class="section level2">
-<h2>From Scratch: How you <em>Could</em> Do It Yourself</h2>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!--
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
--->
-  
-<div class="code-container">
-  <ul class="nav nav-pills">
-
-    <li class="active">
-   <a data-toggle="pill" href="#R-min_max-from-scratch">
-     <font color="blue" class="R-label">
-       R
-     </font>
-   </a>
- </li><li> 
-  <a data-toggle="pill" href="#Python-min_max-from-scratch">
-    <font color="blue" class="Python-label">
-    Python
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Rcpp-min_max-from-scratch">
-    <font color="blue" class="Rcpp-label">
-    Rcpp
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Cpp-min_max-from-scratch">
-    <font color="blue" class="Cpp-label">
-    Cpp
-    </font>
-  </a>
-</li>
-
-  </ul>
-
-  <div class="tab-content">
-
-    <div id="R-min_max-from-scratch" class="tab-pane fade in active">
-  <script src="https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c.js"></script>
-</div><div id="Python-min_max-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd.js"></script>
-</div><div id="Rcpp-min_max-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516.js"></script>
-</div><div id="Cpp-min_max-from-scratch" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92.js"></script>
-</div>
-
-  </div>
-</div>
-</div>
-<div id="built-in-how-you-should-do-it-2" class="section level2">
-<h2>Built-In: How you <strong><em>Should</em></strong> do it</h2>
-
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-<!--
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
--->
-  
-<div class="code-container">
-  <ul class="nav nav-pills">
-
-    <li class="active">
-   <a data-toggle="pill" href="#R-min_max-built-in">
-     <font color="blue" class="R-label">
-       R
-     </font>
-   </a>
- </li><li> 
-  <a data-toggle="pill" href="#Python-min_max-built-in">
-    <font color="blue" class="Python-label">
-    Python
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Rcpp-min_max-built-in">
-    <font color="blue" class="Rcpp-label">
-    Rcpp
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#Cpp-min_max-built-in">
-    <font color="blue" class="Cpp-label">
-    Cpp
-    </font>
-  </a>
-</li><li> 
-  <a data-toggle="pill" href="#NumPy-min_max-built-in">
-    <font color="blue" class="NumPy-label">
-    NumPy
-    </font>
-  </a>
-</li>
-
-  </ul>
-
-  <div class="tab-content">
-
-    <div id="R-min_max-built-in" class="tab-pane fade in active">
-  <script src="https://gist.github.com/knapply/453d01831caa793494586a7f26562d57.js"></script>
-</div><div id="Python-min_max-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b.js"></script>
-</div><div id="Rcpp-min_max-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1.js"></script>
-</div><div id="Cpp-min_max-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f.js"></script>
-</div><div id="NumPy-min_max-built-in" class="tab-pane fade">
-  <script src="https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392.js"></script>
-</div>
-
-  </div>
-</div>
+print(result)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div></div></p>
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> -->
+<!-- <div class="code-container"> -->
+<!-- <ul class="nav nav-pills"> -->
+<!-- <li class="active"><a data-toggle="pill" href="#r-length1">  -->
+<!-- <font class="R-label"> -->
+<!-- <p title="Base R"> <i class="fab fa-r-project"></i> </p> -->
+<!-- </font></a></li> -->
+<!-- <li><a data-toggle="pill" href="#py-length1">              <!-- Python Tab Label -->
+<!-- <font class="Python-label"> -->
+<!-- <!-- Python -->
+<!-- <p title="Pure Python"> <i class="fab fa-python"></i> </p> -->
+<!-- </font></a></li> -->
+<!-- <li><a data-toggle="pill" href="#rcpp-length1">
+<!-- <font class="Rcpp-label"> -->
+<!-- <p title="C++ via {Rcpp}"> <i class="devicon-cplusplus-plain"></i> </p> -->
+<!-- </font></a></li> -->
+<!-- </ul> -->
+<!-- <div class="tab-content"> -->
+<!-- <div id="r-length1" class="tab-pane fade in active"> -->
+<!-- <p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R" class="fab fa-github"></a>
+</p> -->
+<!-- ```{r r-length1} -->
+<!-- ``` -->
+<!-- </div> -->
+<!-- <div id="py-length1" class="tab-pane fade"> -->
+<!-- <p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length1.py" class="fab fa-github"></a>
+</p> -->
+<!-- ```{python py-length1} -->
+<!-- ``` -->
+<!-- </div> -->
+<!-- <div id="rcpp-length1" class="tab-pane fade"> -->
+<!-- <p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp" class="fab fa-github"></a>
+</p> -->
+<!-- ```{Rcpp rcpp-length1} -->
+<!-- ``` -->
+<!-- <p align="right"> -->
+<!-- [See me on GitHub](https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp) -->
+<!-- </p> -->
+<!-- ```{r, echo=FALSE} -->
+<!-- cpp_length(1:20) -->
+<!-- ``` -->
+<!-- </div></div> -->
+<!-- ```{r, include=FALSE} -->
+<!-- # embed_gist("https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R") -->
+<!-- #            "https://raw.githubusercontent.com/knapply/tutorial-gists/master/sections/foundational-programming/r-length1.R" -->
+<!-- ``` -->
+<!-- <br><br><br><br><br> -->
+<!-- # Length -->
+<!-- ## From Scratch: How you _could_ do it -->
+<!-- ```{r length-from-scratch, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-from_scratch-r_length.R -->
+<!--   R = "https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd", -->
+<!--   # foundational_programming-from_scratch-py_length.py -->
+<!--   Python = "https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6", -->
+<!--   # foundational_programming-from_scratch-cpp_length.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8", -->
+<!--   # knapply/foundational_programming-cpp-length1.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649" -->
+<!--   ) -->
+<!-- ``` -->
+<!-- ## Built-In: How you ___Should___ do it -->
+<!-- ```{r length-built-in, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-built_in-length.R -->
+<!--   R = "https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542", -->
+<!--   # foundational_programming-built_in-len.py -->
+<!--   Python = "https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533", -->
+<!--   # foundational_programming-built_in-size.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b", -->
+<!--   # foundational_programming-cpp-length2.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8", -->
+<!--   # foundational_programming-numpy-length2.py -->
+<!--   NumPy = "https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598" -->
+<!-- ) -->
+<!-- ``` -->
+<!-- # Sets of Unique Values -->
+<!-- ## From Scratch: How you _Could_ Do It Yourself -->
+<!-- ```{r unique-from-scratch, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-unique1.R -->
+<!--   R = "https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6", -->
+<!--   # foundational_programming-Rcpp-unique1.cpp -->
+<!--   Python = "https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144", -->
+<!--   # foundational_programming-cpp-unique1.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8", -->
+<!--   #  foundational_programming-py-unique1.R -->
+<!--   Cpp = "https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353" -->
+<!-- ) -->
+<!-- ``` -->
+<!-- ## Built-In: How you ___Should___ do it -->
+<!-- ```{r unique-built-in, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-unique2.R -->
+<!--   R = "https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842", -->
+<!--   # foundational_programming-Rcpp-unique2.cpp -->
+<!--   Python = "https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3", -->
+<!--   #  foundational_programming-numpy-unique2.py -->
+<!--   Rcpp = "https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae", -->
+<!--   # foundational_programming-Cpp-unique2.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14", -->
+<!--   #  foundational_programming-numpy-unique2.py -->
+<!--   NumPy = "https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf" -->
+<!-- ) -->
+<!-- ``` -->
+<!-- # Minimum and Maximum Values -->
+<!-- ## From Scratch: How you _Could_ Do It Yourself -->
+<!-- ```{r min_max-from-scratch, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-min_max.R -->
+<!--   R = "https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c", -->
+<!--   # foundational_programming-py-min_max.py -->
+<!--   Python = "https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd", -->
+<!--   # foundational_programming-rcpp-min_max1.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516", -->
+<!--   #  foundational_programming-cpp-min_max1.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92" -->
+<!-- ) -->
+<!-- ``` -->
+<!-- ## Built-In: How you ___Should___ do it -->
+<!-- ```{r min_max-built-in, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-min_max2.R -->
+<!--   R = "https://gist.github.com/knapply/453d01831caa793494586a7f26562d57", -->
+<!--   # foundational_programming-py-min_max2.py -->
+<!--   Python = "https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b", -->
+<!--   # foundational_programming-rcpp-min_max2.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1", -->
+<!--   # foundational_programming-cpp-min_max2.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f", -->
+<!--   # foundational_programming-numpy-min_max2.py -->
+<!--   NumPy = "https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392" -->
+<!-- ) -->
+<!-- ``` -->
 <p><br><br><br></p>
 <p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
 <p>When using this post, please consider citing it.</p>
@@ -896,7 +874,6 @@
   month  = Nov,
   day    = 3,
 }</code></pre>
-</div>
 </div>
 
     </div>
@@ -1023,6 +1000,12 @@
         
         <li><a href="/post/functions/">Functions</a></li>
         
+        <li><a href="/post/central-tendency/central-tendency/">Central Tendency</a></li>
+        
+        <li><a href="/post/r-python-thesaurus/">R-Python Thesaurus</a></li>
+        
+        <li><a href="/post/bubble-sort/bubble-sort/">Bubble Sort</a></li>
+        
       </ul>
     </div>
     
@@ -1060,6 +1043,10 @@
 
 <div class="container">
   <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
   
 
   <p class="powered-by">

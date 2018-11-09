@@ -71,11 +71,9 @@ tibble(
   Contents = list(
     c(build_link("Defining a Basic Function", "functions/#define-doubler_-function"),
       build_link("Using a Basic Function", "functions/#run-doubler_-function")),
-    c(build_link("Collection Lengths", "stats-prereqs/#length"),
-      build_link("Sets of Unique Values", "stats-prereqs/#sets-of-unique-values"),
-      build_link("Minimum Values", "stats-prereqs/#minimum-and-maximum-values"),
-      build_link("Maximum Values", "stats-prereqs/#minimum-and-maximum-values"),
-      build_link("Summing Collection", "stats-prereqs/#sum")
+    c(build_link("Collection Lengths", "foundational-programming/#length"),
+      build_link("Sets of Unique Values", "foundational-programming/#sets-of-unique-values"),
+      build_link("Minimum & Values", "foundational-programming/#minimum-and-maximum-values")
       )
     ) %>% 
     map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>% 

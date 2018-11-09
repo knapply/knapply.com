@@ -24,6 +24,30 @@
 
 */
 
+.r::before {
+  content: "> R\A";
+  font-weight: 200;
+  color: #276DC3;
+}
+
+.python::before {
+  content: ">>> Python\A";
+  font-weight: 200;
+  color: #43B02A;
+}
+
+.cpp::before {
+  content: "> C++\A";
+  font-weight: 200;
+  color: red;
+}
+
+.bash > .hljs::before {
+  content: "~$ Bash\A";
+  font-weight: 200;
+  color: #39B34A;
+}
+
   
 .article-banner {
   width: auto;
@@ -72,21 +96,23 @@
 
 
 
+/*
+.embedded-github-link {
+  font-size: 30px;
+}*/
 
 
 
 /* code tab boxes */
 
-/*
+
 .nav-pills * {
   background-color: white !important;
 }
-*/
+
 
 .navbar * {
   float: right !important;
-  /*display: flex !important;*/
-  /*right: 0 !important;*/
 }
 
 .code-container {
@@ -110,10 +136,10 @@
 
 .nav-pills {
   /*display: inline-block;*/
-  font-size: 40px;
+  /*font-size: 40px;*/
   font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  padding: 10px 30px 0;
+  /*font-weight: bold;*/
+/*  padding: 10px 30px 0;*/
   display: flex; 
   justify-content: center;
   float: none;
@@ -121,63 +147,134 @@
 }
 
 
-/*.fa-r-project {
+.fa-r-project {
   color: #276DC3;
-  font-size: 75px;
-  padding: 0 30px 0;
+  font-size: 60px;
+  padding: 0 20px 0;
 }
 
 .fa-python {
   color: #43B02A;
-  font-size: 75px;
-  padding: 0 30px 0;
+  font-size: 60px;
+  padding: 0 20px 0;
 }
 
-.devicon-cplusplus-plain {
+.NumPy-label p .fa-python {
+  color: #FED561;
+  font-size: 60px;
+  padding: 0 20px 0;
+}
+
+.Cpp-label p .devicon-cplusplus-plain {
   color: red;
-  font-size: 40px;
-  padding: 10px 30px 0;
-}*/
+  font-size: 60px;
+  padding: 0 20px 0;
+}
+
+
+.devicon-cplusplus-plain {
+  color: #004482;
+  font-size: 60px;
+  padding: 10px 20px 0;
+}
 
 .R-label {
   color: #276DC3;
-  /*font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  font-size: 40px;
-  padding: 10px 30px 0;*/
 }
+.R-github-link {
+  text-align: right;
+}
+.R-github-link a {
+  color: #276DC3;
+  font-size: 30px;
+  opacity: 0.75;
+}
+.R-github-link a:hover {
+  color: #276DC3;
+  opacity: 1;
+  text-decoration: none;
+}
+
 
 .Python-label {
   color: #43B02A;
-  /*font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  font-size: 40px;
-  padding: 10px 30px 0;*/
 }
+.Python-github-link {
+  text-align: right;
+}
+.Python-github-link a {
+  color: #43B02A;
+  font-size: 30px;
+  opacity: 0.75;
+}
+.Python-github-link a:hover {
+  color: #43B02A;
+  opacity: 1;
+  text-decoration: none;
+}
+
 
 .Rcpp-label {
-  color: red;
-  /*font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  font-size: 40px;
-  padding: 10px 30px 0;*/
+  color: #004482;
+}
+.Rcpp-github-link {
+  text-align: right;
+}
+.Rcpp-github-link a {
+  color: #004482;
+  font-size: 30px;
+}
+.Rcpp-github-link a:hover {
+  color: #004482;
+  opacity: 1;
+  text-decoration: none;
 }
 
+
 .Cpp-label {
-  color: #649AD2;
-  /*font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  font-size: 40px;
-  padding: 10px 30px 0;*/
+  color: red;
+}
+.Cpp-github-link {
+  text-align: right;
+}
+.Cpp-github-link a {
+  color: red;
+  font-size: 30px;
+}
+.Cpp-github-link a:hover {
+  color: red;
+  opacity: 1;
+  text-decoration: none;
+}
+
+
+
+.NumPy-label {
+  color: #FED561;
+}
+.NumPy-github-link {
+  text-align: right;
+}
+.NumPy-github-link a {
+  color: #FED561;
+  font-size: 30px;
+}
+.NumPy-github-link a:hover {
+  color: #FED561;
+  opacity: 1;
+  text-decoration: none;
+}
+
+
+.Cpp-label {
+  color: red;
 }
 
 .NumPy-label {
   color: #FED561;
-  /*font-family: 'Source Code Pro', monospace;
-  font-weight: bold;
-  font-size: 40px;
-  padding: 10px 30px 0;*/
 }
+
+
 
 
 

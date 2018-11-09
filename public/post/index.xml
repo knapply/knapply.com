@@ -13,12 +13,25 @@
     
     
     <item>
+      <title>Central Tendency</title>
+      <link>/post/central-tendency/central-tendency/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/central-tendency/central-tendency/</guid>
+      <description>MeanFrom ScratchHow You Should Do ItMedianFrom ScratchMeanFrom Scratch  R 
+r_mean &amp;lt;- function(x) {sum(x) / length(x)}r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)r_mean(r_vector)# [1] 5.48  Python 
+def py_mean(x):return sum(x) / len(x)py_list = [1.3, 3.8, 10.1, 2.5, 9.7]result = py_mean(py_list)print(result)# 5.4799999999999995  
+  C++</description>
+    </item>
+    
+    <item>
       <title>Foundational Programming</title>
       <link>/post/foundational-programming/</link>
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/foundational-programming/</guid>
-      <description>LengthFrom Scratch: How you could do itBuilt-In: How you Should do itSets of Unique ValuesFrom Scratch: How you Could Do It YourselfBuilt-In: How you Should do itMinimum and Maximum ValuesFrom Scratch: How you Could Do It YourselfBuilt-In: How you Should do itLengthFrom Scratch: How you could do it--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPySets of Unique ValuesFrom Scratch: How you Could Do It Yourself--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPyMinimum and Maximum ValuesFrom Scratch: How you Could Do It Yourself--R Python Rcpp CppBuilt-In: How you Should do it--R Python Rcpp Cpp NumPy</description>
+      <description>From ScratchBuilt-inFrom Scratch
+r_length &amp;lt;- function(x) {out &amp;lt;- 0Lfor (i in x) {out &amp;lt;- out + 1L}out}r_vector &amp;lt;- 1:20r_vector#&amp;gt; [1] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20r_length(r_vector)#&amp;gt; [1] 20def py_length(x):out = 0 for i in x:out += 1return outpy_generator = range(1, 21)print(list(py_generator))#&amp;gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]result = py_length(py_generator)print(result)#&amp;gt; 20#include &amp;lt;Rcpp.</description>
     </item>
     
     <item>
@@ -37,6 +50,24 @@
       
       <guid>/post/data-frame-operations/</guid>
       <description>Set UpDataSubset ColumnsBasic Example: Select Columns by NameDrop Columns by NameSelect Columns by Name RangeDrop Columns by Name RangeSelect Columns by Index RangeDrop Columns by Index RangeSubset RowsFilter Rows, Single Logical ComparisonFilter Rows, Multiple Logical ComparisonsTransform Column ValuesBasic Example: Calculate Population in ThousandsCalculate Total GDPCalculate Z Scores of 1977 GDP per CapitaEnvironment--&amp;lt;!</description>
+    </item>
+    
+    <item>
+      <title>Bubble Sort</title>
+      <link>/post/bubble-sort/bubble-sort/</link>
+      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bubble-sort/bubble-sort/</guid>
+      <description>PythonUnsorted listBubble Sort FunctionResultRUnsorted vectorBubble Sort FunctionResultEnvironmentPythonUnsorted listunsorted = [9, 2, 8, 3, 7, 4, 6, 5, 1]Bubble Sort Functiondef bubble_sort(unsorted_sequence):sorted_sequence = unsorted_sequencefor iteration, _ in enumerate(sorted_sequence):for i, _ in enumerate(sorted_sequence):if i + 1 &amp;lt;= len(sorted_sequence) - 1:current_value = sorted_sequence[i]next_value = sorted_sequence[i + 1]if current_value &amp;gt; next_value:sorted_sequence[i] = next_valuesorted_sequence[i + 1] = current_valueprint(f&amp;#39;Iteration #{iteration + 1}: {&amp;quot;, &amp;quot;.</description>
+    </item>
+    
+    <item>
+      <title>R-Python Thesaurus</title>
+      <link>/post/r-python-thesaurus/</link>
+      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-python-thesaurus/</guid>
+      <description>TypesCollections: Vectors, Lists, and DictionariesCommon TasksIterationPythonRSequencesComparisonsArithmeticStatisticsDates and TimesStrings and Regular ExpressionsTypesPython TypePython ExampleR TypeR Exampleint1integer1Lfloat3.14numeric &amp;amp; double3.14string‘hi’character“hi”boolTruelogicalTRUECollections: Vectors, Lists, and DictionariesPython TypePython ExampleR TypeR ExampleValuesscalar1vector1homogeneouslist[1, 1]vectorc(1, 2)homogeneouslist[1, ‘string’]listlist(1, “string”)heterogenoustuple(1, ‘string’]listlist(1, “string”)heterogenousdict{‘a’:1, ‘b’:‘string’}listlist(a = 1, b = “string”)heterogenousvectorc(a = 1, b = 2)homogeneousNote:  dicts are not ordered.</description>
     </item>
     
     <item>

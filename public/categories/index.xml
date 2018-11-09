@@ -39,11 +39,29 @@
     </item>
     
     <item>
+      <title>data-science-from-scratch</title>
+      <link>/categories/data-science-from-scratch/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/data-science-from-scratch/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>programming</title>
       <link>/categories/programming/</link>
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/categories/programming/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>statistics</title>
+      <link>/categories/statistics/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/categories/statistics/</guid>
       <description></description>
     </item>
     

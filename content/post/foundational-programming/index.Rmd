@@ -27,125 +27,398 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = FALSE, comment = "#")
+knitr::opts_chunk$set(cache = FALSE, comment = "#>")
 
 source(here::here("static/R/html-helpers.R"))
 source(here::here("static/R/citation.R"))
 ```
 
-# Length
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
 
-## From Scratch: How you _could_ do it
 
-```{r length-from-scratch, echo=FALSE}
-build_code_tabs(
-  chunk_label = knitr::opts_current$get("label"),
-  # foundational_programming-from_scratch-r_length.R
-  R = "https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd",
-  # foundational_programming-from_scratch-py_length.py
-  Python = "https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6",
-  # foundational_programming-from_scratch-cpp_length.cpp
-  Rcpp = "https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8",
-  # knapply/foundational_programming-cpp-length1.cpp
-  Cpp = "https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649"
-  )
+# From Scratch
+
+```{r, echo=FALSE, cache=FALSE}
+as_chunk("foundational-programming/r-length1.R")
+as_chunk("foundational-programming/py-length1.py")
+as_chunk("foundational-programming/rcpp-length1.cpp")
+as_chunk("foundational-programming/cpp-length1.cpp")
 ```
 
-## Built-In: How you ___Should___ do it
-
-```{r length-built-in, echo=FALSE}
-build_code_tabs(
-  chunk_label = knitr::opts_current$get("label"),
-  # foundational_programming-built_in-length.R
-  R = "https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542",
-  # foundational_programming-built_in-len.py
-  Python = "https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533",
-  # foundational_programming-built_in-size.cpp
-  Rcpp = "https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b",
-  # foundational_programming-cpp-length2.cpp
-  Cpp = "https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8",
-  # foundational_programming-numpy-length2.py
-  NumPy = "https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598"
-)
+```{r, echo=FALSE}
+start_tabset()
+add_menu_tab("r-length1", is_active = TRUE)
+add_menu_tab("py-length1", is_active = FALSE)
+add_menu_tab("rcpp-length1", is_active = FALSE)
+add_menu_tab("cpp-length1", is_active = FALSE)
+end_menu()
 ```
 
 
-
-
-# Sets of Unique Values
-
-## From Scratch: How you _Could_ Do It Yourself
-
-```{r unique-from-scratch, echo=FALSE}
-build_code_tabs(
-  chunk_label = knitr::opts_current$get("label"),
-  # foundational_programming-r-unique1.R
-  R = "https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6",
-  # foundational_programming-Rcpp-unique1.cpp
-  Python = "https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144",
-  # foundational_programming-cpp-unique1.cpp
-  Rcpp = "https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8",
-  #  foundational_programming-py-unique1.R
-  Cpp = "https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353"
-)
-```
-
-## Built-In: How you ___Should___ do it
-
-```{r unique-built-in, echo=FALSE}
-build_code_tabs(
-  chunk_label = knitr::opts_current$get("label"),
-  # foundational_programming-r-unique2.R
-  R = "https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842",
-  # foundational_programming-Rcpp-unique2.cpp
-  Python = "https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3",
-  #  foundational_programming-numpy-unique2.py
-  Rcpp = "https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae",
-  # foundational_programming-Cpp-unique2.cpp
-  Cpp = "https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14",
-  #  foundational_programming-numpy-unique2.py
-  NumPy = "https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf"
-)
+```{r, echo=FALSE}
+start_tab_content()
+add_active_tab("r-length1")
+embed_github_link("foundational-programming/r-length1.R")
 ```
 
 
+```{r r-length1}
+```
 
-# Minimum and Maximum Values
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-length1")
+embed_github_link("foundational-programming/py-length1.py")
+```
 
-## From Scratch: How you _Could_ Do It Yourself
+```{python py-length1}
+```
 
-```{r min_max-from-scratch, echo=FALSE}
-build_code_tabs(
-  chunk_label = knitr::opts_current$get("label"),
-  # foundational_programming-r-min_max.R
-  R = "https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c",
-  # foundational_programming-py-min_max.py
-  Python = "https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd",
-  # foundational_programming-rcpp-min_max1.cpp
-  Rcpp = "https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516",
-  #  foundational_programming-cpp-min_max1.cpp
-  Cpp = "https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92"
-)
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("rcpp-length1")
+embed_github_link("foundational-programming/rcpp-length1.cpp")
 ```
 
 
-## Built-In: How you ___Should___ do it
-
-```{r min_max-built-in, echo=FALSE}
-build_code_tabs(
-  chunk_label = knitr::opts_current$get("label"),
-  # foundational_programming-r-min_max2.R
-  R = "https://gist.github.com/knapply/453d01831caa793494586a7f26562d57",
-  # foundational_programming-py-min_max2.py
-  Python = "https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b",
-  # foundational_programming-rcpp-min_max2.cpp
-  Rcpp = "https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1",
-  # foundational_programming-cpp-min_max2.cpp
-  Cpp = "https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f",
-  # foundational_programming-numpy-min_max2.py
-  NumPy = "https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392"
-)
+```{Rcpp rcpp-length1}
 ```
+
+```{r, echo=FALSE}
+cpp_length(1:20)
+```
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("cpp-length1")
+embed_github_link("foundational-programming/cpp-length1.cpp")
+```
+
+```{Rcpp cpp-length1, eval=FALSE}
+```
+
+```{bash, eval=FALSE}
+g++ cpp-length1.cpp -o cpp-length1 && ./cpp-length1
+```
+
+```{bash, echo=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/foundational-programming/ &&
+  g++ cpp-length1.cpp -o cpp-length1 && 
+  ./cpp-length1
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+end_tabset()
+```
+
+
+
+# Built-in
+
+```{r, echo=FALSE, cache=FALSE}
+as_chunk("foundational-programming/r-length2.R")
+as_chunk("foundational-programming/py-length2.py")
+as_chunk("foundational-programming/rcpp-length2.cpp")
+as_chunk("foundational-programming/cpp-length2.cpp")
+as_chunk("foundational-programming/numpy-length2.py")
+```
+
+
+```{r, echo=FALSE}
+start_tabset()
+add_menu_tab("r-length2", is_active = TRUE)
+add_menu_tab("py-length2", is_active = FALSE)
+add_menu_tab("rcpp-length2", is_active = FALSE)
+add_menu_tab("cpp-length2", is_active = FALSE)
+add_menu_tab("numpy-length2", is_active = FALSE)
+end_menu()
+```
+
+
+```{r, echo=FALSE}
+start_tab_content()
+add_active_tab("r-length2")
+embed_github_link("foundational-programming/r-length2.R")
+```
+
+
+```{r r-length2}
+```
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-length2")
+embed_github_link("foundational-programming/py-length2.py")
+```
+
+```{python py-length2}
+```
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("rcpp-length2")
+embed_github_link("foundational-programming/rcpp-length2.cpp")
+```
+
+
+```{Rcpp rcpp-length2}
+```
+
+```{r, echo=FALSE}
+cpp_length(1:20)
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("cpp-length2")
+embed_github_link("foundational-programming/cpp-length2.cpp")
+```
+
+
+```{Rcpp cpp-length2, eval=FALSE}
+```
+
+
+```{bash, eval=FALSE}
+g++ cpp-length2.cpp -o cpp-length2 && ./cpp-length2
+```
+
+```{bash, echo=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/foundational-programming/ &&
+  g++ cpp-length2.cpp -o cpp-length2 && 
+  ./cpp-length2
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("numpy-length2")
+embed_github_link("foundational-programming/numpy-length2.py")
+```
+
+```{python numpy-length2}
+```
+
+```{r, echo=FALSE}
+end_tab()
+end_tabset()
+```
+
+
+
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+<!-- <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br> -->
+
+<!-- <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"> -->
+
+<!-- <div class="code-container"> -->
+
+<!-- <ul class="nav nav-pills"> -->
+
+<!-- <li class="active"><a data-toggle="pill" href="#r-length1">  -->
+<!-- <font class="R-label"> -->
+
+<!-- <p title="Base R"> <i class="fab fa-r-project"></i> </p> -->
+<!-- </font></a></li> -->
+
+
+<!-- <li><a data-toggle="pill" href="#py-length1">              <!-- Python Tab Label -->
+<!-- <font class="Python-label"> -->
+<!-- <!-- Python --> 
+<!-- <p title="Pure Python"> <i class="fab fa-python"></i> </p> -->
+<!-- </font></a></li> -->
+
+
+<!-- <li><a data-toggle="pill" href="#rcpp-length1">
+<!-- <font class="Rcpp-label"> -->
+
+<!-- <p title="C++ via {Rcpp}"> <i class="devicon-cplusplus-plain"></i> </p> -->
+<!-- </font></a></li> -->
+
+<!-- </ul> -->
+
+
+<!-- <div class="tab-content"> -->
+
+<!-- <div id="r-length1" class="tab-pane fade in active"> -->
+
+<!-- `r embed_github_link("foundational-programming/r-length1.R")` -->
+
+<!-- ```{r r-length1} -->
+<!-- ``` -->
+
+
+<!-- </div> -->
+<!-- <div id="py-length1" class="tab-pane fade"> -->
+
+
+<!-- `r embed_github_link("foundational-programming/py-length1.py")` -->
+
+<!-- ```{python py-length1} -->
+<!-- ``` -->
+
+<!-- </div> -->
+<!-- <div id="rcpp-length1" class="tab-pane fade"> -->
+
+<!-- `r embed_github_link("foundational-programming/rcpp-length1.cpp")` -->
+
+<!-- ```{Rcpp rcpp-length1} -->
+<!-- ``` -->
+
+<!-- <p align="right"> -->
+<!-- [See me on GitHub](https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp) -->
+<!-- </p> -->
+
+<!-- ```{r, echo=FALSE} -->
+<!-- cpp_length(1:20) -->
+<!-- ``` -->
+
+
+
+<!-- </div></div> -->
+
+
+
+
+
+
+
+
+<!-- ```{r, include=FALSE} -->
+<!-- # embed_gist("https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R") -->
+<!-- #            "https://raw.githubusercontent.com/knapply/tutorial-gists/master/sections/foundational-programming/r-length1.R" -->
+<!-- ``` -->
+
+
+
+<!-- <br><br><br><br><br> -->
+
+
+
+
+
+<!-- # Length -->
+
+<!-- ## From Scratch: How you _could_ do it -->
+
+<!-- ```{r length-from-scratch, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-from_scratch-r_length.R -->
+<!--   R = "https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd", -->
+<!--   # foundational_programming-from_scratch-py_length.py -->
+<!--   Python = "https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6", -->
+<!--   # foundational_programming-from_scratch-cpp_length.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8", -->
+<!--   # knapply/foundational_programming-cpp-length1.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649" -->
+<!--   ) -->
+<!-- ``` -->
+
+<!-- ## Built-In: How you ___Should___ do it -->
+
+
+<!-- ```{r length-built-in, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-built_in-length.R -->
+<!--   R = "https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542", -->
+<!--   # foundational_programming-built_in-len.py -->
+<!--   Python = "https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533", -->
+<!--   # foundational_programming-built_in-size.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b", -->
+<!--   # foundational_programming-cpp-length2.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8", -->
+<!--   # foundational_programming-numpy-length2.py -->
+<!--   NumPy = "https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598" -->
+<!-- ) -->
+<!-- ``` -->
+
+
+
+
+<!-- # Sets of Unique Values -->
+
+<!-- ## From Scratch: How you _Could_ Do It Yourself -->
+
+<!-- ```{r unique-from-scratch, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-unique1.R -->
+<!--   R = "https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6", -->
+<!--   # foundational_programming-Rcpp-unique1.cpp -->
+<!--   Python = "https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144", -->
+<!--   # foundational_programming-cpp-unique1.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8", -->
+<!--   #  foundational_programming-py-unique1.R -->
+<!--   Cpp = "https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353" -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- ## Built-In: How you ___Should___ do it -->
+
+<!-- ```{r unique-built-in, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-unique2.R -->
+<!--   R = "https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842", -->
+<!--   # foundational_programming-Rcpp-unique2.cpp -->
+<!--   Python = "https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3", -->
+<!--   #  foundational_programming-numpy-unique2.py -->
+<!--   Rcpp = "https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae", -->
+<!--   # foundational_programming-Cpp-unique2.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14", -->
+<!--   #  foundational_programming-numpy-unique2.py -->
+<!--   NumPy = "https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf" -->
+<!-- ) -->
+<!-- ``` -->
+
+
+
+<!-- # Minimum and Maximum Values -->
+
+<!-- ## From Scratch: How you _Could_ Do It Yourself -->
+
+<!-- ```{r min_max-from-scratch, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-min_max.R -->
+<!--   R = "https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c", -->
+<!--   # foundational_programming-py-min_max.py -->
+<!--   Python = "https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd", -->
+<!--   # foundational_programming-rcpp-min_max1.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516", -->
+<!--   #  foundational_programming-cpp-min_max1.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92" -->
+<!-- ) -->
+<!-- ``` -->
+
+
+<!-- ## Built-In: How you ___Should___ do it -->
+
+<!-- ```{r min_max-built-in, echo=FALSE} -->
+<!-- build_code_tabs( -->
+<!--   chunk_label = knitr::opts_current$get("label"), -->
+<!--   # foundational_programming-r-min_max2.R -->
+<!--   R = "https://gist.github.com/knapply/453d01831caa793494586a7f26562d57", -->
+<!--   # foundational_programming-py-min_max2.py -->
+<!--   Python = "https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b", -->
+<!--   # foundational_programming-rcpp-min_max2.cpp -->
+<!--   Rcpp = "https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1", -->
+<!--   # foundational_programming-cpp-min_max2.cpp -->
+<!--   Cpp = "https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f", -->
+<!--   # foundational_programming-numpy-min_max2.py -->
+<!--   NumPy = "https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392" -->
+<!-- ) -->
+<!-- ``` -->
 
 
 

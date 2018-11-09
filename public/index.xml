@@ -11,6 +11,170 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Central Tendency</title>
+      <link>/post/central-tendency/central-tendency/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/central-tendency/central-tendency/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#mean&#34;&gt;Mean&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#from-scratch&#34;&gt;From Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#how-you-should-do-it&#34;&gt;How You Should Do It&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#median&#34;&gt;Median&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#from-scratch-1&#34;&gt;From Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;mean&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Mean&lt;/h1&gt;
+&lt;div id=&#34;from-scratch&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;From Scratch&lt;/h2&gt;
+&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mean &amp;lt;- function(x) {
+  sum(x) / length(x)
+}
+
+r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+r_mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/td&gt; &lt;td&gt;&lt;font color=&#34;#008000&#34;&gt; &gt;&gt; Python &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def py_mean(x):
+  return sum(x) / len(x)
+  
+py_list = [1.3, 3.8, 10.1, 2.5, 9.7]
+result = py_mean(py_list)
+
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# 5.4799999999999995&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/p&gt;
+&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#FF0000&#34;&gt; &gt;&gt;&gt; C++ &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp11)]]
+#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_mean(NumericVector x) {
+  return sum(x) / x.size();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;how-you-should-do-it&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;How You Should Do It&lt;/h2&gt;
+&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/td&gt; &lt;td&gt;&lt;font color=&#34;#008000&#34;&gt; &gt;&gt; Python &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+  
+numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
+result = np.mean(numpy_array)
+
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# 5.4799999999999995&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/p&gt;
+&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#FF0000&#34;&gt; &gt;&gt;&gt; C++ &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp11)]]
+#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_mean2(NumericVector x) {
+  return mean(x);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_mean2(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;median&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Median&lt;/h1&gt;
+&lt;div id=&#34;from-scratch-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;From Scratch&lt;/h2&gt;
+&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_median &amp;lt;- function(x) {
+  sorted &amp;lt;- sort(x)                  # 1.3  2.5  3.8  9.7 10.1
+  n &amp;lt;- length(x)                     # 5
+  middle_index &amp;lt;- n %/% 2            # 2
+  
+  if (n %% 2 != 0) {                 # FALSE, `n` is odd
+    out &amp;lt;- sorted[[middle_index]]    # doesn&amp;#39;t apply unless `n` is even
+  } else {
+    out &amp;lt;- mean(
+      c(sorted[[middle_index]],      # 2.5
+        sorted[[middle_index + 1]])  # 3.8
+      )
+  }
+  out
+}
+
+x &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+r_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 2.5&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/td&gt; &lt;td&gt;&lt;font color=&#34;#006400&#34;&gt; &gt;&gt; NumPy &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+
+def py_median(x):
+  sorted_x = np.sort(x)               # 1.3  2.5  3.8  9.7 10.1
+  n = np.size(x)                      # 5
+  middle_index = n // 2               # 2
+
+  if n % 2:                           # FALSE, `n` is odd
+    out = sorted_x[middle_index]      # doesn&amp;#39;t apply unless `n` is even
+
+  else:                           # 3.8                     2.5
+    out = np.mean(np.array([sorted_x[middle_index], sorted_x[middle_index - 1]]))
+      
+  return out
+
+numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
+result = py_median(numpy_array)
+
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# 3.8&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/p&gt;
+&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#FF0000&#34;&gt; &gt;&gt;&gt; C++ &lt;/font&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp11)]]
+#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_median(NumericVector x) {
+  return sum(x) / x.size();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
+cpp_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
+&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
+&lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When using this post, please consider citing it.&lt;/p&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Nov. 3). Central Tendency. Retrieved from https://knapply.com/post/central-tendency/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{central-tendency,
+  author = {Knapp, Brendan},
+  title  = {Central Tendency},
+  url    = {https://knapply.com/post/central-tendency/},
+  year   = 2018,
+  month  = Nov,
+  day    = 3,
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Foundational Programming</title>
       <link>/post/foundational-programming/</link>
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
@@ -20,418 +184,394 @@
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#length&#34;&gt;Length&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#from-scratch-how-you-could-do-it&#34;&gt;From Scratch: How you &lt;em&gt;could&lt;/em&gt; do it&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#built-in-how-you-should-do-it&#34;&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#sets-of-unique-values&#34;&gt;Sets of Unique Values&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#from-scratch-how-you-could-do-it-yourself&#34;&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#built-in-how-you-should-do-it-1&#34;&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#minimum-and-maximum-values&#34;&gt;Minimum and Maximum Values&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#from-scratch-how-you-could-do-it-yourself-1&#34;&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#built-in-how-you-should-do-it-2&#34;&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#from-scratch&#34;&gt;From Scratch&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#built-in&#34;&gt;Built-in&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;div id=&#34;length&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Length&lt;/h1&gt;
-&lt;div id=&#34;from-scratch-how-you-could-do-it&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;From Scratch: How you &lt;em&gt;could&lt;/em&gt; do it&lt;/h2&gt;
-
 &lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
-
-
 &lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
-
 &lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;!--
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
---&gt;
-  
-&lt;div class=&#34;code-container&#34;&gt;
-  &lt;ul class=&#34;nav nav-pills&#34;&gt;
-
-    &lt;li class=&#34;active&#34;&gt;
-   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-length-from-scratch&#34;&gt;
-     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
-       R
-     &lt;/font&gt;
-   &lt;/a&gt;
- &lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-length-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
-    Python
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;&lt;/p&gt;
+&lt;div id=&#34;from-scratch&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;From Scratch&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-length1&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;Base R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-length-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
-    Rcpp
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length1&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Pure Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-length-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
-    Cpp
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-length1&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-length1&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-length1&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_length &amp;lt;- function(x) {
+  out &amp;lt;- 0L
+  for (i in x) {
+    out &amp;lt;- out + 1L
+  }
+  out
+}
 
-  &lt;/ul&gt;
+r_vector &amp;lt;- 1:20
+r_vector&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_length(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length1.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def py_length(x):
+  out = 0  
+  for i in x:
+    out += 1
+  return out
 
-  &lt;div class=&#34;tab-content&#34;&gt;
+py_generator = range(1, 21)
 
-    &lt;div id=&#34;R-length-from-scratch&#34; class=&#34;tab-pane fade in active&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Python-length-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Rcpp-length-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Cpp-length-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649.js&#34;&gt;&lt;/script&gt;
+print(list(py_generator))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;result = py_length(py_generator)
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator iter = x.begin(); iter != x.end(); iter++) {
+    out++;
+  }
+  return out;
+}
+
+/*** R
+cpp_length(1:20)
+*/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+int length(vector&amp;lt;double&amp;gt; &amp;amp;x) {
+    int out = 0;
+
+    for (auto it = begin(x); it != end(x); ++it) {
+        out++;
+    }
+
+    return out;
+}
+
+int main() {
+    vector&amp;lt;double&amp;gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+    
+    int result = length(v);
+    
+    cout &amp;lt;&amp;lt; &amp;quot;length: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
+    
+    return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;g++ cpp-length1.cpp -o cpp-length1 &amp;amp;&amp;amp; ./cpp-length1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; length: 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
 &lt;/div&gt;
-
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;built-in-how-you-should-do-it&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/h2&gt;
-
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
-
-
-&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;!--
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
---&gt;
-  
-&lt;div class=&#34;code-container&#34;&gt;
-  &lt;ul class=&#34;nav nav-pills&#34;&gt;
-
-    &lt;li class=&#34;active&#34;&gt;
-   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-length-built-in&#34;&gt;
-     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
-       R
-     &lt;/font&gt;
-   &lt;/a&gt;
- &lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-length-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
-    Python
+&lt;div id=&#34;built-in&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Built-in&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-length2&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;Base R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-length-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
-    Rcpp
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length2&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Pure Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-length-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
-    Cpp
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-length2&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#NumPy-length-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;NumPy-label&#34;&gt;
-    NumPy
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-length2&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;
-
-  &lt;/ul&gt;
-
-  &lt;div class=&#34;tab-content&#34;&gt;
-
-    &lt;div id=&#34;R-length-built-in&#34; class=&#34;tab-pane fade in active&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Python-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Rcpp-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Cpp-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;NumPy-length-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;
-
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;sets-of-unique-values&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Sets of Unique Values&lt;/h1&gt;
-&lt;div id=&#34;from-scratch-how-you-could-do-it-yourself&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/h2&gt;
-
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
-
-
-&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;!--
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
---&gt;
-  
-&lt;div class=&#34;code-container&#34;&gt;
-  &lt;ul class=&#34;nav nav-pills&#34;&gt;
-
-    &lt;li class=&#34;active&#34;&gt;
-   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-unique-from-scratch&#34;&gt;
-     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
-       R
-     &lt;/font&gt;
-   &lt;/a&gt;
- &lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-unique-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
-    Python
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-length2&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt;
+      &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-unique-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
-    Rcpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-unique-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
-    Cpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-length2&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length2.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- 1:20
+r_vector&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;length(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length2.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_generator = range(1, 21)
+print(list(py_generator))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;result = len(py_generator)
 
-  &lt;/ul&gt;
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length2.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
 
-  &lt;div class=&#34;tab-content&#34;&gt;
+// [[Rcpp::export]]
+int cpp_size(NumericVector x) {
+  return x.size();
+}
 
-    &lt;div id=&#34;R-unique-from-scratch&#34; class=&#34;tab-pane fade in active&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Python-unique-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Rcpp-unique-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Cpp-unique-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;
+/*** R
+cpp_size(1:20)
+*/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length2.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;vector&amp;gt;    // std::vector
 
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;built-in-how-you-should-do-it-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/h2&gt;
+using std::cout;
+using std::endl;
+using std::vector;
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+int main() {
+    vector&amp;lt;double&amp;gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+ 
+    int result = v.size();
 
+    cout &amp;lt;&amp;lt; &amp;quot;length: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
 
-&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+    return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;g++ cpp-length2.cpp -o cpp-length2 &amp;amp;&amp;amp; ./cpp-length2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; length: 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/numpy-length2.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
 
-&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+numpy_array = np.array(range(1, 21))
 
-&lt;!--
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
---&gt;
-  
-&lt;div class=&#34;code-container&#34;&gt;
-  &lt;ul class=&#34;nav nav-pills&#34;&gt;
+print(numpy_array)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [ 1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;result = np.size(numpy_array)
 
-    &lt;li class=&#34;active&#34;&gt;
-   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-unique-built-in&#34;&gt;
-     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
-       R
-     &lt;/font&gt;
-   &lt;/a&gt;
- &lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-unique-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
-    Python
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-unique-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
-    Rcpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-unique-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
-    Cpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#NumPy-unique-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;NumPy-label&#34;&gt;
-    NumPy
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;
-
-  &lt;/ul&gt;
-
-  &lt;div class=&#34;tab-content&#34;&gt;
-
-    &lt;div id=&#34;R-unique-built-in&#34; class=&#34;tab-pane fade in active&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Python-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Rcpp-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Cpp-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;NumPy-unique-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;
-
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;minimum-and-maximum-values&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Minimum and Maximum Values&lt;/h1&gt;
-&lt;div id=&#34;from-scratch-how-you-could-do-it-yourself-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;From Scratch: How you &lt;em&gt;Could&lt;/em&gt; Do It Yourself&lt;/h2&gt;
-
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
-
-
-&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;!--
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
---&gt;
-  
-&lt;div class=&#34;code-container&#34;&gt;
-  &lt;ul class=&#34;nav nav-pills&#34;&gt;
-
-    &lt;li class=&#34;active&#34;&gt;
-   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-min_max-from-scratch&#34;&gt;
-     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
-       R
-     &lt;/font&gt;
-   &lt;/a&gt;
- &lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-min_max-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
-    Python
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-min_max-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
-    Rcpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-min_max-from-scratch&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
-    Cpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;
-
-  &lt;/ul&gt;
-
-  &lt;div class=&#34;tab-content&#34;&gt;
-
-    &lt;div id=&#34;R-min_max-from-scratch&#34; class=&#34;tab-pane fade in active&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Python-min_max-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Rcpp-min_max-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Cpp-min_max-from-scratch&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;
-
-  &lt;/div&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;built-in-how-you-should-do-it-2&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Built-In: How you &lt;strong&gt;&lt;em&gt;Should&lt;/em&gt;&lt;/strong&gt; do it&lt;/h2&gt;
-
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
-
-
-&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
-
-&lt;!--
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://use.fontawesome.com/releases/v5.5.0/css/all.css&#34; integrity=&#34;sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU&#34; crossorigin=&#34;anonymous&#34;&gt;
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;
---&gt;
-  
-&lt;div class=&#34;code-container&#34;&gt;
-  &lt;ul class=&#34;nav nav-pills&#34;&gt;
-
-    &lt;li class=&#34;active&#34;&gt;
-   &lt;a data-toggle=&#34;pill&#34; href=&#34;#R-min_max-built-in&#34;&gt;
-     &lt;font color=&#34;blue&#34; class=&#34;R-label&#34;&gt;
-       R
-     &lt;/font&gt;
-   &lt;/a&gt;
- &lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Python-min_max-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Python-label&#34;&gt;
-    Python
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Rcpp-min_max-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Rcpp-label&#34;&gt;
-    Rcpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#Cpp-min_max-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;Cpp-label&#34;&gt;
-    Cpp
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt; 
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#NumPy-min_max-built-in&#34;&gt;
-    &lt;font color=&#34;blue&#34; class=&#34;NumPy-label&#34;&gt;
-    NumPy
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;
-
-  &lt;/ul&gt;
-
-  &lt;div class=&#34;tab-content&#34;&gt;
-
-    &lt;div id=&#34;R-min_max-built-in&#34; class=&#34;tab-pane fade in active&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/453d01831caa793494586a7f26562d57.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Python-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Rcpp-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;Cpp-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;&lt;div id=&#34;NumPy-min_max-built-in&#34; class=&#34;tab-pane fade&#34;&gt;
-  &lt;script src=&#34;https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392.js&#34;&gt;&lt;/script&gt;
-&lt;/div&gt;
-
-  &lt;/div&gt;
-&lt;/div&gt;
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;!-- &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; --&gt;
+&lt;!-- &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; --&gt;
+&lt;!-- &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; --&gt;
+&lt;!-- &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; --&gt;
+&lt;!-- &lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt; --&gt;
+&lt;!-- &lt;div class=&#34;code-container&#34;&gt; --&gt;
+&lt;!-- &lt;ul class=&#34;nav nav-pills&#34;&gt; --&gt;
+&lt;!-- &lt;li class=&#34;active&#34;&gt;&lt;a data-toggle=&#34;pill&#34; href=&#34;#r-length1&#34;&gt;  --&gt;
+&lt;!-- &lt;font class=&#34;R-label&#34;&gt; --&gt;
+&lt;!-- &lt;p title=&#34;Base R&#34;&gt; &lt;i class=&#34;fab fa-r-project&#34;&gt;&lt;/i&gt; &lt;/p&gt; --&gt;
+&lt;!-- &lt;/font&gt;&lt;/a&gt;&lt;/li&gt; --&gt;
+&lt;!-- &lt;li&gt;&lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length1&#34;&gt;              &lt;!-- Python Tab Label --&gt;
+&lt;!-- &lt;font class=&#34;Python-label&#34;&gt; --&gt;
+&lt;!-- &lt;!-- Python --&gt;
+&lt;!-- &lt;p title=&#34;Pure Python&#34;&gt; &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt; &lt;/p&gt; --&gt;
+&lt;!-- &lt;/font&gt;&lt;/a&gt;&lt;/li&gt; --&gt;
+&lt;!-- &lt;li&gt;&lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-length1&#34;&gt;
+&lt;!-- &lt;font class=&#34;Rcpp-label&#34;&gt; --&gt;
+&lt;!-- &lt;p title=&#34;C++ via {Rcpp}&#34;&gt; &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt; &lt;/p&gt; --&gt;
+&lt;!-- &lt;/font&gt;&lt;/a&gt;&lt;/li&gt; --&gt;
+&lt;!-- &lt;/ul&gt; --&gt;
+&lt;!-- &lt;div class=&#34;tab-content&#34;&gt; --&gt;
+&lt;!-- &lt;div id=&#34;r-length1&#34; class=&#34;tab-pane fade in active&#34;&gt; --&gt;
+&lt;!-- &lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt; --&gt;
+&lt;!-- ```{r r-length1} --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+&lt;!-- &lt;div id=&#34;py-length1&#34; class=&#34;tab-pane fade&#34;&gt; --&gt;
+&lt;!-- &lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length1.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt; --&gt;
+&lt;!-- ```{python py-length1} --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/div&gt; --&gt;
+&lt;!-- &lt;div id=&#34;rcpp-length1&#34; class=&#34;tab-pane fade&#34;&gt; --&gt;
+&lt;!-- &lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt; --&gt;
+&lt;!-- ```{Rcpp rcpp-length1} --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;p align=&#34;right&#34;&gt; --&gt;
+&lt;!-- [See me on GitHub](https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp) --&gt;
+&lt;!-- &lt;/p&gt; --&gt;
+&lt;!-- ```{r, echo=FALSE} --&gt;
+&lt;!-- cpp_length(1:20) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;/div&gt;&lt;/div&gt; --&gt;
+&lt;!-- ```{r, include=FALSE} --&gt;
+&lt;!-- # embed_gist(&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R&#34;) --&gt;
+&lt;!-- #            &#34;https://raw.githubusercontent.com/knapply/tutorial-gists/master/sections/foundational-programming/r-length1.R&#34; --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- &lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt; --&gt;
+&lt;!-- # Length --&gt;
+&lt;!-- ## From Scratch: How you _could_ do it --&gt;
+&lt;!-- ```{r length-from-scratch, echo=FALSE} --&gt;
+&lt;!-- build_code_tabs( --&gt;
+&lt;!--   chunk_label = knitr::opts_current$get(&#34;label&#34;), --&gt;
+&lt;!--   # foundational_programming-from_scratch-r_length.R --&gt;
+&lt;!--   R = &#34;https://gist.github.com/knapply/ca5e979f430018bfe95817b0e8b977cd&#34;, --&gt;
+&lt;!--   # foundational_programming-from_scratch-py_length.py --&gt;
+&lt;!--   Python = &#34;https://gist.github.com/knapply/65c586e6003362f1aba5bcad0df8f4f6&#34;, --&gt;
+&lt;!--   # foundational_programming-from_scratch-cpp_length.cpp --&gt;
+&lt;!--   Rcpp = &#34;https://gist.github.com/knapply/39b35d6e6efd574816395a57d7cecaa8&#34;, --&gt;
+&lt;!--   # knapply/foundational_programming-cpp-length1.cpp --&gt;
+&lt;!--   Cpp = &#34;https://gist.github.com/knapply/da952ed9a5cc2a04d4aa72e653b5a649&#34; --&gt;
+&lt;!--   ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ## Built-In: How you ___Should___ do it --&gt;
+&lt;!-- ```{r length-built-in, echo=FALSE} --&gt;
+&lt;!-- build_code_tabs( --&gt;
+&lt;!--   chunk_label = knitr::opts_current$get(&#34;label&#34;), --&gt;
+&lt;!--   # foundational_programming-built_in-length.R --&gt;
+&lt;!--   R = &#34;https://gist.github.com/knapply/c8436ed4ce1e7aa7db0ba93e3a97b542&#34;, --&gt;
+&lt;!--   # foundational_programming-built_in-len.py --&gt;
+&lt;!--   Python = &#34;https://gist.github.com/knapply/84dcb4ecc6f886f4b08ca83487c6d533&#34;, --&gt;
+&lt;!--   # foundational_programming-built_in-size.cpp --&gt;
+&lt;!--   Rcpp = &#34;https://gist.github.com/knapply/a4d985c8e9f41ec34310d873cf12305b&#34;, --&gt;
+&lt;!--   # foundational_programming-cpp-length2.cpp --&gt;
+&lt;!--   Cpp = &#34;https://gist.github.com/knapply/7c50ca13ba2a0d9097d9833225ac4cd8&#34;, --&gt;
+&lt;!--   # foundational_programming-numpy-length2.py --&gt;
+&lt;!--   NumPy = &#34;https://gist.github.com/knapply/6a49d876e668290c571aa08c9ca92598&#34; --&gt;
+&lt;!-- ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- # Sets of Unique Values --&gt;
+&lt;!-- ## From Scratch: How you _Could_ Do It Yourself --&gt;
+&lt;!-- ```{r unique-from-scratch, echo=FALSE} --&gt;
+&lt;!-- build_code_tabs( --&gt;
+&lt;!--   chunk_label = knitr::opts_current$get(&#34;label&#34;), --&gt;
+&lt;!--   # foundational_programming-r-unique1.R --&gt;
+&lt;!--   R = &#34;https://gist.github.com/knapply/2f81405d8d7f84f5bc9e929cb3d6f3f6&#34;, --&gt;
+&lt;!--   # foundational_programming-Rcpp-unique1.cpp --&gt;
+&lt;!--   Python = &#34;https://gist.github.com/knapply/e54dea3a5cf301f07cb2334ed59fe144&#34;, --&gt;
+&lt;!--   # foundational_programming-cpp-unique1.cpp --&gt;
+&lt;!--   Rcpp = &#34;https://gist.github.com/knapply/57e22219f1796b1e6837ce465f652df8&#34;, --&gt;
+&lt;!--   #  foundational_programming-py-unique1.R --&gt;
+&lt;!--   Cpp = &#34;https://gist.github.com/knapply/b47aa1a0976962126ed2ffc5d4e52353&#34; --&gt;
+&lt;!-- ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ## Built-In: How you ___Should___ do it --&gt;
+&lt;!-- ```{r unique-built-in, echo=FALSE} --&gt;
+&lt;!-- build_code_tabs( --&gt;
+&lt;!--   chunk_label = knitr::opts_current$get(&#34;label&#34;), --&gt;
+&lt;!--   # foundational_programming-r-unique2.R --&gt;
+&lt;!--   R = &#34;https://gist.github.com/knapply/c65c64a903bee75ed2a864b767eaa842&#34;, --&gt;
+&lt;!--   # foundational_programming-Rcpp-unique2.cpp --&gt;
+&lt;!--   Python = &#34;https://gist.github.com/knapply/6990d14ba96631a92620b10eca6114d3&#34;, --&gt;
+&lt;!--   #  foundational_programming-numpy-unique2.py --&gt;
+&lt;!--   Rcpp = &#34;https://gist.github.com/knapply/89a807d6d5642541b2a64ce18a51d9ae&#34;, --&gt;
+&lt;!--   # foundational_programming-Cpp-unique2.cpp --&gt;
+&lt;!--   Cpp = &#34;https://gist.github.com/knapply/215afabde3a23d4cfafd7e79a8193c14&#34;, --&gt;
+&lt;!--   #  foundational_programming-numpy-unique2.py --&gt;
+&lt;!--   NumPy = &#34;https://gist.github.com/knapply/d93f4ae250f52549c352784032babcdf&#34; --&gt;
+&lt;!-- ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- # Minimum and Maximum Values --&gt;
+&lt;!-- ## From Scratch: How you _Could_ Do It Yourself --&gt;
+&lt;!-- ```{r min_max-from-scratch, echo=FALSE} --&gt;
+&lt;!-- build_code_tabs( --&gt;
+&lt;!--   chunk_label = knitr::opts_current$get(&#34;label&#34;), --&gt;
+&lt;!--   # foundational_programming-r-min_max.R --&gt;
+&lt;!--   R = &#34;https://gist.github.com/knapply/2531af89786ef5cabee8e8cbef19169c&#34;, --&gt;
+&lt;!--   # foundational_programming-py-min_max.py --&gt;
+&lt;!--   Python = &#34;https://gist.github.com/knapply/ee608844b076a85090f911baabf3fbdd&#34;, --&gt;
+&lt;!--   # foundational_programming-rcpp-min_max1.cpp --&gt;
+&lt;!--   Rcpp = &#34;https://gist.github.com/knapply/e92c262f25f678fe58fe63d89997a516&#34;, --&gt;
+&lt;!--   #  foundational_programming-cpp-min_max1.cpp --&gt;
+&lt;!--   Cpp = &#34;https://gist.github.com/knapply/dca2384848e6f5a17c3bf7a3c141ae92&#34; --&gt;
+&lt;!-- ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ## Built-In: How you ___Should___ do it --&gt;
+&lt;!-- ```{r min_max-built-in, echo=FALSE} --&gt;
+&lt;!-- build_code_tabs( --&gt;
+&lt;!--   chunk_label = knitr::opts_current$get(&#34;label&#34;), --&gt;
+&lt;!--   # foundational_programming-r-min_max2.R --&gt;
+&lt;!--   R = &#34;https://gist.github.com/knapply/453d01831caa793494586a7f26562d57&#34;, --&gt;
+&lt;!--   # foundational_programming-py-min_max2.py --&gt;
+&lt;!--   Python = &#34;https://gist.github.com/knapply/44ca92db26896ff0f049897a4a23c90b&#34;, --&gt;
+&lt;!--   # foundational_programming-rcpp-min_max2.cpp --&gt;
+&lt;!--   Rcpp = &#34;https://gist.github.com/knapply/6d727f54febafb95e8f306e8f3a8ddd1&#34;, --&gt;
+&lt;!--   # foundational_programming-cpp-min_max2.cpp --&gt;
+&lt;!--   Cpp = &#34;https://gist.github.com/knapply/6641f0b6a8c47e2b0bcee8b55a49987f&#34;, --&gt;
+&lt;!--   # foundational_programming-numpy-min_max2.py --&gt;
+&lt;!--   NumPy = &#34;https://gist.github.com/knapply/498cf65c19a9188c41d8aeeab0550392&#34; --&gt;
+&lt;!-- ) --&gt;
+&lt;!-- ``` --&gt;
 &lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;When using this post, please consider citing it.&lt;/p&gt;
@@ -444,7 +584,6 @@
   month  = Nov,
   day    = 3,
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -1076,6 +1215,1242 @@ print(res.head(10))&lt;/code&gt;&lt;/pre&gt;
 ## [46] rmarkdown_1.10.14     httr_1.3.1            rstudioapi_0.8.0.9000
 ## [49] htmldeps_0.1.1        R6_2.3.0              compiler_3.5.1&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Bubble Sort</title>
+      <link>/post/bubble-sort/bubble-sort/</link>
+      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/bubble-sort/bubble-sort/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#unsorted-list&#34;&gt;Unsorted &lt;code&gt;list&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bubble-sort-function&#34;&gt;Bubble Sort Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#result&#34;&gt;Result&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#unsorted-vector&#34;&gt;Unsorted &lt;code&gt;vector&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#bubble-sort-function-1&#34;&gt;Bubble Sort Function&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#result-1&#34;&gt;Result&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;/css/style.css&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://res.cloudinary.com/syknapptic/image/upload/v1531752863/BubbleSort_Avg_case_ovrcui.gif&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;python&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Python&lt;/h1&gt;
+&lt;div id=&#34;unsorted-list&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Unsorted &lt;code&gt;list&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;unsorted = [9, 2, 8, 3, 7, 4, 6, 5, 1]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bubble-sort-function&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Bubble Sort Function&lt;/h2&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def bubble_sort(unsorted_sequence):
+    sorted_sequence = unsorted_sequence
+    
+    for iteration, _ in enumerate(sorted_sequence):
+    
+        for i, _ in enumerate(sorted_sequence):
+            if i + 1 &amp;lt;= len(sorted_sequence) - 1:
+                current_value = sorted_sequence[i]
+                next_value = sorted_sequence[i + 1]
+                
+                if current_value &amp;gt; next_value:
+                    sorted_sequence[i] = next_value
+                    sorted_sequence[i + 1] = current_value
+
+        print(f&amp;#39;Iteration #{iteration + 1}:    {&amp;quot;, &amp;quot;.join(list(map(str, sorted_sequence)))}&amp;#39;)
+                    
+    return sorted_sequence&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;result&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Result&lt;/h2&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;bubble_sort(unsorted)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Iteration #1:    2, 8, 3, 7, 4, 6, 5, 1, 9
+## Iteration #2:    2, 3, 7, 4, 6, 5, 1, 8, 9
+## Iteration #3:    2, 3, 4, 6, 5, 1, 7, 8, 9
+## Iteration #4:    2, 3, 4, 5, 1, 6, 7, 8, 9
+## Iteration #5:    2, 3, 4, 1, 5, 6, 7, 8, 9
+## Iteration #6:    2, 3, 1, 4, 5, 6, 7, 8, 9
+## Iteration #7:    2, 1, 3, 4, 5, 6, 7, 8, 9
+## Iteration #8:    1, 2, 3, 4, 5, 6, 7, 8, 9
+## Iteration #9:    1, 2, 3, 4, 5, 6, 7, 8, 9&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;r&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;R&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(stringr)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;unsorted-vector&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Unsorted &lt;code&gt;vector&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;unsorted &amp;lt;- c(9, 2, 8, 3, 7, 4, 6, 5, 1)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;bubble-sort-function-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Bubble Sort Function&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bubble_sort &amp;lt;- function(unsorted_sequence) {
+  sorted_sequence &amp;lt;- unsorted_sequence
+  
+  for(iteration in seq_along(sorted_sequence)) {
+    
+    for(i in seq_along(sorted_sequence)) {
+      if(i + 1 &amp;lt;= length(sorted_sequence)) {
+        current_value &amp;lt;- sorted_sequence[[i]]
+        next_value &amp;lt;- sorted_sequence[[i + 1]]
+        
+        if(current_value &amp;gt; next_value) {
+          sorted_sequence[[i]] &amp;lt;- next_value
+          sorted_sequence[[i + 1]] &amp;lt;- current_value
+        }
+      }
+    }
+    print(str_glue(&amp;quot;Iteration #{iteration}:    {str_flatten(sorted_sequence, &amp;#39;, &amp;#39;)}&amp;quot;))
+  }
+
+  sorted_sequence
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;result-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Result&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;bubble_sort(unsorted)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Iteration #1:    2, 8, 3, 7, 4, 6, 5, 1, 9
+## Iteration #2:    2, 3, 7, 4, 6, 5, 1, 8, 9
+## Iteration #3:    2, 3, 4, 6, 5, 1, 7, 8, 9
+## Iteration #4:    2, 3, 4, 5, 1, 6, 7, 8, 9
+## Iteration #5:    2, 3, 4, 1, 5, 6, 7, 8, 9
+## Iteration #6:    2, 3, 1, 4, 5, 6, 7, 8, 9
+## Iteration #7:    2, 1, 3, 4, 5, 6, 7, 8, 9
+## Iteration #8:    1, 2, 3, 4, 5, 6, 7, 8, 9
+## Iteration #9:    1, 2, 3, 4, 5, 6, 7, 8, 9&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] 1 2 3 4 5 6 7 8 9&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;environment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Environment&lt;/h1&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(sys.version)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## R version 3.5.1 (2018-07-02)
+## Platform: x86_64-w64-mingw32/x64 (64-bit)
+## Running under: Windows 10 x64 (build 17134)
+## 
+## Matrix products: default
+## 
+## locale:
+## [1] LC_COLLATE=English_United States.1252 
+## [2] LC_CTYPE=English_United States.1252   
+## [3] LC_MONETARY=English_United States.1252
+## [4] LC_NUMERIC=C                          
+## [5] LC_TIME=English_United States.1252    
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+## [1] stringr_1.3.1.9000
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_0.12.19.3         bookdown_0.7.21        lattice_0.20-35       
+##  [4] crayon_1.3.4           digest_0.6.18          grid_3.5.1            
+##  [7] jsonlite_1.5           magrittr_1.5           evaluate_0.12         
+## [10] blogdown_0.9.1         stringi_1.2.4          Matrix_1.2-14         
+## [13] reticulate_1.10.0.9002 rmarkdown_1.10.14      htmldeps_0.1.1        
+## [16] tools_3.5.1            glue_1.3.0             xfun_0.4              
+## [19] yaml_2.2.0             compiler_3.5.1         htmltools_0.3.6       
+## [22] knitr_1.20.21&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>R-Python Thesaurus</title>
+      <link>/post/r-python-thesaurus/</link>
+      <pubDate>Mon, 09 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/r-python-thesaurus/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#types&#34;&gt;Types&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#collections-vectors-lists-and-dictionaries&#34;&gt;Collections: Vectors, Lists, and Dictionaries&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#common-tasks&#34;&gt;Common Tasks&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#iteration&#34;&gt;Iteration&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sequences&#34;&gt;Sequences&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#comparisons&#34;&gt;Comparisons&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#arithmetic&#34;&gt;Arithmetic&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#statistics&#34;&gt;Statistics&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#dates-and-times&#34;&gt;Dates and Times&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#strings-and-regular-expressions&#34;&gt;Strings and Regular Expressions&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&#34;https://raw.githubusercontent.com/syknapptic/RversusPython/master/README_image.JPG&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;div id=&#34;types&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Types&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python Type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python Example
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R Type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R Example
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;int&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;1&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;integer&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;1L&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;float&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;3.14&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;numeric &amp;amp; double&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;3.14&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;string&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;‘hi’&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;character&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;“hi”&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;bool&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;True&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;logical&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;TRUE&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;collections-vectors-lists-and-dictionaries&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Collections: Vectors, Lists, and Dictionaries&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python Type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python Example
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R Type
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R Example
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Values
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;scalar&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;1&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;vector&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;1&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;homogeneous&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;list&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;[1, 1]&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;vector&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;c(1, 2)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;homogeneous&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;list&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;[1, ‘string’]&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;list&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;list(1, “string”)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: purple;&#34;&gt;heterogenous&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;tuple&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;(1, ‘string’]&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;list&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;list(1, “string”)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: purple;&#34;&gt;heterogenous&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;dict&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;{‘a’:1, ‘b’:‘string’}&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;list&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;list(a = 1, b = “string”)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: purple;&#34;&gt;heterogenous&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;vector&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;c(a = 1, b = 2)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;homogeneous&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding: 0; border: 0;&#34; colspan=&#34;100%&#34;&gt;
+&lt;span style=&#34;font-style: italic;&#34;&gt;Note: &lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding: 0; border: 0;&#34; colspan=&#34;100%&#34;&gt;
+&lt;sup&gt;&lt;/sup&gt; &lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;dict&lt;/span&gt;s are not ordered.&lt;br&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;scalar&lt;/span&gt;s are roughly equivalent to
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;vector&lt;/span&gt;s of length 1
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+&lt;div id=&#34;common-tasks&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Common Tasks&lt;/h2&gt;
+&lt;p&gt;Python and R data types cannot be thought of as exact matches.&lt;/p&gt;
+&lt;p&gt;A critical difference is that Python &lt;code&gt;list&lt;/code&gt;s are not inherently homogeneous, which is the case for R &lt;code&gt;vector&lt;/code&gt;s.&lt;/p&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;list(zip(list1, list2))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;mapply(c, vector1, vector2, SIMPLIFY = FALSE, USE.NAMES = FALSE)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;dict(zip(list1, list2))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;names(vector1) &amp;lt;- vector2&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;dict(zip(list1, list2))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;setNames(vector1, vector2)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;enumerate(list1)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;seq_along(list1)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;max(dict.items(), lambda x = x[1])&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;named_vector[named_vector == max(named_vector)]&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;library(purrr)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;list(zip(list1, list2))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;map2(vector1, vector2, c)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;max(dict.items(), lambda x = x[1])&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;named_vector %&amp;gt;% keep(~ .x == max(named_vector))&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding: 0; border: 0;&#34; colspan=&#34;100%&#34;&gt;
+&lt;span style=&#34;font-style: italic;&#34;&gt;Note: &lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding: 0; border: 0;&#34; colspan=&#34;100%&#34;&gt;
+&lt;sup&gt;&lt;/sup&gt; &lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;enumerate()&lt;/span&gt; returns a generator.
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iteration&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Iteration&lt;/h2&gt;
+&lt;div id=&#34;python&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Python&lt;/h3&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;days = [&amp;#39;Monday&amp;#39;, &amp;#39;Tuesday&amp;#39;, &amp;#39;Wednesday&amp;#39;, &amp;#39;Thursday&amp;#39;, &amp;#39;Friday&amp;#39;, &amp;#39;Saturday&amp;#39;, &amp;#39;Sunday&amp;#39;]
+
+for i, day in enumerate(days, start = 1):
+  print(f&amp;#39;{i}. {day}&amp;#39;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 1. Monday
+## 2. Tuesday
+## 3. Wednesday
+## 4. Thursday
+## 5. Friday
+## 6. Saturday
+## 7. Sunday&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;r&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;R&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;days &amp;lt;- c(&amp;quot;Monday&amp;quot;, &amp;quot;Tuesday&amp;quot;, &amp;quot;Wednesday&amp;quot;, &amp;quot;Thursday&amp;quot;, &amp;quot;Friday&amp;quot;, &amp;quot;Saturday&amp;quot;, &amp;quot;Sunday&amp;quot;)
+
+for(i in seq_along(days)) {                   # a Python-style loop works...
+  print(str_glue(&amp;#39;{i}. {days[[i]]}&amp;#39;))         # but it&amp;#39;s awkward in that you would probably
+                                              # only ever do this to `plot()` or `print()`...
+}                                             # but we don&amp;#39;t explicitly `print()` much in R&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 1. Monday
+## 2. Tuesday
+## 3. Wednesday
+## 4. Thursday
+## 5. Friday
+## 6. Saturday
+## 7. Sunday&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In R, functions like &lt;code&gt;print()&lt;/code&gt; or &lt;code&gt;plot()&lt;/code&gt; “return” &lt;em&gt;side-effects&lt;/em&gt; rather than values.&lt;/p&gt;
+&lt;p&gt;&lt;a href=&#34;http://adv-r.had.co.nz/Functions.html?id=#return-values&#34;&gt;Advanced R - Functions: Return values&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;With that in mind, the best solution is probably &lt;code&gt;purrr::walk()&lt;/code&gt;, which is designed specifically to iterate over values while calling a function for its side-effects.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;walk(days, ~ print(str_glue(&amp;quot;{match(.x, days)}. {.x}&amp;quot;))) # print() in R is a side-effect, &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 1. Monday
+## 2. Tuesday
+## 3. Wednesday
+## 4. Thursday
+## 5. Friday
+## 6. Saturday
+## 7. Sunday&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Underneath the hood, &lt;code&gt;walk()&lt;/code&gt; is literally just a &lt;code&gt;for()&lt;/code&gt; loop, but it’s &lt;em&gt;consistent&lt;/em&gt; with a family of functions from {&lt;code&gt;purrr&lt;/code&gt;} that provide powerful iteration tools and solutions to complicated tasks involving &lt;code&gt;vector&lt;/code&gt;s, &lt;code&gt;list&lt;/code&gt;s, and &lt;code&gt;data.frame&lt;/code&gt;s.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sequences&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Sequences&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;range(0, 20, 2)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;seq(from = 0, to = 18, by = 2)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;tfoot&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding: 0; border: 0;&#34; colspan=&#34;100%&#34;&gt;
+&lt;span style=&#34;font-style: italic;&#34;&gt;Note: &lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;padding: 0; border: 0;&#34; colspan=&#34;100%&#34;&gt;
+&lt;sup&gt;&lt;/sup&gt; &lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;range()&lt;/span&gt; returns a generator
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tfoot&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;comparisons&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Comparisons&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Meaning
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&amp;lt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&amp;lt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;less than&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;greater than&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&amp;lt;=&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&amp;lt;=&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;less than or equal&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&amp;gt;=&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&amp;gt;=&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;greater than or equal&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;==&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;==&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;is equal&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;!=&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;!=&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;is not equal&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;is &amp;lt;SOMETHING&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;is.&amp;lt;SOMETHING&amp;gt; | is_&amp;lt;SOMETHING&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;is an object &amp;lt;SOMETHING&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;is not &amp;lt;SOMETHING&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;!is.&amp;lt;SOMETHING&amp;gt; | !is_&amp;lt;SOMETHING&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;is an object not &amp;lt;SOMETHING&amp;gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;and&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&amp;amp;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;and&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;or&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;|&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;or&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;arithmetic&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Arithmetic&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Meaning
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x + y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x + x&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;x &lt;span style=&#34; font-weight: bold;    &#34;&gt;P&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;L&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;S&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x - y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x - y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;x &lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;S&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x * y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x * y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;x &lt;span style=&#34; font-weight: bold;    &#34;&gt;T&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;S&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x / y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x / y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;x &lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;V&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;B&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;Y&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x // y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x %/% y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;F&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;L&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;R&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;Q&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;T&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;T&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;F&lt;/span&gt; x &lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;V&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;B&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;Y&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x % y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x %% y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;R&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;A&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;R&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;F&lt;/span&gt; x &lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;V&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;B&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;Y&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;-x&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;-x&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;G&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;A&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;T&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;V&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt; x&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;x**y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;x^y&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;x &lt;span style=&#34; font-weight: bold;    &#34;&gt;R&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;A&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;S&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;D&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;T&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;T&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;H&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;P&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;W&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;R&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;F&lt;/span&gt; y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;sum([x, y])&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;sum(c(x, y))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;S&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;O&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;F&lt;/span&gt; x, y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;min([x, y])&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;min(c(x, y))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;V&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;A&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;L&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt; x, y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;max([x, y])&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;max(c(x, y))&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;A&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;X&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;M&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;V&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;A&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;L&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;U&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;E&lt;/span&gt; &lt;span style=&#34; font-weight: bold;    &#34;&gt;I&lt;/span&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;N&lt;/span&gt; x, y&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;statistics&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Statistics&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Meaning
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;import numpy&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;numpy.mean()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;mean()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;mean&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;numpy.median()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;median()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;median&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;numpy.std&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;sd()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;standard deviation&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;numpy.var()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;var()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;variance&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;numpy.cov()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;cov()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;covariance&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;numpy.corrcoef()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;cor()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;Pearson’s correlation&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;import scipy&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;library(Hmisc)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;scipy.stats.pearsonr()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;rcorr()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;Pearson’s correlation w/ p-values&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;scipy.stats.spearmanr()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;rcorr(…, type = “spearman”)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;Spearman’s correlation w/ p-values&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;dates-and-times&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Dates and Times&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Result
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;import datetime&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;library(lubridate)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;relevant packages are imported&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now = datetime.today()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;right_now &amp;lt;- now()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;current date and time&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.year&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;year(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;current &lt;span style=&#34; font-weight: bold;    &#34;&gt;year&lt;/span&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.month&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;month(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;month&lt;/span&gt; of the year&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.isocalendar()[1]&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;week(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;week&lt;/span&gt; of the year&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.day&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;day(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;day&lt;/span&gt; of the month&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.hour&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;hour(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;hour&lt;/span&gt; of the day&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.minute&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;minute(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;minute&lt;/span&gt; of the hour&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;right_now.second&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;second(right_now)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;     color: green;&#34;&gt;&lt;span style=&#34; font-weight: bold;    &#34;&gt;second&lt;/span&gt; of the minute&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;div id=&#34;strings-and-regular-expressions&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Strings and Regular Expressions&lt;/h1&gt;
+&lt;table class=&#34;table&#34; style=&#34;font-size: 14px; width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Python
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+R
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;import re&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;library(stringr)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;‘string for list’.split()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;strsplit(“string for list”, “\s”)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.search(pattern, string)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_detect(string, pattern)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.search(pattern, string).group()&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_extract(string, pattern)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.split(pattern, string)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_split(string, pattern)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.findall(pattern, string)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_extract_all(string, pattern)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;string.replace(pattern, repl)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_replace(string, pattern, repl)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.sub(pattern, repl, string)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_replace(string, pattern, repl)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.sub(pattern, &amp;lt;foo&amp;gt;, string)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;str_replace_all(string, pattern, &amp;lt;foo&amp;gt;)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: red;&#34;&gt;re.compile(pattern)&lt;/span&gt;
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+&lt;span style=&#34;   font-family: monospace;  color: blue;&#34;&gt;regex(pattern)&lt;/span&gt;
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Privacy Policy</title>
+      <link>/privacy/</link>
+      <pubDate>Thu, 28 Jun 2018 00:00:00 -0700</pubDate>
+      
+      <guid>/privacy/</guid>
+      <description>&lt;p&gt;&amp;hellip;&lt;/p&gt;
 </description>
     </item>
     

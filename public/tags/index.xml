@@ -49,6 +49,24 @@
     </item>
     
     <item>
+      <title>algorithms</title>
+      <link>/tags/algorithms/</link>
+      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/algorithms/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>computer-science</title>
+      <link>/tags/computer-science/</link>
+      <pubDate>Mon, 16 Jul 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/computer-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>cpp</title>
       <link>/tags/cpp/</link>
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
@@ -63,6 +81,15 @@
       <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/data-carpentry/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data-science-from-scratch</title>
+      <link>/tags/data-science-from-scratch/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/data-science-from-scratch/</guid>
       <description></description>
     </item>
     
@@ -135,6 +162,15 @@
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/rcpp/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>statistics</title>
+      <link>/tags/statistics/</link>
+      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/statistics/</guid>
       <description></description>
     </item>
     
