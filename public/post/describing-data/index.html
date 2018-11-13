@@ -1,0 +1,1274 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Essential mathematical and programming operations">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/describing-data/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-115043043-7', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="knapply()">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="knapply()">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/describing-data/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="knapply()">
+  <meta property="og:url" content="/post/describing-data/">
+  <meta property="og:title" content="Describing Data | knapply()">
+  <meta property="og:description" content="Essential mathematical and programming operations">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-11-12T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-11-12T00:00:00&#43;00:00">
+  
+
+  
+
+  
+
+  <title>Describing Data | knapply()</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">knapply()</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/tutorial/">
+            
+            <span>Tutorials</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/talk/">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/files/cv.pdf">
+            
+            <span>Résumé</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Describing Data</h1>
+
+  
+
+  
+    
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-11-12 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Nov 12, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/describing-data/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science-from-scratch/">data-science-from-scratch</a>, 
+    
+    <a href="/categories/statistics/">statistics</a>, 
+    
+    <a href="/categories/tutorial/">tutorial</a>, 
+    
+    <a href="/categories/programming/">programming</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Describing%20Data&amp;url=%2fpost%2fdescribing-data%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fdescribing-data%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fdescribing-data%2f&amp;title=Describing%20Data"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fdescribing-data%2f&amp;title=Describing%20Data"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Describing%20Data&amp;body=%2fpost%2fdescribing-data%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<div id="TOC">
+<ul>
+<li><a href="#lengthsize">Length/Size</a></li>
+<li><a href="#minimum-and-maximum-values">Minimum and Maximum Values</a></li>
+<li><a href="#sum">Sum</a></li>
+</ul>
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
+<div id="lengthsize" class="section level1">
+<h1>Length/Size</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-length-size">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-length-size">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-length-size">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-length-size">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-length-size">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-length-size" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-length-size.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector</code></pre>
+<pre><code>#&gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7</code></pre>
+<pre class="r"><code>length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="rcpp-length-size" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-length-size.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  return x.size();
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="cpp-length-size" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-length-size.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
+
+int main() {
+  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+
+  auto res = std::size(cpp_vector);
+
+  std::cout &lt;&lt; &quot;length/size: &quot; &lt;&lt; res &lt;&lt; std::endl;
+
+  return 0;
+}</code></pre>
+<pre class="bash"><code>cd tutorial-gists/sections/describing-data/ &amp;&amp;
+  g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &amp;&amp;
+  ./cpp-length-size</code></pre>
+<pre><code>#&gt; length/size: 20</code></pre>
+<p></div><div id="py-length-size" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-length-size.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)</code></pre>
+<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<pre class="python"><code>res = len(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div><div id="numpy-length-size" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-length-size.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>res = np.size(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div></div></p>
+</div>
+<div id="minimum-and-maximum-values" class="section level1">
+<h1>Minimum and Maximum Values</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-min-max">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-min-max">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-min-max">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-min-max">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-min-max">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-min-max" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-min-max.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector</code></pre>
+<pre><code>#&gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7</code></pre>
+<pre class="r"><code>max(r_vector)</code></pre>
+<pre><code>#&gt; [1] 999</code></pre>
+<p></div><div id="rcpp-min-max" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-min-max.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+
+using namespace Rcpp;
+using std::min_element;
+using std::max_element;
+
+// [[Rcpp::export]]
+double cpp_min(NumericVector x) {
+  return *min_element(x.begin(), x.end()); 
+}
+
+// [[Rcpp::export]]
+double cpp_max(NumericVector x) {
+  return *max_element(x.begin(), x.end()); 
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_min(r_vector)</code></pre>
+<pre><code>#&gt; [1] 7</code></pre>
+<pre class="r"><code>cpp_max(r_vector)</code></pre>
+<pre><code>#&gt; [1] 999</code></pre>
+<p></div><div id="cpp-min-max" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-min-max.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;algorithm&gt; // std::min_element, std::max_element
+#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
+
+int main() {
+  // example data
+  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  // find minimum value
+  auto min_res = std::min_element(std::begin(cpp_vector), std::end(cpp_vector));
+  // print
+  std::cout &lt;&lt; &quot;minimum: &quot; &lt;&lt; *min_res &lt;&lt; std::endl;
+  
+  // find maximum value
+  auto max_res = std::max_element(std::begin(cpp_vector), std::end(cpp_vector));
+  // print
+  std::cout &lt;&lt; &quot;minimum: &quot; &lt;&lt; *max_res &lt;&lt; std::endl;
+  
+  return 0;
+}</code></pre>
+<pre class="bash"><code>cd tutorial-gists/sections/describing-data/ &amp;&amp;
+  g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &amp;&amp;
+  ./cpp-min-max</code></pre>
+<pre><code>#&gt; minimum: 7
+#&gt; minimum: 999</code></pre>
+<p></div><div id="py-min-max" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-min-max.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)</code></pre>
+<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<pre class="python"><code>min_res = min(py_list)
+print(min_res)</code></pre>
+<pre><code>#&gt; 7</code></pre>
+<pre class="python"><code>max_res = max(py_list)
+print(max_res)</code></pre>
+<pre><code>#&gt; 999</code></pre>
+<p></div><div id="numpy-min-max" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-min-max.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
+
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>min_res = np.min(numpy_array)
+print(min_res)</code></pre>
+<pre><code>#&gt; 7</code></pre>
+<pre class="python"><code>max_res = np.max(numpy_array)
+print(max_res)</code></pre>
+<pre><code>#&gt; 999</code></pre>
+<p></div></div></p>
+</div>
+<div id="sum" class="section level1">
+<h1>Sum</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-sum">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-sum">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-sum">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-sum">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-sum">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-sum" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-sum.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector = c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector</code></pre>
+<pre><code>#&gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7</code></pre>
+<pre class="r"><code>sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p></div><div id="rcpp-sum" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-sum.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_sum(NumericVector x) {
+  return sum(x);
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p></div><div id="cpp-sum" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-sum.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;numeric&gt;   // std::accumulate
+#include &lt;vector&gt;    // std::vector
+
+int main() {
+  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+
+  auto res = std::accumulate(std::begin(cpp_vector), std::end(cpp_vector), 0.0);
+
+  std::cout &lt;&lt; &quot;sum: &quot; &lt;&lt; res &lt;&lt; std::endl;
+
+  return 0;
+}</code></pre>
+<pre class="bash"><code>cd tutorial-gists/sections/describing-data/ &amp;&amp;
+  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &amp;&amp;
+  ./cpp-sum</code></pre>
+<pre><code>#&gt; sum: 9137</code></pre>
+<p></div><div id="py-sum" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-sum.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)</code></pre>
+<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<pre class="python"><code>res = sum(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+<p></div><div id="numpy-sum" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-sum.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>res = np.sum(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+<p></div></div></p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/data-science-from-scratch/">data-science-from-scratch</a>
+  
+  <a class="badge badge-light" href="/tags/statistics/">statistics</a>
+  
+  <a class="badge badge-light" href="/tags/programming/">programming</a>
+  
+  <a class="badge badge-light" href="/tags/r/">r</a>
+  
+  <a class="badge badge-light" href="/tags/python/">python</a>
+  
+  <a class="badge badge-light" href="/tags/cpp/">cpp</a>
+  
+  <a class="badge badge-light" href="/tags/rcpp/">rcpp</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/logo.png" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/central-tendency/">Central Tendency</a></li>
+        
+        <li><a href="/post/standard-deviation/">Standard Deviation</a></li>
+        
+        <li><a href="/post/foundational-programming/">Foundational Programming</a></li>
+        
+        <li><a href="/post/functions/">Functions</a></li>
+        
+        <li><a href="/post/r-python-thesaurus/">R-Python Thesaurus</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
+  
+
+  <p class="powered-by">
+    &copy; 2018 Brendan Knapp &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.83b2a65cc1ca1f6c27c3f6943cbc37b88095532149bd65090e1ace0fafa090299c14cc980ebb55fed8a2b67507f355d0ff8f2e7beb5d5b7cd5903f53c74df423.js" integrity="sha512-g7KmXMHKH2wnw/aUPLw3uICVUyFJvWUJDhrOD6&#43;gkCmcFMyYDrtV/tiitnUH81XQ/48ue&#43;tdW3zVkD9Tx030Iw=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+

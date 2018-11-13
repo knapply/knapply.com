@@ -7,21 +7,43 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
-    <lastBuildDate>Sat, 03 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 12 Nov 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/python/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
       <title>Central Tendency</title>
-      <link>/post/central-tendency/central-tendency/</link>
-      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      <link>/post/central-tendency/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/central-tendency/central-tendency/</guid>
-      <description>MeanFrom ScratchHow You Should Do ItMedianFrom ScratchMeanFrom Scratch  R 
-r_mean &amp;lt;- function(x) {sum(x) / length(x)}r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)r_mean(r_vector)# [1] 5.48  Python 
-def py_mean(x):return sum(x) / len(x)py_list = [1.3, 3.8, 10.1, 2.5, 9.7]result = py_mean(py_list)print(result)# 5.4799999999999995  
-  C++</description>
+      <guid>/post/central-tendency/</guid>
+      <description>MeanMean--R----Rcpp----C++----Python----NumPy--
+r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)mean(r_vector)#&amp;gt; [1] 456.</description>
+    </item>
+    
+    <item>
+      <title>Describing Data</title>
+      <link>/post/describing-data/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/describing-data/</guid>
+      <description>Length/SizeMinimum and Maximum ValuesSumLength/Size--R----Rcpp----C++----Python----NumPy--
+r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7)r_vector#&amp;gt; [1] 126 793 999 525 851 798 120 714 852 151 190 41 612 826 507 105 14 237 669 7length(r_vector)#&amp;gt; [1] 20#include &amp;lt;Rcpp.</description>
+    </item>
+    
+    <item>
+      <title>Standard Deviation</title>
+      <link>/post/standard-deviation/</link>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/standard-deviation/</guid>
+      <description>PurposeEquationsBy HandPurposeQuantify amount of variation/spread/dispersion of values.
+Equations\(\sigma_x = \sqrt{ \frac{\sum(x - \mu_x)^2} {N-1} }\)
+\(\sigma_x = sqrt({ \frac{sum(~(x - mean(x)~)^2} {(N-1)}})\)
+\(numerator = sum(~(x-mean(x)~)^2\)
+\(mean = \frac {sum(x)} {length(x)}\)
+By Hand--R----Rcpp----C++----NumPy--</description>
     </item>
     
     <item>
@@ -30,8 +52,8 @@ def py_mean(x):return sum(x) / len(x)py_list = [1.3, 3.8, 10.1, 2.5, 9.7]resu
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/foundational-programming/</guid>
-      <description>From ScratchBuilt-inFrom Scratch
-r_length &amp;lt;- function(x) {out &amp;lt;- 0Lfor (i in x) {out &amp;lt;- out + 1L}out}r_vector &amp;lt;- 1:20r_vector#&amp;gt; [1] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20r_length(r_vector)#&amp;gt; [1] 20def py_length(x):out = 0 for i in x:out += 1return outpy_generator = range(1, 21)print(list(py_generator))#&amp;gt; [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]result = py_length(py_generator)print(result)#&amp;gt; 20#include &amp;lt;Rcpp.</description>
+      <description>From ScratchBuilt-inFrom Scratch--R----Rcpp----C++----Python--
+r_length &amp;lt;- function(x) {out &amp;lt;- 0Lfor (i in x) {out &amp;lt;- out + 1L}out}r_vector &amp;lt;- 1:20r_vector#&amp;gt; [1] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20r_length(r_vector)#&amp;gt; [1] 20#include &amp;lt;Rcpp.</description>
     </item>
     
     <item>

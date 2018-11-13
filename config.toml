@@ -185,7 +185,7 @@ enableGitInfo = true
   # Link custom CSS and JS assets
   #   (relative to /static/css and /static/js respectively)
   custom_css = ["style.css"]
-  custom_js  = ["copy-code.js"]
+  #custom_js  = ["copy-code.js"]
 
   # Publication types.
   #   Used to categorize publications.

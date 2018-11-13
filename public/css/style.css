@@ -24,26 +24,44 @@
 
 */
 
+.r {
+  word-wrap: normal;
+}
+
 .r::before {
-  content: "> R\A";
+  content: "> .R\A";
   font-weight: 200;
   color: #276DC3;
 }
-
+.python {
+  word-wrap: normal;
+}
 .python::before {
-  content: ">>> Python\A";
+  content: ">>> .py\A";
   font-weight: 200;
   color: #43B02A;
 }
 
-.cpp::before {
-  content: "> C++\A";
+.cpp {
+  word-wrap: normal;
+}
+.cpp-cpp::before {
+  content: "> .cpp\A";
+  font-weight: 200;
+  color: red;
+}
+.cpp-header::before {
+  content: "> .h\A";
   font-weight: 200;
   color: red;
 }
 
+
+.bash {
+  word-wrap: normal;
+}
 .bash > .hljs::before {
-  content: "~$ Bash\A";
+  content: "~$ .bash\A";
   font-weight: 200;
   color: #39B34A;
 }
@@ -77,7 +95,9 @@
   font-size: 1.5em;
 }
 
-
+.toc-table:hover * {
+  text-decoration: none;
+}
 
 .toc-table > table > tbody > tr > td {
   font-family: 'New Rubrik', serif;
@@ -140,9 +160,9 @@
   font-family: 'Source Code Pro', monospace;
   /*font-weight: bold;*/
 /*  padding: 10px 30px 0;*/
-  display: flex; 
+  /*display: grid;*/ 
   justify-content: center;
-  float: none;
+  /*float: none;*/
   text-align: center;
 }
 
@@ -150,36 +170,53 @@
 .fa-r-project {
   color: #276DC3;
   font-size: 60px;
-  padding: 0 20px 0;
+  /*padding: 0 20px 0;*/
+  padding: 0;
 }
 
 .fa-python {
   color: #43B02A;
   font-size: 60px;
-  padding: 0 20px 0;
+  /*padding: 0 20px 0;*/
+  padding: 0;
 }
 
 .NumPy-label p .fa-python {
   color: #FED561;
   font-size: 60px;
-  padding: 0 20px 0;
+  /*padding: 0 20px 0;*/
+  padding: 0;
 }
 
 .Cpp-label p .devicon-cplusplus-plain {
   color: red;
   font-size: 60px;
-  padding: 0 20px 0;
+  /*padding: 0 20px 0;*/
+  padding: 0;
 }
-
 
 .devicon-cplusplus-plain {
   color: #004482;
   font-size: 60px;
-  padding: 10px 20px 0;
+  padding: 0;
+  /*padding: 0 20px 0;*/
 }
+
+
+/*.code-container * {
+  padding: 0;
+}*/
+
+/*.icon-lab {
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  font-size: 50px;
+}*/
 
 .R-label {
   color: #276DC3;
+  padding: 0;
 }
 .R-github-link {
   text-align: right;
@@ -198,6 +235,7 @@
 
 .Python-label {
   color: #43B02A;
+  padding: 0;
 }
 .Python-github-link {
   text-align: right;
@@ -216,6 +254,7 @@
 
 .Rcpp-label {
   color: #004482;
+  padding: 0;
 }
 .Rcpp-github-link {
   text-align: right;
@@ -233,6 +272,7 @@
 
 .Cpp-label {
   color: red;
+  padding: 0;
 }
 .Cpp-github-link {
   text-align: right;
@@ -251,6 +291,7 @@
 
 .NumPy-label {
   color: #FED561;
+  padding: 0;
 }
 .NumPy-github-link {
   text-align: right;
@@ -264,19 +305,4 @@
   opacity: 1;
   text-decoration: none;
 }
-
-
-.Cpp-label {
-  color: red;
-}
-
-.NumPy-label {
-  color: #FED561;
-}
-
-
-
-
-
-
 

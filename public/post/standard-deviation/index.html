@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Calculating standard deviation">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/standard-deviation/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-115043043-7', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="knapply()">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="knapply()">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/standard-deviation/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="knapply()">
+  <meta property="og:url" content="/post/standard-deviation/">
+  <meta property="og:title" content="Standard Deviation | knapply()">
+  <meta property="og:description" content="Calculating standard deviation">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-11-09T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-11-09T00:00:00&#43;00:00">
+  
+
+  
+
+  
+
+  <title>Standard Deviation | knapply()</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">knapply()</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/tutorial/">
+            
+            <span>Tutorials</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/talk/">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/files/cv.pdf">
+            
+            <span>Résumé</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Standard Deviation</h1>
+
+  
+
+  
+    
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-11-09 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-11-09 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Nov 9, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    2 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/standard-deviation/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/programming/">programming</a>, 
+    
+    <a href="/categories/tutorial/">tutorial</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Standard%20Deviation&amp;url=%2fpost%2fstandard-deviation%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fstandard-deviation%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fstandard-deviation%2f&amp;title=Standard%20Deviation"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fstandard-deviation%2f&amp;title=Standard%20Deviation"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Standard%20Deviation&amp;body=%2fpost%2fstandard-deviation%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+<div id="TOC">
+<ul>
+<li><a href="#purpose">Purpose</a></li>
+<li><a href="#equations">Equations</a></li>
+<li><a href="#by-hand">By Hand</a></li>
+</ul>
+</div>
+
+<div id="purpose" class="section level2">
+<h2>Purpose</h2>
+<p>Quantify amount of variation/spread/dispersion of values.</p>
+</div>
+<div id="equations" class="section level2">
+<h2>Equations</h2>
+<p><span class="math inline">\(\sigma_x = \sqrt{ \frac{\sum(x - \mu_x)^2} {N-1} }\)</span></p>
+<p><span class="math inline">\(\sigma_x = sqrt({ \frac{sum(~(x - mean(x)~)^2} {(N-1)}})\)</span></p>
+<p><span class="math inline">\(numerator = sum(~(x-mean(x)~)^2\)</span></p>
+<p><span class="math inline">\(mean = \frac {sum(x)} {length(x)}\)</span></p>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
+</div>
+<div id="by-hand" class="section level1">
+<h1>By Hand</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-sd1">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-sd1">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-sd1">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-sd1">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-sd1" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/r-sd1.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>standard_deviation &lt;- function(x) {
+  numerator &lt;- sum( (x - mean(x) )^2 )
+
+  denominator &lt;- length(x) - 1
+
+  quotient &lt;- numerator / denominator
+
+  out &lt;- sqrt(quotient)
+  
+  out
+}
+
+r_vector &lt;- c(19, 45, 26, 63, 18, 10, 50, 90, 67, 95,
+              62, 86, 46, 5, 12, 99, 80, 11, 2, 94)
+
+
+standard_deviation(r_vector)</code></pre>
+<pre><code>#&gt; [1] 34.20988</code></pre>
+<p></div><div id="rcpp-sd1" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/rcpp-sd1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_standard_deviation(NumericVector x) {
+  double numerator = sum( pow( x - mean(x), 2 ) );
+  
+  double denominator = x.size() - 1;
+  
+  double out = numerator / denominator;
+  
+  return sqrt(out);
+}</code></pre>
+<pre class="r"><code>cpp_standard_deviation(1:20)</code></pre>
+<pre><code>#&gt; [1] 5.91608</code></pre>
+<p></div><div id="cpp-sd1" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/cpp-sd1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-header"><code>#include &lt;cmath&gt;     // pow, sqrt
+#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;numeric&gt;   // std::accumulate
+#include &lt;vector&gt;    // std::vector
+
+double sum(std::vector&lt;double&gt; x) {
+  return std::accumulate(std::begin(x), std::end(x), 0.0);
+}
+
+double mean(std::vector&lt;double&gt; x) {
+  return sum(x) / std::size(x);
+}
+
+double squared(double x) {
+    return std::pow(x, 2);
+}</code></pre>
+<pre class="cpp cpp-cpp"><code>#include &quot;helpers.h&quot;
+
+using std::accumulate;
+using std::cout;
+using std::endl;
+using std::vector;
+
+double get_numerator(vector&lt;double&gt; x) {
+  auto mu = mean(x);
+  for (auto &amp;i : x) {
+    i = squared(i - mu);
+  }
+  return sum(x);
+}
+
+double standard_deviation(vector&lt;double&gt; x) {
+    auto numerator = get_numerator(x);
+    auto denominator = size(x) - 1;
+    auto out = numerator / denominator;
+
+    return sqrt(out);
+}
+
+int main() {
+  vector&lt;double&gt; cpp_vector = { 19, 45, 26, 63, 18, 10, 50, 90, 67, 95,
+                                62, 86, 46, 5, 12, 99, 80, 11, 2, 94 };
+
+  auto result = standard_deviation(cpp_vector);
+
+  cout &lt;&lt; &quot;standard deviation: &quot; &lt;&lt; result &lt;&lt; endl;
+  
+  return 0;
+}</code></pre>
+<pre class="bash"><code>g++ -std=c++17 cpp-sd1.cpp -o cpp-sd1.cpp &amp;&amp; ./cpp-sd1</code></pre>
+<pre><code>#&gt; standard deviation: 34.2099</code></pre>
+<p></div><div id="numpy-sd1" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/numpy-sd1.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
+
+def standard_deviation(x):
+  numerator = np.sum( np.square( x - np.mean(x) ) )
+  
+  denominator = np.size(x) - 1
+
+  quotient = np.divide(numerator, denominator)
+
+  out = np.sqrt(quotient)
+  
+  return out
+
+
+numpy_array = np.array([19, 45, 26, 63, 18, 10, 50, 90, 67, 95, 
+                        62, 86, 46, 5, 12, 99, 80, 11, 2, 94])
+                        
+result = standard_deviation(numpy_array)
+
+print(result)</code></pre>
+<pre><code>#&gt; 34.20987853637724</code></pre>
+<p></div></div></p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/programming/">programming</a>
+  
+  <a class="badge badge-light" href="/tags/r/">r</a>
+  
+  <a class="badge badge-light" href="/tags/python/">python</a>
+  
+  <a class="badge badge-light" href="/tags/cpp/">cpp</a>
+  
+  <a class="badge badge-light" href="/tags/rcpp/">rcpp</a>
+  
+  <a class="badge badge-light" href="/tags/numpy/">numpy</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/logo.png" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/foundational-programming/">Foundational Programming</a></li>
+        
+        <li><a href="/post/functions/">Functions</a></li>
+        
+        <li><a href="/post/r-python-thesaurus/">R-Python Thesaurus</a></li>
+        
+        <li><a href="/post/bubble-sort/bubble-sort/">Bubble Sort</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
+  
+
+  <p class="powered-by">
+    &copy; 2018 Brendan Knapp &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.83b2a65cc1ca1f6c27c3f6943cbc37b88095532149bd65090e1ace0fafa090299c14cc980ebb55fed8a2b67507f355d0ff8f2e7beb5d5b7cd5903f53c74df423.js" integrity="sha512-g7KmXMHKH2wnw/aUPLw3uICVUyFJvWUJDhrOD6&#43;gkCmcFMyYDrtV/tiitnUH81XQ/48ue&#43;tdW3zVkD9Tx030Iw=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+

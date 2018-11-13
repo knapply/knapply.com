@@ -44,16 +44,15 @@ editor_options:
 <ul class="nav nav-pills"><li class='active'>
   <a data-toggle="pill" href="#r-length1">
     <font class="R-label">
-      <p title="Base R">
+      <p title="R">
         <i class="fab fa-r-project"> </i>
-      </p>
-    </font>
-  </a>
-</li><li>
-  <a data-toggle="pill" href="#py-length1">
-    <font class="Python-label">
-      <p title="Pure Python">
-        <i class="fab fa-python"></i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -61,7 +60,14 @@ editor_options:
   <a data-toggle="pill" href="#rcpp-length1">
     <font class="Rcpp-label">
       <p title="Rcpp">
-        <i class="devicon-cplusplus-plain"></i>
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -69,7 +75,29 @@ editor_options:
   <a data-toggle="pill" href="#cpp-length1">
     <font class="Cpp-label">
       <p title="C++">
-        <i class="devicon-cplusplus-plain"></i>
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-length1">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -90,6 +118,53 @@ r_vector</code></pre>
 <pre><code>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
 <pre class="r"><code>r_length(r_vector)</code></pre>
 <pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="rcpp-length1" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator iter = x.begin(); iter != x.end(); iter++) {
+    out++;
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_length(1:20)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="cpp-length1" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+int length(vector&lt;double&gt; &amp;x) {
+    int out = 0;
+
+    for (auto i = begin(x); i != end(x); ++i) {
+        out++;
+    }
+
+    return out;
+}
+
+int main() {
+    vector&lt;double&gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+    
+    int result = length(v);
+    
+    cout &lt;&lt; &quot;length: &quot; &lt;&lt; result &lt;&lt; endl;
+    
+    return 0;
+}</code></pre>
+<pre class="bash"><code>g++ -std=c++17 cpp-length1.cpp -o cpp-length1 &amp;&amp; ./cpp-length1</code></pre>
+<pre><code>#&gt; length: 20</code></pre>
 <p></div><div id="py-length1" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
   <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length1.py" class="fab fa-github"></a>
 </p></p>
@@ -106,56 +181,6 @@ print(list(py_generator))</code></pre>
 <pre class="python"><code>result = py_length(py_generator)
 print(result)</code></pre>
 <pre><code>#&gt; 20</code></pre>
-<p></div><div id="rcpp-length1" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp" class="fab fa-github"></a>
-</p></p>
-<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-int cpp_length(NumericVector x) {
-  int out = 0;
-  for (NumericVector::iterator iter = x.begin(); iter != x.end(); iter++) {
-    out++;
-  }
-  return out;
-}
-
-/*** R
-cpp_length(1:20)
-*/</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-<p></div><div id="cpp-length1" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length1.cpp" class="fab fa-github"></a>
-</p></p>
-<pre class="cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
-#include &lt;vector&gt;    // std::vector
-
-using std::cout;
-using std::endl;
-using std::vector;
-
-int length(vector&lt;double&gt; &amp;x) {
-    int out = 0;
-
-    for (auto it = begin(x); it != end(x); ++it) {
-        out++;
-    }
-
-    return out;
-}
-
-int main() {
-    vector&lt;double&gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-    
-    int result = length(v);
-    
-    cout &lt;&lt; &quot;length: &quot; &lt;&lt; result &lt;&lt; endl;
-    
-    return 0;
-}</code></pre>
-<pre class="bash"><code>g++ cpp-length1.cpp -o cpp-length1 &amp;&amp; ./cpp-length1</code></pre>
-<pre><code>#&gt; length: 20</code></pre>
 <p></div></div></p>
 </div>
 <div id="built-in" class="section level1">
@@ -164,16 +189,15 @@ int main() {
 <ul class="nav nav-pills"><li class='active'>
   <a data-toggle="pill" href="#r-length2">
     <font class="R-label">
-      <p title="Base R">
+      <p title="R">
         <i class="fab fa-r-project"> </i>
-      </p>
-    </font>
-  </a>
-</li><li>
-  <a data-toggle="pill" href="#py-length2">
-    <font class="Python-label">
-      <p title="Pure Python">
-        <i class="fab fa-python"></i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -181,7 +205,14 @@ int main() {
   <a data-toggle="pill" href="#rcpp-length2">
     <font class="Rcpp-label">
       <p title="Rcpp">
-        <i class="devicon-cplusplus-plain"></i>
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -189,7 +220,29 @@ int main() {
   <a data-toggle="pill" href="#cpp-length2">
     <font class="Cpp-label">
       <p title="C++">
-        <i class="devicon-cplusplus-plain"></i>
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-length2">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -197,7 +250,14 @@ int main() {
   <a data-toggle="pill" href="#numpy-length2">
     <font class="NumPy-label">
       <p title="NumPy">
-        <i class="fab fa-python"></i>
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -210,6 +270,41 @@ r_vector</code></pre>
 <pre><code>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20</code></pre>
 <pre class="r"><code>length(r_vector)</code></pre>
 <pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="rcpp-length2" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length2.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_size(NumericVector x) {
+  return x.size();
+}</code></pre>
+<pre class="r"><code>cpp_length(1:20)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="cpp-length2" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length2.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;iterator&gt;  // std::size
+#include &lt;vector&gt;    // std::vector
+
+using std::cout;
+using std::endl;
+using std::size;
+using std::vector;
+
+int main() {
+    vector&lt;double&gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+ 
+    int result = size(v);
+
+    cout &lt;&lt; &quot;length: &quot; &lt;&lt; result &lt;&lt; endl;
+
+    return 0;
+}</code></pre>
+<pre class="bash"><code>  g++ -std=c++17 cpp-length2.cpp -o cpp-length2 &amp;&amp; ./cpp-length2</code></pre>
+<pre><code>#&gt; length: 20</code></pre>
 <p></div><div id="py-length2" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
   <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length2.py" class="fab fa-github"></a>
 </p></p>
@@ -220,42 +315,6 @@ print(list(py_generator))</code></pre>
 
 print(result)</code></pre>
 <pre><code>#&gt; 20</code></pre>
-<p></div><div id="rcpp-length2" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length2.cpp" class="fab fa-github"></a>
-</p></p>
-<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-int cpp_size(NumericVector x) {
-  return x.size();
-}
-
-/*** R
-cpp_size(1:20)
-*/</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-<p></div><div id="cpp-length2" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length2.cpp" class="fab fa-github"></a>
-</p></p>
-<pre class="cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
-#include &lt;vector&gt;    // std::vector
-
-using std::cout;
-using std::endl;
-using std::vector;
-
-int main() {
-    vector&lt;double&gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
- 
-    int result = v.size();
-
-    cout &lt;&lt; &quot;length: &quot; &lt;&lt; result &lt;&lt; endl;
-
-    return 0;
-}</code></pre>
-<pre class="bash"><code>g++ cpp-length2.cpp -o cpp-length2 &amp;&amp; ./cpp-length2</code></pre>
-<pre><code>#&gt; length: 20</code></pre>
 <p></div><div id="numpy-length2" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
   <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/numpy-length2.py" class="fab fa-github"></a>
 </p></p>
@@ -419,7 +478,7 @@ print(result)</code></pre>
 <!-- ``` -->
 <p><br><br><br></p>
 <p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
-<p>When using this post, please consider citing it.</p>
+<p>When using or referring to this post, please consider citing it.</p>
 <pre class="citation"><code>Knapp, B. (2018, Nov. 3). Foundational Programming. Retrieved from https://knapply.com/post/foundational-programming/</code></pre>
 <pre class="citation"><code>@misc{foundational-programming,
   author = {Knapp, Brendan},

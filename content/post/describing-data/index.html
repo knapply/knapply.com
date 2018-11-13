@@ -1,0 +1,507 @@
+---
+title: Describing Data
+author: Brendan Knapp
+date: '2018-11-12'
+slug: index
+categories:
+  - data-science-from-scratch
+  - statistics
+  - tutorial
+  - programming
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - cpp
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Essential mathematical and programming operations'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 3
+citation_url: https://knapply.com/post/describing-data/
+editor_options: 
+  chunk_output_type: console
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#lengthsize">Length/Size</a></li>
+<li><a href="#minimum-and-maximum-values">Minimum and Maximum Values</a></li>
+<li><a href="#sum">Sum</a></li>
+</ul>
+</div>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
+<div id="lengthsize" class="section level1">
+<h1>Length/Size</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-length-size">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-length-size">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-length-size">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-length-size">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-length-size">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-length-size" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-length-size.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector</code></pre>
+<pre><code>#&gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7</code></pre>
+<pre class="r"><code>length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="rcpp-length-size" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-length-size.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  return x.size();
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p></div><div id="cpp-length-size" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-length-size.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
+
+int main() {
+  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+
+  auto res = std::size(cpp_vector);
+
+  std::cout &lt;&lt; &quot;length/size: &quot; &lt;&lt; res &lt;&lt; std::endl;
+
+  return 0;
+}</code></pre>
+<pre class="bash"><code>cd tutorial-gists/sections/describing-data/ &amp;&amp;
+  g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &amp;&amp;
+  ./cpp-length-size</code></pre>
+<pre><code>#&gt; length/size: 20</code></pre>
+<p></div><div id="py-length-size" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-length-size.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)</code></pre>
+<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<pre class="python"><code>res = len(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div><div id="numpy-length-size" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-length-size.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>res = np.size(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p></div></div></p>
+</div>
+<div id="minimum-and-maximum-values" class="section level1">
+<h1>Minimum and Maximum Values</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-min-max">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-min-max">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-min-max">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-min-max">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-min-max">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-min-max" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-min-max.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector</code></pre>
+<pre><code>#&gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7</code></pre>
+<pre class="r"><code>max(r_vector)</code></pre>
+<pre><code>#&gt; [1] 999</code></pre>
+<p></div><div id="rcpp-min-max" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-min-max.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+
+using namespace Rcpp;
+using std::min_element;
+using std::max_element;
+
+// [[Rcpp::export]]
+double cpp_min(NumericVector x) {
+  return *min_element(x.begin(), x.end()); 
+}
+
+// [[Rcpp::export]]
+double cpp_max(NumericVector x) {
+  return *max_element(x.begin(), x.end()); 
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_min(r_vector)</code></pre>
+<pre><code>#&gt; [1] 7</code></pre>
+<pre class="r"><code>cpp_max(r_vector)</code></pre>
+<pre><code>#&gt; [1] 999</code></pre>
+<p></div><div id="cpp-min-max" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-min-max.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;algorithm&gt; // std::min_element, std::max_element
+#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;vector&gt;    // std::vector
+
+int main() {
+  // example data
+  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  // find minimum value
+  auto min_res = std::min_element(std::begin(cpp_vector), std::end(cpp_vector));
+  // print
+  std::cout &lt;&lt; &quot;minimum: &quot; &lt;&lt; *min_res &lt;&lt; std::endl;
+  
+  // find maximum value
+  auto max_res = std::max_element(std::begin(cpp_vector), std::end(cpp_vector));
+  // print
+  std::cout &lt;&lt; &quot;minimum: &quot; &lt;&lt; *max_res &lt;&lt; std::endl;
+  
+  return 0;
+}</code></pre>
+<pre class="bash"><code>cd tutorial-gists/sections/describing-data/ &amp;&amp;
+  g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &amp;&amp;
+  ./cpp-min-max</code></pre>
+<pre><code>#&gt; minimum: 7
+#&gt; minimum: 999</code></pre>
+<p></div><div id="py-min-max" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-min-max.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)</code></pre>
+<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<pre class="python"><code>min_res = min(py_list)
+print(min_res)</code></pre>
+<pre><code>#&gt; 7</code></pre>
+<pre class="python"><code>max_res = max(py_list)
+print(max_res)</code></pre>
+<pre><code>#&gt; 999</code></pre>
+<p></div><div id="numpy-min-max" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-min-max.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
+
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>min_res = np.min(numpy_array)
+print(min_res)</code></pre>
+<pre><code>#&gt; 7</code></pre>
+<pre class="python"><code>max_res = np.max(numpy_array)
+print(max_res)</code></pre>
+<pre><code>#&gt; 999</code></pre>
+<p></div></div></p>
+</div>
+<div id="sum" class="section level1">
+<h1>Sum</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-sum">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-sum">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-sum">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#py-sum">
+    <font class="Python-label">
+      <p title="Python">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Python
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-sum">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-sum" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-sum.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>r_vector = c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector</code></pre>
+<pre><code>#&gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7</code></pre>
+<pre class="r"><code>sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p></div><div id="rcpp-sum" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-sum.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_sum(NumericVector x) {
+  return sum(x);
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p></div><div id="cpp-sum" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-sum.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;numeric&gt;   // std::accumulate
+#include &lt;vector&gt;    // std::vector
+
+int main() {
+  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+
+  auto res = std::accumulate(std::begin(cpp_vector), std::end(cpp_vector), 0.0);
+
+  std::cout &lt;&lt; &quot;sum: &quot; &lt;&lt; res &lt;&lt; std::endl;
+
+  return 0;
+}</code></pre>
+<pre class="bash"><code>cd tutorial-gists/sections/describing-data/ &amp;&amp;
+  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &amp;&amp;
+  ./cpp-sum</code></pre>
+<pre><code>#&gt; sum: 9137</code></pre>
+<p></div><div id="py-sum" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-sum.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)</code></pre>
+<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<pre class="python"><code>res = sum(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+<p></div><div id="numpy-sum" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-sum.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>res = np.sum(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+<p></div></div></p>
+</div>

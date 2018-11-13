@@ -1,0 +1,235 @@
+---
+title: Standard Deviation
+author: Brendan Knapp
+date: '2018-11-09'
+slug: index
+categories:
+  - programming
+  - tutorial
+tags:
+  - programming
+  - r
+  - python
+  - cpp
+  - rcpp
+  - numpy
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Calculating standard deviation'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 3
+citation_url: https://knapply.com/post/foundational-programming/
+editor_options: 
+  chunk_output_type: console
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#purpose">Purpose</a></li>
+<li><a href="#equations">Equations</a></li>
+<li><a href="#by-hand">By Hand</a></li>
+</ul>
+</div>
+
+<div id="purpose" class="section level2">
+<h2>Purpose</h2>
+<p>Quantify amount of variation/spread/dispersion of values.</p>
+</div>
+<div id="equations" class="section level2">
+<h2>Equations</h2>
+<p><span class="math inline">\(\sigma_x = \sqrt{ \frac{\sum(x - \mu_x)^2} {N-1} }\)</span></p>
+<p><span class="math inline">\(\sigma_x = sqrt({ \frac{sum(~(x - mean(x)~)^2} {(N-1)}})\)</span></p>
+<p><span class="math inline">\(numerator = sum(~(x-mean(x)~)^2\)</span></p>
+<p><span class="math inline">\(mean = \frac {sum(x)} {length(x)}\)</span></p>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
+</div>
+<div id="by-hand" class="section level1">
+<h1>By Hand</h1>
+<p><div class="code-container">
+<ul class="nav nav-pills"><li class='active'>
+  <a data-toggle="pill" href="#r-sd1">
+    <font class="R-label">
+      <p title="R">
+        <i class="fab fa-r-project"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            R
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#rcpp-sd1">
+    <font class="Rcpp-label">
+      <p title="Rcpp">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            Rcpp
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#cpp-sd1">
+    <font class="Cpp-label">
+      <p title="C++">
+        <i class="devicon-cplusplus-plain"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            C++
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li><li>
+  <a data-toggle="pill" href="#numpy-sd1">
+    <font class="NumPy-label">
+      <p title="NumPy">
+        <i class="fab fa-python"> </i>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
+          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
+            NumPy
+          </font>
+          <!-- </span> -->
+        </div>
+      </p>
+    </font>
+  </a>
+</li></ul></p>
+<p><div class="tab-content"><div id="r-sd1" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/r-sd1.R" class="fab fa-github"></a>
+</p></p>
+<pre class="r"><code>standard_deviation &lt;- function(x) {
+  numerator &lt;- sum( (x - mean(x) )^2 )
+
+  denominator &lt;- length(x) - 1
+
+  quotient &lt;- numerator / denominator
+
+  out &lt;- sqrt(quotient)
+  
+  out
+}
+
+r_vector &lt;- c(19, 45, 26, 63, 18, 10, 50, 90, 67, 95,
+              62, 86, 46, 5, 12, 99, 80, 11, 2, 94)
+
+
+standard_deviation(r_vector)</code></pre>
+<pre><code>#&gt; [1] 34.20988</code></pre>
+<p></div><div id="rcpp-sd1" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/rcpp-sd1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_standard_deviation(NumericVector x) {
+  double numerator = sum( pow( x - mean(x), 2 ) );
+  
+  double denominator = x.size() - 1;
+  
+  double out = numerator / denominator;
+  
+  return sqrt(out);
+}</code></pre>
+<pre class="r"><code>cpp_standard_deviation(1:20)</code></pre>
+<pre><code>#&gt; [1] 5.91608</code></pre>
+<p></div><div id="cpp-sd1" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/cpp-sd1.cpp" class="fab fa-github"></a>
+</p></p>
+<pre class="cpp cpp-header"><code>#include &lt;cmath&gt;     // pow, sqrt
+#include &lt;iostream&gt;  // std::cout, std::endl
+#include &lt;numeric&gt;   // std::accumulate
+#include &lt;vector&gt;    // std::vector
+
+double sum(std::vector&lt;double&gt; x) {
+  return std::accumulate(std::begin(x), std::end(x), 0.0);
+}
+
+double mean(std::vector&lt;double&gt; x) {
+  return sum(x) / std::size(x);
+}
+
+double squared(double x) {
+    return std::pow(x, 2);
+}</code></pre>
+<pre class="cpp cpp-cpp"><code>#include &quot;helpers.h&quot;
+
+using std::accumulate;
+using std::cout;
+using std::endl;
+using std::vector;
+
+double get_numerator(vector&lt;double&gt; x) {
+  auto mu = mean(x);
+  for (auto &amp;i : x) {
+    i = squared(i - mu);
+  }
+  return sum(x);
+}
+
+double standard_deviation(vector&lt;double&gt; x) {
+    auto numerator = get_numerator(x);
+    auto denominator = size(x) - 1;
+    auto out = numerator / denominator;
+
+    return sqrt(out);
+}
+
+int main() {
+  vector&lt;double&gt; cpp_vector = { 19, 45, 26, 63, 18, 10, 50, 90, 67, 95,
+                                62, 86, 46, 5, 12, 99, 80, 11, 2, 94 };
+
+  auto result = standard_deviation(cpp_vector);
+
+  cout &lt;&lt; &quot;standard deviation: &quot; &lt;&lt; result &lt;&lt; endl;
+  
+  return 0;
+}</code></pre>
+<pre class="bash"><code>g++ -std=c++17 cpp-sd1.cpp -o cpp-sd1.cpp &amp;&amp; ./cpp-sd1</code></pre>
+<pre><code>#&gt; standard deviation: 34.2099</code></pre>
+<p></div><div id="numpy-sd1" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/numpy-sd1.py" class="fab fa-github"></a>
+</p></p>
+<pre class="python"><code>import numpy as np
+
+def standard_deviation(x):
+  numerator = np.sum( np.square( x - np.mean(x) ) )
+  
+  denominator = np.size(x) - 1
+
+  quotient = np.divide(numerator, denominator)
+
+  out = np.sqrt(quotient)
+  
+  return out
+
+
+numpy_array = np.array([19, 45, 26, 63, 18, 10, 50, 90, 67, 95, 
+                        62, 86, 46, 5, 12, 99, 80, 11, 2, 94])
+                        
+result = standard_deviation(numpy_array)
+
+print(result)</code></pre>
+<pre><code>#&gt; 34.20987853637724</code></pre>
+<p></div></div></p>
+</div>

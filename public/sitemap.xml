@@ -4,8 +4,24 @@
     
     <url>
     
-      <loc>/post/central-tendency/central-tendency/</loc>
+      <loc>/post/central-tendency/</loc>
       <lastmod>2018-11-07T14:49:24-08:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/post/describing-data/</loc>
+      <lastmod>2018-11-12T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/post/standard-deviation/</loc>
+      <lastmod>2018-11-09T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -13,7 +29,7 @@
     <url>
     
       <loc>/post/foundational-programming/</loc>
-      <lastmod>2018-11-07T14:49:24-08:00</lastmod>
+      <lastmod>2018-11-08T16:23:24-08:00</lastmod>
     </url>
     
   
@@ -21,7 +37,7 @@
     <url>
     
       <loc>/tutorial/</loc>
-      <lastmod>2018-11-07T14:49:24-08:00</lastmod>
+      <lastmod>2018-11-08T16:23:24-08:00</lastmod>
     </url>
     
   
@@ -338,7 +354,7 @@
     <url>
     
       <loc>/tags/numpy/</loc>
-      <lastmod>2018-11-07T14:49:24-08:00</lastmod>
+      <lastmod>2018-11-09T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

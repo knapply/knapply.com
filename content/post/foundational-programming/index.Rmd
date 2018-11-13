@@ -39,21 +39,23 @@ source(here::here("static/R/citation.R"))
 <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
 
 
+
+
 # From Scratch
 
 ```{r, echo=FALSE, cache=FALSE}
 as_chunk("foundational-programming/r-length1.R")
-as_chunk("foundational-programming/py-length1.py")
 as_chunk("foundational-programming/rcpp-length1.cpp")
 as_chunk("foundational-programming/cpp-length1.cpp")
+as_chunk("foundational-programming/py-length1.py")
 ```
 
 ```{r, echo=FALSE}
 start_tabset()
 add_menu_tab("r-length1", is_active = TRUE)
-add_menu_tab("py-length1", is_active = FALSE)
 add_menu_tab("rcpp-length1", is_active = FALSE)
 add_menu_tab("cpp-length1", is_active = FALSE)
+add_menu_tab("py-length1", is_active = FALSE)
 end_menu()
 ```
 
@@ -64,18 +66,9 @@ add_active_tab("r-length1")
 embed_github_link("foundational-programming/r-length1.R")
 ```
 
-
 ```{r r-length1}
 ```
 
-```{r, echo=FALSE}
-end_tab()
-add_other_tab("py-length1")
-embed_github_link("foundational-programming/py-length1.py")
-```
-
-```{python py-length1}
-```
 
 ```{r, echo=FALSE}
 end_tab()
@@ -87,7 +80,7 @@ embed_github_link("foundational-programming/rcpp-length1.cpp")
 ```{Rcpp rcpp-length1}
 ```
 
-```{r, echo=FALSE}
+```{r}
 cpp_length(1:20)
 ```
 
@@ -101,15 +94,23 @@ embed_github_link("foundational-programming/cpp-length1.cpp")
 ```
 
 ```{bash, eval=FALSE}
-g++ cpp-length1.cpp -o cpp-length1 && ./cpp-length1
+g++ -std=c++17 cpp-length1.cpp -o cpp-length1 && ./cpp-length1
 ```
 
 ```{bash, echo=FALSE}
 cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/foundational-programming/ &&
-  g++ cpp-length1.cpp -o cpp-length1 && 
+  g++ -std=c++17 cpp-length1.cpp -o cpp-length1 &&
   ./cpp-length1
 ```
 
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-length1")
+embed_github_link("foundational-programming/py-length1.py")
+```
+
+```{python py-length1}
+```
 
 ```{r, echo=FALSE}
 end_tab()
@@ -132,9 +133,9 @@ as_chunk("foundational-programming/numpy-length2.py")
 ```{r, echo=FALSE}
 start_tabset()
 add_menu_tab("r-length2", is_active = TRUE)
-add_menu_tab("py-length2", is_active = FALSE)
 add_menu_tab("rcpp-length2", is_active = FALSE)
 add_menu_tab("cpp-length2", is_active = FALSE)
+add_menu_tab("py-length2", is_active = FALSE)
 add_menu_tab("numpy-length2", is_active = FALSE)
 end_menu()
 ```
@@ -150,14 +151,6 @@ embed_github_link("foundational-programming/r-length2.R")
 ```{r r-length2}
 ```
 
-```{r, echo=FALSE}
-end_tab()
-add_other_tab("py-length2")
-embed_github_link("foundational-programming/py-length2.py")
-```
-
-```{python py-length2}
-```
 
 ```{r, echo=FALSE}
 end_tab()
@@ -169,7 +162,7 @@ embed_github_link("foundational-programming/rcpp-length2.cpp")
 ```{Rcpp rcpp-length2}
 ```
 
-```{r, echo=FALSE}
+```{r}
 cpp_length(1:20)
 ```
 
@@ -186,15 +179,23 @@ embed_github_link("foundational-programming/cpp-length2.cpp")
 
 
 ```{bash, eval=FALSE}
-g++ cpp-length2.cpp -o cpp-length2 && ./cpp-length2
+  g++ -std=c++17 cpp-length2.cpp -o cpp-length2 && ./cpp-length2
 ```
 
 ```{bash, echo=FALSE}
 cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/foundational-programming/ &&
-  g++ cpp-length2.cpp -o cpp-length2 && 
+  g++ -std=c++17 cpp-length2.cpp -o cpp-length2 &&
   ./cpp-length2
 ```
 
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-length2")
+embed_github_link("foundational-programming/py-length2.py")
+```
+
+```{python py-length2}
+```
 
 ```{r, echo=FALSE}
 end_tab()

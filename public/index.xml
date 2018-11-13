@@ -12,164 +12,950 @@
     
     <item>
       <title>Central Tendency</title>
-      <link>/post/central-tendency/central-tendency/</link>
-      <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
+      <link>/post/central-tendency/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/central-tendency/central-tendency/</guid>
+      <guid>/post/central-tendency/</guid>
       <description>
 
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#mean&#34;&gt;Mean&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#from-scratch&#34;&gt;From Scratch&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#how-you-should-do-it&#34;&gt;How You Should Do It&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#median&#34;&gt;Median&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#from-scratch-1&#34;&gt;From Scratch&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#mean&#34;&gt;Mean&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;&lt;/p&gt;
 &lt;div id=&#34;mean&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Mean&lt;/h1&gt;
-&lt;div id=&#34;from-scratch&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;From Scratch&lt;/h2&gt;
-&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mean &amp;lt;- function(x) {
-  sum(x) / length(x)
-}
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-mean&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-mean&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-mean&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-mean&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-mean&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-mean&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/r-mean.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
 
-r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
-r_mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/td&gt; &lt;td&gt;&lt;font color=&#34;#008000&#34;&gt; &gt;&gt; Python &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def py_mean(x):
-  return sum(x) / len(x)
-  
-py_list = [1.3, 3.8, 10.1, 2.5, 9.7]
-result = py_mean(py_list)
-
-print(result)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# 5.4799999999999995&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/p&gt;
-&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#FF0000&#34;&gt; &gt;&gt;&gt; C++ &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp11)]]
-#include &amp;lt;Rcpp.h&amp;gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-double cpp_mean(NumericVector x) {
-  return sum(x) / x.size();
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
-cpp_mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
-&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
-&lt;/div&gt;
-&lt;div id=&#34;how-you-should-do-it&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;How You Should Do It&lt;/h2&gt;
-&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
 mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/td&gt; &lt;td&gt;&lt;font color=&#34;#008000&#34;&gt; &gt;&gt; Python &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
-  
-numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
-result = np.mean(numpy_array)
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 456.85&lt;/code&gt;&lt;/pre&gt;
+&lt;center&gt;
+&lt;strong&gt; Missing Values? &lt;/strong&gt;
+&lt;/center&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector_na &amp;lt;- c(126, 793, 999, NA, 851, 798, 120, 714, 852, 151,
+                 NA, 41, 612, 826, 507, NA, 14, 237, 669, 7)
 
-print(result)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# 5.4799999999999995&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/p&gt;
-&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#FF0000&#34;&gt; &gt;&gt;&gt; C++ &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp11)]]
-#include &amp;lt;Rcpp.h&amp;gt;
+mean(r_vector_na)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] NA&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;mean(r_vector_na, na.rm = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 489.2353&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-mean&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/rcpp-mean.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double cpp_mean2(NumericVector x) {
+double cpp_mean(NumericVector x, bool na_rm = false) {
+  if (na_rm) {
+    return mean(na_omit(x));
+  }
   return mean(x);
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
-cpp_mean2(r_vector)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
-&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;median&#34; class=&#34;section level1&#34;&gt;
-&lt;h1&gt;Median&lt;/h1&gt;
-&lt;div id=&#34;from-scratch-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;From Scratch&lt;/h2&gt;
-&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_median &amp;lt;- function(x) {
-  sorted &amp;lt;- sort(x)                  # 1.3  2.5  3.8  9.7 10.1
-  n &amp;lt;- length(x)                     # 5
-  middle_index &amp;lt;- n %/% 2            # 2
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_mean(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 456.85&lt;/code&gt;&lt;/pre&gt;
+&lt;center&gt;
+&lt;strong&gt; Missing Values? &lt;/strong&gt;
+&lt;/center&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector_na &amp;lt;- c(126, 793, 999, NA, 851, 798, 120, 714, 852, 151,
+                 NA, 41, 612, 826, 507, NA, 14, 237, 669, 7)
+cpp_mean(r_vector_na)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] NA&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_mean(r_vector_na, na_rm = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 489.2353&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-mean&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-header&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt;  // std::find_if, std::remove_if
+#include &amp;lt;cmath&amp;gt;      // std::isnan
+#include &amp;lt;numeric&amp;gt;    // std::accumulate
+#include &amp;lt;vector&amp;gt;     // std::vector
+
+namespace knapply {
+  auto mean(std::vector&amp;lt;double&amp;gt; x, bool ignore_nan = false) {
+    auto has_nan = std::find_if(std::begin(x), std::end(x), 
+                                [] (auto i) { return std::isnan(i); });
   
-  if (n %% 2 != 0) {                 # FALSE, `n` is odd
-    out &amp;lt;- sorted[[middle_index]]    # doesn&amp;#39;t apply unless `n` is even
-  } else {
-    out &amp;lt;- mean(
-      c(sorted[[middle_index]],      # 2.5
-        sorted[[middle_index + 1]])  # 3.8
-      )
+    if (!ignore_nan &amp;amp;&amp;amp; *has_nan) {
+      return std::nan(&amp;quot;&amp;quot;);
+    }
+  
+    if (ignore_nan &amp;amp;&amp;amp; *has_nan) {
+      x.erase(std::remove_if(std::begin(x), std::end(x),
+                             [] (double i) { return std::isnan(i); }),
+              std::end(x));
+    }
+  
+    return std::accumulate(std::begin(x), std::end(x), 0.0) / std::size(x);
   }
+}  // namespace knapply&lt;/code&gt;&lt;/pre&gt;
+&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean-header.h&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;quot;cpp-mean-header.h&amp;quot;
+
+#include &amp;lt;iostream&amp;gt;   // std::cout, std::endl
+
+int main() {
+  std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  
+  std::vector&amp;lt;double&amp;gt; cpp_vector_nan {126, 793, 999, std::nan(&amp;quot;&amp;quot;), 851, 798, 120, 714, 
+                                      852, 151, std::nan(&amp;quot;&amp;quot;), 41, 612, 826, 507,
+                                      std::nan(&amp;quot;&amp;quot;), 14, 237, 669, 7};
+  
+  auto res1 = knapply::mean(cpp_vector, false);
+  std::cout &amp;lt;&amp;lt; &amp;quot;mean without nan: &amp;quot; &amp;lt;&amp;lt; res1 &amp;lt;&amp;lt; std::endl;
+
+  auto res2 = knapply::mean(cpp_vector_nan, false);
+  std::cout &amp;lt;&amp;lt; &amp;quot;mean with nan and `nan_rm = false`: &amp;quot; &amp;lt;&amp;lt; res2 &amp;lt;&amp;lt; std::endl;
+
+  auto res3 = knapply::mean(cpp_vector_nan, true);
+  std::cout &amp;lt;&amp;lt; &amp;quot;mean with nan and `nan_rm = true`: &amp;quot; &amp;lt;&amp;lt; res3 &amp;lt;&amp;lt; std::endl;
+  
+  return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/central-tendency/ &amp;amp;&amp;amp;
+  g++ -std=c++17 cpp-mean.cpp -o cpp-mean &amp;amp;&amp;amp;
+  ./cpp-mean&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; mean without nan: 456.85
+#&amp;gt; mean with nan and `nan_rm = false`: nan
+#&amp;gt; mean with nan and `nan_rm = true`: 489.235&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-mean&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/py-mean.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics as stat
+
+py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res1 = stat.mean(py_list)
+print(res1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 456.85&lt;/code&gt;&lt;/pre&gt;
+&lt;center&gt;
+&lt;strong&gt; Missing Values? &lt;/strong&gt;
+&lt;/center&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list_none = [126, 793, 999, None, 851, 798, 120, 714, 852, 151,
+                None, 41, 612, 826, 507, None, 14, 237, 669, 7]
+print(py_list_none)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126, 793, 999, None, 851, 798, 120, 714, 852, 151, None, 41, 612, 826, 507, None, 14, 237, 669, 7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res2 = stat.mean([x for x in py_list_none if x is not None])
+print(res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 489.2352941176471&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-mean&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/numpy-mean.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+
+res1 = np.mean(numpy_array)
+print(res1)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 456.85&lt;/code&gt;&lt;/pre&gt;
+&lt;center&gt;
+&lt;strong&gt; Missing Values? &lt;/strong&gt;
+&lt;/center&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;numpy_array_nan = np.array([126, 793, 999, np.nan, 851, 798, 120, 714, 852, 151,
+                            np.nan, 41, 612, 826, 507, np.nan, 14, 237, 669, 7])
+
+res2 = np.nanmean(numpy_array_nan)
+print(res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 489.2352941176471&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Describing Data</title>
+      <link>/post/describing-data/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/describing-data/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#lengthsize&#34;&gt;Length/Size&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#minimum-and-maximum-values&#34;&gt;Minimum and Maximum Values&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#sum&#34;&gt;Sum&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;&lt;/p&gt;
+&lt;div id=&#34;lengthsize&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Length/Size&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-length-size&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-length-size&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-length-size&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length-size&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-length-size&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-length-size&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-length-size.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;length(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-length-size.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  return x.size();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_length(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-length-size.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+int main() {
+  std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+
+  auto res = std::size(cpp_vector);
+
+  std::cout &amp;lt;&amp;lt; &amp;quot;length/size: &amp;quot; &amp;lt;&amp;lt; res &amp;lt;&amp;lt; std::endl;
+
+  return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
+  g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &amp;amp;&amp;amp;
+  ./cpp-length-size&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; length/size: 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-length-size.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = len(py_list)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-length-size.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np.size(numpy_array)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;minimum-and-maximum-values&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Minimum and Maximum Values&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-min-max&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-min-max&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-min-max&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-min-max&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-min-max&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-min-max&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-min-max.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;max(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 999&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-min-max.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+
+using namespace Rcpp;
+using std::min_element;
+using std::max_element;
+
+// [[Rcpp::export]]
+double cpp_min(NumericVector x) {
+  return *min_element(x.begin(), x.end()); 
+}
+
+// [[Rcpp::export]]
+double cpp_max(NumericVector x) {
+  return *max_element(x.begin(), x.end()); 
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_min(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 7&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_max(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 999&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-min-max.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt; // std::min_element, std::max_element
+#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+int main() {
+  // example data
+  std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  // find minimum value
+  auto min_res = std::min_element(std::begin(cpp_vector), std::end(cpp_vector));
+  // print
+  std::cout &amp;lt;&amp;lt; &amp;quot;minimum: &amp;quot; &amp;lt;&amp;lt; *min_res &amp;lt;&amp;lt; std::endl;
+  
+  // find maximum value
+  auto max_res = std::max_element(std::begin(cpp_vector), std::end(cpp_vector));
+  // print
+  std::cout &amp;lt;&amp;lt; &amp;quot;minimum: &amp;quot; &amp;lt;&amp;lt; *max_res &amp;lt;&amp;lt; std::endl;
+  
+  return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
+  g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &amp;amp;&amp;amp;
+  ./cpp-min-max&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; minimum: 7
+#&amp;gt; minimum: 999&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-min-max.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;min_res = min(py_list)
+print(min_res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 7&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;max_res = max(py_list)
+print(max_res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 999&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-min-max.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;min_res = np.min(numpy_array)
+print(min_res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 7&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;max_res = np.max(numpy_array)
+print(max_res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 999&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sum&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Sum&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-sum&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-sum&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-sum&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-sum&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-sum&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-sum&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-sum.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector = c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+r_vector&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1] 126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 9137&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-sum.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_sum(NumericVector x) {
+  return sum(x);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_sum(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 9137&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-sum.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;numeric&amp;gt;   // std::accumulate
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+int main() {
+  std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+
+  auto res = std::accumulate(std::begin(cpp_vector), std::end(cpp_vector), 0.0);
+
+  std::cout &amp;lt;&amp;lt; &amp;quot;sum: &amp;quot; &amp;lt;&amp;lt; res &amp;lt;&amp;lt; std::endl;
+
+  return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
+  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &amp;amp;&amp;amp;
+  ./cpp-sum&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; sum: 9137&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-sum.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+print(py_list)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = sum(py_list)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 9137&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-sum.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
+print(numpy_array)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np.sum(numpy_array)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 9137&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Standard Deviation</title>
+      <link>/post/standard-deviation/</link>
+      <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/standard-deviation/</guid>
+      <description>
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#purpose&#34;&gt;Purpose&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#equations&#34;&gt;Equations&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#by-hand&#34;&gt;By Hand&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;div id=&#34;purpose&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Purpose&lt;/h2&gt;
+&lt;p&gt;Quantify amount of variation/spread/dispersion of values.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;equations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Equations&lt;/h2&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(\sigma_x = \sqrt{ \frac{\sum(x - \mu_x)^2} {N-1} }\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(\sigma_x = sqrt({ \frac{sum(~(x - mean(x)~)^2} {(N-1)}})\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(numerator = sum(~(x-mean(x)~)^2\)&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math inline&#34;&gt;\(mean = \frac {sum(x)} {length(x)}\)&lt;/span&gt;&lt;/p&gt;
+&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+&lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;by-hand&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;By Hand&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-sd1&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-sd1&#34;&gt;
+    &lt;font class=&#34;Rcpp-label&#34;&gt;
+      &lt;p title=&#34;Rcpp&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-sd1&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-sd1&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-sd1&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/r-sd1.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;standard_deviation &amp;lt;- function(x) {
+  numerator &amp;lt;- sum( (x - mean(x) )^2 )
+
+  denominator &amp;lt;- length(x) - 1
+
+  quotient &amp;lt;- numerator / denominator
+
+  out &amp;lt;- sqrt(quotient)
+  
   out
 }
 
-x &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
-r_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 2.5&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/td&gt; &lt;td&gt;&lt;font color=&#34;#006400&#34;&gt; &gt;&gt; NumPy &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+r_vector &amp;lt;- c(19, 45, 26, 63, 18, 10, 50, 90, 67, 95,
+              62, 86, 46, 5, 12, 99, 80, 11, 2, 94)
 
-def py_median(x):
-  sorted_x = np.sort(x)               # 1.3  2.5  3.8  9.7 10.1
-  n = np.size(x)                      # 5
-  middle_index = n // 2               # 2
 
-  if n % 2:                           # FALSE, `n` is odd
-    out = sorted_x[middle_index]      # doesn&amp;#39;t apply unless `n` is even
-
-  else:                           # 3.8                     2.5
-    out = np.mean(np.array([sorted_x[middle_index], sorted_x[middle_index - 1]]))
-      
-  return out
-
-numpy_array = np.array([1.3, 3.8, 10.1, 2.5, 9.7])
-result = py_median(numpy_array)
-
-print(result)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# 3.8&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;&lt;/p&gt;
-&lt;p&gt;&lt;table style=&#34;font-size:small&#34; class=&#34;table table-bordered&#34;&gt;&lt;tr&gt; &lt;td valign=&#34;top&#34;&gt;&lt;font color=&#34;#FF0000&#34;&gt; &gt;&gt;&gt; C++ &lt;/font&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp11)]]
-#include &amp;lt;Rcpp.h&amp;gt;
+standard_deviation(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 34.20988&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-sd1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/rcpp-sd1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-double cpp_median(NumericVector x) {
-  return sum(x) / x.size();
+double cpp_standard_deviation(NumericVector x) {
+  double numerator = sum( pow( x - mean(x), 2 ) );
+  
+  double denominator = x.size() - 1;
+  
+  double out = numerator / denominator;
+  
+  return sqrt(out);
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;font color=&#34;#0000FF&#34;&gt; &gt; R &lt;/font&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1.3, 3.8, 10.1, 2.5, 9.7)
-cpp_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;# [1] 5.48&lt;/code&gt;&lt;/pre&gt;
-&lt;/td&gt; &lt;/tr&gt; &lt;/table&gt;
-&lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;When using this post, please consider citing it.&lt;/p&gt;
-&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Nov. 3). Central Tendency. Retrieved from https://knapply.com/post/central-tendency/&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{central-tendency,
-  author = {Knapp, Brendan},
-  title  = {Central Tendency},
-  url    = {https://knapply.com/post/central-tendency/},
-  year   = 2018,
-  month  = Nov,
-  day    = 3,
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_standard_deviation(1:20)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 5.91608&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-sd1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/cpp-sd1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-header&#34;&gt;&lt;code&gt;#include &amp;lt;cmath&amp;gt;     // pow, sqrt
+#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;numeric&amp;gt;   // std::accumulate
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+double sum(std::vector&amp;lt;double&amp;gt; x) {
+  return std::accumulate(std::begin(x), std::end(x), 0.0);
+}
+
+double mean(std::vector&amp;lt;double&amp;gt; x) {
+  return sum(x) / std::size(x);
+}
+
+double squared(double x) {
+    return std::pow(x, 2);
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;quot;helpers.h&amp;quot;
+
+using std::accumulate;
+using std::cout;
+using std::endl;
+using std::vector;
+
+double get_numerator(vector&amp;lt;double&amp;gt; x) {
+  auto mu = mean(x);
+  for (auto &amp;amp;i : x) {
+    i = squared(i - mu);
+  }
+  return sum(x);
+}
+
+double standard_deviation(vector&amp;lt;double&amp;gt; x) {
+    auto numerator = get_numerator(x);
+    auto denominator = size(x) - 1;
+    auto out = numerator / denominator;
+
+    return sqrt(out);
+}
+
+int main() {
+  vector&amp;lt;double&amp;gt; cpp_vector = { 19, 45, 26, 63, 18, 10, 50, 90, 67, 95,
+                                62, 86, 46, 5, 12, 99, 80, 11, 2, 94 };
+
+  auto result = standard_deviation(cpp_vector);
+
+  cout &amp;lt;&amp;lt; &amp;quot;standard deviation: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
+  
+  return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;g++ -std=c++17 cpp-sd1.cpp -o cpp-sd1.cpp &amp;amp;&amp;amp; ./cpp-sd1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; standard deviation: 34.2099&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-sd1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/standard-deviation/numpy-sd1.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+
+def standard_deviation(x):
+  numerator = np.sum( np.square( x - np.mean(x) ) )
+  
+  denominator = np.size(x) - 1
+
+  quotient = np.divide(numerator, denominator)
+
+  out = np.sqrt(quotient)
+  
+  return out
+
+
+numpy_array = np.array([19, 45, 26, 63, 18, 10, 50, 90, 67, 95, 
+                        62, 86, 46, 5, 12, 99, 80, 11, 2, 94])
+                        
+result = standard_deviation(numpy_array)
+
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 34.20987853637724&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -199,16 +985,15 @@ cpp_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-length1&#34;&gt;
     &lt;font class=&#34;R-label&#34;&gt;
-      &lt;p title=&#34;Base R&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
         &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
-      &lt;/p&gt;
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt;
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length1&#34;&gt;
-    &lt;font class=&#34;Python-label&#34;&gt;
-      &lt;p title=&#34;Pure Python&#34;&gt;
-        &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -216,7 +1001,14 @@ cpp_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-length1&#34;&gt;
     &lt;font class=&#34;Rcpp-label&#34;&gt;
       &lt;p title=&#34;Rcpp&#34;&gt;
-        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -224,7 +1016,29 @@ cpp_median(r_vector)&lt;/code&gt;&lt;/pre&gt;
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-length1&#34;&gt;
     &lt;font class=&#34;Cpp-label&#34;&gt;
       &lt;p title=&#34;C++&#34;&gt;
-        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length1&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -245,6 +1059,53 @@ r_vector&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_length(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_length(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator iter = x.begin(); iter != x.end(); iter++) {
+    out++;
+  }
+  return out;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_length(1:20)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+int length(vector&amp;lt;double&amp;gt; &amp;amp;x) {
+    int out = 0;
+
+    for (auto i = begin(x); i != end(x); ++i) {
+        out++;
+    }
+
+    return out;
+}
+
+int main() {
+    vector&amp;lt;double&amp;gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+    
+    int result = length(v);
+    
+    cout &amp;lt;&amp;lt; &amp;quot;length: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
+    
+    return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;g++ -std=c++17 cpp-length1.cpp -o cpp-length1 &amp;amp;&amp;amp; ./cpp-length1&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; length: 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
   &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length1.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
@@ -261,56 +1122,6 @@ print(list(py_generator))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;result = py_length(py_generator)
 print(result)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
-&lt;/p&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-int cpp_length(NumericVector x) {
-  int out = 0;
-  for (NumericVector::iterator iter = x.begin(); iter != x.end(); iter++) {
-    out++;
-  }
-  return out;
-}
-
-/*** R
-cpp_length(1:20)
-*/&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length1&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length1.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
-&lt;/p&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
-#include &amp;lt;vector&amp;gt;    // std::vector
-
-using std::cout;
-using std::endl;
-using std::vector;
-
-int length(vector&amp;lt;double&amp;gt; &amp;amp;x) {
-    int out = 0;
-
-    for (auto it = begin(x); it != end(x); ++it) {
-        out++;
-    }
-
-    return out;
-}
-
-int main() {
-    vector&amp;lt;double&amp;gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
-    
-    int result = length(v);
-    
-    cout &amp;lt;&amp;lt; &amp;quot;length: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
-    
-    return 0;
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;g++ cpp-length1.cpp -o cpp-length1 &amp;amp;&amp;amp; ./cpp-length1&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; length: 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;built-in&#34; class=&#34;section level1&#34;&gt;
@@ -319,16 +1130,15 @@ int main() {
 &lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-length2&#34;&gt;
     &lt;font class=&#34;R-label&#34;&gt;
-      &lt;p title=&#34;Base R&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
         &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
-      &lt;/p&gt;
-    &lt;/font&gt;
-  &lt;/a&gt;
-&lt;/li&gt;&lt;li&gt;
-  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length2&#34;&gt;
-    &lt;font class=&#34;Python-label&#34;&gt;
-      &lt;p title=&#34;Pure Python&#34;&gt;
-        &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -336,7 +1146,14 @@ int main() {
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#rcpp-length2&#34;&gt;
     &lt;font class=&#34;Rcpp-label&#34;&gt;
       &lt;p title=&#34;Rcpp&#34;&gt;
-        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Rcpp
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -344,7 +1161,29 @@ int main() {
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-length2&#34;&gt;
     &lt;font class=&#34;Cpp-label&#34;&gt;
       &lt;p title=&#34;C++&#34;&gt;
-        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt;&lt;/i&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-length2&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -352,7 +1191,14 @@ int main() {
   &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-length2&#34;&gt;
     &lt;font class=&#34;NumPy-label&#34;&gt;
       &lt;p title=&#34;NumPy&#34;&gt;
-        &lt;i class=&#34;fab fa-python&#34;&gt;&lt;/i&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
       &lt;/p&gt;
     &lt;/font&gt;
   &lt;/a&gt;
@@ -365,6 +1211,41 @@ r_vector&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt;  [1]  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;length(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length2.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+int cpp_size(NumericVector x) {
+  return x.size();
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_length(1:20)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length2.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;iterator&amp;gt;  // std::size
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+using std::cout;
+using std::endl;
+using std::size;
+using std::vector;
+
+int main() {
+    vector&amp;lt;double&amp;gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
+ 
+    int result = size(v);
+
+    cout &amp;lt;&amp;lt; &amp;quot;length: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
+
+    return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;  g++ -std=c++17 cpp-length2.cpp -o cpp-length2 &amp;amp;&amp;amp; ./cpp-length2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; length: 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
   &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/py-length2.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
@@ -375,42 +1256,6 @@ print(list(py_generator))&lt;/code&gt;&lt;/pre&gt;
 
 print(result)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/rcpp-length2.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
-&lt;/p&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-int cpp_size(NumericVector x) {
-  return x.size();
-}
-
-/*** R
-cpp_size(1:20)
-*/&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/cpp-length2.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
-&lt;/p&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
-#include &amp;lt;vector&amp;gt;    // std::vector
-
-using std::cout;
-using std::endl;
-using std::vector;
-
-int main() {
-    vector&amp;lt;double&amp;gt; v{ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20 };
- 
-    int result = v.size();
-
-    cout &amp;lt;&amp;lt; &amp;quot;length: &amp;quot; &amp;lt;&amp;lt; result &amp;lt;&amp;lt; endl;
-
-    return 0;
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;g++ cpp-length2.cpp -o cpp-length2 &amp;amp;&amp;amp; ./cpp-length2&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; length: 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-length2&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
   &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/numpy-length2.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
@@ -574,7 +1419,7 @@ print(result)&lt;/code&gt;&lt;/pre&gt;
 &lt;!-- ``` --&gt;
 &lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;When using this post, please consider citing it.&lt;/p&gt;
+&lt;p&gt;When using or referring to this post, please consider citing it.&lt;/p&gt;
 &lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Nov. 3). Foundational Programming. Retrieved from https://knapply.com/post/foundational-programming/&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{foundational-programming,
   author = {Knapp, Brendan},
@@ -8908,15 +9753,6 @@ $$&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&#34;https://sourcethemes.com/academic/docs/&#34;&gt;Documentation&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>snatools</title>
-      <link>/project/snatools/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      
-      <guid>/project/snatools/</guid>
-      <description></description>
     </item>
     
   </channel>

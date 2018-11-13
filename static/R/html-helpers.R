@@ -6,16 +6,22 @@ start_tabset <- function() {
 }
 
 add_menu_tab <- function(chunk_name, is_active = TRUE) {
-  lang <- stringr::str_extract(chunk_name, "^.+(?=-)")
-  tooltip <- switch(lang, r = "Base R", py = "Pure Python", rcpp = "Rcpp", cpp = "C++", numpy = "NumPy")
+  lang <- stringr::str_extract(chunk_name, "^.*?(?=-)")
+  tooltip <- switch(lang, r = "R", py = "Python", rcpp = "Rcpp", cpp = "C++", numpy = "NumPy")
+  
+  icon_label <- tooltip
+  # if (lang %in% c("rcpp", "cpp")) {
+  #   icon_label_style <- 'vertical-align:top; display:inline-block; text-align:center; font-size:20px; padding-bottom:5px;'
+  # } else {
+    icon_label_style <- 'vertical-align:top; display:inline-block; text-align:center; font-size:20px;'
+    # icon_font_style <- 'text-align:center;'
+  # }
   icon <- switch(lang,
                  r = '<i class="fab fa-r-project"> </i>',
-                 py = '<i class="fab fa-python"></i>',
-                 rcpp = '<i class="devicon-cplusplus-plain"></i>',
-                 cpp = '<i class="devicon-cplusplus-plain"></i>',
-                 numpy = '<i class="fab fa-python"></i>'
-                 # numpy = '<img src="icons/numpy.svg" alt="NumPy">'
-                 )
+                 py = '<i class="fab fa-python"> </i>',
+                 rcpp = '<i class="devicon-cplusplus-plain"> </i>',
+                 cpp = '<i class="devicon-cplusplus-plain"> </i>',
+                 numpy = '<i class="fab fa-python"> </i>')
   font_class <- switch(lang, r = "R-label", py = "Python-label", rcpp = "Rcpp-label", cpp = "Cpp-label", numpy = "NumPy-label")
   li <- ifelse(is_active, "<li class='active'>", "<li>")
 
@@ -25,6 +31,13 @@ add_menu_tab <- function(chunk_name, is_active = TRUE) {
     <font class="<~font_class~>">
       <p title="<~tooltip~>">
         <~icon~>
+        <div class="text-center">
+          <!-- <span class="icon-label" style="<~icon_label_style~>"> -->
+          <font style="<~icon_label_style~>">
+            <~icon_label~>
+          </font>
+          <!-- </span> -->
+        </div>
       </p>
     </font>
   </a>
@@ -122,6 +135,8 @@ embed_github_link <- function(path) {
   } else if (stringr::str_detect(path, "(?<=/)rcpp-.+\\.cpp$")) {
     lang <- "Rcpp"
   } else if (stringr::str_detect(path, "(?<=/)cpp-.+\\.cpp$")) {
+    lang <- "Cpp"
+  } else if (stringr::str_detect(path, "(?<=/)cpp-.+\\.h$")) {
     lang <- "Cpp"
   } else if (stringr::str_detect(path, "(?<=/)py-.+\\.py$")) {
     lang <- "Python"

@@ -1,0 +1,343 @@
+---
+title: Describing Data
+author: Brendan Knapp
+date: '2018-11-12'
+slug: index
+categories:
+  - data-science-from-scratch
+  - statistics
+  - tutorial
+  - programming
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - cpp
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Essential mathematical and programming operations'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 3
+citation_url: https://knapply.com/post/describing-data/
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, comment = "#>")
+
+options(width=90)
+
+source(here::here("static/R/html-helpers.R"))
+source(here::here("static/R/citation.R"))
+```
+
+
+```{python, echo=FALSE}
+import numpy as np
+np.set_printoptions(suppress = True, linewidth = np.nan, threshold = np.nan)
+```
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+# Length/Size
+
+```{r, echo=FALSE, cache=FALSE}
+as_chunk("describing-data/r-length-size.R")
+as_chunk("describing-data/rcpp-length-size.cpp")
+as_chunk("describing-data/cpp-length-size.cpp")
+as_chunk("describing-data/py-length-size.py")
+as_chunk("describing-data/numpy-length-size.py")
+```
+
+```{r, echo=FALSE}
+start_tabset()
+add_menu_tab("r-length-size", is_active = TRUE)
+add_menu_tab("rcpp-length-size", is_active = FALSE)
+add_menu_tab("cpp-length-size", is_active = FALSE)
+add_menu_tab("py-length-size", is_active = FALSE)
+add_menu_tab("numpy-length-size", is_active = FALSE)
+end_menu()
+```
+
+
+```{r, echo=FALSE}
+start_tab_content()
+add_active_tab("r-length-size")
+embed_github_link("describing-data/r-length-size.R")
+```
+
+
+```{r r-length-size}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("rcpp-length-size")
+embed_github_link("describing-data/rcpp-length-size.cpp")
+```
+
+```{Rcpp rcpp-length-size, class.source="cpp-cpp"}
+```
+
+```{r}
+r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_length(r_vector)
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("cpp-length-size")
+embed_github_link("describing-data/cpp-length-size.cpp")
+```
+
+```{Rcpp cpp-length-size, eval=FALSE, class.source="cpp-cpp"}
+```
+
+```{bash, eval=FALSE}
+cd tutorial-gists/sections/describing-data/ &&
+  g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &&
+  ./cpp-length-size
+```
+
+```{bash, echo=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/describing-data &&
+  g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &&
+  ./cpp-length-size
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-length-size")
+embed_github_link("describing-data/py-length-size.py")
+```
+
+```{python py-length-size}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("numpy-length-size")
+embed_github_link("describing-data/numpy-length-size.py")
+```
+
+```{python numpy-length-size}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+end_tabset()
+```
+
+
+# Minimum and Maximum Values
+
+```{r, echo=FALSE, cache=FALSE}
+as_chunk("describing-data/r-min-max.R")
+as_chunk("describing-data/rcpp-min-max.cpp")
+as_chunk("describing-data/cpp-min-max.cpp")
+as_chunk("describing-data/py-min-max.py")
+as_chunk("describing-data/numpy-min-max.py")
+```
+
+```{r, echo=FALSE}
+start_tabset()
+add_menu_tab("r-min-max", is_active = TRUE)
+add_menu_tab("rcpp-min-max", is_active = FALSE)
+add_menu_tab("cpp-min-max", is_active = FALSE)
+add_menu_tab("py-min-max", is_active = FALSE)
+add_menu_tab("numpy-min-max", is_active = FALSE)
+end_menu()
+```
+
+
+```{r, echo=FALSE}
+start_tab_content()
+add_active_tab("r-min-max")
+embed_github_link("describing-data/r-min-max.R")
+```
+
+
+```{r r-min-max}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("rcpp-min-max")
+embed_github_link("describing-data/rcpp-min-max.cpp")
+```
+
+```{Rcpp rcpp-min-max, class.source="cpp-cpp"}
+```
+
+```{r}
+r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_min(r_vector)
+cpp_max(r_vector)
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("cpp-min-max")
+embed_github_link("describing-data/cpp-min-max.cpp")
+```
+
+```{Rcpp cpp-min-max, eval=FALSE, class.source="cpp-cpp"}
+```
+
+```{bash, eval=FALSE}
+cd tutorial-gists/sections/describing-data/ &&
+  g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &&
+  ./cpp-min-max
+```
+
+```{bash, echo=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/describing-data &&
+  g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &&
+  ./cpp-min-max
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-min-max")
+embed_github_link("describing-data/py-min-max.py")
+```
+
+```{python py-min-max}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("numpy-min-max")
+embed_github_link("describing-data/numpy-min-max.py")
+```
+
+```{python numpy-min-max}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+end_tabset()
+```
+
+
+# Sum
+
+```{r, echo=FALSE, cache=FALSE}
+as_chunk("describing-data/r-sum.R")
+as_chunk("describing-data/rcpp-sum.cpp")
+as_chunk("describing-data/cpp-sum.cpp")
+as_chunk("describing-data/py-sum.py")
+as_chunk("describing-data/numpy-sum.py")
+```
+
+```{r, echo=FALSE}
+start_tabset()
+add_menu_tab("r-sum", is_active = TRUE)
+add_menu_tab("rcpp-sum", is_active = FALSE)
+add_menu_tab("cpp-sum", is_active = FALSE)
+add_menu_tab("py-sum", is_active = FALSE)
+add_menu_tab("numpy-sum", is_active = FALSE)
+end_menu()
+```
+
+
+```{r, echo=FALSE}
+start_tab_content()
+add_active_tab("r-sum")
+embed_github_link("describing-data/r-sum.R")
+```
+
+```{r r-sum}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("rcpp-sum")
+embed_github_link("describing-data/rcpp-sum.cpp")
+```
+
+```{Rcpp rcpp-sum, class.source="cpp-cpp"}
+```
+
+```{r}
+r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+cpp_sum(r_vector)
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("cpp-sum")
+embed_github_link("describing-data/cpp-sum.cpp")
+```
+
+```{Rcpp cpp-sum, eval=FALSE, class.source="cpp-cpp"}
+```
+
+```{bash, eval=FALSE}
+cd tutorial-gists/sections/describing-data/ &&
+  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &&
+  ./cpp-sum
+```
+
+```{bash, echo=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/describing-data &&
+  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &&
+  ./cpp-sum
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-sum")
+embed_github_link("describing-data/py-sum.py")
+```
+
+```{python py-sum}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("numpy-sum")
+embed_github_link("describing-data/numpy-sum.py")
+```
+
+```{python numpy-sum}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+end_tabset()
+```
+
+

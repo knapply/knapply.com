@@ -33,7 +33,7 @@ print_bibtex <- function() {
 print_citation_header <- function() {
   htmltools::HTML(
 '<p><strong>Citation and <span class="math inline">\\(\\normalsize{\\textrm B} \\scriptsize{\\textrm{IB}} \\normalsize{\\TeX}\\)</span></strong></p>
-<p>When using this post, please consider citing it.</p>'
+<p>When using or referring to this post, please consider citing it.</p>'
   )
 }
 
