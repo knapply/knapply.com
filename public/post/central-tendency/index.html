@@ -123,7 +123,7 @@
   
   <meta property="article:published_time" content="2018-11-12T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-11-07T14:49:24-08:00">
+  <meta property="article:modified_time" content="2018-11-12T16:09:58-08:00">
   
 
   
@@ -380,8 +380,8 @@
         Last updated on
     
     <meta content="2018-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-    <time datetime="2018-11-07 14:49:24 -0800 PST" itemprop="dateModified">
-      Nov 7, 2018
+    <time datetime="2018-11-12 16:09:58 -0800 PST" itemprop="dateModified">
+      Nov 12, 2018
     </time>
   </span>
   <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
@@ -611,33 +611,24 @@ cpp_mean(r_vector_na)</code></pre>
 <pre class="r"><code>cpp_mean(r_vector_na, na_rm = TRUE)</code></pre>
 <pre><code>#&gt; [1] 489.2353</code></pre>
 <p></div><div id="cpp-mean" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean.cpp" class="fab fa-github"></a>
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean-header.h" class="fab fa-github"></a>
 </p></p>
-<pre class="cpp cpp-header"><code>#include &lt;algorithm&gt;  // std::find_if, std::remove_if
+<pre class="cpp cpp-header"><code>#pragma once
+
+#include &quot;../describing-data/cpp-sum-header.h&quot;
+
+#include &lt;algorithm&gt;  // std::find_if, std::remove_if
 #include &lt;cmath&gt;      // std::isnan
 #include &lt;numeric&gt;    // std::accumulate
 #include &lt;vector&gt;     // std::vector
 
-namespace knapply {
-  auto mean(std::vector&lt;double&gt; x, bool ignore_nan = false) {
-    auto has_nan = std::find_if(std::begin(x), std::end(x), 
-                                [] (auto i) { return std::isnan(i); });
-  
-    if (!ignore_nan &amp;&amp; *has_nan) {
-      return std::nan(&quot;&quot;);
-    }
-  
-    if (ignore_nan &amp;&amp; *has_nan) {
-      x.erase(std::remove_if(std::begin(x), std::end(x),
-                             [] (double i) { return std::isnan(i); }),
-              std::end(x));
-    }
-  
-    return std::accumulate(std::begin(x), std::end(x), 0.0) / std::size(x);
-  }
-}  // namespace knapply</code></pre>
+
+template &lt;typename T&gt;
+auto calc_mean(const std::vector&lt;T&gt; &amp;x) {
+  return calc_sum(x) / std::size(x);
+}</code></pre>
 <p class="Cpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean-header.h" class="fab fa-github"></a>
+  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean.cpp" class="fab fa-github"></a>
 </p>
 <pre class="cpp cpp-cpp"><code>#include &quot;cpp-mean-header.h&quot;
 
@@ -647,27 +638,15 @@ int main() {
   std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
                                   190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
   
-  std::vector&lt;double&gt; cpp_vector_nan {126, 793, 999, std::nan(&quot;&quot;), 851, 798, 120, 714, 
-                                      852, 151, std::nan(&quot;&quot;), 41, 612, 826, 507,
-                                      std::nan(&quot;&quot;), 14, 237, 669, 7};
-  
-  auto res1 = knapply::mean(cpp_vector, false);
-  std::cout &lt;&lt; &quot;mean without nan: &quot; &lt;&lt; res1 &lt;&lt; std::endl;
-
-  auto res2 = knapply::mean(cpp_vector_nan, false);
-  std::cout &lt;&lt; &quot;mean with nan and `nan_rm = false`: &quot; &lt;&lt; res2 &lt;&lt; std::endl;
-
-  auto res3 = knapply::mean(cpp_vector_nan, true);
-  std::cout &lt;&lt; &quot;mean with nan and `nan_rm = true`: &quot; &lt;&lt; res3 &lt;&lt; std::endl;
+  auto res = calc_mean(cpp_vector);
+  std::cout &lt;&lt; &quot;mean: &quot; &lt;&lt; res &lt;&lt; std::endl;
   
   return 0;
 }</code></pre>
 <pre class="bash"><code>cd tutorial-gists/sections/central-tendency/ &amp;&amp;
   g++ -std=c++17 cpp-mean.cpp -o cpp-mean &amp;&amp;
   ./cpp-mean</code></pre>
-<pre><code>#&gt; mean without nan: 456.85
-#&gt; mean with nan and `nan_rm = false`: nan
-#&gt; mean with nan and `nan_rm = true`: 489.235</code></pre>
+<pre><code>#&gt; mean: 456.85</code></pre>
 <p></div><div id="py-mean" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
   <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/py-mean.py" class="fab fa-github"></a>
 </p></p>

@@ -153,33 +153,24 @@ cpp_mean(r_vector_na)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_mean(r_vector_na, na_rm = TRUE)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 489.2353&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-mean&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean-header.h&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp cpp-header&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt;  // std::find_if, std::remove_if
+&lt;pre class=&#34;cpp cpp-header&#34;&gt;&lt;code&gt;#pragma once
+
+#include &amp;quot;../describing-data/cpp-sum-header.h&amp;quot;
+
+#include &amp;lt;algorithm&amp;gt;  // std::find_if, std::remove_if
 #include &amp;lt;cmath&amp;gt;      // std::isnan
 #include &amp;lt;numeric&amp;gt;    // std::accumulate
 #include &amp;lt;vector&amp;gt;     // std::vector
 
-namespace knapply {
-  auto mean(std::vector&amp;lt;double&amp;gt; x, bool ignore_nan = false) {
-    auto has_nan = std::find_if(std::begin(x), std::end(x), 
-                                [] (auto i) { return std::isnan(i); });
-  
-    if (!ignore_nan &amp;amp;&amp;amp; *has_nan) {
-      return std::nan(&amp;quot;&amp;quot;);
-    }
-  
-    if (ignore_nan &amp;amp;&amp;amp; *has_nan) {
-      x.erase(std::remove_if(std::begin(x), std::end(x),
-                             [] (double i) { return std::isnan(i); }),
-              std::end(x));
-    }
-  
-    return std::accumulate(std::begin(x), std::end(x), 0.0) / std::size(x);
-  }
-}  // namespace knapply&lt;/code&gt;&lt;/pre&gt;
+
+template &amp;lt;typename T&amp;gt;
+auto calc_mean(const std::vector&amp;lt;T&amp;gt; &amp;amp;x) {
+  return calc_sum(x) / std::size(x);
+}&lt;/code&gt;&lt;/pre&gt;
 &lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean-header.h&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;
 &lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;quot;cpp-mean-header.h&amp;quot;
 
@@ -189,27 +180,15 @@ int main() {
   std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
                                   190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
   
-  std::vector&amp;lt;double&amp;gt; cpp_vector_nan {126, 793, 999, std::nan(&amp;quot;&amp;quot;), 851, 798, 120, 714, 
-                                      852, 151, std::nan(&amp;quot;&amp;quot;), 41, 612, 826, 507,
-                                      std::nan(&amp;quot;&amp;quot;), 14, 237, 669, 7};
-  
-  auto res1 = knapply::mean(cpp_vector, false);
-  std::cout &amp;lt;&amp;lt; &amp;quot;mean without nan: &amp;quot; &amp;lt;&amp;lt; res1 &amp;lt;&amp;lt; std::endl;
-
-  auto res2 = knapply::mean(cpp_vector_nan, false);
-  std::cout &amp;lt;&amp;lt; &amp;quot;mean with nan and `nan_rm = false`: &amp;quot; &amp;lt;&amp;lt; res2 &amp;lt;&amp;lt; std::endl;
-
-  auto res3 = knapply::mean(cpp_vector_nan, true);
-  std::cout &amp;lt;&amp;lt; &amp;quot;mean with nan and `nan_rm = true`: &amp;quot; &amp;lt;&amp;lt; res3 &amp;lt;&amp;lt; std::endl;
+  auto res = calc_mean(cpp_vector);
+  std::cout &amp;lt;&amp;lt; &amp;quot;mean: &amp;quot; &amp;lt;&amp;lt; res &amp;lt;&amp;lt; std::endl;
   
   return 0;
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/central-tendency/ &amp;amp;&amp;amp;
   g++ -std=c++17 cpp-mean.cpp -o cpp-mean &amp;amp;&amp;amp;
   ./cpp-mean&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; mean without nan: 456.85
-#&amp;gt; mean with nan and `nan_rm = false`: nan
-#&amp;gt; mean with nan and `nan_rm = true`: 489.235&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; mean: 456.85&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-mean&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
   &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/py-mean.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
@@ -269,13 +248,14 @@ print(res2)&lt;/code&gt;&lt;/pre&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#lengthsize&#34;&gt;Length/Size&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#minimum-and-maximum-values&#34;&gt;Minimum and Maximum Values&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#unique-values&#34;&gt;Unique Values&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#sum&#34;&gt;Sum&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;
+&lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt;&lt;/p&gt;
 &lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt;
-&lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt;
+&lt;!-- &lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt; --&gt;
 &lt;p&gt;&lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt;&lt;/p&gt;
 &lt;div id=&#34;lengthsize&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Length/Size&lt;/h1&gt;
@@ -357,7 +337,8 @@ print(res2)&lt;/code&gt;&lt;/pre&gt;
   &lt;/a&gt;
 &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-length-size&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-length-size.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-length-size.R&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/r-length-size.R &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-length-size.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
@@ -366,7 +347,8 @@ r_vector&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;length(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-length-size.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-length-size.cpp&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/rcpp-length-size.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-length-size.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
 using namespace Rcpp;
@@ -381,27 +363,50 @@ int cpp_length(NumericVector x) {
 cpp_length(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-length-size.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-length-size.cpp&#34; style=&#34;font-size:20px;&#34;&gt;cpp/cpp-length-size.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-length-size.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
 #include &amp;lt;vector&amp;gt;    // std::vector
 
+using std::cout;
+using std::endl;
+using std::size;
+
+using std::vector;
+
 int main() {
-  std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
-                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  int array_int[] = {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                     190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
 
-  auto res = std::size(cpp_vector);
-
-  std::cout &amp;lt;&amp;lt; &amp;quot;length/size: &amp;quot; &amp;lt;&amp;lt; res &amp;lt;&amp;lt; std::endl;
+  // manually calculate `array_int`&amp;#39;s length/size...
+  auto n_bytes_of_array_int = sizeof(array_int); // how many bytes used by `array_int`?
+  auto n_bytes_of_int = sizeof(int);             // how many bytes used by single `int`?
+  auto size_manual = n_bytes_of_array_int / n_bytes_of_int; // divide for result
+  cout &amp;lt;&amp;lt; size_manual &amp;lt;&amp;lt; &amp;quot; ~ calculate `array_int`&amp;#39;s length/size manually&amp;quot; &amp;lt;&amp;lt; &amp;quot;\n&amp;quot; &amp;lt;&amp;lt; endl;
+  
+  
+  // built-in
+  auto res1 = size(array_int);
+  std::cout &amp;lt;&amp;lt; res1 &amp;lt;&amp;lt; &amp;quot; ~ `array_int`&amp;#39;s length/size (built-in)&amp;quot; &amp;lt;&amp;lt; std::endl;
+  
+  vector&amp;lt;double&amp;gt; vec_dbl{126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                         190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  
+  auto res2 = std::size(vec_dbl);
+  std::cout &amp;lt;&amp;lt; res2 &amp;lt;&amp;lt; &amp;quot; ~ `vec_dbl`&amp;#39;s length/size (built-in)&amp;quot; &amp;lt;&amp;lt; std::endl;
 
   return 0;
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
   g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &amp;amp;&amp;amp;
   ./cpp-length-size&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; length/size: 20&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/cpp &amp;amp;&amp;amp;
+  g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &amp;amp;&amp;amp;
+  ./cpp-length-size&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-length-size.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-length-size.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/py-length-size.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-length-size.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
            190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
@@ -411,7 +416,8 @@ print(py_list)&lt;/code&gt;&lt;/pre&gt;
 print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 20&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-length-size&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-length-size.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-length-size.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/numpy-length-size.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-length-size.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
                         190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
@@ -502,7 +508,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   &lt;/a&gt;
 &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-min-max&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-min-max.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-min-max.R&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/r-min-max.R &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-min-max.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
@@ -511,7 +518,8 @@ r_vector&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;max(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 999&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-min-max.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-min-max.cpp&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/rcpp-min-max.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-min-max.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
 
@@ -536,7 +544,8 @@ cpp_min(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_max(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 999&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-min-max.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-min-max.cpp&#34; style=&#34;font-size:20px;&#34;&gt;cpp/cpp-min-max.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-min-max.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;algorithm&amp;gt; // std::min_element, std::max_element
 #include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
@@ -554,17 +563,19 @@ int main() {
   // find maximum value
   auto max_res = std::max_element(std::begin(cpp_vector), std::end(cpp_vector));
   // print
-  std::cout &amp;lt;&amp;lt; &amp;quot;minimum: &amp;quot; &amp;lt;&amp;lt; *max_res &amp;lt;&amp;lt; std::endl;
+  std::cout &amp;lt;&amp;lt; &amp;quot;maximum: &amp;quot; &amp;lt;&amp;lt; *max_res &amp;lt;&amp;lt; std::endl;
   
+
   return 0;
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
   g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &amp;amp;&amp;amp;
   ./cpp-min-max&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; minimum: 7
-#&amp;gt; minimum: 999&lt;/code&gt;&lt;/pre&gt;
+#&amp;gt; maximum: 999&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-min-max.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-min-max.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/py-min-max.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-min-max.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
            190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
@@ -577,7 +588,8 @@ print(min_res)&lt;/code&gt;&lt;/pre&gt;
 print(max_res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 999&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-min-max&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-min-max.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-min-max.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/numpy-min-max.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-min-max.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
 
@@ -591,6 +603,155 @@ print(min_res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;max_res = np.max(numpy_array)
 print(max_res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 999&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;unique-values&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Unique Values&lt;/h1&gt;
+&lt;p&gt;&lt;div class=&#34;code-container&#34;&gt;
+&lt;ul class=&#34;nav nav-pills&#34;&gt;&lt;li class=&#39;active&#39;&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#r-unique&#34;&gt;
+    &lt;font class=&#34;R-label&#34;&gt;
+      &lt;p title=&#34;R&#34;&gt;
+        &lt;i class=&#34;fab fa-r-project&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            R
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#cpp-unique&#34;&gt;
+    &lt;font class=&#34;Cpp-label&#34;&gt;
+      &lt;p title=&#34;C++&#34;&gt;
+        &lt;i class=&#34;devicon-cplusplus-plain&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            C++
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#py-unique&#34;&gt;
+    &lt;font class=&#34;Python-label&#34;&gt;
+      &lt;p title=&#34;Python&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            Python
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;li&gt;
+  &lt;a data-toggle=&#34;pill&#34; href=&#34;#numpy-unique&#34;&gt;
+    &lt;font class=&#34;NumPy-label&#34;&gt;
+      &lt;p title=&#34;NumPy&#34;&gt;
+        &lt;i class=&#34;fab fa-python&#34;&gt; &lt;/i&gt;
+        &lt;div class=&#34;text-center&#34;&gt;
+          &lt;!-- &lt;span class=&#34;icon-label&#34; style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt; --&gt;
+          &lt;font style=&#34;vertical-align:top; display:inline-block; text-align:center; font-size:20px;&#34;&gt;
+            NumPy
+          &lt;/font&gt;
+          &lt;!-- &lt;/span&gt; --&gt;
+        &lt;/div&gt;
+      &lt;/p&gt;
+    &lt;/font&gt;
+  &lt;/a&gt;
+&lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
+&lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-unique&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-unique.R&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/r-unique.R &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-unique.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+#               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+# 
+# cpp_sum(r_vector)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-unique&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-unique.cpp&#34; style=&#34;font-size:20px;&#34;&gt;cpp/cpp-unique.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-unique.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+#include &amp;quot;cpp-unique-h.hpp&amp;quot;
+
+using std::cout;
+using std::endl;
+using std::vector;
+
+int main() {
+  vector&amp;lt;double&amp;gt; vec_dbl{8, 2, 1, 10, 3, 2, 8, 6, 1, 2,
+                         4, 9, 2, 3, 4, 2, 8, 9, 10, 1};
+  
+  auto res = get_unique(vec_dbl);
+
+  for (auto i: res) std::cout &amp;lt;&amp;lt; i &amp;lt;&amp;lt; &amp;quot; &amp;quot;;
+  cout &amp;lt;&amp;lt; &amp;quot; ~ unique `vec_dbl` elements&amp;quot; &amp;lt;&amp;lt; endl;
+  
+  return 0;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-unique-h.hpp&#34; style=&#34;font-size:20px;&#34;&gt;cpp/cpp-unique-h.hpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-unique-h.hpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-header&#34;&gt;&lt;code&gt;# pragma once
+
+#include &amp;lt;algorithm&amp;gt;       // std::remove_if
+#include &amp;lt;unordered_set&amp;gt;   // std::unordered_set
+#include &amp;lt;vector&amp;gt;          // std::vector
+
+template &amp;lt;typename T&amp;gt;
+auto get_unique(std::vector&amp;lt;T&amp;gt; x) {
+  std::unordered_set&amp;lt;T&amp;gt; seen;
+
+  auto find_unique = [&amp;amp;seen] (const T&amp;amp; val) {
+    if (seen.find(val) == std::end(seen)) {
+      seen.insert(val);
+      return false;
+    } else {
+      return true;
+    }
+  };
+
+  x.erase(std::remove_if(std::begin(x), std::end(x), find_unique),
+          std::end(x));
+
+  return x;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
+  g++ -std=c++17 cpp-unique.cpp -o cpp-unique &amp;amp;&amp;amp; 
+  ./cpp-unique&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 8 2 1 10 3 6 4 9  ~ unique `vec_dbl` elements&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-unique&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-unique.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/py-unique.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-unique.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [8, 2, 1, 10, 3, 2, 8, 6, 1, 2, 4, 9, 2, 3, 4, 2, 8, 9, 10, 1]
+
+def get_unique(x):
+  seen = set()
+  seen_add = seen.add
+  return [i for i in x if not (i in seen or seen_add(i))]
+
+result = get_unique(py_list)
+print(result)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [8, 2, 1, 10, 3, 6, 4, 9]&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-unique&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-unique.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/numpy-unique.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-unique.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;&lt;/p&gt;
 &lt;p&gt;&lt;/div&gt;&lt;/div&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;sum&#34; class=&#34;section level1&#34;&gt;
@@ -673,7 +834,8 @@ print(max_res)&lt;/code&gt;&lt;/pre&gt;
   &lt;/a&gt;
 &lt;/li&gt;&lt;/ul&gt;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;tab-content&#34;&gt;&lt;div id=&#34;r-sum&#34; class=&#34;tab-pane fade in active&#34;&gt;&lt;p class=&#34;R-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-sum.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-sum.R&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/r-sum.R &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/r-sum.R&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector = c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
@@ -682,7 +844,8 @@ r_vector&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 9137&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;rcpp-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Rcpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-sum.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-sum.cpp&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/rcpp-sum.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/rcpp-sum.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
 using namespace Rcpp;
@@ -697,28 +860,78 @@ double cpp_sum(NumericVector x) {
 cpp_sum(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 9137&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;cpp-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/cpp-sum.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-sum.cpp&#34; style=&#34;font-size:20px;&#34;&gt;cpp/cpp-sum.cpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-sum.cpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
-&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
-#include &amp;lt;numeric&amp;gt;   // std::accumulate
+&lt;pre class=&#34;cpp cpp-cpp&#34;&gt;&lt;code&gt;#include &amp;quot;cpp-sum-h.hpp&amp;quot;
+
+#include &amp;lt;iostream&amp;gt;  // std::cout, std::endl
 #include &amp;lt;vector&amp;gt;    // std::vector
 
+using std::cout;
+using std::endl;
+using std::size;
+using std::vector;
+
 int main() {
-  std::vector&amp;lt;double&amp;gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
-                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  vector&amp;lt;double&amp;gt; vec_dbl{126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                         190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  
+  // manually calculate `vec_dbl`&amp;#39;s sum...
+  int sum_manual = 0;                           // start at 0
+  int n = size(vec_dbl);                        // how many elements are in `vec_dbl`?
+  for (int i = 0; i &amp;lt; n; i++) {                 // for each of those elements...
+    sum_manual += vec_dbl[i];                   // add them to `sum_manual`
+  }
+  cout &amp;lt;&amp;lt; sum_manual &amp;lt;&amp;lt; &amp;quot; ~ sum `vec_dbl` manually&amp;quot; &amp;lt;&amp;lt; &amp;quot;\n&amp;quot; &amp;lt;&amp;lt; endl; // print the result
+  
+  // modularize it...
+  auto res1 = calc_sum(vec_dbl);
+  cout &amp;lt;&amp;lt; res1 &amp;lt;&amp;lt; &amp;quot; ~ sum `vec_dbl` with template&amp;quot; &amp;lt;&amp;lt; &amp;quot;\n&amp;quot; &amp;lt;&amp;lt; endl;
 
-  auto res = std::accumulate(std::begin(cpp_vector), std::end(cpp_vector), 0.0);
-
-  std::cout &amp;lt;&amp;lt; &amp;quot;sum: &amp;quot; &amp;lt;&amp;lt; res &amp;lt;&amp;lt; std::endl;
+  
+  vector&amp;lt;int&amp;gt; vec_int{126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                      190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+  auto res2 = calc_sum(vec_int);
+  cout &amp;lt;&amp;lt; res2 &amp;lt;&amp;lt; &amp;quot; ~ sum `vec_int` with template&amp;quot; &amp;lt;&amp;lt; &amp;quot;\n&amp;quot; &amp;lt;&amp;lt; endl;
+  
+  
+  auto res3 = calc_sum(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
+                       190, 41, 612, 826, 507, 105, 14, 237, 669, 7);
+  cout &amp;lt;&amp;lt; res3 &amp;lt;&amp;lt; &amp;quot; ~ sum individual numbers passed to variadic template&amp;quot; &amp;lt;&amp;lt; &amp;quot;\n&amp;quot; &amp;lt;&amp;lt; endl;
 
   return 0;
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp;
-  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &amp;amp;&amp;amp;
-  ./cpp-sum&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; sum: 9137&lt;/code&gt;&lt;/pre&gt;
+&lt;p class=&#34;Cpp-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-sum-h.hpp&#34; style=&#34;font-size:20px;&#34;&gt;cpp/cpp-sum-h.hpp &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/cpp/cpp-sum-h.hpp&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;/p&gt;
+&lt;pre class=&#34;cpp cpp-header&#34;&gt;&lt;code&gt;#pragma once
+
+#include &amp;lt;numeric&amp;gt;   // std::accumulate
+#include &amp;lt;vector&amp;gt;    // std::vector
+
+template &amp;lt;typename T&amp;gt;
+auto calc_sum(const std::vector&amp;lt;T&amp;gt; &amp;amp;x) { // sum a vector of anything
+  T zero = 0;
+  return std::accumulate(std::begin(x), std::end(x), zero);
+}
+
+template &amp;lt;typename... T&amp;gt;  
+auto calc_sum(const T&amp;amp; ...dots) {       // sum variable number of arguments
+  return (dots + ...);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;cd tutorial-gists/sections/describing-data/ &amp;amp;&amp;amp; g++ -std=c++17 cpp-sum.cpp -o cpp-sum &amp;amp;&amp;amp; ./cpp-sum&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 9137 ~ sum `vec_dbl` manually
+#&amp;gt; 
+#&amp;gt; 9137 ~ sum `vec_dbl` with template
+#&amp;gt; 
+#&amp;gt; 9137 ~ sum `vec_int` with template
+#&amp;gt; 
+#&amp;gt; 9137 ~ sum individual numbers passed to variadic template&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;py-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;Python-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-sum.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-sum.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/py-sum.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/py-sum.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 
            190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
@@ -728,7 +941,8 @@ print(py_list)&lt;/code&gt;&lt;/pre&gt;
 print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 9137&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;/div&gt;&lt;div id=&#34;numpy-sum&#34; class=&#34;tab-pane fade&#34;&gt;&lt;p class=&#34;NumPy-github-link&#34; title=&#34;See code on GitHub&#34;&gt;
-  &lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-sum.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-sum.py&#34; style=&#34;font-size:20px;&#34;&gt;describing-data/numpy-sum.py &lt;/a&gt;
+&lt;a href=&#34;https://github.com/knapply/tutorial-gists/blob/master/sections/describing-data/numpy-sum.py&#34; class=&#34;fab fa-github&#34;&gt;&lt;/a&gt;
 &lt;/p&gt;&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
 numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 

@@ -28,8 +28,8 @@
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/describing-data/</guid>
-      <description>Length/SizeMinimum and Maximum ValuesSumLength/Size--R----Rcpp----C++----Python----NumPy--
-r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7)r_vector#&amp;gt; [1] 126 793 999 525 851 798 120 714 852 151 190 41 612 826 507 105 14 237 669 7length(r_vector)#&amp;gt; [1] 20#include &amp;lt;Rcpp.</description>
+      <description>Length/SizeMinimum and Maximum ValuesUnique ValuesSum --Length/Size--R----Rcpp----C++----Python----NumPy--
+describing-data/r-length-size.R r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7)r_vector#&amp;gt; [1] 126 793 999 525 851 798 120 714 852 151 190 41 612 826 507 105 14 237 669 7length(r_vector)#&amp;gt; [1] 20describing-data/rcpp-length-size.</description>
     </item>
     
   </channel>

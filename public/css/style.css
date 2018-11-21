@@ -51,7 +51,7 @@
   color: red;
 }
 .cpp-header::before {
-  content: "> .h\A";
+  content: "> .hpp\A";
   font-weight: 200;
   color: red;
 }
@@ -85,16 +85,6 @@
 }
 
 
-.navbar-brand {
-  font-family: 'Roboto Mono', monospace;
-  padding-top: 1px;
-  padding-bottom: 1px;
-}
-
-.navbar-light .navbar-brand {
-  font-size: 1.5em;
-}
-
 .toc-table:hover * {
   text-decoration: none;
 }
@@ -126,14 +116,27 @@
 /* code tab boxes */
 
 
+.navbar-brand {
+  font-family: 'Roboto Mono', monospace;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.navbar-light .navbar-brand {
+  font-size: 1.5em;
+}
+
+/*
+@media .navbar-nav * {
+  display: flex !important;
+  margin-left: auto !important;#
+}*/
+
+
 .nav-pills * {
   background-color: white !important;
 }
 
-
-.navbar * {
-  float: right !important;
-}
 
 .code-container {
   max-width: 100%;

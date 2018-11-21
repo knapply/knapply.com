@@ -116,14 +116,14 @@ cpp_mean(r_vector_na, na_rm = TRUE)
 ```{r, echo=FALSE}
 end_tab()
 add_other_tab("cpp-mean")
-embed_github_link("central-tendency/cpp-mean.cpp")
+embed_github_link("central-tendency/cpp-mean-header.h")
 ```
 
 ```{Rcpp cpp-mean-header, eval=FALSE, class.source="cpp-header"}
 ```
 
 ```{r, echo=FALSE}
-embed_github_link("central-tendency/cpp-mean-header.h")
+embed_github_link("central-tendency/cpp-mean.cpp")
 ```
 
 ```{Rcpp cpp-mean, eval=FALSE, class.source="cpp-cpp"}

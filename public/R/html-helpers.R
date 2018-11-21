@@ -136,7 +136,7 @@ embed_github_link <- function(path) {
     lang <- "Rcpp"
   } else if (stringr::str_detect(path, "(?<=/)cpp-.+\\.cpp$")) {
     lang <- "Cpp"
-  } else if (stringr::str_detect(path, "(?<=/)cpp-.+\\.h$")) {
+  } else if (stringr::str_detect(path, "(?<=/)cpp-.+\\.hpp$")) {
     lang <- "Cpp"
   } else if (stringr::str_detect(path, "(?<=/)py-.+\\.py$")) {
     lang <- "Python"
@@ -146,7 +146,8 @@ embed_github_link <- function(path) {
 
   glue_html('
 <p class="<~lang~>-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/<~path~>" class="fab fa-github"></a>
+<a href="https://github.com/knapply/tutorial-gists/blob/master/sections/<~path~>" style="font-size:20px;"><~path~> </a>
+<a href="https://github.com/knapply/tutorial-gists/blob/master/sections/<~path~>" class="fab fa-github"></a>
 </p>
             ')
 }

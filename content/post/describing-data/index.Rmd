@@ -46,8 +46,11 @@ np.set_printoptions(suppress = True, linewidth = np.nan, threshold = np.nan)
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+
 <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
 
 # Length/Size
@@ -55,7 +58,7 @@ np.set_printoptions(suppress = True, linewidth = np.nan, threshold = np.nan)
 ```{r, echo=FALSE, cache=FALSE}
 as_chunk("describing-data/r-length-size.R")
 as_chunk("describing-data/rcpp-length-size.cpp")
-as_chunk("describing-data/cpp-length-size.cpp")
+as_chunk("cpp/cpp-length-size.cpp")
 as_chunk("describing-data/py-length-size.py")
 as_chunk("describing-data/numpy-length-size.py")
 ```
@@ -102,11 +105,12 @@ cpp_length(r_vector)
 ```{r, echo=FALSE}
 end_tab()
 add_other_tab("cpp-length-size")
-embed_github_link("describing-data/cpp-length-size.cpp")
+embed_github_link("cpp/cpp-length-size.cpp")
 ```
 
 ```{Rcpp cpp-length-size, eval=FALSE, class.source="cpp-cpp"}
 ```
+
 
 ```{bash, eval=FALSE}
 cd tutorial-gists/sections/describing-data/ &&
@@ -114,8 +118,8 @@ cd tutorial-gists/sections/describing-data/ &&
   ./cpp-length-size
 ```
 
-```{bash, echo=FALSE}
-cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/describing-data &&
+```{bash, eval=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/cpp &&
   g++ -std=c++17 cpp-length-size.cpp -o cpp-length-size &&
   ./cpp-length-size
 ```
@@ -152,7 +156,7 @@ end_tabset()
 ```{r, echo=FALSE, cache=FALSE}
 as_chunk("describing-data/r-min-max.R")
 as_chunk("describing-data/rcpp-min-max.cpp")
-as_chunk("describing-data/cpp-min-max.cpp")
+as_chunk("cpp/cpp-min-max.cpp")
 as_chunk("describing-data/py-min-max.py")
 as_chunk("describing-data/numpy-min-max.py")
 ```
@@ -200,7 +204,7 @@ cpp_max(r_vector)
 ```{r, echo=FALSE}
 end_tab()
 add_other_tab("cpp-min-max")
-embed_github_link("describing-data/cpp-min-max.cpp")
+embed_github_link("cpp/cpp-min-max.cpp")
 ```
 
 ```{Rcpp cpp-min-max, eval=FALSE, class.source="cpp-cpp"}
@@ -213,7 +217,7 @@ cd tutorial-gists/sections/describing-data/ &&
 ```
 
 ```{bash, echo=FALSE}
-cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/describing-data &&
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/cpp &&
   g++ -std=c++17 cpp-min-max.cpp -o cpp-min-max &&
   ./cpp-min-max
 ```
@@ -245,12 +249,122 @@ end_tabset()
 ```
 
 
+# Unique Values
+
+```{r, echo=FALSE, cache=FALSE}
+as_chunk("describing-data/r-unique.R")
+# as_chunk("describing-data/rcpp-unique.cpp")
+as_chunk("cpp/cpp-unique.cpp")
+as_chunk("cpp/cpp-unique-h.hpp")
+as_chunk("describing-data/py-unique.py")
+# as_chunk("describing-data/numpy-unique.py")
+```
+
+```{r, echo=FALSE}
+start_tabset()
+add_menu_tab("r-unique", is_active = TRUE)
+# add_menu_tab("rcpp-unique", is_active = FALSE)
+add_menu_tab("cpp-unique", is_active = FALSE)
+add_menu_tab("py-unique", is_active = FALSE)
+add_menu_tab("numpy-unique", is_active = FALSE)
+end_menu()
+```
+
+
+```{r, echo=FALSE}
+start_tab_content()
+add_active_tab("r-unique")
+embed_github_link("describing-data/r-unique.R")
+```
+
+```{r r-unique}
+```
+
+
+```{r, echo=FALSE}
+# end_tab()
+# add_other_tab("rcpp-unique")
+# embed_github_link("describing-data/rcpp-unique.cpp")
+```
+
+```{Rcpp rcpp-unique, class.source="cpp-cpp"}
+```
+
+```{r}
+# r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+#               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+# 
+# cpp_sum(r_vector)
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("cpp-unique")
+embed_github_link("cpp/cpp-unique.cpp")
+```
+
+```{Rcpp cpp-unique, eval=FALSE, class.source="cpp-cpp"}
+```
+
+```{r, echo=FALSE}
+embed_github_link("cpp/cpp-unique-h.hpp")
+```
+
+
+```{Rcpp cpp-unique-header, eval=FALSE, class.source="cpp-header"}
+```
+
+```{bash, eval=FALSE}
+cd tutorial-gists/sections/describing-data/ &&
+  g++ -std=c++17 cpp-unique.cpp -o cpp-unique && 
+  ./cpp-unique
+```
+
+```{bash, echo=FALSE}
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/cpp &&
+  g++-8 -std=c++17 cpp-unique.cpp -o cpp-unique &&
+  ./cpp-unique
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("py-unique")
+embed_github_link("describing-data/py-unique.py")
+```
+
+```{python py-unique}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+add_other_tab("numpy-unique")
+embed_github_link("describing-data/numpy-unique.py")
+```
+
+```{python numpy-unique}
+```
+
+
+```{r, echo=FALSE}
+end_tab()
+end_tabset()
+```
+
+
+
+
+
+
 # Sum
 
 ```{r, echo=FALSE, cache=FALSE}
 as_chunk("describing-data/r-sum.R")
 as_chunk("describing-data/rcpp-sum.cpp")
-as_chunk("describing-data/cpp-sum.cpp")
+as_chunk("cpp/cpp-sum.cpp")
+as_chunk("cpp/cpp-sum-h.hpp")
 as_chunk("describing-data/py-sum.py")
 as_chunk("describing-data/numpy-sum.py")
 ```
@@ -296,20 +410,26 @@ cpp_sum(r_vector)
 ```{r, echo=FALSE}
 end_tab()
 add_other_tab("cpp-sum")
-embed_github_link("describing-data/cpp-sum.cpp")
+embed_github_link("cpp/cpp-sum.cpp")
 ```
 
 ```{Rcpp cpp-sum, eval=FALSE, class.source="cpp-cpp"}
 ```
 
+```{r, echo=FALSE}
+embed_github_link("cpp/cpp-sum-h.hpp")
+```
+
+
+```{Rcpp cpp-sum-header, eval=FALSE, class.source="cpp-header"}
+```
+
 ```{bash, eval=FALSE}
-cd tutorial-gists/sections/describing-data/ &&
-  g++ -std=c++17 cpp-sum.cpp -o cpp-sum &&
-  ./cpp-sum
+cd tutorial-gists/sections/describing-data/ && g++ -std=c++17 cpp-sum.cpp -o cpp-sum && ./cpp-sum
 ```
 
 ```{bash, echo=FALSE}
-cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/describing-data &&
+cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/cpp &&
   g++ -std=c++17 cpp-sum.cpp -o cpp-sum &&
   ./cpp-sum
 ```
