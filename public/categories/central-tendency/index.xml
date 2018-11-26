@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>central-tendency on knapply()</title>
+    <link>/categories/central-tendency/</link>
+    <description>Recent content in central-tendency on knapply()</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
+    <lastBuildDate>Fri, 23 Nov 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/categories/central-tendency/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Mode</title>
+      <link>/post/mode/</link>
+      <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mode/</guid>
+      <description>What is it?RRcppBlueprintTemplatePythonstatistics.mode() (Built-in)Custom Pure PythonCustom NumPyShootoutResultsEnvironmentThis post was last updated on 2018-11-26.
+What is it?Given a sequence, the mode is the value with the highest number of occurrences.
+Stepsfind the unique valuescount the number of occurrences of each valuethe mode is the value with the highest number of occurrencesRr_mode &amp;lt;- function(x) {uniques &amp;lt;- x[!</description>
+    </item>
+    
+    <item>
+      <title>Mean</title>
+      <link>/post/mean/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mean/</guid>
+      <description>RNaïve ApproachSumLengthPut it all togetherPreferred SolutionRcppNaïve ApproachLengthSumPut it all togetherPreferred SolutionPythonNaïve ApproachSumLengthPut it all togetherPreferred SolutionNote: Rcpp examples assume code is prefaced with…
+#include &amp;lt;Rcpp.h&amp;gt;using namespace Rcpp;Rr_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)Naïve ApproachSumCalculating the sum “from scratch”, using a loop:</description>
+    </item>
+    
+    <item>
+      <title>Median</title>
+      <link>/post/median/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/median/</guid>
+      <description>What is it?WalkthroughRExample Datastats::median()Step by StepNaïveOptimizedRcppExample DataRcpp::median()Step by StepNaïveOptimizedPythonExample Datastatistics.median()numpy.median()Step by StepNaïveShootoutTest DataPre-Test Data ValidatationBenchmarksValidate ResultsPost-Test Data ValidatationEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
+    </item>
+    
+  </channel>
+</rss>

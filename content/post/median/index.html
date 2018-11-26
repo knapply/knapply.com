@@ -1,0 +1,522 @@
+---
+title: Median
+author: Brendan Knapp
+date: '2018-11-12'
+slug: index
+categories:
+  - data-science-from-scratch
+  - statistics
+  - central-tendency
+  - tutorial
+  - programming
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Finding median of a sequence, from scratch.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 5
+citation_url: https://knapply.com/post/median/
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#what-is-it">What is it?</a></li>
+<li><a href="#walkthrough">Walkthrough</a></li>
+<li><a href="#r">R</a><ul>
+<li><a href="#example-data">Example Data</a></li>
+<li><a href="#statsmedian"><code>stats::median()</code></a></li>
+<li><a href="#step-by-step">Step by Step</a><ul>
+<li><a href="#naive">Naïve</a></li>
+<li><a href="#optimized">Optimized</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#rcpp">Rcpp</a><ul>
+<li><a href="#example-data-1">Example Data</a></li>
+<li><a href="#rcppmedian"><code>Rcpp::median()</code></a></li>
+<li><a href="#step-by-step-1">Step by Step</a><ul>
+<li><a href="#naive-1">Naïve</a></li>
+<li><a href="#optimized-1">Optimized</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#python">Python</a><ul>
+<li><a href="#example-data-2">Example Data</a></li>
+<li><a href="#statistics.median"><code>statistics.median()</code></a></li>
+<li><a href="#numpy.median"><code>numpy.median()</code></a></li>
+<li><a href="#step-by-step-2">Step by Step</a><ul>
+<li><a href="#naive-2">Naïve</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#shootout">Shootout</a><ul>
+<li><a href="#test-data">Test Data</a><ul>
+<li><a href="#pre-test-data-validatation">Pre-Test Data Validatation</a></li>
+</ul></li>
+<li><a href="#benchmarks">Benchmarks</a></li>
+<li><a href="#validate-results">Validate Results</a></li>
+<li><a href="#post-test-data-validatation">Post-Test Data Validatation</a></li>
+<li><a href="#environment">Environment</a></li>
+</ul></li>
+</ul>
+</div>
+
+<!-- start topic -->
+<!-- ----------- -->
+<!-- # R -->
+<!-- ## A Way -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ## A Better Way -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- # Rcpp -->
+<!-- ## A Way -->
+<!-- ```{Rcpp, eval=FALSE} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ## A Better Way -->
+<!-- ```{Rcpp} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- # Python -->
+<!-- ## A Way -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- ## A Better Way -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- ## NumPy -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- _________ -->
+<!-- end topic -->
+<div id="what-is-it" class="section level1">
+<h1>What is it?</h1>
+<p>Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</p>
+<ul>
+<li>Steps
+<ul>
+<li>sort the sequence</li>
+<li>if the length of the sequence is odd
+<ul>
+<li>the middle value is the median</li>
+</ul></li>
+<li>if length of the sequence is even
+<ul>
+<li>the mean of the 2 middle values is the median</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="walkthrough" class="section level1 tabset tabset-fade tabset-pills">
+<h1>Walkthrough</h1>
+</div>
+<div id="r" class="section level1">
+<h1>R</h1>
+<div id="example-data" class="section level2">
+<h2>Example Data</h2>
+<pre class="r"><code>r_even_n &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+r_odd_n &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375)</code></pre>
+</div>
+<div id="statsmedian" class="section level2">
+<h2><code>stats::median()</code></h2>
+<pre class="r"><code>c(median(r_even_n), median(r_odd_n))</code></pre>
+<pre><code>#&gt; [1] 516 507</code></pre>
+</div>
+<div id="step-by-step" class="section level2">
+<h2>Step by Step</h2>
+<div id="naive" class="section level3">
+<h3>Naïve</h3>
+<pre class="r"><code>r_naive_median &lt;- function(x) {
+  n &lt;- length(x)                      # find `x`&#39;s length
+  sorted &lt;- sort(x)                   # sort the values
+  if (n %% 2L) {                      # `2L` marks `2` as begin an integer: if `n` is...
+    out &lt;- sorted[[n %/% 2L + 1L]]    # ... is odd, the median is the middle value...
+                                      # ... `%/%` indicates integer division
+  } else {                            # if `n` is even...
+    mid1 &lt;- sorted[[n %/% 2L]]        # ... take the first middle value...
+    mid2 &lt;- sorted[[n %/% 2L + 1L]]   # ... and second middle value...
+    out &lt;- mean(c(mid1, mid2))        # ... and calculate their mean
+  }
+  out                                 # return `out`
+}
+
+c(r_naive_median(r_even_n),
+  r_naive_median(r_odd_n))</code></pre>
+<pre><code>#&gt; [1] 516 507</code></pre>
+</div>
+<div id="optimized" class="section level3">
+<h3>Optimized</h3>
+<p>In R, we can target an index on which to pivot. We can find the median without needing to sort the entire sequence.</p>
+<pre class="r"><code>r_fast_median &lt;- function(x) {
+  n &lt;- length(x)                                       # find `x`&#39;s length
+  mid &lt;- (n + 1L) %/% 2L                               # find index of mid-point
+  partially_sorted &lt;- sort(x, partial = n %/% 2L + 1L) # partially sort, targeting mid point
+  if (n %% 2) {                                        # if `n` is odd...
+    return(partially_sorted[mid])                      # ... the result is the mid point
+  }      
+                                                 # if `n` is even, subset the middle 2 ...
+  mean(partially_sorted[c(mid, mid + 1L)])       # ... values and the result is their mean
+}
+
+c(r_fast_median(r_even_n),
+  r_fast_median(r_odd_n))</code></pre>
+<pre><code>#&gt; [1] 516 507</code></pre>
+</div>
+</div>
+</div>
+<div id="rcpp" class="section level1">
+<h1>Rcpp</h1>
+<p><strong>Note:</strong> <code>Rcpp</code> examples assume code is prefaced with…</p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;</code></pre>
+<div id="example-data-1" class="section level2">
+<h2>Example Data</h2>
+<pre class="r"><code>r_even_n &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+r_odd_n &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375)</code></pre>
+</div>
+<div id="rcppmedian" class="section level2">
+<h2><code>Rcpp::median()</code></h2>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double rcpp_sugar_median(NumericVector x) {
+  return median(x);
+}</code></pre>
+<pre class="r"><code>c(rcpp_sugar_median(r_even_n),
+  rcpp_sugar_median(r_odd_n))</code></pre>
+<pre><code>#&gt; [1] 516 507</code></pre>
+</div>
+<div id="step-by-step-1" class="section level2">
+<h2>Step by Step</h2>
+<div id="naive-1" class="section level3">
+<h3>Naïve</h3>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_naive_median(NumericVector x) {
+  int n = x.size();                 // find `x`&#39;s length
+  x.sort();                         // sort the values
+
+  double out;                       // declare the variable to return
+  if (n % 2) {                      // if `n` is odd...
+    out = x[n / 2];                 // ... the median is the middle value
+  } else {                          // if `n` is even...
+    double mid1 = x[n / 2 - 1];     // ... take the first middle value...
+    double mid2 = x[n / 2];         // ... and second middle value...
+    out = (mid1 + mid2) / 2.0;      // ... and calculate their mean
+  }
+
+  return out;
+}</code></pre>
+<pre class="r"><code>c(cpp_naive_median(r_even_n),
+  cpp_naive_median(r_odd_n))</code></pre>
+<pre><code>#&gt; [1] 516 507</code></pre>
+</div>
+<div id="optimized-1" class="section level3">
+<h3>Optimized</h3>
+<p>Rather than <code>sort()</code>ing the entire sequence, we can use <a href="https://en.cppreference.com/w/cpp/algorithm/nth_element"><code>std::nth_elemnt()</code></a>, a built-in <a href="https://en.wikipedia.org/wiki/Quickselect">quickselect</a> from <code>&lt;algorithm&gt;</code>.</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_fast_median(NumericVector x) {
+  int n = x.size();                            // find `x`&#39;s length
+  NumericVector::iterator start = x.begin();   // initialize iterator pointing to `x[0]`
+  NumericVector::iterator mid = start + n / 2; // initialize iterator pointing to midpoint
+
+  std::nth_element(start, mid, x.end());       // partially sort `x` so all values...
+                                               // ... before `mid` are less than it...
+                                               // ... and values after are greater than it
+  if (n % 2) {                                 // if `n` is odd...
+    return *mid;                               // return `mid`&#39;s value by dereferencing...
+  }                                            // ...the iterator with `*`
+
+  double mid1 = *mid;                          // if even, hold `mid`
+  std::nth_element( start, --mid, x.end() );   // partially sort again, decrementing...
+                                               // ... `mid` to target `x[mid - 1]`
+  return ( mid1 + *mid ) / 2.0;                // return their mean
+}</code></pre>
+<pre class="r"><code>c(cpp_fast_median(r_even_n),
+  cpp_fast_median(r_odd_n))</code></pre>
+<pre><code>#&gt; [1] 516 507</code></pre>
+</div>
+</div>
+</div>
+<div id="python" class="section level1">
+<h1>Python</h1>
+<div id="example-data-2" class="section level2">
+<h2>Example Data</h2>
+<pre class="python"><code>py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+
+py_odd_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+            190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375]</code></pre>
+</div>
+<div id="statistics.median" class="section level2">
+<h2><code>statistics.median()</code></h2>
+<p>Python’s <code>statistics</code> module is part of its standard library; it come with Python.</p>
+<pre class="python"><code>import statistics as stats
+
+res1 = stats.median(py_even_n)
+res2 = stats.median(py_odd_n)
+
+print([res1, res2])</code></pre>
+<pre><code>#&gt; [516.0, 507]</code></pre>
+</div>
+<div id="numpy.median" class="section level2">
+<h2><code>numpy.median()</code></h2>
+<p>When available, prefer using <code>numpy</code>.</p>
+<pre class="python"><code>import numpy as np
+
+numpy_even_n = np.array(py_even_n)
+numpy_odd_n = np.array(py_odd_n)
+
+res1 = np.median(numpy_even_n)
+res2 = np.median(numpy_odd_n)
+
+print([res1, res2])</code></pre>
+<pre><code>#&gt; [516.0, 507.0]</code></pre>
+</div>
+<div id="step-by-step-2" class="section level2">
+<h2>Step by Step</h2>
+<div id="naive-2" class="section level3">
+<h3>Naïve</h3>
+<pre class="python"><code>def py_median(x):
+  n = len(x)
+  sorted_x = sorted(x)
+  if n % 2:
+    return sorted_x[n // 2]
+  mid1, mid2 = sorted_x[n // 2 - 1], sorted_x[n // 2]
+  return (mid1 + mid2) / 2
+  
+res1 = py_median(py_even_n)
+res2 = py_median(py_odd_n)
+
+print([res1, res2])</code></pre>
+<pre><code>#&gt; [516.0, 507]</code></pre>
+</div>
+</div>
+</div>
+<div id="shootout" class="section level1">
+<h1>Shootout</h1>
+<pre class="r"><code>library(reticulate)</code></pre>
+<div id="test-data" class="section level2">
+<h2>Test Data</h2>
+<pre class="r"><code>set.seed(831)
+big_dbl &lt;- sample(sample(seq(1, 1e4, by = 0.2), replace = TRUE))
+
+cat(paste0(head(big_dbl, 5), collapse = &quot;, &quot;), &quot; ... &quot;, 
+    paste0(tail(big_dbl, 5), collapse = &quot;, &quot;),  &quot;\n\n&quot;,
+    &quot;\tn = &quot;, scales::comma(length(big_dbl)), &quot;\n&quot;,
+    &quot;\tfootprint = &quot;, capture.output(pryr::object_size(big_dbl)), sep = &quot;&quot;)</code></pre>
+<pre><code>#&gt; 2426.8, 572.2, 7139.4, 7490, 7661.4 ... 7933.2, 1539, 8153.2, 6700.8, 3073
+#&gt; 
+#&gt;  n = 49,996
+#&gt;  footprint = 400 kB</code></pre>
+<pre class="python"><code>py_big_dbl = r.big_dbl
+numpy_big_dbl = np.array(py_big_dbl.copy())</code></pre>
+<div id="pre-test-data-validatation" class="section level3">
+<h3>Pre-Test Data Validatation</h3>
+<pre class="r"><code>all.equal(
+  big_dbl,
+  py$py_big_dbl,
+  py$numpy_big_dbl
+)</code></pre>
+<pre><code>#&gt; [1] TRUE</code></pre>
+</div>
+</div>
+<div id="benchmarks" class="section level2">
+<h2>Benchmarks</h2>
+<pre class="r"><code>library(bench)
+
+res &lt;- mark(
+  median.default(big_dbl),
+  r_naive_median(big_dbl),
+  r_fast_median(big_dbl),
+  rcpp_sugar_median(big_dbl),
+  cpp_naive_median(big_dbl),
+  cpp_fast_median(big_dbl),
+  py_run_string(&quot;stats.median(py_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE),
+  iterations = 50, check = FALSE, filter_gc = FALSE
+)</code></pre>
+<p><img src="/post/median/index_files/figure-html/unnamed-chunk-23-1.png" width="864" style="display: block; margin: auto;" /></p>
+</div>
+<div id="validate-results" class="section level2">
+<h2>Validate Results</h2>
+<pre class="r"><code>all.equal(
+  median(big_dbl),
+  r_naive_median(big_dbl),
+  r_fast_median(big_dbl),
+  rcpp_sugar_median(big_dbl),
+  cpp_naive_median(big_dbl),
+  cpp_fast_median(big_dbl),
+  py$stats$median(py$py_big_dbl),
+  py$np$median(py$numpy_big_dbl)
+)</code></pre>
+<pre><code>#&gt; [1] TRUE</code></pre>
+</div>
+<div id="post-test-data-validatation" class="section level2">
+<h2>Post-Test Data Validatation</h2>
+<pre class="r"><code>all.equal(
+  big_dbl,
+  py$py_big_dbl,
+  py$numpy_big_dbl
+)</code></pre>
+<pre><code>#&gt; [1] TRUE</code></pre>
+</div>
+<div id="environment" class="section level2">
+<h2>Environment</h2>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.5.1 (2018-07-02)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] forcats_0.3.0          stringr_1.3.1.9000     dplyr_0.7.99.9000     
+#&gt;  [4] purrr_0.2.4.9000       readr_1.1.1            tidyr_0.8.1.9000      
+#&gt;  [7] tibble_1.4.2           ggplot2_3.1.0.9000     tidyverse_1.2.1.9000  
+#&gt; [10] bench_1.0.1.9000       reticulate_1.10.0.9002
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] beeswarm_0.2.3        tidyselect_0.2.5      xfun_0.4             
+#&gt;  [4] haven_1.1.2.9000      lattice_0.20-35       colorspace_1.3-2     
+#&gt;  [7] generics_0.0.1.9000   htmltools_0.3.6       yaml_2.2.0           
+#&gt; [10] rlang_0.3.0.9000      pillar_1.3.0.9001     withr_2.1.2.9000     
+#&gt; [13] glue_1.3.0            pryr_0.1.4            modelr_0.1.2         
+#&gt; [16] readxl_1.1.0          plyr_1.8.4            munsell_0.5.0        
+#&gt; [19] blogdown_0.9.1        gtable_0.2.0          cellranger_1.1.0     
+#&gt; [22] rvest_0.3.2           codetools_0.2-15      evaluate_0.12        
+#&gt; [25] knitr_1.20.21         vipor_0.4.5           profmem_0.5.0        
+#&gt; [28] broom_0.5.0.9001      Rcpp_1.0.0            scales_1.0.0.9000    
+#&gt; [31] backports_1.1.2       jsonlite_1.5          hms_0.4.2            
+#&gt; [34] digest_0.6.18         stringi_1.2.4         bookdown_0.7.21      
+#&gt; [37] grid_3.5.1            rprojroot_1.3-2       cli_1.0.1            
+#&gt; [40] here_0.1              tools_3.5.1           magrittr_1.5         
+#&gt; [43] lazyeval_0.2.1        crayon_1.3.4          pkgconfig_2.0.2      
+#&gt; [46] Matrix_1.2-14         xml2_1.2.0            ggbeeswarm_0.6.0     
+#&gt; [49] lubridate_1.7.4       rstudioapi_0.8.0.9000 assertthat_0.2.0     
+#&gt; [52] rmarkdown_1.10.14     httr_1.3.1            htmldeps_0.1.1       
+#&gt; [55] R6_2.3.0              compiler_3.5.1</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="r"><code>system(&quot;gcc --version&quot;, intern = TRUE)[[1]]</code></pre>
+<pre><code>#&gt; [1] &quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+
+print(sys.version)</code></pre>
+<pre><code>#&gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
+<pre class="python"><code>print(np.__version__)</code></pre>
+<pre><code>#&gt; 1.14.6</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;% 
+  str_trim() %&gt;% 
+  as_tibble() %&gt;% 
+  slice(2:3) %&gt;% 
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;% 
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;% 
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;% 
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;% 
+  knitr::kable(format = &quot;html&quot;) %&gt;% 
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 12). Median. Retrieved from https://knapply.com/post/median/</code></pre>
+<pre class="citation"><code>@misc{median,
+  author = {Knapp, Brendan},
+  title  = {Median},
+  url    = {https://knapply.com/post/median/},
+  year   = 2018,
+  month  = Nov,
+  day    = 12,
+}</code></pre>
+</div>
+</div>

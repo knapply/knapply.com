@@ -113,7 +113,7 @@
   
   <meta property="og:site_name" content="knapply()">
   <meta property="og:url" content="/post/central-tendency/">
-  <meta property="og:title" content="Central Tendency | knapply()">
+  <meta property="og:title" content="Mean | knapply()">
   <meta property="og:description" content="Calculating measures of central tendency.">
   
   
@@ -123,14 +123,14 @@
   
   <meta property="article:published_time" content="2018-11-12T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-11-12T16:09:58-08:00">
+  <meta property="article:modified_time" content="2018-11-21T10:10:44-08:00">
   
 
   
 
   
 
-  <title>Central Tendency | knapply()</title>
+  <title>Mean | knapply()</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
@@ -359,7 +359,7 @@
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Central Tendency</h1>
+  <h1 itemprop="name">Mean</h1>
 
   
 
@@ -380,8 +380,8 @@
         Last updated on
     
     <meta content="2018-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-    <time datetime="2018-11-12 16:09:58 -0800 PST" itemprop="dateModified">
-      Nov 12, 2018
+    <time datetime="2018-11-21 10:10:44 -0800 PST" itemprop="dateModified">
+      Nov 21, 2018
     </time>
   </span>
   <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
@@ -412,6 +412,8 @@
     
     <a href="/categories/statistics/">statistics</a>, 
     
+    <a href="/categories/central-tendency/">central-tendency</a>, 
+    
     <a href="/categories/tutorial/">tutorial</a>, 
     
     <a href="/categories/programming/">programming</a>
@@ -426,7 +428,7 @@
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Central%20Tendency&amp;url=%2fpost%2fcentral-tendency%2f"
+         href="https://twitter.com/intent/tweet?text=Mean&amp;url=%2fpost%2fcentral-tendency%2f"
          target="_blank" rel="noopener">
         <i class="fab fa-twitter"></i>
       </a>
@@ -440,21 +442,21 @@
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcentral-tendency%2f&amp;title=Central%20Tendency"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcentral-tendency%2f&amp;title=Mean"
          target="_blank" rel="noopener">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcentral-tendency%2f&amp;title=Central%20Tendency"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcentral-tendency%2f&amp;title=Mean"
          target="_blank" rel="noopener">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Central%20Tendency&amp;body=%2fpost%2fcentral-tendency%2f">
+         href="mailto:?subject=Mean&amp;body=%2fpost%2fcentral-tendency%2f">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
@@ -478,218 +480,375 @@
 
 <div id="TOC">
 <ul>
-<li><a href="#mean">Mean</a></li>
+<li><a href="#mean">Mean</a><ul>
+<li><a href="#r">R</a><ul>
+<li><a href="#naive-approach">Naïve Approach</a><ul>
+<li><a href="#sum">Sum</a></li>
+<li><a href="#length">Length</a></li>
+<li><a href="#put-it-all-together">Put it all together</a></li>
+</ul></li>
+<li><a href="#preferred-solution">Preferred Solution</a></li>
+</ul></li>
+<li><a href="#rcpp">Rcpp</a><ul>
+<li><a href="#naive-approach-1">Naïve Approach</a><ul>
+<li><a href="#length-1">Length</a></li>
+<li><a href="#sum-1">Sum</a></li>
+<li><a href="#put-it-all-together-1">Put it all together</a></li>
+</ul></li>
+<li><a href="#preferred-solution-1">Preferred Solution</a></li>
+</ul></li>
+<li><a href="#python">Python</a><ul>
+<li><a href="#naive-approach-2">Naïve Approach</a><ul>
+<li><a href="#sum-2">Sum</a></li>
+<li><a href="#length-2">Length</a></li>
+<li><a href="#put-it-all-together-2">Put it all together</a></li>
+</ul></li>
+<li><a href="#preferred-solution-2">Preferred Solution</a></li>
+</ul></li>
+</ul></li>
 </ul>
 </div>
 
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
+<!-- start topic -->
+<!-- ----------- -->
+<!-- # Topic -->
+<!-- ## R -->
+<!-- ### A Way -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ### A Better Way -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ## Rcpp -->
+<!-- ### A Way -->
+<!-- ```{Rcpp, eval=FALSE} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ### A Better Way -->
+<!-- ```{Rcpp} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ## Python -->
+<!-- ### A Way -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- ### A Better Way -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- ### NumPy -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- _________ -->
+<!-- end topic -->
+<!-- start topic -->
+<!-- ----------- -->
+<blockquote>
+<p>Note: <code>Rcpp</code> examples assume code is prefaced with…</p>
+</blockquote>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;</code></pre>
 <div id="mean" class="section level1">
 <h1>Mean</h1>
-<p><div class="code-container">
-<ul class="nav nav-pills"><li class='active'>
-  <a data-toggle="pill" href="#r-mean">
-    <font class="R-label">
-      <p title="R">
-        <i class="fab fa-r-project"> </i>
-        <div class="text-center">
-          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
-          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
-            R
-          </font>
-          <!-- </span> -->
-        </div>
-      </p>
-    </font>
-  </a>
-</li><li>
-  <a data-toggle="pill" href="#rcpp-mean">
-    <font class="Rcpp-label">
-      <p title="Rcpp">
-        <i class="devicon-cplusplus-plain"> </i>
-        <div class="text-center">
-          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
-          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
-            Rcpp
-          </font>
-          <!-- </span> -->
-        </div>
-      </p>
-    </font>
-  </a>
-</li><li>
-  <a data-toggle="pill" href="#cpp-mean">
-    <font class="Cpp-label">
-      <p title="C++">
-        <i class="devicon-cplusplus-plain"> </i>
-        <div class="text-center">
-          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
-          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
-            C++
-          </font>
-          <!-- </span> -->
-        </div>
-      </p>
-    </font>
-  </a>
-</li><li>
-  <a data-toggle="pill" href="#py-mean">
-    <font class="Python-label">
-      <p title="Python">
-        <i class="fab fa-python"> </i>
-        <div class="text-center">
-          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
-          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
-            Python
-          </font>
-          <!-- </span> -->
-        </div>
-      </p>
-    </font>
-  </a>
-</li><li>
-  <a data-toggle="pill" href="#numpy-mean">
-    <font class="NumPy-label">
-      <p title="NumPy">
-        <i class="fab fa-python"> </i>
-        <div class="text-center">
-          <!-- <span class="icon-label" style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;"> -->
-          <font style="vertical-align:top; display:inline-block; text-align:center; font-size:20px;">
-            NumPy
-          </font>
-          <!-- </span> -->
-        </div>
-      </p>
-    </font>
-  </a>
-</li></ul></p>
-<p><div class="tab-content"><div id="r-mean" class="tab-pane fade in active"><p class="R-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/r-mean.R" class="fab fa-github"></a>
-</p></p>
+<div id="r" class="section level2">
+<h2>R</h2>
 <pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
-
-mean(r_vector)</code></pre>
-<pre><code>#&gt; [1] 456.85</code></pre>
-<center>
-<strong> Missing Values? </strong>
-</center>
-<pre class="r"><code>r_vector_na &lt;- c(126, 793, 999, NA, 851, 798, 120, 714, 852, 151,
-                 NA, 41, 612, 826, 507, NA, 14, 237, 669, 7)
-
-mean(r_vector_na)</code></pre>
-<pre><code>#&gt; [1] NA</code></pre>
-<pre class="r"><code>mean(r_vector_na, na.rm = TRUE)</code></pre>
-<pre><code>#&gt; [1] 489.2353</code></pre>
-<p></div><div id="rcpp-mean" class="tab-pane fade"><p class="Rcpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/rcpp-mean.cpp" class="fab fa-github"></a>
-</p></p>
-<pre class="cpp cpp-cpp"><code>#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-double cpp_mean(NumericVector x, bool na_rm = false) {
-  if (na_rm) {
-    return mean(na_omit(x));
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)</code></pre>
+<div id="naive-approach" class="section level3">
+<h3>Naïve Approach</h3>
+<div id="sum" class="section level4">
+<h4>Sum</h4>
+<p>Calculating the sum “from scratch”, using a loop:</p>
+<pre class="r"><code>r_sum &lt;- function(x) {
+  out &lt;- 0
+  for (i in x) {
+    out &lt;- out + i
   }
+  out
+}
+
+r_sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="r"><code>sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+</div>
+<div id="length" class="section level4">
+<h4>Length</h4>
+<p>Finding the length “from scratch”, using a loop:</p>
+<pre class="r"><code>r_length &lt;- function(x) {
+  out &lt;- 0
+  for (i in x) {
+    out &lt;- out + 1
+  }
+  out
+}
+
+r_length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="r"><code>length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+</div>
+<div id="put-it-all-together" class="section level4">
+<h4>Put it all together</h4>
+<pre class="r"><code>r_mean &lt;- function(x) {
+  sum(x) / length(x)
+}
+
+r_mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="preferred-solution" class="section level3">
+<h3>Preferred Solution</h3>
+<pre class="r"><code>mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="rcpp" class="section level2">
+<h2>Rcpp</h2>
+<div id="naive-approach-1" class="section level3">
+<h3>Naïve Approach</h3>
+<div id="length-1" class="section level4">
+<h4>Length</h4>
+<p>Finding the length “from scratch”…</p>
+<p>…using a loop with <code>NumericVector::iterator</code>:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_length1(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
+    out++;
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_length1(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p>… using <code>std::distance()</code> from <code>&lt;iterator&gt;</code>:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_length2(NumericVector x) {
+  return std::distance(x.begin(), x.end());
+}</code></pre>
+<pre class="r"><code>cpp_length2(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p>… using <code>std::vector::size()</code> from <code>&lt;vector&gt;</code></p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_length3(NumericVector x) {
+  return x.size();
+}</code></pre>
+<blockquote>
+<blockquote>
+<p>If you’re using C++17 and beyond, consider <code>std::being()</code>, <code>std::end()</code>, and <code>std::size(x)</code> for more general code.</p>
+</blockquote>
+</blockquote>
+<pre class="r"><code>cpp_length3(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+</div>
+<div id="sum-1" class="section level4">
+<h4>Sum</h4>
+<p>Calcululating the sum from scratch…</p>
+<p>… using a simple loop:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double  cpp_sum1(NumericVector x) {
+  double out = 0;
+  for (int i = 0; i &lt; x.size(); i++) {
+    out += x[i];
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_sum1(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p>… using a loop with <code>NumericVector::iterator</code>:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_sum2(NumericVector x) {
+  double out = 0;
+  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
+    out += *it; // `*` dereferences `it` so you can access the value to which it points
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_sum2(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p>… using <code>std::accumulate()</code> from <code>&lt;numeric&gt;</code></p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_sum3(NumericVector x) {
+  return std::accumulate(x.begin(), x.end(), 0.0);
+}</code></pre>
+<pre class="r"><code>cpp_sum3(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p>The preferred <code>Rcpp</code> sugar solution:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_sum4(NumericVector x) {
+  return sum(x);
+}</code></pre>
+<pre class="r"><code>cpp_sum4(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+</div>
+<div id="put-it-all-together-1" class="section level4">
+<h4>Put it all together</h4>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_mean_naive(NumericVector x) {
+  return sum(x) / x.size();
+}</code></pre>
+<pre class="r"><code>cpp_mean_naive(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="preferred-solution-1" class="section level3">
+<h3>Preferred Solution</h3>
+<p>Using <code>Rcpp</code> sugar:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_mean(NumericVector x) {
   return mean(x);
 }</code></pre>
-<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
-
-cpp_mean(r_vector)</code></pre>
+<pre class="r"><code>cpp_mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
-<center>
-<strong> Missing Values? </strong>
-</center>
-<pre class="r"><code>r_vector_na &lt;- c(126, 793, 999, NA, 851, 798, 120, 714, 852, 151,
-                 NA, 41, 612, 826, 507, NA, 14, 237, 669, 7)
-cpp_mean(r_vector_na)</code></pre>
-<pre><code>#&gt; [1] NA</code></pre>
-<pre class="r"><code>cpp_mean(r_vector_na, na_rm = TRUE)</code></pre>
-<pre><code>#&gt; [1] 489.2353</code></pre>
-<p></div><div id="cpp-mean" class="tab-pane fade"><p class="Cpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean-header.h" class="fab fa-github"></a>
-</p></p>
-<pre class="cpp cpp-header"><code>#pragma once
+</div>
+</div>
+<div id="python" class="section level2">
+<h2>Python</h2>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<div id="naive-approach-2" class="section level3">
+<h3>Naïve Approach</h3>
+<div id="sum-2" class="section level4">
+<h4>Sum</h4>
+<p>Calculating the sum “from scratch”, using a simple loop:</p>
+<pre class="python"><code>def py_sum(x):
+  out = 0
+  for i in x:
+    out += i
+  return out
 
-#include &quot;../describing-data/cpp-sum-header.h&quot;
+res = py_sum(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="python"><code>res = sum(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+</div>
+<div id="length-2" class="section level4">
+<h4>Length</h4>
+<p>Finding the length “from scratch”, using a simple loop:</p>
+<pre class="python"><code>def py_length(x):
+  out = 0
+  for i in x:
+    out += 1
+  return out
 
-#include &lt;algorithm&gt;  // std::find_if, std::remove_if
-#include &lt;cmath&gt;      // std::isnan
-#include &lt;numeric&gt;    // std::accumulate
-#include &lt;vector&gt;     // std::vector
-
-
-template &lt;typename T&gt;
-auto calc_mean(const std::vector&lt;T&gt; &amp;x) {
-  return calc_sum(x) / std::size(x);
-}</code></pre>
-<p class="Cpp-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/cpp-mean.cpp" class="fab fa-github"></a>
-</p>
-<pre class="cpp cpp-cpp"><code>#include &quot;cpp-mean-header.h&quot;
-
-#include &lt;iostream&gt;   // std::cout, std::endl
-
-int main() {
-  std::vector&lt;double&gt; cpp_vector {126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-                                  190, 41, 612, 826, 507, 105, 14, 237, 669, 7};
+res = py_length(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="python"><code>res = len(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+</div>
+<div id="put-it-all-together-2" class="section level4">
+<h4>Put it all together</h4>
+<pre class="python"><code>def py_mean(x):
+  return sum(x) / len(x)
   
-  auto res = calc_mean(cpp_vector);
-  std::cout &lt;&lt; &quot;mean: &quot; &lt;&lt; res &lt;&lt; std::endl;
-  
-  return 0;
-}</code></pre>
-<pre class="bash"><code>cd tutorial-gists/sections/central-tendency/ &amp;&amp;
-  g++ -std=c++17 cpp-mean.cpp -o cpp-mean &amp;&amp;
-  ./cpp-mean</code></pre>
-<pre><code>#&gt; mean: 456.85</code></pre>
-<p></div><div id="py-mean" class="tab-pane fade"><p class="Python-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/py-mean.py" class="fab fa-github"></a>
-</p></p>
+res = py_mean(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+</div>
+</div>
+<div id="preferred-solution-2" class="section level3">
+<h3>Preferred Solution</h3>
+<p>Using Python’s built-in <code>statistics</code> module:</p>
 <pre class="python"><code>import statistics as stat
 
-py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
-print(py_list)</code></pre>
-<pre><code>#&gt; [126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
-<pre class="python"><code>res1 = stat.mean(py_list)
-print(res1)</code></pre>
+res = stat.mean(py_list)
+print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
-<center>
-<strong> Missing Values? </strong>
-</center>
-<pre class="python"><code>py_list_none = [126, 793, 999, None, 851, 798, 120, 714, 852, 151,
-                None, 41, 612, 826, 507, None, 14, 237, 669, 7]
-print(py_list_none)</code></pre>
-<pre><code>#&gt; [126, 793, 999, None, 851, 798, 120, 714, 852, 151, None, 41, 612, 826, 507, None, 14, 237, 669, 7]</code></pre>
-<pre class="python"><code>res2 = stat.mean([x for x in py_list_none if x is not None])
-print(res2)</code></pre>
-<pre><code>#&gt; 489.2352941176471</code></pre>
-<p></div><div id="numpy-mean" class="tab-pane fade"><p class="NumPy-github-link" title="See code on GitHub">
-  <a href="https://github.com/knapply/tutorial-gists/blob/master/sections/central-tendency/numpy-mean.py" class="fab fa-github"></a>
-</p></p>
+<p>Using <code>numpy</code>:</p>
 <pre class="python"><code>import numpy as np
 
-numpy_array = np.array([126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-                        190, 41, 612, 826, 507, 105, 14, 237, 669, 7])
-
-res1 = np.mean(numpy_array)
-print(res1)</code></pre>
+numpy_array = np.array(py_list)
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>res = np.mean(numpy_array)
+print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
-<center>
-<strong> Missing Values? </strong>
-</center>
-<pre class="python"><code>numpy_array_nan = np.array([126, 793, 999, np.nan, 851, 798, 120, 714, 852, 151,
-                            np.nan, 41, 612, 826, 507, np.nan, 14, 237, 669, 7])
-
-res2 = np.nanmean(numpy_array_nan)
-print(res2)</code></pre>
-<pre><code>#&gt; 489.2352941176471</code></pre>
-<p></div></div></p>
+<!-- _________ -->
+<!-- end topic -->
+<!-- start topic -->
+<!-- ----------- -->
+<!-- # Mean -->
+<!-- ## R -->
+<!-- ## -->
+<!-- ```{r, echo=FALSE, cache=FALSE} -->
+<!-- as_chunk("central-tendency/r-mean.R") -->
+<!-- as_chunk("central-tendency/rcpp-mean.cpp") -->
+<!-- as_chunk("central-tendency/py-mean.py") -->
+<!-- as_chunk("central-tendency/numpy-mean.py") -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE} -->
+<!-- start_tabset() -->
+<!-- add_menu_tab("r-mean", is_active = TRUE) -->
+<!-- add_menu_tab("rcpp-mean", is_active = FALSE) -->
+<!-- add_menu_tab("py-mean", is_active = FALSE) -->
+<!-- add_menu_tab("numpy-mean", is_active = FALSE) -->
+<!-- end_menu() -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE} -->
+<!-- start_tab_content() -->
+<!-- add_active_tab("r-mean") -->
+<!-- embed_github_link("central-tendency/r-mean.R") -->
+<!-- ``` -->
+<!-- ```{r r-mean} -->
+<!-- ``` -->
+<!-- <center> <strong> Missing Values? </strong> </center> -->
+<!-- ```{r r-mean-missing} -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE} -->
+<!-- end_tab() -->
+<!-- add_other_tab("rcpp-mean") -->
+<!-- embed_github_link("central-tendency/rcpp-mean.cpp") -->
+<!-- ``` -->
+<!-- ```{Rcpp rcpp-mean, class.source="cpp-cpp"} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, -->
+<!--               190, 41, 612, 826, 507, 105, 14, 237, 669, 7) -->
+<!-- cpp_mean(r_vector) -->
+<!-- ``` -->
+<!-- <center> <strong> Missing Values? </strong> </center> -->
+<!-- ```{r} -->
+<!-- r_vector_na <- c(126, 793, 999, NA, 851, 798, 120, 714, 852, 151, -->
+<!--                  NA, 41, 612, 826, 507, NA, 14, 237, 669, 7) -->
+<!-- cpp_mean(r_vector_na) -->
+<!-- cpp_mean(r_vector_na, na_rm = TRUE) -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE} -->
+<!-- end_tab() -->
+<!-- add_other_tab("py-mean") -->
+<!-- embed_github_link("central-tendency/py-mean.py") -->
+<!-- ``` -->
+<!-- ```{python py-mean} -->
+<!-- ``` -->
+<!-- <center> <strong> Missing Values? </strong> </center> -->
+<!-- ```{python py-mean-missing} -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE} -->
+<!-- end_tab() -->
+<!-- add_other_tab("numpy-mean") -->
+<!-- embed_github_link("central-tendency/numpy-mean.py") -->
+<!-- ``` -->
+<!-- ```{python numpy-mean} -->
+<!-- ``` -->
+<!-- <center> <strong> Missing Values? </strong> </center> -->
+<!-- ```{python numpy-mean-missing} -->
+<!-- ``` -->
+<!-- ```{r, echo=FALSE} -->
+<!-- end_tab() -->
+<!-- end_tabset() -->
+<!-- ``` -->
+</div>
+</div>
 </div>
 
     </div>

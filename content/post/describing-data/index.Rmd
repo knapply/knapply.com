@@ -49,9 +49,25 @@ np.set_printoptions(suppress = True, linewidth = np.nan, threshold = np.nan)
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
-<!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+
+<script>
+
+$(function(){
+    var hash = document.location.hash;
+    if (hash) {
+       $('.navbar-nav a[href="' + hash + '"]').tab('show');
+    }
+    $('a[data-toggle="tab"]').on('click', function (e) {
+       history.pushState(null, null, $(this).attr('href'));
+    });
+});
+
+</script>
+
 
 # Length/Size
 

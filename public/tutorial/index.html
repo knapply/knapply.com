@@ -55,9 +55,7 @@
     
       
       
-        
-          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
-        
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
       
     
 
@@ -373,12 +371,22 @@
   <div class="article-style" itemprop="articleBody">
 <script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
+<div id="TOC">
+<ul>
+<li><a href="#statistics-from-scratch">Statistics From Scratch</a></li>
+</ul>
+</div>
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css"></p>
-<table class="table table-responsive" style="font-size: 16px; margin-left: auto; margin-right: auto;">
+<p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></p>
+<div id="statistics-from-scratch" class="section level1">
+<h1>Statistics From Scratch</h1>
+<div class='toc-table'>
+
+<table class="table" style="font-size: 20px; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
 <th style="text-align:center;">
@@ -388,36 +396,25 @@ Topic
 </th>
 <th style="text-align:center;">
 <div style="color:#276DC3; display:grid;">
-<p>R
-<i class="fab fa-r-project" title="R" style="color:#276DC3; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
-</i></p>
-</div>
-</th>
-<th style="text-align:center;">
-<div style="color:#004482; display:grid;">
-<p>Rcpp
-<i class="devicon-cplusplus-plain" title="Rcpp" style="color:#004482; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+<p><i class="fab fa-r-project" title="R" style="color:#276DC3; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
 </i></p>
 </div>
 </th>
 <th style="text-align:center;">
 <div style="color:red; display:grid;">
-<p>C++
-<i class="devicon-cplusplus-plain" title="C++" style="color:red; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+<p><i class="devicon-cplusplus-plain" title="Rcpp" style="color:red; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
 </i></p>
 </div>
 </th>
 <th style="text-align:center;">
 <div style="color:#43B02A; display:grid;">
-<p>Python
-<i class="fab fa-python" title="Python" style="color:#43B02A; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+<p><i class="fab fa-python" title="Python" style="color:#43B02A; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
 </i></p>
 </div>
 </th>
 <th style="text-align:center;">
-<div style="color:#FED561; display:grid;">
-<p>NumPy
-<i class="fab fa-python" title="NumPy" style="color:#FED561; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+<div style="color:black; display:grid;">
+<p><i class="fas fa-flag" title="Speed Shootout" style="color:black; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
 </i></p>
 </div>
 </th>
@@ -425,89 +422,125 @@ Topic
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: green;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="3">
-<a href="/post/describing-data">Describing Data </a>
+<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="2">
+Essential Tasks
 </td>
-<td style="text-align:center;text-align: center;">
-<a href="/post/describing-data/#lengthsize">Length/Size of a Collection </a>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/">length </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#length">R </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#length-1">Rcpp </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#length-2">Python </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
-</td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
 </td>
 </tr>
 <tr>
-<td style="text-align:center;text-align: center;">
-<a href="/post/describing-data/#minimum-and-maximum-values">Minimum and Maximum Values </a>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/">sum </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#sum">R </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#sum-1">Rcpp </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#sum-2">Python </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
-</td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
 </td>
 </tr>
 <tr>
-<td style="text-align:center;text-align: center;">
-<a href="/post/describing-data/#sum">Sum </a>
+<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="3">
+Central Tendency
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/">mean </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#r">R </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#rcpp">Rcpp </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mean/#python">Python </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
 </td>
 </tr>
 <tr>
-<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: green;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;">
-<a href="/post/central-tendency">Central Tendency </a>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/median/">median </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<a href="/post/central-tendency/#mean">Mean </a>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/median/#r">R </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/median/#rcpp">Rcpp </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/median/#python">Python </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/median/#shootout">Shootout </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+</tr>
+<tr>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mode/">mode </a>
 </td>
-<td style="text-align:center;text-align: center;">
-<input type="checkbox" checked onclick="return false;">
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mode/#r">R </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mode/#rcpp">Rcpp </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/mode/#python">Python </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="2">
+Dispersion
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/variance/">variance </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/variance/#r">R </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/variance/#rcpp">Rcpp </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/variance/#python">Python </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+</td>
+</tr>
+<tr>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/standard-deviation/">standard_deviation </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/standard_deviation/#r">R </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/standard_deviation/#rcpp">Rcpp </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/standard_deviation/#python">Python </a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
 </td>
 </tr>
 </tbody>
@@ -602,36 +635,45 @@ Topic
 <!--   column_spec(7, width = "30%", extra_css = "text-align:left;") %>% -->
 <!--   collapse_rows(columns = 1, valign = "middle") -->
 <!-- ``` -->
-<!-- </div> -->
-<!-- ```{r, echo=FALSE, comment=NA, results='markup'} -->
-<!-- print_citation_header() -->
-<!-- ``` -->
-<!-- ```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'} -->
-<!-- print_citation() -->
-<!-- print_bibtex() -->
-<!-- ``` -->
+</div>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 3). Tutorials. Retrieved from https://knapply.com/tutorial/</code></pre>
+<pre class="citation"><code>@misc{tutorials,
+  author = {Knapp, Brendan},
+  title  = {Tutorials},
+  url    = {https://knapply.com/tutorial/},
+  year   = 2018,
+  month  = Nov,
+  day    = 3,
+}</code></pre>
 <!-- ```{r, echo=FALSE} -->
 <!-- htmltools::includeHTML(here::here("static/html/disqus.html")) -->
 <!-- ``` -->
-<!-- <section id="comments"> -->
-<!--   <div id="disqus_thread">Disqus comments not available by default when the website is previewed locally.</div> -->
-<!-- <script type="application/javascript"> -->
-<!--     var disqus_config = function () { -->
-<!--     }; -->
-<!--     (function() { -->
-<!--         if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) { -->
-<!--             document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.'; -->
-<!--             return; -->
-<!--         } -->
-<!--         var d = document, s = d.createElement('script'); s.async = true; -->
-<!--         s.src = '//' + "knapply" + '.disqus.com/embed.js'; -->
-<!--         s.setAttribute('data-timestamp', +new Date()); -->
-<!--         (d.head || d.body).appendChild(s); -->
-<!--     })(); -->
-<!-- </script> -->
-<!-- <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
-<!-- <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a> -->
-<!-- </section> -->
+<section id="comments">
+<div id="disqus_thread">
+Disqus comments not available by default when the website is previewed locally.
+</div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+</div>
 </div>
   
 

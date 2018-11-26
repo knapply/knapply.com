@@ -1,0 +1,459 @@
+---
+title: Mean
+author: Brendan Knapp
+date: '2018-11-12'
+slug: index
+categories:
+  - data-science-from-scratch
+  - statistics
+  - central-tendency
+  - tutorial
+  - programming
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Calculating mean, from scratch.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 5
+citation_url: https://knapply.com/post/mean/
+editor_options: 
+  chunk_output_type: console
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, comment = "#>")
+
+options(width=90)
+
+source(here::here("static/R/html-helpers.R"))
+source(here::here("static/R/citation.R"))
+```
+
+
+```{python, echo=FALSE}
+import numpy as np
+np.set_printoptions(suppress = True, linewidth = np.nan, threshold = np.nan)
+```
+
+
+
+<!-- start topic -->
+<!-- ----------- -->
+
+<!-- # Topic -->
+
+<!-- ## R -->
+
+<!-- ### A Way -->
+
+<!-- ```{r} -->
+
+
+<!-- ``` -->
+
+<!-- ### A Better Way -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+
+<!-- ## Rcpp -->
+
+<!-- ### A Way -->
+
+<!-- ```{Rcpp, eval=FALSE} -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+
+<!-- ### A Better Way -->
+
+<!-- ```{Rcpp} -->
+
+<!-- ``` -->
+
+
+<!-- ```{r} -->
+
+<!-- ``` -->
+
+
+<!-- ## Python -->
+
+<!-- ### A Way -->
+
+<!-- ```{python} -->
+
+<!-- ``` -->
+
+<!-- ### A Better Way -->
+
+<!-- ```{python} -->
+
+<!-- ``` -->
+
+<!-- ### NumPy -->
+
+<!-- ```{python} -->
+
+<!-- ``` -->
+
+<!-- _________ -->
+<!-- end topic -->
+
+
+
+<!-- start topic -->
+<!-- ----------- -->
+
+```{Rcpp, ref.label=knitr::all_rcpp_labels(), include=FALSE}
+```
+
+__Note:__ `Rcpp` examples assume code is prefaced with...
+
+```{Rcpp, eval=FALSE}
+#include <Rcpp.h>
+using namespace Rcpp;
+```
+
+
+# R
+
+```{r}
+r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+```
+
+## Naïve Approach
+
+### Sum
+
+Calculating the sum "from scratch", using a loop:
+
+```{r}
+r_sum <- function(x) {
+  out <- 0
+  for (i in x) {
+    out <- out + i
+  }
+  out
+}
+
+r_sum(r_vector)
+```
+
+The preferred, built-in solution:
+
+```{r}
+sum(r_vector)
+```
+
+
+### Length
+
+Finding the length "from scratch", using a loop:
+
+```{r}
+r_length <- function(x) {
+  out <- 0
+  for (i in x) {
+    out <- out + 1
+  }
+  out
+}
+
+r_length(r_vector)
+```
+
+The preferred, built-in solution:
+
+```{r}
+length(r_vector)
+```
+
+### Put it all together
+
+```{r}
+r_mean <- function(x) {
+  sum(x) / length(x)
+}
+
+r_mean(r_vector)
+```
+
+## Preferred Solution
+
+```{r}
+mean(r_vector)
+```
+
+
+# Rcpp
+
+## Naïve Approach
+
+### Length
+
+Finding the length "from scratch"... 
+
+* using a loop with `NumericVector::iterator`
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+int cpp_length1(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
+    out++;
+  }
+  return out;
+}
+```
+
+```{r}
+cpp_length1(r_vector)
+```
+
+* using `std::distance()` from `<iterator>`
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+int cpp_length2(NumericVector x) {
+  return std::distance(x.begin(), x.end());
+}
+```
+
+```{r}
+cpp_length2(r_vector)
+```
+
+* using `std::vector::size()`  from `<vector>`
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+int cpp_length3(NumericVector x) {
+  return x.size();
+}
+```
+
+
+```{r}
+cpp_length3(r_vector)
+```
+
+__Note:__ If you're using C++17 and beyond, consider using the more general `std::begin(x)`, `std::end(x)`, and `std::size(x)` instead of `x.begin()`, `x.end()`, and `x.size()`.
+
+
+### Sum
+
+Calculating the sum from scratch...
+
+* using a simple loop
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+double  cpp_sum1(NumericVector x) {
+  double out = 0;
+  for (int i = 0; i < x.size(); i++) {
+    out += x[i];
+  }
+  return out;
+}
+```
+
+```{r}
+cpp_sum1(r_vector)
+```
+
+* using a loop with `NumericVector::iterator`
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+double cpp_sum2(NumericVector x) {
+  double out = 0;
+  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
+    out += *it; // `*` dereferences `it` so you can access the value to which it points
+  }
+  return out;
+}
+```
+
+```{r}
+cpp_sum2(r_vector)
+```
+
+* using `std::accumulate()` from `<numeric>`
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+double cpp_sum3(NumericVector x) {
+  return std::accumulate(x.begin(), x.end(), 0.0);
+}
+```
+
+```{r}
+cpp_sum3(r_vector)
+```
+
+The preferred `Rcpp` sugar solution:
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+double cpp_sum4(NumericVector x) {
+  return sum(x);
+}
+```
+
+```{r}
+cpp_sum4(r_vector)
+```
+
+### Put it all together
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+double cpp_mean_naive(NumericVector x) {
+  return sum(x) / x.size();
+}
+```
+
+```{r}
+cpp_mean_naive(r_vector)
+```
+
+
+## Preferred Solution
+
+Using `Rcpp` sugar:
+
+```{Rcpp, eval=FALSE}
+// [[Rcpp::export]]
+double cpp_mean(NumericVector x) {
+  return mean(x);
+}
+```
+
+
+```{r}
+cpp_mean(r_vector)
+```
+
+
+# Python
+
+```{python}
+py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
+```
+
+## Naïve Approach
+
+### Sum
+
+Calculating the sum "from scratch", using a simple loop:
+
+```{python}
+def py_sum(x):
+  out = 0
+  for i in x:
+    out += i
+  return out
+
+res = py_sum(py_list)
+print(res)
+```
+
+The preferred, built-in solution:
+
+```{python}
+res = sum(py_list)
+print(res)
+```
+
+### Length
+
+Finding the length "from scratch", using a simple loop:
+
+```{python}
+def py_length(x):
+  out = 0
+  for i in x:
+    out += 1
+  return out
+
+res = py_length(py_list)
+print(res)
+```
+
+The preferred, built-in solution:
+
+```{python}
+res = len(py_list)
+print(res)
+```
+
+### Put it all together
+
+```{python}
+def py_mean(x):
+  return sum(x) / len(x)
+  
+res = py_mean(py_list)
+print(res)
+```
+
+
+## Preferred Solution
+
+Using Python's built-in `statistics` module:
+
+```{python}
+import statistics as stat
+
+res = stat.mean(py_list)
+print(res)
+```
+
+Using `numpy`:
+
+```{python}
+import numpy as np
+
+numpy_array = np.array(py_list)
+print(numpy_array)
+
+res = np.mean(numpy_array)
+print(res)
+```
+
+
+
+
+
+
+<br><br><br>
+
+```{r, echo=FALSE, comment=NA, results='markup'}
+print_citation_header()
+```
+
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+print_citation()
+print_bibtex()
+```
+
+
+

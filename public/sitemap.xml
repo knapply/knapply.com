@@ -4,8 +4,8 @@
     
     <url>
     
-      <loc>/post/central-tendency/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <loc>/post/mode/</loc>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -13,7 +13,23 @@
     <url>
     
       <loc>/post/describing-data/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-21T10:10:44-08:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/post/mean/</loc>
+      <lastmod>2018-11-12T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/post/median/</loc>
+      <lastmod>2018-11-12T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -272,6 +288,15 @@
     
     <url>
     
+      <loc>/categories/central-tendency/</loc>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    <url>
+    
       <loc>/tags/computer-science/</loc>
       <lastmod>2018-11-01T17:27:11-07:00</lastmod>
       <priority>0</priority>
@@ -282,7 +307,7 @@
     <url>
     
       <loc>/tags/cpp/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-21T10:10:44-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -309,7 +334,7 @@
     <url>
     
       <loc>/tags/data-science-from-scratch/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -318,7 +343,7 @@
     <url>
     
       <loc>/categories/data-science-from-scratch/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -372,7 +397,7 @@
     <url>
     
       <loc>/tags/programming/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -381,7 +406,7 @@
     <url>
     
       <loc>/categories/programming/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -390,7 +415,7 @@
     <url>
     
       <loc>/tags/python/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -408,7 +433,7 @@
     <url>
     
       <loc>/tags/rcpp/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -425,7 +450,7 @@
     <url>
     
       <loc>/tags/statistics/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -434,7 +459,7 @@
     <url>
     
       <loc>/categories/statistics/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -461,7 +486,7 @@
     <url>
     
       <loc>/categories/tutorial/</loc>
-      <lastmod>2018-11-12T16:09:58-08:00</lastmod>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

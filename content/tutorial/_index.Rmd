@@ -9,17 +9,17 @@ output:
     toc: true
     toc_depth: 4
 summary: Tutorials
-slug: tutorial
+slug: tutorials
 editor_options:
   chunk_output_type: console
-citation_url: https://knapply.com/post/tutorial/
+citation_url: https://knapply.com/tutorial/
 ---
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
-
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
@@ -41,8 +41,8 @@ check <- '<input type="checkbox" checked onclick="return false;">'
 
 uncheck <- '<input type="checkbox" unchecked onclick="return false;">'
 
-build_link <- function(topic, slug, e = parent.frame()) {
-  glue_html('<a href="/post/<~slug~>"><~topic~> </a>')
+build_link <- function(text, slug, e = parent.frame()) {
+  glue_html('<a href="/post/<~slug~>"><~text~> </a>')
 }
 
 # build_header_link <- function(topic, slug, header, e = parent.frame()) {
@@ -56,7 +56,12 @@ render_preview <- function(slug) {
 
 ```{r}
 build_icon <- function(lang) {
-  icon_label <- switch(lang, r = "R", py = "Python", rcpp = "Rcpp", cpp = "C++", numpy = "NumPy")
+  icon_label <- switch(lang, r = "R", 
+                       rcpp = "Rcpp",
+                       py = "Python",
+                       shootout = "Speed Shootout")
+                       # cpp = "C++",
+                       # numpy = "NumPy")
   # icon_label <- tooltip
   # if (lang %in% c("rcpp", "cpp")) {
   #   icon_label_style <- 'vertical-align:top; display:inline-block; text-align:center; font-size:20px; padding-bottom:5px;'
@@ -68,28 +73,32 @@ build_icon <- function(lang) {
                        py = 'fab fa-python',
                        rcpp = 'devicon-cplusplus-plain',
                        cpp = 'devicon-cplusplus-plain',
-                       numpy = 'fab fa-python')
+                       numpy = 'fab fa-python',
+                       shootout = 'fas fa-flag')
   icon_color <- switch(lang,
                        r = "#276DC3",
                        py = "#43B02A",
-                       rcpp = "#004482",
+                       # rcpp = "#004482",
+                       rcpp = "red",
                        cpp = "red",
-                       numpy = "#FED561")
+                       numpy = "#FED561",
+                       shootout = "black")
   icon_size <- "50"
   
-  icon <- switch(lang,
-                 r = '<i class="fab fa-r-project"> </i>',
-                 py = '<i class="fab fa-python"> </i>',
-                 rcpp = '<i class="devicon-cplusplus-plain"> </i>',
-                 cpp = '<i class="devicon-cplusplus-plain"> </i>',
-                 numpy = '<i class="fab fa-python"> </i>')
+  # additional <- ifelse(lang == "shootout", 'aria-hidden="true"', "")
+  
+  # icon <- switch(lang,
+  #                r = '<i class="fab fa-r-project"> </i>',
+  #                py = '<i class="fab fa-python"> </i>',
+  #                rcpp = '<i class="devicon-cplusplus-plain"> </i>')
+                 # cpp = '<i class="devicon-cplusplus-plain"> </i>',
+                 # numpy = '<i class="fab fa-python"> </i>')
   
   # font_class <- switch(lang, r = "R-label", py = "Python-label", rcpp = "Rcpp-label", cpp = "Cpp-label", numpy = "NumPy-label")
   # li <- ifelse(is_active, "<li class='active'>", "<li>")
 # as.character(
   glue_html('
 <div style="color:<~icon_color~>; display:grid;">
-<~icon_label~>
 <i class="<~icon_class~>" title="<~icon_label~>"
 style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
 </i>
@@ -115,35 +124,78 @@ style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; f
 }
 ```
 
+# Statistics From Scratch
 
-```{r, class.output='toc-table'}
+```{r}
 toc_df <- tibble(
   ` ` = c(
-    rep(build_link("Describing Data", "describing-data"), 3),
-    rep(build_link("Central Tendency", "central-tendency"), 1)
+    rep("Essential Tasks", 2),
+    rep("Central Tendency", 3),
+    rep("Dispersion", 2)
     ),
   Topic = c(
-    build_link("Length/Size of a Collection", "describing-data/#lengthsize"),
-    build_link("Minimum and Maximum Values", "describing-data/#minimum-and-maximum-values"),
-    build_link("Sum", "describing-data/#sum"),
-    build_link("Mean", "central-tendency/#mean")
+    build_link("length", "mean/"),
+    build_link("sum", "mean/"),
+    build_link("mean", "mean/"),
+    build_link("median", "median/"),
+    build_link("mode", "mode/"),
+    build_link("variance", "variance/"),
+    build_link("standard_deviation", "standard-deviation/")
     ),
-  r_icon = c(rep(check, 4)),
-  rcpp = c(rep(check, 4)),
-  cpp = c(rep(check, 4)),
-  py = c(rep(check, 4)),
-  numpy = c(rep(check, 4))
+  r_icon = c(
+    build_link("R", "mean/#length"),
+    build_link("R", "mean/#sum"),
+    build_link("R", "mean/#r"),
+    build_link("R", "median/#r"),
+    build_link("R", "mode/#r"),
+    build_link("R", "variance/#r"),
+    build_link("R", "standard_deviation/#r")
+    ),
+  rcpp = c(
+    build_link("Rcpp", "mean/#length-1"),
+    build_link("Rcpp", "mean/#sum-1"),
+    build_link("Rcpp", "mean/#rcpp"),
+    build_link("Rcpp", "median/#rcpp"),
+    build_link("Rcpp", "mode/#rcpp"),
+    build_link("Rcpp", "variance/#rcpp"),
+    build_link("Rcpp", "standard_deviation/#rcpp")
+    ),
+  py = c(
+    build_link("Python", "mean/#length-2"),
+    build_link("Python", "mean/#sum-2"),
+    build_link("Python", "mean/#python"),
+    build_link("Python", "median/#python"),
+    build_link("Python", "mode/#python"),
+    build_link("Python", "variance/#python"),
+    build_link("Python", "standard_deviation/#python")
+    ),
+  shootout = c(
+    "",
+    "",
+    "",
+    build_link("Shootout", "median/#shootout"),
+    "",
+    "",
+    ""
+  )
   ) %>% 
-  set_names(c(" ", "Topic", build_icon("r"), build_icon("rcpp"), build_icon("cpp"), 
-              build_icon("py"), build_icon("numpy")))
+  set_names(c(" ", "Topic", build_icon("r"), build_icon("rcpp"), build_icon("py"),
+              build_icon("shootout")))
+```
 
+
+<div class='toc-table'>
+
+```{r, class.output='toc-table'}
 toc_df %>% 
   kable(escape = FALSE, align = "c") %>% 
-  kable_styling(font_size = 16, bootstrap_options = c("responsive")) %>% 
-  column_spec(1, color = "green", bold = TRUE, width = "20%", italic = TRUE, background = "#dee0e2",#) %>% 
+  kable_styling(font_size = 20) %>% 
+  column_spec(1, color = "black", bold = TRUE, width = "20%", italic = TRUE, background = "#dee0e2",#) %>% 
               extra_css = "font-size:20px; border-color:black;") %>%
+  column_spec(2:ncol(toc_df), monospace = TRUE) %>% 
   row_spec(row = 1:nrow(toc_df), align = "center") %>% 
-  collapse_rows(columns = 1, valign = "middle")
+  collapse_rows(columns = 1:2, valign = "middle")
+  # collapse_rows(columns = 2, valign = "middle")
 
 
 # %>% 
@@ -254,17 +306,17 @@ toc_df %>%
 <!--   collapse_rows(columns = 1, valign = "middle") -->
 <!-- ``` -->
 
-<!-- </div> -->
+</div>
 
 
-<!-- ```{r, echo=FALSE, comment=NA, results='markup'} -->
-<!-- print_citation_header() -->
-<!-- ``` -->
+```{r, echo=FALSE, comment=NA, results='markup'}
+print_citation_header()
+```
 
-<!-- ```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'} -->
-<!-- print_citation() -->
-<!-- print_bibtex() -->
-<!-- ``` -->
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+print_citation()
+print_bibtex()
+```
 
 
 
@@ -274,22 +326,22 @@ toc_df %>%
 
 
 
-<!-- <section id="comments"> -->
-<!--   <div id="disqus_thread">Disqus comments not available by default when the website is previewed locally.</div> -->
-<!-- <script type="application/javascript"> -->
-<!--     var disqus_config = function () { -->
-<!--     }; -->
-<!--     (function() { -->
-<!--         if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) { -->
-<!--             document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.'; -->
-<!--             return; -->
-<!--         } -->
-<!--         var d = document, s = d.createElement('script'); s.async = true; -->
-<!--         s.src = '//' + "knapply" + '.disqus.com/embed.js'; -->
-<!--         s.setAttribute('data-timestamp', +new Date()); -->
-<!--         (d.head || d.body).appendChild(s); -->
-<!--     })(); -->
-<!-- </script> -->
-<!-- <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript> -->
-<!-- <a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a> -->
-<!-- </section> -->
+<section id="comments">
+  <div id="disqus_thread">Disqus comments not available by default when the website is previewed locally.</div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>

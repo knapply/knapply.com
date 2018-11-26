@@ -1,0 +1,343 @@
+---
+title: Mean
+author: Brendan Knapp
+date: '2018-11-12'
+slug: index
+categories:
+  - data-science-from-scratch
+  - statistics
+  - central-tendency
+  - tutorial
+  - programming
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Calculating mean, from scratch.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 5
+citation_url: https://knapply.com/post/mean/
+editor_options: 
+  chunk_output_type: console
+---
+
+
+<div id="TOC">
+<ul>
+<li><a href="#r">R</a><ul>
+<li><a href="#naive-approach">Naïve Approach</a><ul>
+<li><a href="#sum">Sum</a></li>
+<li><a href="#length">Length</a></li>
+<li><a href="#put-it-all-together">Put it all together</a></li>
+</ul></li>
+<li><a href="#preferred-solution">Preferred Solution</a></li>
+</ul></li>
+<li><a href="#rcpp">Rcpp</a><ul>
+<li><a href="#naive-approach-1">Naïve Approach</a><ul>
+<li><a href="#length-1">Length</a></li>
+<li><a href="#sum-1">Sum</a></li>
+<li><a href="#put-it-all-together-1">Put it all together</a></li>
+</ul></li>
+<li><a href="#preferred-solution-1">Preferred Solution</a></li>
+</ul></li>
+<li><a href="#python">Python</a><ul>
+<li><a href="#naive-approach-2">Naïve Approach</a><ul>
+<li><a href="#sum-2">Sum</a></li>
+<li><a href="#length-2">Length</a></li>
+<li><a href="#put-it-all-together-2">Put it all together</a></li>
+</ul></li>
+<li><a href="#preferred-solution-2">Preferred Solution</a></li>
+</ul></li>
+</ul>
+</div>
+
+<!-- start topic -->
+<!-- ----------- -->
+<!-- # Topic -->
+<!-- ## R -->
+<!-- ### A Way -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ### A Better Way -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ## Rcpp -->
+<!-- ### A Way -->
+<!-- ```{Rcpp, eval=FALSE} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ### A Better Way -->
+<!-- ```{Rcpp} -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- ``` -->
+<!-- ## Python -->
+<!-- ### A Way -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- ### A Better Way -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- ### NumPy -->
+<!-- ```{python} -->
+<!-- ``` -->
+<!-- _________ -->
+<!-- end topic -->
+<!-- start topic -->
+<!-- ----------- -->
+<p><strong>Note:</strong> <code>Rcpp</code> examples assume code is prefaced with…</p>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+using namespace Rcpp;</code></pre>
+<div id="r" class="section level1">
+<h1>R</h1>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)</code></pre>
+<div id="naive-approach" class="section level2">
+<h2>Naïve Approach</h2>
+<div id="sum" class="section level3">
+<h3>Sum</h3>
+<p>Calculating the sum “from scratch”, using a loop:</p>
+<pre class="r"><code>r_sum &lt;- function(x) {
+  out &lt;- 0
+  for (i in x) {
+    out &lt;- out + i
+  }
+  out
+}
+
+r_sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="r"><code>sum(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+</div>
+<div id="length" class="section level3">
+<h3>Length</h3>
+<p>Finding the length “from scratch”, using a loop:</p>
+<pre class="r"><code>r_length &lt;- function(x) {
+  out &lt;- 0
+  for (i in x) {
+    out &lt;- out + 1
+  }
+  out
+}
+
+r_length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="r"><code>length(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+</div>
+<div id="put-it-all-together" class="section level3">
+<h3>Put it all together</h3>
+<pre class="r"><code>r_mean &lt;- function(x) {
+  sum(x) / length(x)
+}
+
+r_mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="preferred-solution" class="section level2">
+<h2>Preferred Solution</h2>
+<pre class="r"><code>mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="rcpp" class="section level1">
+<h1>Rcpp</h1>
+<div id="naive-approach-1" class="section level2">
+<h2>Naïve Approach</h2>
+<div id="length-1" class="section level3">
+<h3>Length</h3>
+<p>Finding the length “from scratch”…</p>
+<ul>
+<li>using a loop with <code>NumericVector::iterator</code></li>
+</ul>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_length1(NumericVector x) {
+  int out = 0;
+  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
+    out++;
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_length1(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<ul>
+<li>using <code>std::distance()</code> from <code>&lt;iterator&gt;</code></li>
+</ul>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_length2(NumericVector x) {
+  return std::distance(x.begin(), x.end());
+}</code></pre>
+<pre class="r"><code>cpp_length2(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<ul>
+<li>using <code>std::vector::size()</code> from <code>&lt;vector&gt;</code></li>
+</ul>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_length3(NumericVector x) {
+  return x.size();
+}</code></pre>
+<pre class="r"><code>cpp_length3(r_vector)</code></pre>
+<pre><code>#&gt; [1] 20</code></pre>
+<p><strong>Note:</strong> If you’re using C++17 and beyond, consider using the more general <code>std::begin(x)</code>, <code>std::end(x)</code>, and <code>std::size(x)</code> instead of <code>x.begin()</code>, <code>x.end()</code>, and <code>x.size()</code>.</p>
+</div>
+<div id="sum-1" class="section level3">
+<h3>Sum</h3>
+<p>Calculating the sum from scratch…</p>
+<ul>
+<li>using a simple loop</li>
+</ul>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double  cpp_sum1(NumericVector x) {
+  double out = 0;
+  for (int i = 0; i &lt; x.size(); i++) {
+    out += x[i];
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_sum1(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<ul>
+<li>using a loop with <code>NumericVector::iterator</code></li>
+</ul>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_sum2(NumericVector x) {
+  double out = 0;
+  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
+    out += *it; // `*` dereferences `it` so you can access the value to which it points
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_sum2(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<ul>
+<li>using <code>std::accumulate()</code> from <code>&lt;numeric&gt;</code></li>
+</ul>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_sum3(NumericVector x) {
+  return std::accumulate(x.begin(), x.end(), 0.0);
+}</code></pre>
+<pre class="r"><code>cpp_sum3(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+<p>The preferred <code>Rcpp</code> sugar solution:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_sum4(NumericVector x) {
+  return sum(x);
+}</code></pre>
+<pre class="r"><code>cpp_sum4(r_vector)</code></pre>
+<pre><code>#&gt; [1] 9137</code></pre>
+</div>
+<div id="put-it-all-together-1" class="section level3">
+<h3>Put it all together</h3>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_mean_naive(NumericVector x) {
+  return sum(x) / x.size();
+}</code></pre>
+<pre class="r"><code>cpp_mean_naive(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="preferred-solution-1" class="section level2">
+<h2>Preferred Solution</h2>
+<p>Using <code>Rcpp</code> sugar:</p>
+<pre class="cpp"><code>// [[Rcpp::export]]
+double cpp_mean(NumericVector x) {
+  return mean(x);
+}</code></pre>
+<pre class="r"><code>cpp_mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
+<div id="python" class="section level1">
+<h1>Python</h1>
+<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
+<div id="naive-approach-2" class="section level2">
+<h2>Naïve Approach</h2>
+<div id="sum-2" class="section level3">
+<h3>Sum</h3>
+<p>Calculating the sum “from scratch”, using a simple loop:</p>
+<pre class="python"><code>def py_sum(x):
+  out = 0
+  for i in x:
+    out += i
+  return out
+
+res = py_sum(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="python"><code>res = sum(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 9137</code></pre>
+</div>
+<div id="length-2" class="section level3">
+<h3>Length</h3>
+<p>Finding the length “from scratch”, using a simple loop:</p>
+<pre class="python"><code>def py_length(x):
+  out = 0
+  for i in x:
+    out += 1
+  return out
+
+res = py_length(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+<p>The preferred, built-in solution:</p>
+<pre class="python"><code>res = len(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 20</code></pre>
+</div>
+<div id="put-it-all-together-2" class="section level3">
+<h3>Put it all together</h3>
+<pre class="python"><code>def py_mean(x):
+  return sum(x) / len(x)
+  
+res = py_mean(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+</div>
+</div>
+<div id="preferred-solution-2" class="section level2">
+<h2>Preferred Solution</h2>
+<p>Using Python’s built-in <code>statistics</code> module:</p>
+<pre class="python"><code>import statistics as stat
+
+res = stat.mean(py_list)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+<p>Using <code>numpy</code>:</p>
+<pre class="python"><code>import numpy as np
+
+numpy_array = np.array(py_list)
+print(numpy_array)</code></pre>
+<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
+<pre class="python"><code>res = np.mean(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 12). Mean. Retrieved from https://knapply.com/post/mean/</code></pre>
+<pre class="citation"><code>@misc{mean,
+  author = {Knapp, Brendan},
+  title  = {Mean},
+  url    = {https://knapply.com/post/mean/},
+  year   = 2018,
+  month  = Nov,
+  day    = 12,
+}</code></pre>
+</div>
+</div>

@@ -13,13 +13,14 @@
     
     
     <item>
-      <title>Central Tendency</title>
-      <link>/post/central-tendency/</link>
-      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      <title>Mode</title>
+      <link>/post/mode/</link>
+      <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
       
-      <guid>/post/central-tendency/</guid>
-      <description>MeanMean--R----Rcpp----C++----Python----NumPy--
-r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)mean(r_vector)#&amp;gt; [1] 456.</description>
+      <guid>/post/mode/</guid>
+      <description>What is it?RRcppBlueprintTemplatePythonstatistics.mode() (Built-in)Custom Pure PythonCustom NumPyShootoutResultsEnvironmentThis post was last updated on 2018-11-26.
+What is it?Given a sequence, the mode is the value with the highest number of occurrences.
+Stepsfind the unique valuescount the number of occurrences of each valuethe mode is the value with the highest number of occurrencesRr_mode &amp;lt;- function(x) {uniques &amp;lt;- x[!</description>
     </item>
     
     <item>
@@ -28,8 +29,26 @@
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/describing-data/</guid>
-      <description>Length/SizeMinimum and Maximum ValuesUnique ValuesSum --Length/Size--R----Rcpp----C++----Python----NumPy--
-describing-data/r-length-size.R r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151, 190, 41, 612, 826, 507, 105, 14, 237, 669, 7)r_vector#&amp;gt; [1] 126 793 999 525 851 798 120 714 852 151 190 41 612 826 507 105 14 237 669 7length(r_vector)#&amp;gt; [1] 20describing-data/rcpp-length-size.</description>
+      <description>Length/SizeMinimum and Maximum ValuesUnique ValuesSum$(function(){var hash = document.location.hash;if (hash) {$(&#39;.navbar-nav a[href=&#34;&#39; + hash + &#39;&#34;]&#39;).tab(&#39;show&#39;);}$(&#39;a[data-toggle=&#34;tab&#34;]&#39;).on(&#39;click&#39;, function (e) {history.pushState(null, null, $(this).attr(&#39;href&#39;));});});Length/Size--R----Rcpp----C++----Python----NumPy--</description>
+    </item>
+    
+    <item>
+      <title>Mean</title>
+      <link>/post/mean/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/mean/</guid>
+      <description>RNaïve ApproachSumLengthPut it all togetherPreferred SolutionRcppNaïve ApproachLengthSumPut it all togetherPreferred SolutionPythonNaïve ApproachSumLengthPut it all togetherPreferred SolutionNote: Rcpp examples assume code is prefaced with…
+#include &amp;lt;Rcpp.h&amp;gt;using namespace Rcpp;Rr_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)Naïve ApproachSumCalculating the sum “from scratch”, using a loop:</description>
+    </item>
+    
+    <item>
+      <title>Median</title>
+      <link>/post/median/</link>
+      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/median/</guid>
+      <description>What is it?WalkthroughRExample Datastats::median()Step by StepNaïveOptimizedRcppExample DataRcpp::median()Step by StepNaïveOptimizedPythonExample Datastatistics.median()numpy.median()Step by StepNaïveShootoutTest DataPre-Test Data ValidatationBenchmarksValidate ResultsPost-Test Data ValidatationEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
     </item>
     
     <item>
@@ -38,12 +57,7 @@ describing-data/r-length-size.R r_vector &amp;lt;- c(126, 793, 999, 525, 851, 
       <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/standard-deviation/</guid>
-      <description>PurposeEquationsBy HandPurposeQuantify amount of variation/spread/dispersion of values.
-Equations\(\sigma_x = \sqrt{ \frac{\sum(x - \mu_x)^2} {N-1} }\)
-\(\sigma_x = sqrt({ \frac{sum(~(x - mean(x)~)^2} {(N-1)}})\)
-\(numerator = sum(~(x-mean(x)~)^2\)
-\(mean = \frac {sum(x)} {length(x)}\)
-By Hand--R----Rcpp----C++----NumPy--</description>
+      <description>-- -- ----</description>
     </item>
     
     <item>
@@ -53,7 +67,7 @@ describing-data/r-length-size.R r_vector &amp;lt;- c(126, 793, 999, 525, 851, 
       
       <guid>/post/foundational-programming/</guid>
       <description>From ScratchBuilt-inFrom Scratch--R----Rcpp----C++----Python--
-r_length &amp;lt;- function(x) {out &amp;lt;- 0Lfor (i in x) {out &amp;lt;- out + 1L}out}r_vector &amp;lt;- 1:20r_vector#&amp;gt; [1] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20r_length(r_vector)#&amp;gt; [1] 20#include &amp;lt;Rcpp.</description>
+foundational-programming/r-length1.R r_length &amp;lt;- function(x) {out &amp;lt;- 0Lfor (i in x) {out &amp;lt;- out + 1L}out}r_vector &amp;lt;- 1:20r_vector#&amp;gt; [1] 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20r_length(r_vector)#&amp;gt; [1] 20foundational-programming/rcpp-length1.</description>
     </item>
     
     <item>
