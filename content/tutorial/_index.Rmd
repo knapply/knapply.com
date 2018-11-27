@@ -174,7 +174,7 @@ toc_df <- tibble(
     "",
     "",
     build_link("Shootout", "median/#shootout"),
-    "",
+    build_link("Shootout", "mode/#shootout"),
     "",
     ""
   )

@@ -25,10 +25,10 @@
 &lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#rcpp&#34;&gt;Rcpp&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#blueprint&#34;&gt;Blueprint&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#template&#34;&gt;Template&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#templated-version&#34;&gt;Templated Version&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#statistics.mode-built-in&#34;&gt;&lt;code&gt;statistics.mode()&lt;/code&gt; (Built-in)&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#statistics.mode&#34;&gt;&lt;code&gt;statistics.mode()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#custom-pure-python&#34;&gt;Custom Pure Python&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#custom-numpy&#34;&gt;Custom NumPy&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
@@ -40,7 +40,7 @@
 &lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;This post was last updated on 2018-11-26.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;This post was last updated on 2018-11-27.&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div id=&#34;what-is-it&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;What is it?&lt;/h1&gt;
@@ -66,6 +66,39 @@ r_vector &amp;lt;- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
 
 r_mode(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 4&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- ## Breakdown --&gt;
+&lt;!-- `duplicated()` returns a `logical` vector indicating which elements in `x` occur more than once. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- duplicated(r_vector)  --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- `!duplicated(x)` swaps `TRUE` for `FALSE` and vice-versa. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- !duplicated(r_vector) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- `!duplicated(r_vector)` allows us to subset `r_vector` to keep only those elements that are not duplicated, retaining the order in which they occur. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- uniques &lt;- r_vector[!duplicated(r_vector)] --&gt;
+&lt;!-- uniques --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- `match(x, uniques)` returns an `integer` vector containing the indices of elements in the first argument (`r_vector`) matching those in the second argument (`uniques`). --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- matched &lt;- match(r_vector, uniques) --&gt;
+&lt;!-- matched --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- `tabulate()` counts the number of times each of those indices occur. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- tabulated &lt;- tabulate(matched) --&gt;
+&lt;!-- tabulated --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- `which.max()` returns an `integer` scalar (in R, this is simply a vector of length 1) indicating the index of the highest number. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- max_count &lt;- which.max(tabulated) --&gt;
+&lt;!-- max_count --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- Which we can then use to subset `uniques` to find our mode. --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- uniques[max_count] --&gt;
+&lt;!-- ``` --&gt;
 &lt;/div&gt;
 &lt;div id=&#34;rcpp&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Rcpp&lt;/h1&gt;
@@ -76,9 +109,9 @@ using namespace Rcpp;&lt;/code&gt;&lt;/pre&gt;
 &lt;blockquote&gt;
 &lt;p&gt;C++ References&lt;/p&gt;
 &lt;/blockquote&gt;
+&lt;div class=&#34;row&#34;&gt;
+&lt;div class=&#34;col-md-6&#34;&gt;
 &lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/language/lambda&#34;&gt;&lt;code&gt;[]()&lt;/code&gt;&lt;/a&gt; (Lambda)&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/language/auto&#34;&gt;&lt;code&gt;auto&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/header/algorithm&#34;&gt;&lt;code&gt;&amp;lt;algorithm&amp;gt;&lt;/code&gt;&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/algorithm/max_element&#34;&gt;&lt;code&gt;std::max_element()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
@@ -88,6 +121,10 @@ using namespace Rcpp;&lt;/code&gt;&lt;/pre&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/iterator/begin&#34;&gt;&lt;code&gt;std::begin()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/iterator/end&#34;&gt;&lt;code&gt;std::end()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div class=&#34;col-md-6&#34;&gt;
+&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/header/unordered_map&#34;&gt;&lt;code&gt;&amp;lt;unordered_map&amp;gt;&lt;/code&gt;&lt;/a&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/container/unordered_map&#34;&gt;&lt;code&gt;std::unordered_map&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
@@ -96,24 +133,34 @@ using namespace Rcpp;&lt;/code&gt;&lt;/pre&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/utility/pair&#34;&gt;&lt;code&gt;std::pair&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/language/lambda&#34;&gt;&lt;code&gt;[] ()&lt;/code&gt;&lt;/a&gt; (Lambda)&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;https://en.cppreference.com/w/cpp/language/auto&#34;&gt;&lt;code&gt;auto&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
 &lt;div id=&#34;blueprint&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Blueprint&lt;/h2&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::export]]
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;using std::begin;
+using std::end;
+using std::max_element;
+using std::pair;
+using std::unordered_map;
+
+// [[Rcpp::export]]
 double cpp_mode_blueprint(const NumericVector&amp;amp; x) {
-  std::unordered_map&amp;lt;double, size_t&amp;gt; counts;
+  unordered_map&amp;lt;double, size_t&amp;gt; counts;
 
   for (auto i : x) {
     counts[i]++;
   }
   
-  auto compare_map_vals = [] (const std::pair&amp;lt;double, size_t&amp;gt;&amp;amp; p1, 
-                              const std::pair&amp;lt;double, size_t&amp;gt;&amp;amp; p2) {
+  auto compare_map_vals = [] (const pair&amp;lt;double, size_t&amp;gt;&amp;amp; p1, 
+                              const pair&amp;lt;double, size_t&amp;gt;&amp;amp; p2) {
     return p1.second &amp;lt; p2.second;
   };
 
-  const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
-                                          compare_map_vals);
+  const auto max_index = max_element(begin(counts), end(counts), 
+                                     compare_map_vals);
 
   return (*max_index).first;
 }&lt;/code&gt;&lt;/pre&gt;
@@ -121,25 +168,66 @@ double cpp_mode_blueprint(const NumericVector&amp;amp; x) {
 
 cpp_mode_blueprint(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 4&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- ### Breakdown --&gt;
+&lt;!-- * `unordered_map&lt;double, size_t&gt;` provides a key-value container in which our keys will be of type `double` and our values will be of type `size_t` (`long long unsigned int`). --&gt;
+&lt;!-- * `for (auto i : x) { counts[i]++; }` loops through our input `x` and --&gt;
+&lt;!--     + checks if each element exists as a key in `counts`, --&gt;
+&lt;!--     + adds the element as key and setting its value to `0` if it doesn&#39;t already exist, --&gt;
+&lt;!--     + and increments that value. --&gt;
+&lt;!-- The following example walks through the loop step by step. --&gt;
+&lt;!-- ```{Rcpp, eval=FALSE} --&gt;
+&lt;!-- using std::boolalpha; // makes `bool`s print-friendly --&gt;
+&lt;!-- using std::endl;      // inserts new line, flushes output stream --&gt;
+&lt;!-- using std::find;      // returns iterator to first element matching condition OR last --&gt;
+&lt;!-- using std::size;      // returns size (as in number of elements) of a container or array --&gt;
+&lt;!-- // [[Rcpp::export]] --&gt;
+&lt;!-- void breakdown_map_loop(const NumericVector&amp; x) { --&gt;
+&lt;!--   Rcout &lt;&lt; &#34;Declaring `counts`&#34; &lt;&lt; endl &lt;&lt; endl; --&gt;
+&lt;!--   unordered_map&lt;double, size_t&gt; counts; --&gt;
+&lt;!--   auto counter = 1; --&gt;
+&lt;!--   Rcout &lt;&lt; &#34;... starting loop&#34; &lt;&lt; endl; --&gt;
+&lt;!--   for (auto i : x) { --&gt;
+&lt;!--     auto is_already_key = counts.find(i) != end(counts); --&gt;
+&lt;!--     Rcout &lt;&lt; &#34;... starting &#34; &lt;&lt; counter &lt;&lt; &#34;st|nd|rd|th element...&#34; &lt;&lt; endl; --&gt;
+&lt;!--     Rcout &lt;&lt; &#34;`i` = &#34; &lt;&lt; i &lt;&lt; endl; --&gt;
+&lt;!--     Rcout &lt;&lt; &#34;Does `x[&#34; &lt;&lt; i &lt;&lt; &#34;]` already exist in `counts`? &#34; &lt;&lt; endl --&gt;
+&lt;!--           &lt;&lt; &#34;\t&#34; &lt;&lt; boolalpha &lt;&lt; is_already_key &lt;&lt; endl; --&gt;
+&lt;!--     if (is_already_key) { --&gt;
+&lt;!--       Rcout &lt;&lt; &#34;`x[&#34; &lt;&lt; i &lt;&lt; &#34;]`&#39;s current value is &#34; &lt;&lt; endl &lt;&lt; &#34;\t&#34; &lt;&lt; counts[i] &lt;&lt; endl; --&gt;
+&lt;!--     } else { --&gt;
+&lt;!--       Rcout &lt;&lt; &#34;... `x[&#34; &lt;&lt; i &lt;&lt; &#34;]` is being added as a key with a value of `0` &#34; &lt;&lt; endl; --&gt;
+&lt;!--     } --&gt;
+&lt;!--     Rcout &lt;&lt; &#34;... `x[&#34; &lt;&lt; i &lt;&lt; &#34;]` is being incremented&#34; &lt;&lt; endl; --&gt;
+&lt;!--     counts[i]++; --&gt;
+&lt;!--     Rcout &lt;&lt; &#34;`x[&#34; &lt;&lt; i &lt;&lt; &#34;]`&#39;s new value is &#34;&lt;&lt; endl &lt;&lt; &#34;\t&#34; &lt;&lt; counts[i] &lt;&lt; endl &lt;&lt; endl; --&gt;
+&lt;!--     counter++; --&gt;
+&lt;!--   } --&gt;
+&lt;!--   Rcout &lt;&lt; endl &lt;&lt; &#34;Loop finished&#34; &lt;&lt; endl; --&gt;
+&lt;!-- } --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- breakdown_map_loop(c(1, 2, 1)) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- * `compare_map_vals` is a lambda expression that constructs a closure (a function that is stored with its environment) that we can pass to `std::max_element()`. --&gt;
+&lt;!--     + By default, `std::max_element()` will compare the value of a `std::unordered_map`&#39;s keys, or `.first`s. --&gt;
+&lt;!--     + `compare_map_vals` tells `std::max_element()` to instead compare the values, or `.second`s. --&gt;
+&lt;!-- * `std::max_element()` returns an iterator pointing to an element in `counts`. --&gt;
+&lt;!--     + In order to access the underlying element, we dereference the iterator with `*` and state that we want the key using `.first`. --&gt;
 &lt;/div&gt;
-&lt;div id=&#34;template&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Template&lt;/h2&gt;
+&lt;div id=&#34;templated-version&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Templated Version&lt;/h2&gt;
 &lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;template &amp;lt;int RTYPE, typename T&amp;gt;
-auto __cpp_mode(const Vector&amp;lt;RTYPE&amp;gt;&amp;amp; x) {
+auto cpp_mode_(const Vector&amp;lt;RTYPE&amp;gt;&amp;amp; x) {
   std::unordered_map&amp;lt;T, size_t&amp;gt; counts;
-  
   for (auto i : x) {
     counts[i]++;
   }
-  
   auto compare_map_vals = [] (const std::pair&amp;lt;T, size_t&amp;gt;&amp;amp; p1,
                               const std::pair&amp;lt;T, size_t&amp;gt;&amp;amp; p2) {
     return p1.second &amp;lt; p2.second;
     };
-  
   const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
                                           compare_map_vals);
-  
   return wrap( (*max_index).first );
 }
 
@@ -148,16 +236,15 @@ auto __cpp_mode(const Vector&amp;lt;RTYPE&amp;gt;&amp;amp; x) {
 SEXP cpp_mode(const SEXP&amp;amp; x) {
   switch( TYPEOF(x) ) {
     case INTSXP:
-      return __cpp_mode&amp;lt;INTSXP, int&amp;gt;(x);
+      return cpp_mode_&amp;lt;INTSXP, int&amp;gt;(x);
     case REALSXP:
-      return __cpp_mode&amp;lt;REALSXP, double&amp;gt;(x);
+      return cpp_mode_&amp;lt;REALSXP, double&amp;gt;(x);
     case LGLSXP:
-      return __cpp_mode&amp;lt;LGLSXP, bool&amp;gt;(x);
+      return cpp_mode_&amp;lt;LGLSXP, bool&amp;gt;(x);
     case STRSXP:
-      return __cpp_mode&amp;lt;STRSXP, String&amp;gt;( x );
-    default: 
-      stop(&amp;quot;Invalid SEXPTYPE %d (%s).\n&amp;quot;, TYPEOF(x), type2name(x));
+      return cpp_mode_&amp;lt;STRSXP, String&amp;gt;(x);
   }
+  warning(&amp;quot;Invalid SEXPTYPE %d (%s).\n&amp;quot;, TYPEOF(x), type2name(x));
   return R_NilValue;
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
@@ -168,8 +255,9 @@ cpp_mode(r_vector)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;python&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Python&lt;/h1&gt;
-&lt;div id=&#34;statistics.mode-built-in&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;&lt;code&gt;statistics.mode()&lt;/code&gt; (Built-in)&lt;/h2&gt;
+&lt;div id=&#34;statistics.mode&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;statistics.mode()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;statistics&lt;/code&gt; is part of Python’s standard library.&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics
 
 py_list = [4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3]
@@ -213,15 +301,12 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 library(tidyverse)
 library(bench)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Create R Data&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;resample &amp;lt;- function(x, .n = 30) {
-  `dim&amp;lt;-`(replicate(n = .n, sample(x, replace = TRUE)), NULL)
-}
-
-set.seed(831)
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
 big_dbl &amp;lt;- seq(-1e7, 1e7, by = 0.02) %&amp;gt;%
   sample(replace = TRUE, size = 1e5) %&amp;gt;%
+  rep(20) %&amp;gt;% 
   c(rep(32.4, 100)) %&amp;gt;%  # our mode is 32.4
-  resample()
+  sample(replace = TRUE)
 
 validation_data &amp;lt;- big_dbl&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Transfer to Python&lt;/p&gt;
@@ -234,21 +319,15 @@ numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
             py$py_big_dbl,
             py$numpy_big_dbl)
   )&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(&amp;quot;sample:\t&amp;quot;, paste0(head(big_dbl, 3), collapse = &amp;quot;, &amp;quot;), &amp;quot; ... &amp;quot;,
-    paste0(tail(big_dbl, 3), collapse = &amp;quot;, &amp;quot;),  &amp;quot;\n&amp;quot;,
-    &amp;quot;n = &amp;quot;, scales::comma(length(big_dbl)), &amp;quot;\n&amp;quot;,
-    &amp;quot;memory footprint = &amp;quot;, capture.output(pryr::object_size(big_dbl)), sep = &amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;2,000,100&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;16 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; sample:  7138961.68, -3879002.98, -367564 ... -6391733.16, 106116.700000001, -6526353.06
-#&amp;gt; n = 3,003,000
-#&amp;gt; memory footprint = 24 MB&lt;/code&gt;&lt;/pre&gt;
 &lt;details&gt;
 &lt;summary&gt; Run Benchmark Test &lt;/summary&gt;
 &lt;p&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt;           used (Mb) gc trigger    (Mb)   max used    (Mb)
-#&amp;gt; Ncells 1867257 99.8    3739555   199.8    2375661   126.9
-#&amp;gt; Vcells 6209780 47.4 1924738489 14684.6 2033797034 15516.7&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res &amp;lt;- mark(
   r_mode(big_dbl),
   cpp_mode(big_dbl),
@@ -262,7 +341,7 @@ numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Results&lt;/h2&gt;
 &lt;details&gt;
-&lt;summary&gt; Plot Results &lt;/summary&gt;
+&lt;summary&gt; Plot &lt;/summary&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg &amp;lt;- res %&amp;gt;%
   mutate(expression = as.character(expression)) %&amp;gt;%
@@ -289,7 +368,6 @@ numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
   mutate(type = as_factor(type)) %&amp;gt;%
   arrange(med) %&amp;gt;%
   mutate(expression = as_factor(expression)) %&amp;gt;%
-  
   ggplot(aes(x = type, y = time, color = expression)) +
     ggbeeswarm::geom_beeswarm(cex = 0.65) +
     guides(color = guide_legend(ncol = 2, override.aes = list(size = 3))) +
@@ -299,20 +377,20 @@ numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
           legend.position = &amp;quot;bottom&amp;quot;, legend.title = element_blank(),
           legend.text = element_text(family = &amp;quot;mono&amp;quot;),
           plot.title = element_text(face = &amp;quot;bold&amp;quot;),
-          plot.subtitle = element_text(face = &amp;quot;italic&amp;quot;)) +
-    labs(title = &amp;quot;Speed Shootout&amp;quot;, subtitle = &amp;quot;Statistical Mode&amp;quot;, caption = &amp;quot;knapply.com&amp;quot;)
+          plot.subtitle = element_text(face = &amp;quot;italic&amp;quot;),
+          plot.caption = element_text(family = &amp;quot;mono&amp;quot;, size = 16, face = &amp;quot;bold&amp;quot;)) +
+    labs(title = &amp;quot;Speed Shootout: Statistical Mode&amp;quot;, 
+         subtitle = glue::glue(
+           &amp;quot;n = {n} ({mem})&amp;quot;
+           ), 
+         caption = &amp;quot;knapply.com&amp;quot;)
 
 res_gg + facet_wrap(~ lang, ncol = 1, scales = &amp;quot;free_y&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;/post/mode/index_files/figure-html/unnamed-chunk-19-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(&amp;quot;sample:\t&amp;quot;, paste0(head(big_dbl, 3), collapse = &amp;quot;, &amp;quot;), &amp;quot; ... &amp;quot;,
-    paste0(tail(big_dbl, 3), collapse = &amp;quot;, &amp;quot;),  &amp;quot;\n&amp;quot;,
-    &amp;quot;n = &amp;quot;, scales::comma(length(big_dbl)), &amp;quot;\n&amp;quot;,
-    &amp;quot;memory footprint = &amp;quot;, capture.output(pryr::object_size(big_dbl)), sep = &amp;quot;&amp;quot;)
-
-res_gg&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/mode/index_files/figure-html/unnamed-chunk-18-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
-&lt;p&gt;&lt;img src=&#34;/post/mode/index_files/figure-html/unnamed-chunk-21-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/mode/index_files/figure-html/unnamed-chunk-20-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;details&gt;
 &lt;summary&gt; Post Test Checks &lt;/summary&gt;
 &lt;p&gt;
@@ -321,7 +399,8 @@ res_gg&lt;/code&gt;&lt;/pre&gt;
   all.equal(r_mode(big_dbl), 
             cpp_mode(big_dbl), 
             py$numpy_mode(py$numpy_big_dbl),
-            py$statistics$mode(py$py_big_dbl))
+            py$statistics$mode(py$py_big_dbl),
+            py$py_mode(py_big_dbl))
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Did the input data remain unchanged?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
@@ -1544,75 +1623,29 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;TOC&#34;&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#what-is-it&#34;&gt;What is it?&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#walkthrough&#34;&gt;Walkthrough&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#example-data&#34;&gt;Example Data&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#statsmedian&#34;&gt;&lt;code&gt;stats::median()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#step-by-step&#34;&gt;Step by Step&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#naive&#34;&gt;Naïve&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#optimized&#34;&gt;Optimized&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#custom-r&#34;&gt;Custom R&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#rcpp&#34;&gt;Rcpp&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#example-data-1&#34;&gt;Example Data&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#rcppmedian&#34;&gt;&lt;code&gt;Rcpp::median()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#step-by-step-1&#34;&gt;Step by Step&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#naive-1&#34;&gt;Naïve&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#optimized-1&#34;&gt;Optimized&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#custom&#34;&gt;Custom&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#blueprint&#34;&gt;Blueprint&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#template-version&#34;&gt;Template Version&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#example-data-2&#34;&gt;Example Data&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#statistics.median&#34;&gt;&lt;code&gt;statistics.median()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#numpy.median&#34;&gt;&lt;code&gt;numpy.median()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#step-by-step-2&#34;&gt;Step by Step&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#naive-2&#34;&gt;Naïve&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#custom-pure-python&#34;&gt;Custom Pure Python&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#shootout&#34;&gt;Shootout&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#test-data&#34;&gt;Test Data&lt;/a&gt;&lt;ul&gt;
-&lt;li&gt;&lt;a href=&#34;#pre-test-data-validatation&#34;&gt;Pre-Test Data Validatation&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#benchmarks&#34;&gt;Benchmarks&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#validate-results&#34;&gt;Validate Results&lt;/a&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#post-test-data-validatation&#34;&gt;Post-Test Data Validatation&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#results&#34;&gt;Results&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
-&lt;!-- start topic --&gt;
-&lt;!-- ----------- --&gt;
-&lt;!-- # R --&gt;
-&lt;!-- ## A Way --&gt;
-&lt;!-- ```{r} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ## A Better Way --&gt;
-&lt;!-- ```{r} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- # Rcpp --&gt;
-&lt;!-- ## A Way --&gt;
-&lt;!-- ```{Rcpp, eval=FALSE} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ## A Better Way --&gt;
-&lt;!-- ```{Rcpp} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- # Python --&gt;
-&lt;!-- ## A Way --&gt;
-&lt;!-- ```{python} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ## A Better Way --&gt;
-&lt;!-- ```{python} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ## NumPy --&gt;
-&lt;!-- ```{python} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- _________ --&gt;
-&lt;!-- end topic --&gt;
 &lt;div id=&#34;what-is-it&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;What is it?&lt;/h1&gt;
 &lt;p&gt;Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.&lt;/p&gt;
@@ -1631,154 +1664,148 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
-&lt;div id=&#34;walkthrough&#34; class=&#34;section level1 tabset tabset-fade tabset-pills&#34;&gt;
-&lt;h1&gt;Walkthrough&lt;/h1&gt;
-&lt;/div&gt;
 &lt;div id=&#34;r&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;R&lt;/h1&gt;
-&lt;div id=&#34;example-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Example Data&lt;/h2&gt;
+&lt;div id=&#34;statsmedian&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;stats::median()&lt;/code&gt;&lt;/h2&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_even_n &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
 
 r_odd_n &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;statsmedian&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;&lt;code&gt;stats::median()&lt;/code&gt;&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;c(median(r_even_n), median(r_odd_n))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516 507&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;step-by-step&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Step by Step&lt;/h2&gt;
-&lt;div id=&#34;naive&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Naïve&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_naive_median &amp;lt;- function(x) {
-  n &amp;lt;- length(x)                      # find `x`&amp;#39;s length
-  sorted &amp;lt;- sort(x)                   # sort the values
-  if (n %% 2L) {                      # `2L` marks `2` as begin an integer: if `n` is...
-    out &amp;lt;- sorted[[n %/% 2L + 1L]]    # ... is odd, the median is the middle value...
-                                      # ... `%/%` indicates integer division
-  } else {                            # if `n` is even...
-    mid1 &amp;lt;- sorted[[n %/% 2L]]        # ... take the first middle value...
-    mid2 &amp;lt;- sorted[[n %/% 2L + 1L]]   # ... and second middle value...
-    out &amp;lt;- mean(c(mid1, mid2))        # ... and calculate their mean
-  }
-  out                                 # return `out`
-}
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375)
 
-c(r_naive_median(r_even_n),
-  r_naive_median(r_odd_n))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516 507&lt;/code&gt;&lt;/pre&gt;
+median(r_even_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;median(r_odd_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 507&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;optimized&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Optimized&lt;/h3&gt;
-&lt;p&gt;In R, we can target an index on which to pivot. We can find the median without needing to sort the entire sequence.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_fast_median &amp;lt;- function(x) {
-  n &amp;lt;- length(x)                                       # find `x`&amp;#39;s length
-  mid &amp;lt;- (n + 1L) %/% 2L                               # find index of mid-point
-  partially_sorted &amp;lt;- sort(x, partial = n %/% 2L + 1L) # partially sort, targeting mid point
-  if (n %% 2) {                                        # if `n` is odd...
-    return(partially_sorted[mid])                      # ... the result is the mid point
+&lt;div id=&#34;custom-r&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Custom R&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;Note: This is essentially a stripped-down version of &lt;code&gt;median.default()&lt;/code&gt;.&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_median &amp;lt;- function(x) {
+  n &amp;lt;- length(x)
+  mid &amp;lt;- (n + 1L) %/% 2L
+  partially_sorted &amp;lt;- sort(x, partial = n %/% 2L + 1L)
+  if (n %% 2L) {
+    return(partially_sorted[mid])
   }      
-                                                 # if `n` is even, subset the middle 2 ...
-  mean(partially_sorted[c(mid, mid + 1L)])       # ... values and the result is their mean
+  ( partially_sorted[[mid]] + partially_sorted[[mid + 1L]] ) / 2L 
 }
 
-c(r_fast_median(r_even_n),
-  r_fast_median(r_odd_n))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516 507&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
+r_median(r_even_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_median(r_odd_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 507&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;rcpp&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Rcpp&lt;/h1&gt;
 &lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; &lt;code&gt;Rcpp&lt;/code&gt; examples assume code is prefaced with…&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;#include &amp;lt;Rcpp.h&amp;gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;//[[Rcpp::plugins(cpp17)]]
+#include &amp;lt;Rcpp.h&amp;gt;
 using namespace Rcpp;&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;example-data-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Example Data&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_even_n &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
-
-r_odd_n &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375)&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;div id=&#34;rcppmedian&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;&lt;code&gt;Rcpp::median()&lt;/code&gt;&lt;/h2&gt;
 &lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::export]]
 double rcpp_sugar_median(NumericVector x) {
   return median(x);
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;c(rcpp_sugar_median(r_even_n),
-  rcpp_sugar_median(r_odd_n))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516 507&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;step-by-step-1&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Step by Step&lt;/h2&gt;
-&lt;div id=&#34;naive-1&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Naïve&lt;/h3&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::export]]
-double cpp_naive_median(NumericVector x) {
-  int n = x.size();                 // find `x`&amp;#39;s length
-  x.sort();                         // sort the values
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_even_n &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
 
-  double out;                       // declare the variable to return
-  if (n % 2) {                      // if `n` is odd...
-    out = x[n / 2];                 // ... the median is the middle value
-  } else {                          // if `n` is even...
-    double mid1 = x[n / 2 - 1];     // ... take the first middle value...
-    double mid2 = x[n / 2];         // ... and second middle value...
-    out = (mid1 + mid2) / 2.0;      // ... and calculate their mean
+r_odd_n &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375)
+
+rcpp_sugar_median(r_even_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;rcpp_sugar_median(r_odd_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 507&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;custom&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Custom&lt;/h2&gt;
+&lt;div id=&#34;blueprint&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Blueprint&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;using std::begin;
+using std::end;
+using std::nth_element;
+using std::size;
+
+// [[Rcpp::export]]
+double cpp_median_blueprint(const NumericVector&amp;amp; x) {
+  auto temp = clone(x);
+  const auto n = size(x);
+
+  auto mid = begin(temp) + n / 2;
+  
+  std::nth_element( begin(temp), mid, end(temp) );
+
+
+  if (n % 2) {
+    return *mid;
   }
 
-  return out;
+  const auto mid1 = *mid;
+  nth_element( begin(temp), --mid, end(temp) );
+
+  return ( mid1 + *mid ) / 2.0;
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;c(cpp_naive_median(r_even_n),
-  cpp_naive_median(r_odd_n))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516 507&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_median_blueprint(r_even_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_median_blueprint(r_odd_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 507&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;optimized-1&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Optimized&lt;/h3&gt;
-&lt;p&gt;Rather than &lt;code&gt;sort()&lt;/code&gt;ing the entire sequence, we can use &lt;a href=&#34;https://en.cppreference.com/w/cpp/algorithm/nth_element&#34;&gt;&lt;code&gt;std::nth_elemnt()&lt;/code&gt;&lt;/a&gt;, a built-in &lt;a href=&#34;https://en.wikipedia.org/wiki/Quickselect&#34;&gt;quickselect&lt;/a&gt; from &lt;code&gt;&amp;lt;algorithm&amp;gt;&lt;/code&gt;.&lt;/p&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::export]]
-double cpp_fast_median(NumericVector x) {
-  int n = x.size();                            // find `x`&amp;#39;s length
-  NumericVector::iterator start = x.begin();   // initialize iterator pointing to `x[0]`
-  NumericVector::iterator mid = start + n / 2; // initialize iterator pointing to midpoint
+&lt;div id=&#34;template-version&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Template Version&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;template &amp;lt;int RTYPE&amp;gt;
+auto cpp_median_(const Vector&amp;lt;RTYPE&amp;gt;&amp;amp; x) {
+  auto temp = clone(x);
 
-  std::nth_element(start, mid, x.end());       // partially sort `x` so all values...
-                                               // ... before `mid` are less than it...
-                                               // ... and values after are greater than it
-  if (n % 2) {                                 // if `n` is odd...
-    return *mid;                               // return `mid`&amp;#39;s value by dereferencing...
-  }                                            // ...the iterator with `*`
+  const auto n = std::size(temp);
 
-  double mid1 = *mid;                          // if even, hold `mid`
-  std::nth_element( start, --mid, x.end() );   // partially sort again, decrementing...
-                                               // ... `mid` to target `x[mid - 1]`
-  return ( mid1 + *mid ) / 2.0;                // return their mean
+  auto mid = std::begin(temp) + n / 2;
+
+  std::nth_element( std::begin(temp), mid, std::end(temp) );
+
+  if (n % 2) {
+    return wrap( *mid );
+  }
+  
+  const auto mid1 = *mid;
+  std::nth_element( std::begin(temp), --mid, std::end(temp) );
+
+  return wrap( (mid1 + *mid) / 2.0 );
+}
+
+// [[Rcpp::export]]
+SEXP cpp_median(const SEXP&amp;amp; x) {
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return cpp_median_&amp;lt;INTSXP&amp;gt;(x);
+    case REALSXP:
+      return cpp_median_&amp;lt;REALSXP&amp;gt;(x);
+  }
+  warning(&amp;quot;Invalid SEXPTYPE %d (%s).\n&amp;quot;, TYPEOF(x), type2name(x));
+  return R_NilValue;
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;c(cpp_fast_median(r_even_n),
-  cpp_fast_median(r_odd_n))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516 507&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_median(r_even_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 516&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_median(r_odd_n)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 507&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;python&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Python&lt;/h1&gt;
-&lt;div id=&#34;example-data-2&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Example Data&lt;/h2&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+&lt;div id=&#34;statistics.median&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;statistics.median()&lt;/code&gt;&lt;/h2&gt;
+&lt;p&gt;Python’s &lt;code&gt;statistics&lt;/code&gt; module is part of its standard library.&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics as stats
+
+py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
              190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
 
 py_odd_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-            190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375]&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;statistics.median&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;&lt;code&gt;statistics.median()&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;Python’s &lt;code&gt;statistics&lt;/code&gt; module is part of its standard library; it come with Python.&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics as stats
+            190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375]
 
 res1 = stats.median(py_even_n)
 res2 = stats.median(py_odd_n)
@@ -1788,7 +1815,6 @@ print([res1, res2])&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;numpy.median&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;&lt;code&gt;numpy.median()&lt;/code&gt;&lt;/h2&gt;
-&lt;p&gt;When available, prefer using &lt;code&gt;numpy&lt;/code&gt;.&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
 
 numpy_even_n = np.array(py_even_n)
@@ -1800,17 +1826,14 @@ res2 = np.median(numpy_odd_n)
 print([res1, res2])&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [516.0, 507.0]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;step-by-step-2&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Step by Step&lt;/h2&gt;
-&lt;div id=&#34;naive-2&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Naïve&lt;/h3&gt;
+&lt;div id=&#34;custom-pure-python&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Custom Pure Python&lt;/h2&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;def py_median(x):
   n = len(x)
   sorted_x = sorted(x)
   if n % 2:
     return sorted_x[n // 2]
-  mid1, mid2 = sorted_x[n // 2 - 1], sorted_x[n // 2]
-  return (mid1 + mid2) / 2
+  return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
   
 res1 = py_median(py_even_n)
 res2 = py_median(py_odd_n)
@@ -1819,75 +1842,86 @@ print([res1, res2])&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [516.0, 507]&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;/div&gt;
 &lt;div id=&#34;shootout&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Shootout&lt;/h1&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(reticulate)&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;test-data&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Test Data&lt;/h2&gt;
+&lt;details&gt;
+&lt;summary&gt; Test Setup &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(reticulate)
+library(tidyverse)
+library(bench)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create R Data&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
-big_dbl &amp;lt;- sample(sample(seq(1, 1e4, by = 0.2), replace = TRUE))
+big_dbl &amp;lt;- seq(-1e7, 1e7, by = 0.02) %&amp;gt;%
+  sample(replace = TRUE, size = 1e5) %&amp;gt;%
+  rep(10) %&amp;gt;% 
+  sample(replace = TRUE)
 
-cat(paste0(head(big_dbl, 5), collapse = &amp;quot;, &amp;quot;), &amp;quot; ... &amp;quot;, 
-    paste0(tail(big_dbl, 5), collapse = &amp;quot;, &amp;quot;),  &amp;quot;\n\n&amp;quot;,
-    &amp;quot;\tn = &amp;quot;, scales::comma(length(big_dbl)), &amp;quot;\n&amp;quot;,
-    &amp;quot;\tfootprint = &amp;quot;, capture.output(pryr::object_size(big_dbl)), sep = &amp;quot;&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; 2426.8, 572.2, 7139.4, 7490, 7661.4 ... 7933.2, 1539, 8153.2, 6700.8, 3073
-#&amp;gt; 
-#&amp;gt;  n = 49,996
-#&amp;gt;  footprint = 400 kB&lt;/code&gt;&lt;/pre&gt;
+validation_data &amp;lt;- big_dbl&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Transfer to Python&lt;/p&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl.copy())&lt;/code&gt;&lt;/pre&gt;
-&lt;div id=&#34;pre-test-data-validatation&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Pre-Test Data Validatation&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(
-  big_dbl,
-  py$py_big_dbl,
-  py$numpy_big_dbl
-)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;benchmarks&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Benchmarks&lt;/h2&gt;
+numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Do all the data match?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(validation_data,
+            big_dbl,
+            py$py_big_dbl,
+            py$numpy_big_dbl)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;1,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;8 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Run Benchmark Test &lt;/summary&gt;
+&lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(bench)
 
 res &amp;lt;- mark(
   median.default(big_dbl),
-  r_naive_median(big_dbl),
-  r_fast_median(big_dbl),
+  r_median(big_dbl),
   rcpp_sugar_median(big_dbl),
-  cpp_naive_median(big_dbl),
-  cpp_fast_median(big_dbl),
+  cpp_median(big_dbl),
   py_run_string(&amp;quot;stats.median(py_big_dbl)&amp;quot;, convert = FALSE),
   py_run_string(&amp;quot;np.median(numpy_big_dbl)&amp;quot;, convert = FALSE),
   py_run_string(&amp;quot;py_median(numpy_big_dbl)&amp;quot;, convert = FALSE),
   iterations = 50, check = FALSE, filter_gc = FALSE
 )&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;details&gt;
+&lt;summary&gt; Plot &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
 &lt;p&gt;&lt;img src=&#34;/post/median/index_files/figure-html/unnamed-chunk-23-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
-&lt;/div&gt;
-&lt;div id=&#34;validate-results&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Validate Results&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(
-  median(big_dbl),
-  r_naive_median(big_dbl),
-  r_fast_median(big_dbl),
-  rcpp_sugar_median(big_dbl),
-  cpp_naive_median(big_dbl),
-  cpp_fast_median(big_dbl),
-  py$stats$median(py$py_big_dbl),
-  py$np$median(py$numpy_big_dbl)
-)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;div id=&#34;post-test-data-validatation&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Post-Test Data Validatation&lt;/h2&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;all.equal(
-  big_dbl,
-  py$py_big_dbl,
-  py$numpy_big_dbl
-)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] TRUE&lt;/code&gt;&lt;/pre&gt;
+&lt;details&gt;
+&lt;summary&gt; Post Test Checks &lt;/summary&gt;
+&lt;p&gt;
+&lt;p&gt;Do all methods obtain the same results?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(median.default(big_dbl),
+            r_median(big_dbl),
+            rcpp_sugar_median(big_dbl),
+            cpp_median(big_dbl), 
+            py$np$median(py$numpy_big_dbl),
+            py$statistics$median(py$py_big_dbl),
+            py$py_mmedian(py_big_dbl))
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Did the input data remain unchanged?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(validation_data, 
+            big_dbl, 
+            py$py_big_dbl,
+            py$numpy_big_dbl)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
 &lt;/div&gt;
 &lt;div id=&#34;environment&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Environment&lt;/h2&gt;
@@ -1895,7 +1929,7 @@ res &amp;lt;- mark(
 &lt;summary&gt; R &lt;/summary&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.5.1 (2018-07-02)
+&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
 #&amp;gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
 #&amp;gt; Running under: Windows 10 x64 (build 17134)
 #&amp;gt; 
@@ -1910,38 +1944,37 @@ res &amp;lt;- mark(
 #&amp;gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&amp;gt; 
 #&amp;gt; other attached packages:
-#&amp;gt;  [1] forcats_0.3.0          stringr_1.3.1.9000     dplyr_0.7.99.9000     
-#&amp;gt;  [4] purrr_0.2.4.9000       readr_1.1.1            tidyr_0.8.1.9000      
-#&amp;gt;  [7] tibble_1.4.2           ggplot2_3.1.0.9000     tidyverse_1.2.1.9000  
-#&amp;gt; [10] bench_1.0.1.9000       reticulate_1.10.0.9002
+#&amp;gt;  [1] bench_1.0.1.9000       forcats_0.3.0          stringr_1.3.1.9000    
+#&amp;gt;  [4] dplyr_0.7.99.9000      purrr_0.2.5            readr_1.2.1           
+#&amp;gt;  [7] tidyr_0.8.2.9000       tibble_1.4.99.9005     ggplot2_3.1.0.9000    
+#&amp;gt; [10] tidyverse_1.2.1.9000   reticulate_1.10.0.9003
 #&amp;gt; 
 #&amp;gt; loaded via a namespace (and not attached):
-#&amp;gt;  [1] beeswarm_0.2.3        tidyselect_0.2.5      xfun_0.4             
-#&amp;gt;  [4] haven_1.1.2.9000      lattice_0.20-35       colorspace_1.3-2     
-#&amp;gt;  [7] generics_0.0.1.9000   htmltools_0.3.6       yaml_2.2.0           
-#&amp;gt; [10] rlang_0.3.0.9000      pillar_1.3.0.9001     withr_2.1.2.9000     
-#&amp;gt; [13] glue_1.3.0            pryr_0.1.4            modelr_0.1.2         
-#&amp;gt; [16] readxl_1.1.0          plyr_1.8.4            munsell_0.5.0        
-#&amp;gt; [19] blogdown_0.9.1        gtable_0.2.0          cellranger_1.1.0     
-#&amp;gt; [22] rvest_0.3.2           codetools_0.2-15      evaluate_0.12        
-#&amp;gt; [25] knitr_1.20.21         vipor_0.4.5           profmem_0.5.0        
-#&amp;gt; [28] broom_0.5.0.9001      Rcpp_1.0.0            scales_1.0.0.9000    
-#&amp;gt; [31] backports_1.1.2       jsonlite_1.5          hms_0.4.2            
-#&amp;gt; [34] digest_0.6.18         stringi_1.2.4         bookdown_0.7.21      
-#&amp;gt; [37] grid_3.5.1            rprojroot_1.3-2       cli_1.0.1            
-#&amp;gt; [40] here_0.1              tools_3.5.1           magrittr_1.5         
-#&amp;gt; [43] lazyeval_0.2.1        crayon_1.3.4          pkgconfig_2.0.2      
-#&amp;gt; [46] Matrix_1.2-14         xml2_1.2.0            ggbeeswarm_0.6.0     
-#&amp;gt; [49] lubridate_1.7.4       rstudioapi_0.8.0.9000 assertthat_0.2.0     
-#&amp;gt; [52] rmarkdown_1.10.14     httr_1.3.1            htmldeps_0.1.1       
-#&amp;gt; [55] R6_2.3.0              compiler_3.5.1&lt;/code&gt;&lt;/pre&gt;
+#&amp;gt;  [1] beeswarm_0.2.3    tidyselect_0.2.5  xfun_0.4          haven_2.0.0      
+#&amp;gt;  [5] lattice_0.20-35   colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0       
+#&amp;gt;  [9] rlang_0.3.0.1     pillar_1.3.0.9001 glue_1.3.0        withr_2.1.2      
+#&amp;gt; [13] pryr_0.1.4.9000   modelr_0.1.2      readxl_1.1.0      plyr_1.8.4       
+#&amp;gt; [17] munsell_0.5.0     blogdown_0.9.4    gtable_0.2.0      cellranger_1.1.0 
+#&amp;gt; [21] rvest_0.3.2       codetools_0.2-15  evaluate_0.12     knitr_1.20       
+#&amp;gt; [25] vipor_0.4.5       profmem_0.5.0     broom_0.5.0       Rcpp_1.0.0       
+#&amp;gt; [29] backports_1.1.2   scales_1.0.0      jsonlite_1.5      hms_0.4.2        
+#&amp;gt; [33] digest_0.6.18     stringi_1.2.4     bookdown_0.7      grid_3.6.0       
+#&amp;gt; [37] rprojroot_1.3-2   here_0.1-11       cli_1.0.1         tools_3.6.0      
+#&amp;gt; [41] magrittr_1.5      lazyeval_0.2.1    crayon_1.3.4      pkgconfig_2.0.2  
+#&amp;gt; [45] Matrix_1.2-14     xml2_1.2.0        ggbeeswarm_0.6.0  lubridate_1.7.4  
+#&amp;gt; [49] assertthat_0.2.0  rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
+#&amp;gt; [53] R6_2.3.0          nlme_3.1-137      compiler_3.6.0&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
 &lt;summary&gt; C++ &lt;/summary&gt;
 &lt;p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;gcc --version&amp;quot;, intern = TRUE)[[1]]&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (R.version[&amp;quot;minor&amp;quot;] == &amp;quot;6.0&amp;quot;) {
+  &amp;quot;GCC 8.2.0&amp;quot;
+  } else {
+  system(&amp;quot;gcc --version&amp;quot;, intern = TRUE)[[1]]
+  }&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;GCC 8.2.0&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -1952,7 +1985,7 @@ res &amp;lt;- mark(
 print(sys.version)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(np.__version__)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; 1.14.6&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 1.15.4&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -1965,15 +1998,15 @@ print(sys.version)&lt;/code&gt;&lt;/pre&gt;
 &lt;details&gt;
 &lt;summary&gt; Memory &lt;/summary&gt;
 &lt;p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&amp;quot;, intern = TRUE) %&amp;gt;% 
-  str_trim() %&amp;gt;% 
-  as_tibble() %&amp;gt;% 
-  slice(2:3) %&amp;gt;% 
-  separate(value, into = c(&amp;quot;BankLabel&amp;quot;, &amp;quot;Capacity&amp;quot;, &amp;quot;Speed&amp;quot;), sep = &amp;quot;\\s{2,}&amp;quot;) %&amp;gt;% 
-  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &amp;quot;GB&amp;quot;)) %&amp;gt;% 
-  mutate(Speed = paste(Speed, &amp;quot;MHz&amp;quot;)) %&amp;gt;% 
-  rename_all(str_replace, &amp;quot;L&amp;quot;, &amp;quot; L&amp;quot;) %&amp;gt;% 
-  knitr::kable(format = &amp;quot;html&amp;quot;) %&amp;gt;% 
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&amp;quot;, intern = TRUE) %&amp;gt;%
+  str_trim() %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  slice(2:3) %&amp;gt;%
+  separate(value, into = c(&amp;quot;BankLabel&amp;quot;, &amp;quot;Capacity&amp;quot;, &amp;quot;Speed&amp;quot;), sep = &amp;quot;\\s{2,}&amp;quot;) %&amp;gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &amp;quot;GB&amp;quot;)) %&amp;gt;%
+  mutate(Speed = paste(Speed, &amp;quot;MHz&amp;quot;)) %&amp;gt;%
+  rename_all(str_replace, &amp;quot;L&amp;quot;, &amp;quot; L&amp;quot;) %&amp;gt;%
+  knitr::kable(format = &amp;quot;html&amp;quot;) %&amp;gt;%
   kableExtra::kable_styling(full_width = FALSE)&lt;/code&gt;&lt;/pre&gt;
 &lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
 &lt;thead&gt;

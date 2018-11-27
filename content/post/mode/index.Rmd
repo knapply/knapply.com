@@ -42,7 +42,6 @@ source(here::here("static/R/citation.R"))
 
 
 
-
 # What is it?
 
 Given a sequence, the mode is the value with the highest number of occurrences.
@@ -67,6 +66,56 @@ r_vector <- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
 r_mode(r_vector)
 ```
 
+<!-- ## Breakdown -->
+
+<!-- `duplicated()` returns a `logical` vector indicating which elements in `x` occur more than once. -->
+
+<!-- ```{r} -->
+<!-- duplicated(r_vector)  -->
+<!-- ``` -->
+
+<!-- `!duplicated(x)` swaps `TRUE` for `FALSE` and vice-versa. -->
+
+<!-- ```{r} -->
+<!-- !duplicated(r_vector) -->
+<!-- ``` -->
+
+<!-- `!duplicated(r_vector)` allows us to subset `r_vector` to keep only those elements that are not duplicated, retaining the order in which they occur. -->
+
+<!-- ```{r} -->
+<!-- uniques <- r_vector[!duplicated(r_vector)] -->
+<!-- uniques -->
+<!-- ``` -->
+
+<!-- `match(x, uniques)` returns an `integer` vector containing the indices of elements in the first argument (`r_vector`) matching those in the second argument (`uniques`). -->
+
+<!-- ```{r} -->
+<!-- matched <- match(r_vector, uniques) -->
+<!-- matched -->
+<!-- ``` -->
+
+<!-- `tabulate()` counts the number of times each of those indices occur. -->
+
+<!-- ```{r} -->
+<!-- tabulated <- tabulate(matched) -->
+<!-- tabulated -->
+<!-- ``` -->
+
+<!-- `which.max()` returns an `integer` scalar (in R, this is simply a vector of length 1) indicating the index of the highest number. -->
+
+<!-- ```{r} -->
+<!-- max_count <- which.max(tabulated) -->
+<!-- max_count -->
+<!-- ``` -->
+
+<!-- Which we can then use to subset `uniques` to find our mode. -->
+
+<!-- ```{r} -->
+<!-- uniques[max_count] -->
+<!-- ``` -->
+
+
+
 
 # Rcpp
 
@@ -83,37 +132,52 @@ using namespace Rcpp;
 
 > C++ References
 
-* [`[]()`](https://en.cppreference.com/w/cpp/language/lambda) (Lambda)
-* [`auto`](https://en.cppreference.com/w/cpp/language/auto)
+<div class = "row">
+<div class = "col-md-6">
+
 * [`<algorithm>`](https://en.cppreference.com/w/cpp/header/algorithm)
     + [`std::max_element()`](https://en.cppreference.com/w/cpp/algorithm/max_element)
 * [`<iterator>`](https://en.cppreference.com/w/cpp/header/iterator)
     + [`std::begin()`](https://en.cppreference.com/w/cpp/iterator/begin)
     + [`std::end()`](https://en.cppreference.com/w/cpp/iterator/end)
+
+</div>
+<div class = "col-md-6">
+
 * [`<unordered_map>`](https://en.cppreference.com/w/cpp/header/unordered_map)
     + [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map)
 * [`<utility>`](https://en.cppreference.com/w/cpp/header/utility)
     + [`std::pair`](https://en.cppreference.com/w/cpp/utility/pair)
+* [`[] ()`](https://en.cppreference.com/w/cpp/language/lambda) (Lambda)
+* [`auto`](https://en.cppreference.com/w/cpp/language/auto)
     
+</div>
+</div>
 
 ## Blueprint
 
 ```{Rcpp, eval=FALSE}
+using std::begin;
+using std::end;
+using std::max_element;
+using std::pair;
+using std::unordered_map;
+
 // [[Rcpp::export]]
 double cpp_mode_blueprint(const NumericVector& x) {
-  std::unordered_map<double, size_t> counts;
+  unordered_map<double, size_t> counts;
 
   for (auto i : x) {
     counts[i]++;
   }
   
-  auto compare_map_vals = [] (const std::pair<double, size_t>& p1, 
-                              const std::pair<double, size_t>& p2) {
+  auto compare_map_vals = [] (const pair<double, size_t>& p1, 
+                              const pair<double, size_t>& p2) {
     return p1.second < p2.second;
   };
 
-  const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
-                                          compare_map_vals);
+  const auto max_index = max_element(begin(counts), end(counts), 
+                                     compare_map_vals);
 
   return (*max_index).first;
 }
@@ -125,25 +189,80 @@ r_vector <- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
 cpp_mode_blueprint(r_vector)
 ```
 
-## Template
+<!-- ### Breakdown -->
+
+<!-- * `unordered_map<double, size_t>` provides a key-value container in which our keys will be of type `double` and our values will be of type `size_t` (`long long unsigned int`). -->
+<!-- * `for (auto i : x) { counts[i]++; }` loops through our input `x` and -->
+<!--     + checks if each element exists as a key in `counts`, -->
+<!--     + adds the element as key and setting its value to `0` if it doesn't already exist, -->
+<!--     + and increments that value. -->
+
+<!-- The following example walks through the loop step by step. -->
+
+<!-- ```{Rcpp, eval=FALSE} -->
+<!-- using std::boolalpha; // makes `bool`s print-friendly -->
+<!-- using std::endl;      // inserts new line, flushes output stream -->
+<!-- using std::find;      // returns iterator to first element matching condition OR last -->
+<!-- using std::size;      // returns size (as in number of elements) of a container or array -->
+
+<!-- // [[Rcpp::export]] -->
+<!-- void breakdown_map_loop(const NumericVector& x) { -->
+<!--   Rcout << "Declaring `counts`" << endl << endl; -->
+<!--   unordered_map<double, size_t> counts; -->
+
+<!--   auto counter = 1; -->
+<!--   Rcout << "... starting loop" << endl; -->
+<!--   for (auto i : x) { -->
+<!--     auto is_already_key = counts.find(i) != end(counts); -->
+
+<!--     Rcout << "... starting " << counter << "st|nd|rd|th element..." << endl; -->
+<!--     Rcout << "`i` = " << i << endl; -->
+
+<!--     Rcout << "Does `x[" << i << "]` already exist in `counts`? " << endl -->
+<!--           << "\t" << boolalpha << is_already_key << endl; -->
+
+<!--     if (is_already_key) { -->
+<!--       Rcout << "`x[" << i << "]`'s current value is " << endl << "\t" << counts[i] << endl; -->
+<!--     } else { -->
+<!--       Rcout << "... `x[" << i << "]` is being added as a key with a value of `0` " << endl; -->
+<!--     } -->
+
+<!--     Rcout << "... `x[" << i << "]` is being incremented" << endl; -->
+<!--     counts[i]++; -->
+<!--     Rcout << "`x[" << i << "]`'s new value is "<< endl << "\t" << counts[i] << endl << endl; -->
+
+<!--     counter++; -->
+<!--   } -->
+<!--   Rcout << endl << "Loop finished" << endl; -->
+<!-- } -->
+
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- breakdown_map_loop(c(1, 2, 1)) -->
+<!-- ``` -->
+
+<!-- * `compare_map_vals` is a lambda expression that constructs a closure (a function that is stored with its environment) that we can pass to `std::max_element()`. -->
+<!--     + By default, `std::max_element()` will compare the value of a `std::unordered_map`'s keys, or `.first`s. -->
+<!--     + `compare_map_vals` tells `std::max_element()` to instead compare the values, or `.second`s. -->
+<!-- * `std::max_element()` returns an iterator pointing to an element in `counts`. -->
+<!--     + In order to access the underlying element, we dereference the iterator with `*` and state that we want the key using `.first`. -->
+
+## Templated Version
 
 ```{Rcpp, eval = FALSE}
 template <int RTYPE, typename T>
-auto __cpp_mode(const Vector<RTYPE>& x) {
+auto cpp_mode_(const Vector<RTYPE>& x) {
   std::unordered_map<T, size_t> counts;
-  
   for (auto i : x) {
     counts[i]++;
   }
-  
   auto compare_map_vals = [] (const std::pair<T, size_t>& p1,
                               const std::pair<T, size_t>& p2) {
     return p1.second < p2.second;
     };
-  
   const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
                                           compare_map_vals);
-  
   return wrap( (*max_index).first );
 }
 
@@ -152,16 +271,15 @@ auto __cpp_mode(const Vector<RTYPE>& x) {
 SEXP cpp_mode(const SEXP& x) {
   switch( TYPEOF(x) ) {
     case INTSXP:
-      return __cpp_mode<INTSXP, int>(x);
+      return cpp_mode_<INTSXP, int>(x);
     case REALSXP:
-      return __cpp_mode<REALSXP, double>(x);
+      return cpp_mode_<REALSXP, double>(x);
     case LGLSXP:
-      return __cpp_mode<LGLSXP, bool>(x);
+      return cpp_mode_<LGLSXP, bool>(x);
     case STRSXP:
-      return __cpp_mode<STRSXP, String>( x );
-    default: 
-      stop("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), type2name(x));
+      return cpp_mode_<STRSXP, String>(x);
   }
+  warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), type2name(x));
   return R_NilValue;
 }
 ```
@@ -175,7 +293,9 @@ cpp_mode(r_vector)
 
 # Python
 
-## `statistics.mode()` (Built-in)
+## `statistics.mode()`
+
+`statistics` is part of Python's standard library.
 
 ```{python}
 import statistics
@@ -214,7 +334,6 @@ print(res)
 ```
 
 
-
 # Shootout
 
 <details>
@@ -231,15 +350,12 @@ library(bench)
 Create R Data
 
 ```{r}
-resample <- function(x, .n = 30) {
-  `dim<-`(replicate(n = .n, sample(x, replace = TRUE)), NULL)
-}
-
 set.seed(831)
 big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
   sample(replace = TRUE, size = 1e5) %>%
+  rep(20) %>% 
   c(rep(32.4, 100)) %>%  # our mode is 32.4
-  resample()
+  sample(replace = TRUE)
 
 validation_data <- big_dbl
 ```
@@ -263,29 +379,22 @@ stopifnot(
   )
 ```
 
-```{r, eval=FALSE}
-cat("sample:\t", paste0(head(big_dbl, 3), collapse = ", "), " ... ",
-    paste0(tail(big_dbl, 3), collapse = ", "),  "\n",
-    "n = ", scales::comma(length(big_dbl)), "\n",
-    "memory footprint = ", capture.output(pryr::object_size(big_dbl)), sep = "")
+
+```{r}
+(n <- scales::comma(length(big_dbl)))
+(mem <- capture.output(pryr::object_size(big_dbl)))
 ```
 
 </p>
 </details>
 
-```{r, echo=FALSE}
-cat("sample:\t", paste0(head(big_dbl, 3), collapse = ", "), " ... ",
-    paste0(tail(big_dbl, 3), collapse = ", "),  "\n",
-    "n = ", scales::comma(length(big_dbl)), "\n",
-    "memory footprint = ", capture.output(pryr::object_size(big_dbl)), sep = "")
-```
 
 
 <details>
 <summary> Run Benchmark Test </summary>
 <p>
 
-```{r, echo=FALSE}
+```{r, include=FALSE}
 gc()
 ```
 
@@ -313,7 +422,7 @@ res <- mark(
 ## Results
 
 <details>
-<summary> Plot Results </summary>
+<summary> Plot </summary>
 <p>
 
 ```{r, fig.align='center', fig.width=9, fig.height=10, message=FALSE, warning=FALSE}
@@ -342,7 +451,6 @@ res_gg <- res %>%
   mutate(type = as_factor(type)) %>%
   arrange(med) %>%
   mutate(expression = as_factor(expression)) %>%
-  
   ggplot(aes(x = type, y = time, color = expression)) +
     ggbeeswarm::geom_beeswarm(cex = 0.65) +
     guides(color = guide_legend(ncol = 2, override.aes = list(size = 3))) +
@@ -352,19 +460,19 @@ res_gg <- res %>%
           legend.position = "bottom", legend.title = element_blank(),
           legend.text = element_text(family = "mono"),
           plot.title = element_text(face = "bold"),
-          plot.subtitle = element_text(face = "italic")) +
-    labs(title = "Speed Shootout", subtitle = "Statistical Mode", caption = "knapply.com")
+          plot.subtitle = element_text(face = "italic"),
+          plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
+    labs(title = "Speed Shootout: Statistical Mode", 
+         subtitle = glue::glue(
+           "n = {n} ({mem})"
+           ), 
+         caption = "knapply.com")
 
 res_gg + facet_wrap(~ lang, ncol = 1, scales = "free_y")
 ```
 
 
 ```{r, eval=FALSE}
-cat("sample:\t", paste0(head(big_dbl, 3), collapse = ", "), " ... ",
-    paste0(tail(big_dbl, 3), collapse = ", "),  "\n",
-    "n = ", scales::comma(length(big_dbl)), "\n",
-    "memory footprint = ", capture.output(pryr::object_size(big_dbl)), sep = "")
-
 res_gg
 ```
 
@@ -389,7 +497,8 @@ stopifnot(
   all.equal(r_mode(big_dbl), 
             cpp_mode(big_dbl), 
             py$numpy_mode(py$numpy_big_dbl),
-            py$statistics$mode(py$py_big_dbl))
+            py$statistics$mode(py$py_big_dbl),
+            py$py_mode(py_big_dbl))
   )
 ```
 
@@ -496,5 +605,7 @@ print_citation()
 print_bibtex()
 ```
 
-
+```{r, include=FALSE}
+gc()
+```
 

@@ -37,10 +37,10 @@ editor_options:
 <li><a href="#r">R</a></li>
 <li><a href="#rcpp">Rcpp</a><ul>
 <li><a href="#blueprint">Blueprint</a></li>
-<li><a href="#template">Template</a></li>
+<li><a href="#templated-version">Templated Version</a></li>
 </ul></li>
 <li><a href="#python">Python</a><ul>
-<li><a href="#statistics.mode-built-in"><code>statistics.mode()</code> (Built-in)</a></li>
+<li><a href="#statistics.mode"><code>statistics.mode()</code></a></li>
 <li><a href="#custom-pure-python">Custom Pure Python</a></li>
 <li><a href="#custom-numpy">Custom NumPy</a></li>
 </ul></li>
@@ -52,7 +52,7 @@ editor_options:
 </div>
 
 <blockquote>
-<p><em>This post was last updated on 2018-11-26.</em></p>
+<p><em>This post was last updated on 2018-11-27.</em></p>
 </blockquote>
 <div id="what-is-it" class="section level1">
 <h1>What is it?</h1>
@@ -78,6 +78,39 @@ r_vector &lt;- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
 
 r_mode(r_vector)</code></pre>
 <pre><code>#&gt; [1] 4</code></pre>
+<!-- ## Breakdown -->
+<!-- `duplicated()` returns a `logical` vector indicating which elements in `x` occur more than once. -->
+<!-- ```{r} -->
+<!-- duplicated(r_vector)  -->
+<!-- ``` -->
+<!-- `!duplicated(x)` swaps `TRUE` for `FALSE` and vice-versa. -->
+<!-- ```{r} -->
+<!-- !duplicated(r_vector) -->
+<!-- ``` -->
+<!-- `!duplicated(r_vector)` allows us to subset `r_vector` to keep only those elements that are not duplicated, retaining the order in which they occur. -->
+<!-- ```{r} -->
+<!-- uniques <- r_vector[!duplicated(r_vector)] -->
+<!-- uniques -->
+<!-- ``` -->
+<!-- `match(x, uniques)` returns an `integer` vector containing the indices of elements in the first argument (`r_vector`) matching those in the second argument (`uniques`). -->
+<!-- ```{r} -->
+<!-- matched <- match(r_vector, uniques) -->
+<!-- matched -->
+<!-- ``` -->
+<!-- `tabulate()` counts the number of times each of those indices occur. -->
+<!-- ```{r} -->
+<!-- tabulated <- tabulate(matched) -->
+<!-- tabulated -->
+<!-- ``` -->
+<!-- `which.max()` returns an `integer` scalar (in R, this is simply a vector of length 1) indicating the index of the highest number. -->
+<!-- ```{r} -->
+<!-- max_count <- which.max(tabulated) -->
+<!-- max_count -->
+<!-- ``` -->
+<!-- Which we can then use to subset `uniques` to find our mode. -->
+<!-- ```{r} -->
+<!-- uniques[max_count] -->
+<!-- ``` -->
 </div>
 <div id="rcpp" class="section level1">
 <h1>Rcpp</h1>
@@ -88,9 +121,9 @@ using namespace Rcpp;</code></pre>
 <blockquote>
 <p>C++ References</p>
 </blockquote>
+<div class="row">
+<div class="col-md-6">
 <ul>
-<li><a href="https://en.cppreference.com/w/cpp/language/lambda"><code>[]()</code></a> (Lambda)</li>
-<li><a href="https://en.cppreference.com/w/cpp/language/auto"><code>auto</code></a></li>
 <li><a href="https://en.cppreference.com/w/cpp/header/algorithm"><code>&lt;algorithm&gt;</code></a>
 <ul>
 <li><a href="https://en.cppreference.com/w/cpp/algorithm/max_element"><code>std::max_element()</code></a></li>
@@ -100,6 +133,10 @@ using namespace Rcpp;</code></pre>
 <li><a href="https://en.cppreference.com/w/cpp/iterator/begin"><code>std::begin()</code></a></li>
 <li><a href="https://en.cppreference.com/w/cpp/iterator/end"><code>std::end()</code></a></li>
 </ul></li>
+</ul>
+</div>
+<div class="col-md-6">
+<ul>
 <li><a href="https://en.cppreference.com/w/cpp/header/unordered_map"><code>&lt;unordered_map&gt;</code></a>
 <ul>
 <li><a href="https://en.cppreference.com/w/cpp/container/unordered_map"><code>std::unordered_map</code></a></li>
@@ -108,24 +145,34 @@ using namespace Rcpp;</code></pre>
 <ul>
 <li><a href="https://en.cppreference.com/w/cpp/utility/pair"><code>std::pair</code></a></li>
 </ul></li>
+<li><a href="https://en.cppreference.com/w/cpp/language/lambda"><code>[] ()</code></a> (Lambda)</li>
+<li><a href="https://en.cppreference.com/w/cpp/language/auto"><code>auto</code></a></li>
 </ul>
+</div>
+</div>
 <div id="blueprint" class="section level2">
 <h2>Blueprint</h2>
-<pre class="cpp"><code>// [[Rcpp::export]]
+<pre class="cpp"><code>using std::begin;
+using std::end;
+using std::max_element;
+using std::pair;
+using std::unordered_map;
+
+// [[Rcpp::export]]
 double cpp_mode_blueprint(const NumericVector&amp; x) {
-  std::unordered_map&lt;double, size_t&gt; counts;
+  unordered_map&lt;double, size_t&gt; counts;
 
   for (auto i : x) {
     counts[i]++;
   }
   
-  auto compare_map_vals = [] (const std::pair&lt;double, size_t&gt;&amp; p1, 
-                              const std::pair&lt;double, size_t&gt;&amp; p2) {
+  auto compare_map_vals = [] (const pair&lt;double, size_t&gt;&amp; p1, 
+                              const pair&lt;double, size_t&gt;&amp; p2) {
     return p1.second &lt; p2.second;
   };
 
-  const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
-                                          compare_map_vals);
+  const auto max_index = max_element(begin(counts), end(counts), 
+                                     compare_map_vals);
 
   return (*max_index).first;
 }</code></pre>
@@ -133,25 +180,66 @@ double cpp_mode_blueprint(const NumericVector&amp; x) {
 
 cpp_mode_blueprint(r_vector)</code></pre>
 <pre><code>#&gt; [1] 4</code></pre>
+<!-- ### Breakdown -->
+<!-- * `unordered_map<double, size_t>` provides a key-value container in which our keys will be of type `double` and our values will be of type `size_t` (`long long unsigned int`). -->
+<!-- * `for (auto i : x) { counts[i]++; }` loops through our input `x` and -->
+<!--     + checks if each element exists as a key in `counts`, -->
+<!--     + adds the element as key and setting its value to `0` if it doesn't already exist, -->
+<!--     + and increments that value. -->
+<!-- The following example walks through the loop step by step. -->
+<!-- ```{Rcpp, eval=FALSE} -->
+<!-- using std::boolalpha; // makes `bool`s print-friendly -->
+<!-- using std::endl;      // inserts new line, flushes output stream -->
+<!-- using std::find;      // returns iterator to first element matching condition OR last -->
+<!-- using std::size;      // returns size (as in number of elements) of a container or array -->
+<!-- // [[Rcpp::export]] -->
+<!-- void breakdown_map_loop(const NumericVector& x) { -->
+<!--   Rcout << "Declaring `counts`" << endl << endl; -->
+<!--   unordered_map<double, size_t> counts; -->
+<!--   auto counter = 1; -->
+<!--   Rcout << "... starting loop" << endl; -->
+<!--   for (auto i : x) { -->
+<!--     auto is_already_key = counts.find(i) != end(counts); -->
+<!--     Rcout << "... starting " << counter << "st|nd|rd|th element..." << endl; -->
+<!--     Rcout << "`i` = " << i << endl; -->
+<!--     Rcout << "Does `x[" << i << "]` already exist in `counts`? " << endl -->
+<!--           << "\t" << boolalpha << is_already_key << endl; -->
+<!--     if (is_already_key) { -->
+<!--       Rcout << "`x[" << i << "]`'s current value is " << endl << "\t" << counts[i] << endl; -->
+<!--     } else { -->
+<!--       Rcout << "... `x[" << i << "]` is being added as a key with a value of `0` " << endl; -->
+<!--     } -->
+<!--     Rcout << "... `x[" << i << "]` is being incremented" << endl; -->
+<!--     counts[i]++; -->
+<!--     Rcout << "`x[" << i << "]`'s new value is "<< endl << "\t" << counts[i] << endl << endl; -->
+<!--     counter++; -->
+<!--   } -->
+<!--   Rcout << endl << "Loop finished" << endl; -->
+<!-- } -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- breakdown_map_loop(c(1, 2, 1)) -->
+<!-- ``` -->
+<!-- * `compare_map_vals` is a lambda expression that constructs a closure (a function that is stored with its environment) that we can pass to `std::max_element()`. -->
+<!--     + By default, `std::max_element()` will compare the value of a `std::unordered_map`'s keys, or `.first`s. -->
+<!--     + `compare_map_vals` tells `std::max_element()` to instead compare the values, or `.second`s. -->
+<!-- * `std::max_element()` returns an iterator pointing to an element in `counts`. -->
+<!--     + In order to access the underlying element, we dereference the iterator with `*` and state that we want the key using `.first`. -->
 </div>
-<div id="template" class="section level2">
-<h2>Template</h2>
+<div id="templated-version" class="section level2">
+<h2>Templated Version</h2>
 <pre class="cpp"><code>template &lt;int RTYPE, typename T&gt;
-auto __cpp_mode(const Vector&lt;RTYPE&gt;&amp; x) {
+auto cpp_mode_(const Vector&lt;RTYPE&gt;&amp; x) {
   std::unordered_map&lt;T, size_t&gt; counts;
-  
   for (auto i : x) {
     counts[i]++;
   }
-  
   auto compare_map_vals = [] (const std::pair&lt;T, size_t&gt;&amp; p1,
                               const std::pair&lt;T, size_t&gt;&amp; p2) {
     return p1.second &lt; p2.second;
     };
-  
   const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
                                           compare_map_vals);
-  
   return wrap( (*max_index).first );
 }
 
@@ -160,16 +248,15 @@ auto __cpp_mode(const Vector&lt;RTYPE&gt;&amp; x) {
 SEXP cpp_mode(const SEXP&amp; x) {
   switch( TYPEOF(x) ) {
     case INTSXP:
-      return __cpp_mode&lt;INTSXP, int&gt;(x);
+      return cpp_mode_&lt;INTSXP, int&gt;(x);
     case REALSXP:
-      return __cpp_mode&lt;REALSXP, double&gt;(x);
+      return cpp_mode_&lt;REALSXP, double&gt;(x);
     case LGLSXP:
-      return __cpp_mode&lt;LGLSXP, bool&gt;(x);
+      return cpp_mode_&lt;LGLSXP, bool&gt;(x);
     case STRSXP:
-      return __cpp_mode&lt;STRSXP, String&gt;( x );
-    default: 
-      stop(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), type2name(x));
+      return cpp_mode_&lt;STRSXP, String&gt;(x);
   }
+  warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), type2name(x));
   return R_NilValue;
 }</code></pre>
 <pre class="r"><code>r_vector &lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
@@ -180,8 +267,9 @@ cpp_mode(r_vector)</code></pre>
 </div>
 <div id="python" class="section level1">
 <h1>Python</h1>
-<div id="statistics.mode-built-in" class="section level2">
-<h2><code>statistics.mode()</code> (Built-in)</h2>
+<div id="statistics.mode" class="section level2">
+<h2><code>statistics.mode()</code></h2>
+<p><code>statistics</code> is part of Python’s standard library.</p>
 <pre class="python"><code>import statistics
 
 py_list = [4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3]
@@ -225,15 +313,12 @@ print(res)</code></pre>
 library(tidyverse)
 library(bench)</code></pre>
 <p>Create R Data</p>
-<pre class="r"><code>resample &lt;- function(x, .n = 30) {
-  `dim&lt;-`(replicate(n = .n, sample(x, replace = TRUE)), NULL)
-}
-
-set.seed(831)
+<pre class="r"><code>set.seed(831)
 big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
   sample(replace = TRUE, size = 1e5) %&gt;%
+  rep(20) %&gt;% 
   c(rep(32.4, 100)) %&gt;%  # our mode is 32.4
-  resample()
+  sample(replace = TRUE)
 
 validation_data &lt;- big_dbl</code></pre>
 <p>Transfer to Python</p>
@@ -246,21 +331,15 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
             py$py_big_dbl,
             py$numpy_big_dbl)
   )</code></pre>
-<pre class="r"><code>cat(&quot;sample:\t&quot;, paste0(head(big_dbl, 3), collapse = &quot;, &quot;), &quot; ... &quot;,
-    paste0(tail(big_dbl, 3), collapse = &quot;, &quot;),  &quot;\n&quot;,
-    &quot;n = &quot;, scales::comma(length(big_dbl)), &quot;\n&quot;,
-    &quot;memory footprint = &quot;, capture.output(pryr::object_size(big_dbl)), sep = &quot;&quot;)</code></pre>
+<pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
+<pre><code>#&gt; [1] &quot;2,000,100&quot;</code></pre>
+<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
+<pre><code>#&gt; [1] &quot;16 MB&quot;</code></pre>
 </p>
 </details>
-<pre><code>#&gt; sample:  7138961.68, -3879002.98, -367564 ... -6391733.16, 106116.700000001, -6526353.06
-#&gt; n = 3,003,000
-#&gt; memory footprint = 24 MB</code></pre>
 <details>
 <summary> Run Benchmark Test </summary>
 <p>
-<pre><code>#&gt;           used (Mb) gc trigger    (Mb)   max used    (Mb)
-#&gt; Ncells 1867257 99.8    3739555   199.8    2375661   126.9
-#&gt; Vcells 6209780 47.4 1924738489 14684.6 2033797034 15516.7</code></pre>
 <pre class="r"><code>res &lt;- mark(
   r_mode(big_dbl),
   cpp_mode(big_dbl),
@@ -274,7 +353,7 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
 <div id="results" class="section level2">
 <h2>Results</h2>
 <details>
-<summary> Plot Results </summary>
+<summary> Plot </summary>
 <p>
 <pre class="r"><code>res_gg &lt;- res %&gt;%
   mutate(expression = as.character(expression)) %&gt;%
@@ -301,7 +380,6 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
   mutate(type = as_factor(type)) %&gt;%
   arrange(med) %&gt;%
   mutate(expression = as_factor(expression)) %&gt;%
-  
   ggplot(aes(x = type, y = time, color = expression)) +
     ggbeeswarm::geom_beeswarm(cex = 0.65) +
     guides(color = guide_legend(ncol = 2, override.aes = list(size = 3))) +
@@ -311,20 +389,20 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
           legend.position = &quot;bottom&quot;, legend.title = element_blank(),
           legend.text = element_text(family = &quot;mono&quot;),
           plot.title = element_text(face = &quot;bold&quot;),
-          plot.subtitle = element_text(face = &quot;italic&quot;)) +
-    labs(title = &quot;Speed Shootout&quot;, subtitle = &quot;Statistical Mode&quot;, caption = &quot;knapply.com&quot;)
+          plot.subtitle = element_text(face = &quot;italic&quot;),
+          plot.caption = element_text(family = &quot;mono&quot;, size = 16, face = &quot;bold&quot;)) +
+    labs(title = &quot;Speed Shootout: Statistical Mode&quot;, 
+         subtitle = glue::glue(
+           &quot;n = {n} ({mem})&quot;
+           ), 
+         caption = &quot;knapply.com&quot;)
 
 res_gg + facet_wrap(~ lang, ncol = 1, scales = &quot;free_y&quot;)</code></pre>
-<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-19-1.png" width="864" style="display: block; margin: auto;" /></p>
-<pre class="r"><code>cat(&quot;sample:\t&quot;, paste0(head(big_dbl, 3), collapse = &quot;, &quot;), &quot; ... &quot;,
-    paste0(tail(big_dbl, 3), collapse = &quot;, &quot;),  &quot;\n&quot;,
-    &quot;n = &quot;, scales::comma(length(big_dbl)), &quot;\n&quot;,
-    &quot;memory footprint = &quot;, capture.output(pryr::object_size(big_dbl)), sep = &quot;&quot;)
-
-res_gg</code></pre>
+<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-18-1.png" width="864" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>res_gg</code></pre>
 </p>
 </details>
-<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-21-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-20-1.png" width="864" style="display: block; margin: auto;" /></p>
 <details>
 <summary> Post Test Checks </summary>
 <p>
@@ -333,7 +411,8 @@ res_gg</code></pre>
   all.equal(r_mode(big_dbl), 
             cpp_mode(big_dbl), 
             py$numpy_mode(py$numpy_big_dbl),
-            py$statistics$mode(py$py_big_dbl))
+            py$statistics$mode(py$py_big_dbl),
+            py$py_mode(py_big_dbl))
   )</code></pre>
 <p>Did the input data remain unchanged?</p>
 <pre class="r"><code>stopifnot(

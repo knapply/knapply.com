@@ -18,7 +18,7 @@
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/mode/</guid>
-      <description>What is it?RRcppBlueprintTemplatePythonstatistics.mode() (Built-in)Custom Pure PythonCustom NumPyShootoutResultsEnvironmentThis post was last updated on 2018-11-26.
+      <description>What is it?RRcppBlueprintTemplated VersionPythonstatistics.mode()Custom Pure PythonCustom NumPyShootoutResultsEnvironmentThis post was last updated on 2018-11-27.
 What is it?Given a sequence, the mode is the value with the highest number of occurrences.
 Stepsfind the unique valuescount the number of occurrences of each valuethe mode is the value with the highest number of occurrencesRr_mode &amp;lt;- function(x) {uniques &amp;lt;- x[!</description>
     </item>
@@ -48,7 +48,7 @@
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/median/</guid>
-      <description>What is it?WalkthroughRExample Datastats::median()Step by StepNaïveOptimizedRcppExample DataRcpp::median()Step by StepNaïveOptimizedPythonExample Datastatistics.median()numpy.median()Step by StepNaïveShootoutTest DataPre-Test Data ValidatationBenchmarksValidate ResultsPost-Test Data ValidatationEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
+      <description>What is it?Rstats::median()Custom RRcppRcpp::median()CustomBlueprintTemplate VersionPythonstatistics.median()numpy.median()Custom Pure PythonShootoutResultsEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
     </item>
     
     <item>
