@@ -5,7 +5,7 @@
     <url>
     
       <loc>/post/mode/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
     </url>
     
   
@@ -29,7 +29,7 @@
     <url>
     
       <loc>/post/median/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
     </url>
     
   
@@ -44,15 +44,15 @@
     
     <url>
     
-      <loc>/post/foundational-programming/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <loc>/data-science-notes/</loc>
+      <lastmod>2018-11-03T00:00:00+00:00</lastmod>
     </url>
     
   
     
     <url>
     
-      <loc>/tutorial/</loc>
+      <loc>/post/foundational-programming/</loc>
       <lastmod>2018-11-26T12:47:34-08:00</lastmod>
     </url>
     
@@ -289,7 +289,7 @@
     <url>
     
       <loc>/categories/central-tendency/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -334,7 +334,7 @@
     <url>
     
       <loc>/categories/data-science-from-scratch/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -343,7 +343,7 @@
     <url>
     
       <loc>/tags/data-science-from-scratch/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -397,7 +397,7 @@
     <url>
     
       <loc>/categories/programming/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -406,7 +406,7 @@
     <url>
     
       <loc>/tags/programming/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -415,7 +415,7 @@
     <url>
     
       <loc>/tags/python/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -433,7 +433,7 @@
     <url>
     
       <loc>/tags/rcpp/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -450,7 +450,7 @@
     <url>
     
       <loc>/categories/statistics/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -459,7 +459,7 @@
     <url>
     
       <loc>/tags/statistics/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -477,7 +477,7 @@
     <url>
     
       <loc>/categories/tutorial/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     

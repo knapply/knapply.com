@@ -1,5 +1,5 @@
 ---
-title: 'Tutorials'
+title: 'Data Science Notes'
 author: 'Brendan Knapp'
 date: '2018-11-03'
 categories:
@@ -8,11 +8,11 @@ output:
   blogdown::html_page:
     toc: true
     toc_depth: 4
-summary: Tutorials
-slug: tutorials
+summary: Data science notes and resources.
+slug: data-science-notes
 editor_options:
   chunk_output_type: console
-citation_url: https://knapply.com/tutorial/
+citation_url: https://knapply.com/data-science-notes/
 ---
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -124,7 +124,9 @@ style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; f
 }
 ```
 
-# Statistics From Scratch
+# Statistics
+
+Various statistical methods using built-in and custom implementations in R, Python, and C++.
 
 ```{r}
 toc_df <- tibble(

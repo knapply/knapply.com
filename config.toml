@@ -300,13 +300,13 @@ enableGitInfo = true
   weight = 1
 
 [[menu.main]]
+  name = "Data Science Notes"
+  url = "/data-science-notes/"
+  weight = 2
+
+[[menu.main]]
   name = "Posts"
   url = "#posts"
-  weight = 2
-  
-[[menu.main]]
-  name = "Tutorials"
-  url = "/tutorial/"
   weight = 3
 
 [[menu.main]]
