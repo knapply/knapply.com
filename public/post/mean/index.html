@@ -15,7 +15,7 @@
   
     
   
-  <meta name="description" content="Calculating mean, from scratch.">
+  <meta name="description" content="Calculating the mean of a sequence.">
 
   
   <link rel="alternate" hreflang="en-us" href="/post/mean/">
@@ -112,7 +112,7 @@
   <meta property="og:site_name" content="knapply()">
   <meta property="og:url" content="/post/mean/">
   <meta property="og:title" content="Mean | knapply()">
-  <meta property="og:description" content="Calculating mean, from scratch.">
+  <meta property="og:description" content="Calculating the mean of a sequence.">
   
   
     
@@ -389,7 +389,7 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    4 min read
+    6 min read
   </span>
   
 
@@ -406,15 +406,11 @@
   <span class="article-categories">
     <i class="fas fa-folder"></i>
     
-    <a href="/categories/data-science-from-scratch/">data-science-from-scratch</a>, 
+    <a href="/categories/data-science-notes/">data-science-notes</a>, 
     
     <a href="/categories/statistics/">statistics</a>, 
     
-    <a href="/categories/central-tendency/">central-tendency</a>, 
-    
-    <a href="/categories/tutorial/">tutorial</a>, 
-    
-    <a href="/categories/programming/">programming</a>
+    <a href="/categories/central-tendency/">central-tendency</a>
     
   </span>
   
@@ -475,116 +471,49 @@
 
     <div class="article-style" itemprop="articleBody">
       
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
 
 <div id="TOC">
 <ul>
 <li><a href="#r">R</a><ul>
-<li><a href="#naive-approach">Naïve Approach</a><ul>
-<li><a href="#sum">Sum</a></li>
-<li><a href="#length">Length</a></li>
-<li><a href="#put-it-all-together">Put it all together</a></li>
-</ul></li>
-<li><a href="#preferred-solution">Preferred Solution</a></li>
+<li><a href="#basemean"><code>base::mean()</code></a></li>
+<li><a href="#custom-r">Custom R</a></li>
 </ul></li>
 <li><a href="#rcpp">Rcpp</a><ul>
-<li><a href="#naive-approach-1">Naïve Approach</a><ul>
-<li><a href="#length-1">Length</a></li>
-<li><a href="#sum-1">Sum</a></li>
-<li><a href="#put-it-all-together-1">Put it all together</a></li>
+<li><a href="#rcppmean"><code>Rcpp::mean()</code></a></li>
+<li><a href="#custom">Custom</a><ul>
+<li><a href="#blueprint">Blueprint</a></li>
+<li><a href="#templated">Templated</a></li>
+<li><a href="#parallel">Parallel</a></li>
 </ul></li>
-<li><a href="#preferred-solution-1">Preferred Solution</a></li>
 </ul></li>
 <li><a href="#python">Python</a><ul>
-<li><a href="#naive-approach-2">Naïve Approach</a><ul>
-<li><a href="#sum-2">Sum</a></li>
-<li><a href="#length-2">Length</a></li>
-<li><a href="#put-it-all-together-2">Put it all together</a></li>
+<li><a href="#statistics.mean"><code>statistics.mean()</code></a></li>
+<li><a href="#np.mean"><code>np.mean()</code></a></li>
+<li><a href="#numba">Numba</a><ul>
+<li><a href="#parallel-1">Parallel</a></li>
 </ul></li>
-<li><a href="#preferred-solution-2">Preferred Solution</a></li>
+<li><a href="#custom-pure-python">Custom Pure Python</a></li>
+</ul></li>
+<li><a href="#shootout">Shootout</a><ul>
+<li><a href="#results">Results</a></li>
+<li><a href="#environment">Environment</a></li>
 </ul></li>
 </ul>
 </div>
 
-<!-- start topic -->
-<!-- ----------- -->
-<!-- # Topic -->
-<!-- ## R -->
-<!-- ### A Way -->
-<!-- ```{r} -->
-<!-- ``` -->
-<!-- ### A Better Way -->
-<!-- ```{r} -->
-<!-- ``` -->
-<!-- ## Rcpp -->
-<!-- ### A Way -->
-<!-- ```{Rcpp, eval=FALSE} -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- ``` -->
-<!-- ### A Better Way -->
-<!-- ```{Rcpp} -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- ``` -->
-<!-- ## Python -->
-<!-- ### A Way -->
-<!-- ```{python} -->
-<!-- ``` -->
-<!-- ### A Better Way -->
-<!-- ```{python} -->
-<!-- ``` -->
-<!-- ### NumPy -->
-<!-- ```{python} -->
-<!-- ``` -->
-<!-- _________ -->
-<!-- end topic -->
-<!-- start topic -->
-<!-- ----------- -->
-<p><strong>Note:</strong> <code>Rcpp</code> examples assume code is prefaced with…</p>
-<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
-using namespace Rcpp;</code></pre>
 <div id="r" class="section level1">
 <h1>R</h1>
+<div id="basemean" class="section level2">
+<h2><code>base::mean()</code></h2>
 <pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)</code></pre>
-<div id="naive-approach" class="section level2">
-<h2>Naïve Approach</h2>
-<div id="sum" class="section level3">
-<h3>Sum</h3>
-<p>Calculating the sum “from scratch”, using a loop:</p>
-<pre class="r"><code>r_sum &lt;- function(x) {
-  out &lt;- 0
-  for (i in x) {
-    out &lt;- out + i
-  }
-  out
-}
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
 
-r_sum(r_vector)</code></pre>
-<pre><code>#&gt; [1] 9137</code></pre>
-<p>The preferred, built-in solution:</p>
-<pre class="r"><code>sum(r_vector)</code></pre>
-<pre><code>#&gt; [1] 9137</code></pre>
+mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
 </div>
-<div id="length" class="section level3">
-<h3>Length</h3>
-<p>Finding the length “from scratch”, using a loop:</p>
-<pre class="r"><code>r_length &lt;- function(x) {
-  out &lt;- 0
-  for (i in x) {
-    out &lt;- out + 1
-  }
-  out
-}
-
-r_length(r_vector)</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-<p>The preferred, built-in solution:</p>
-<pre class="r"><code>length(r_vector)</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-</div>
-<div id="put-it-all-together" class="section level3">
-<h3>Put it all together</h3>
+<div id="custom-r" class="section level2">
+<h2>Custom R</h2>
 <pre class="r"><code>r_mean &lt;- function(x) {
   sum(x) / length(x)
 }
@@ -593,186 +522,427 @@ r_mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
 </div>
-<div id="preferred-solution" class="section level2">
-<h2>Preferred Solution</h2>
-<pre class="r"><code>mean(r_vector)</code></pre>
-<pre><code>#&gt; [1] 456.85</code></pre>
-</div>
-</div>
 <div id="rcpp" class="section level1">
 <h1>Rcpp</h1>
-<div id="naive-approach-1" class="section level2">
-<h2>Naïve Approach</h2>
-<div id="length-1" class="section level3">
-<h3>Length</h3>
-<p>Finding the length “from scratch”…</p>
-<ul>
-<li>using a loop with <code>NumericVector::iterator</code></li>
-</ul>
+<p><strong>Note:</strong> <code>Rcpp</code> examples assume code is prefaced with…</p>
+<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
+using namespace Rcpp;</code></pre>
+<div id="rcppmean" class="section level2">
+<h2><code>Rcpp::mean()</code></h2>
 <pre class="cpp"><code>// [[Rcpp::export]]
-int cpp_length1(NumericVector x) {
-  int out = 0;
-  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
-    out++;
-  }
-  return out;
+double rcpp_sugar_mean(NumericVector x) {
+  return mean(x);
 }</code></pre>
-<pre class="r"><code>cpp_length1(r_vector)</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-<ul>
-<li>using <code>std::distance()</code> from <code>&lt;iterator&gt;</code></li>
-</ul>
-<pre class="cpp"><code>// [[Rcpp::export]]
-int cpp_length2(NumericVector x) {
-  return std::distance(x.begin(), x.end());
-}</code></pre>
-<pre class="r"><code>cpp_length2(r_vector)</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-<ul>
-<li>using <code>std::vector::size()</code> from <code>&lt;vector&gt;</code></li>
-</ul>
-<pre class="cpp"><code>// [[Rcpp::export]]
-int cpp_length3(NumericVector x) {
-  return x.size();
-}</code></pre>
-<pre class="r"><code>cpp_length3(r_vector)</code></pre>
-<pre><code>#&gt; [1] 20</code></pre>
-<p><strong>Note:</strong> If you’re using C++17 and beyond, consider using the more general <code>std::begin(x)</code>, <code>std::end(x)</code>, and <code>std::size(x)</code> instead of <code>x.begin()</code>, <code>x.end()</code>, and <code>x.size()</code>.</p>
-</div>
-<div id="sum-1" class="section level3">
-<h3>Sum</h3>
-<p>Calculating the sum from scratch…</p>
-<ul>
-<li>using a simple loop</li>
-</ul>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double  cpp_sum1(NumericVector x) {
-  double out = 0;
-  for (int i = 0; i &lt; x.size(); i++) {
-    out += x[i];
-  }
-  return out;
-}</code></pre>
-<pre class="r"><code>cpp_sum1(r_vector)</code></pre>
-<pre><code>#&gt; [1] 9137</code></pre>
-<ul>
-<li>using a loop with <code>NumericVector::iterator</code></li>
-</ul>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double cpp_sum2(NumericVector x) {
-  double out = 0;
-  for (NumericVector::iterator it = x.begin(); it != x.end(); ++it) {
-    out += *it; // `*` dereferences `it` so you can access the value to which it points
-  }
-  return out;
-}</code></pre>
-<pre class="r"><code>cpp_sum2(r_vector)</code></pre>
-<pre><code>#&gt; [1] 9137</code></pre>
-<ul>
-<li>using <code>std::accumulate()</code> from <code>&lt;numeric&gt;</code></li>
-</ul>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double cpp_sum3(NumericVector x) {
-  return std::accumulate(x.begin(), x.end(), 0.0);
-}</code></pre>
-<pre class="r"><code>cpp_sum3(r_vector)</code></pre>
-<pre><code>#&gt; [1] 9137</code></pre>
-<p>The preferred <code>Rcpp</code> sugar solution:</p>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double cpp_sum4(NumericVector x) {
-  return sum(x);
-}</code></pre>
-<pre class="r"><code>cpp_sum4(r_vector)</code></pre>
-<pre><code>#&gt; [1] 9137</code></pre>
-</div>
-<div id="put-it-all-together-1" class="section level3">
-<h3>Put it all together</h3>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double cpp_mean_naive(NumericVector x) {
-  return sum(x) / x.size();
-}</code></pre>
-<pre class="r"><code>cpp_mean_naive(r_vector)</code></pre>
+<pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+              190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
+
+rcpp_sugar_mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
+<div id="custom" class="section level2">
+<h2>Custom</h2>
+<div id="blueprint" class="section level3">
+<h3>Blueprint</h3>
+<pre class="cpp"><code>using std::begin;
+using std::end;
+using std::size;
+using std::accumulate;
+
+// [[Rcpp::export]]
+double cpp_mean_blueprint(const NumericVector&amp; x) {
+  double n = size(x);
+  return accumulate(begin(x), end(x), 0.0) / n;
+}</code></pre>
+<pre class="r"><code>cpp_mean_blueprint(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
 </div>
-<div id="preferred-solution-1" class="section level2">
-<h2>Preferred Solution</h2>
-<p>Using <code>Rcpp</code> sugar:</p>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double cpp_mean(NumericVector x) {
-  return mean(x);
+<div id="templated" class="section level3">
+<h3>Templated</h3>
+<p>The templated version handles R vectors of type <code>integer</code> or <code>double</code>/<code>numeric</code>.</p>
+<pre class="cpp"><code>template &lt;int RTYPE&gt;
+auto cpp_mean_(const Vector&lt;RTYPE&gt;&amp; x) {
+  const auto out = std::accumulate(std::begin(x), std::end(x), 0.0) / std::size(x);
+  
+  return wrap(out);
+}
+
+// [[Rcpp::export]]
+SEXP cpp_mean(const SEXP&amp; x) {
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return cpp_mean_&lt;INTSXP&gt;(x);
+    case REALSXP:
+      return cpp_mean_&lt;REALSXP&gt;(x);
+  }
+  warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), type2name(x));
+  return R_NilValue;
 }</code></pre>
 <pre class="r"><code>cpp_mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
+<div id="parallel" class="section level3">
+<h3>Parallel</h3>
+<p><code>struct Sum</code> comes from JJ Allaire’s <a href="http://gallery.rcpp.org/articles/parallel-vector-sum/">“Summing a Vector in Parallel with RcppParallel”</a> in the Rcpp Gallery.</p>
+<pre class="cpp"><code>// [[Rcpp::depends(RcppParallel)]]
+#include &lt;RcppParallel.h&gt;
+using namespace RcppParallel;
+
+struct Sum : public Worker
+{   
+   const RVector&lt;double&gt; input;
+   double value;
+
+   Sum(const NumericVector input) : input(input), value(0) {}
+   Sum(const Sum&amp; sum, Split) : input(sum.input), value(0) {}
+
+   void operator()(std::size_t begin, std::size_t end) {
+      value += std::accumulate(input.begin() + begin, input.begin() + end, 0.0);
+   }
+
+   void join(const Sum&amp; rhs) { 
+      value += rhs.value; 
+   }
+};
+
+// [[Rcpp::export]]
+double cpp_parallel_mean(NumericVector x) {
+   Sum sum(x);
+   parallelReduce(0, x.length(), sum);
+   return sum.value / x.size();
+}</code></pre>
+<pre class="r"><code>cpp_parallel_mean(r_vector)</code></pre>
+<pre><code>#&gt; [1] 456.85</code></pre>
+</div>
+</div>
 </div>
 <div id="python" class="section level1">
 <h1>Python</h1>
-<pre class="python"><code>py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
-           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]</code></pre>
-<div id="naive-approach-2" class="section level2">
-<h2>Naïve Approach</h2>
-<div id="sum-2" class="section level3">
-<h3>Sum</h3>
-<p>Calculating the sum “from scratch”, using a simple loop:</p>
-<pre class="python"><code>def py_sum(x):
-  out = 0
-  for i in x:
-    out += i
-  return out
+<div id="statistics.mean" class="section level2">
+<h2><code>statistics.mean()</code></h2>
+<p>Using Python’s built-in <code>statistics</code> module:</p>
+<pre class="python"><code>import statistics
 
-res = py_sum(py_list)
-print(res)</code></pre>
-<pre><code>#&gt; 9137</code></pre>
-<p>The preferred, built-in solution:</p>
-<pre class="python"><code>res = sum(py_list)
-print(res)</code></pre>
-<pre><code>#&gt; 9137</code></pre>
-</div>
-<div id="length-2" class="section level3">
-<h3>Length</h3>
-<p>Finding the length “from scratch”, using a simple loop:</p>
-<pre class="python"><code>def py_length(x):
-  out = 0
-  for i in x:
-    out += 1
-  return out
+py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
+           190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
 
-res = py_length(py_list)
+res = statistics.mean(py_list)
 print(res)</code></pre>
-<pre><code>#&gt; 20</code></pre>
-<p>The preferred, built-in solution:</p>
-<pre class="python"><code>res = len(py_list)
-print(res)</code></pre>
-<pre><code>#&gt; 20</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
 </div>
-<div id="put-it-all-together-2" class="section level3">
-<h3>Put it all together</h3>
+<div id="np.mean" class="section level2">
+<h2><code>np.mean()</code></h2>
+<pre class="python"><code>import numpy as np
+
+numpy_array = np.array(py_list)
+
+res = np.mean(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+</div>
+<div id="numba" class="section level2">
+<h2>Numba</h2>
+<pre class="python"><code>import numba
+
+@numba.jit()
+def numba_mean(x):
+  return np.mean(x)
+
+res = numba_mean(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+<div id="parallel-1" class="section level3">
+<h3>Parallel</h3>
+<pre class="python"><code>@numba.jit(parallel=True)
+def numba_parallel_mean(x):
+  return np.mean(x)
+
+res = numba_parallel_mean(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 456.85</code></pre>
+</div>
+</div>
+<div id="custom-pure-python" class="section level2">
+<h2>Custom Pure Python</h2>
 <pre class="python"><code>def py_mean(x):
   return sum(x) / len(x)
-  
+
 res = py_mean(py_list)
 print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
 </div>
 </div>
-<div id="preferred-solution-2" class="section level2">
-<h2>Preferred Solution</h2>
-<p>Using Python’s built-in <code>statistics</code> module:</p>
-<pre class="python"><code>import statistics as stat
+<div id="shootout" class="section level1">
+<h1>Shootout</h1>
+<details>
+<summary> Test Setup </summary>
+<p>
+<pre class="r"><code>library(reticulate)
+library(tidyverse)
+library(bench)</code></pre>
+<p>Create R Data</p>
+<pre class="r"><code>set.seed(831)
+big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
+  sample(replace = TRUE, size = 1e5) %&gt;%
+  rep(20) %&gt;%
+  sample(replace = TRUE)
 
-res = stat.mean(py_list)
-print(res)</code></pre>
-<pre><code>#&gt; 456.85</code></pre>
-<p>Using <code>numpy</code>:</p>
-<pre class="python"><code>import numpy as np
+validation_data &lt;- big_dbl</code></pre>
+<p>Transfer to Python</p>
+<pre class="python"><code>py_big_dbl = r.big_dbl
+numpy_big_dbl = np.array(py_big_dbl)</code></pre>
+<p>Do all the data match?</p>
+<pre class="r"><code>stopifnot(
+  all.equal(validation_data,
+            big_dbl,
+            py$py_big_dbl,
+            py$numpy_big_dbl)
+  )</code></pre>
+<pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
+<pre><code>#&gt; [1] &quot;2,000,000&quot;</code></pre>
+<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
+<pre><code>#&gt; Registered S3 method overwritten by &#39;pryr&#39;:
+#&gt;   method      from
+#&gt;   print.bytes Rcpp</code></pre>
+<pre><code>#&gt; [1] &quot;16 MB&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Run Benchmark Test </summary>
+<p>
+<pre class="r"><code>library(bench)
 
-numpy_array = np.array(py_list)
-print(numpy_array)</code></pre>
-<pre><code>#&gt; [126 793 999 525 851 798 120 714 852 151 190  41 612 826 507 105  14 237 669   7]</code></pre>
-<pre class="python"><code>res = np.mean(numpy_array)
-print(res)</code></pre>
-<pre><code>#&gt; 456.85</code></pre>
+niter &lt;- 50
+
+res &lt;- mark(
+  mean.default(big_dbl),
+  r_mean(big_dbl),
+  rcpp_sugar_mean(big_dbl),
+  cpp_mean(big_dbl),
+  cpp_parallel_mean(big_dbl),
+  py_run_string(&quot;py_mean(py_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;statistics.mean(py_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;np.mean(numpy_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_mean(numpy_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_parallel_mean(numpy_big_dbl)&quot;, convert = FALSE),
+  iterations = niter, check = FALSE, filter_gc = FALSE
+)</code></pre>
+<pre><code>#&gt; The `validate` argument to `as_tibble()` is deprecated. Please use `.name_repair` to control column names.</code></pre>
+</p>
+</details>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<details>
+<summary> Plot </summary>
+<p>
+<pre class="r"><code>res_gg &lt;- res %&gt;% 
+  mutate(expression = as.character(expression)) %&gt;% 
+  mutate(type = recode(
+    expression,
+    &quot;mean.default(big_dbl)&quot; = &quot;R&#39;s built-in&quot;,
+    &quot;r_mean(big_dbl)&quot; = &quot;Custom R&quot;,
+    &quot;rcpp_sugar_mean(big_dbl)&quot; = &quot;Rcpp&#39;s built-in&quot;,
+    &quot;cpp_mean(big_dbl)&quot; = &quot;Custom Rcpp&quot;,
+    &quot;cpp_parallel_mean(big_dbl)&quot; = &quot;Parallel Rcpp&quot;,
+    &#39;py_run_string(&quot;py_mean(py_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom Python&quot;,
+    &#39;py_run_string(&quot;statistics.mean(py_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Python&#39;s Built-in&quot;,
+    &#39;py_run_string(&quot;np.mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;NumPy&quot;,
+    &#39;py_run_string(&quot;numba_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba&quot;,
+    &#39;py_run_string(&quot;numba_parallel_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Parallel Numba&quot;
+  )) %&gt;%  
+  mutate(expression = recode(
+    expression,
+    &#39;py_run_string(&quot;py_mean(py_big_dbl)&quot;, convert = FALSE)&#39; = &#39;py_mean(py_big_dbl)&#39;,
+    &#39;py_run_string(&quot;statistics.mean(py_big_dbl)&quot;, convert = FALSE)&#39; = &#39;statistics.mean(numpy_big_dbl)&#39;,
+    &#39;py_run_string(&quot;np.mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;np.mean(numpy_big_dbl)&#39;,
+    &#39;py_run_string(&quot;numba_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_mean(numpy_big_dbl)&quot;,
+    &#39;py_run_string(&quot;numba_parallel_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_parallel_mean(numpy_big_dbl)&quot;
+  )) %&gt;% 
+  unnest() %&gt;%
+  group_by(type) %&gt;%
+  mutate(med = median(as.numeric(time))) %&gt;%
+  ungroup() %&gt;%
+  arrange(desc(med)) %&gt;%
+  mutate(type = as_factor(type)) %&gt;%
+  arrange(med) %&gt;%
+  mutate(expression = as_factor(expression)) %&gt;%
+  ggplot(aes(x = type, y = time, color = expression)) +
+    # ggbeeswarm::geom_beeswarm(cex = 0.65) +
+    stat_ydensity(aes(fill = expression), scale = &quot;width&quot;, bw = 0.01, 
+                  trim = FALSE) +
+    guides(fill = guide_legend(ncol = 2, override.aes = list(size = 3))) +
+    coord_flip() +
+    theme_minimal(base_size = 16, base_family = &quot;serif&quot;) +
+    theme(axis.title = element_blank(),
+          legend.position = &quot;bottom&quot;, legend.title = element_blank(),
+          legend.text = element_text(family = &quot;mono&quot;),
+          plot.title = element_text(face = &quot;bold&quot;),
+          plot.subtitle = element_text(face = &quot;italic&quot;),
+          plot.caption = element_text(family = &quot;mono&quot;, size = 16, face = &quot;bold&quot;)) +
+    labs(title = &quot;Speed Shootout: Mean&quot;, 
+         subtitle = glue::glue(
+           &quot;n = {n} ({mem})\n{niter} Iterations&quot;
+           ), 
+         caption = &quot;knapply.com&quot;)</code></pre>
+<pre class="r"><code>res_gg</code></pre>
+</p>
+</details>
+<p><img src="/post/mean/index_files/figure-html/unnamed-chunk-27-1.png" width="864" style="display: block; margin: auto;" /></p>
+<details>
+<summary> Post Test Checks </summary>
+<p>
+<p>Do all methods obtain the same results?</p>
+<pre class="r"><code>stopifnot(
+  all.equal(mean.default(big_dbl),
+            r_mean(big_dbl),
+            rcpp_sugar_mean(big_dbl),
+            cpp_mean(big_dbl),
+            cpp_parallel_mean(big_dbl),
+            py$np$mean(py$numpy_big_dbl),
+            py$statistics$mean(py$py_big_dbl),
+            py$numba_mean(py$numpy_big_dbl),
+            py$numba_parallel_mean(py$numby_big_dbl)
+  )
+)</code></pre>
+<p>Did the input data remain unchanged?</p>
+<pre class="r"><code>stopifnot(
+  all.equal(validation_data, 
+            big_dbl, 
+            py$py_big_dbl,
+            py$numpy_big_dbl)
+  )</code></pre>
+</p>
+</details>
+</div>
+<div id="environment" class="section level2">
+<h2>Environment</h2>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] bench_1.0.1.9000       forcats_0.3.0          stringr_1.3.1.9000    
+#&gt;  [4] dplyr_0.7.99.9000      purrr_0.2.5            readr_1.2.1           
+#&gt;  [7] tidyr_0.8.2.9000       tibble_1.4.99.9005     ggplot2_3.1.0.9000    
+#&gt; [10] tidyverse_1.2.1.9000   reticulate_1.10.0.9003
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] tidyselect_0.2.5     xfun_0.4             haven_2.0.0          lattice_0.20-35     
+#&gt;  [5] colorspace_1.3-2     htmltools_0.3.6      yaml_2.2.0           rlang_0.3.0.1       
+#&gt;  [9] pillar_1.3.0.9001    glue_1.3.0           withr_2.1.2          pryr_0.1.4.9000     
+#&gt; [13] modelr_0.1.2         readxl_1.1.0         plyr_1.8.4           munsell_0.5.0       
+#&gt; [17] blogdown_0.9.4       gtable_0.2.0         cellranger_1.1.0     rvest_0.3.2         
+#&gt; [21] codetools_0.2-15     evaluate_0.12        knitr_1.20           profmem_0.5.0       
+#&gt; [25] broom_0.5.0          Rcpp_1.0.0           backports_1.1.2      scales_1.0.0        
+#&gt; [29] RcppParallel_4.4.1-1 jsonlite_1.5         hms_0.4.2            digest_0.6.18       
+#&gt; [33] stringi_1.2.4        bookdown_0.7         grid_3.6.0           rprojroot_1.3-2     
+#&gt; [37] here_0.1-11          cli_1.0.1            tools_3.6.0          magrittr_1.5        
+#&gt; [41] lazyeval_0.2.1       crayon_1.3.4         pkgconfig_2.0.2      Matrix_1.2-14       
+#&gt; [45] xml2_1.2.0           lubridate_1.7.4      assertthat_0.2.0     rmarkdown_1.10      
+#&gt; [49] httr_1.3.1           rstudioapi_0.8       R6_2.3.0             nlme_3.1-137        
+#&gt; [53] compiler_3.6.0</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="r"><code>if (R.version[&quot;minor&quot;] == &quot;6.0&quot;) {
+  &quot;GCC 8.2.0&quot;
+  } else {
+  system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
+  }</code></pre>
+<pre><code>#&gt; [1] &quot;GCC 8.2.0&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+print(sys.version)</code></pre>
+<pre><code>#&gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
+<pre class="python"><code>print(np.__version__)</code></pre>
+<pre><code>#&gt; 1.15.4</code></pre>
+<pre class="python"><code>print(numba.__version__)</code></pre>
+<pre><code>#&gt; 0.40.0</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;%
+  str_trim() %&gt;%
+  as_tibble() %&gt;%
+  slice(2:3) %&gt;%
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;%
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;%
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
+  knitr::kable(format = &quot;html&quot;) %&gt;%
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<pre><code>#&gt; Warning: Calling `as_tibble()` on a vector is discouraged, because the behavior is likely
+#&gt; to change in the future. Use `enframe(name = NULL)` instead.</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
 <p><br><br><br></p>
 <p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
 <p>When using or referring to this post, please consider citing it.</p>
@@ -795,11 +965,11 @@ print(res)</code></pre>
 
 <div class="article-tags">
   
-  <a class="badge badge-light" href="/tags/data-science-from-scratch/">data-science-from-scratch</a>
+  <a class="badge badge-light" href="/tags/data-science-notes/">data-science-notes</a>
   
   <a class="badge badge-light" href="/tags/statistics/">statistics</a>
   
-  <a class="badge badge-light" href="/tags/programming/">programming</a>
+  <a class="badge badge-light" href="/tags/central-tendency/">central-tendency</a>
   
   <a class="badge badge-light" href="/tags/r/">r</a>
   

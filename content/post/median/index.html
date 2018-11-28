@@ -4,22 +4,20 @@ author: Brendan Knapp
 date: '2018-11-12'
 slug: index
 categories:
-  - data-science-from-scratch
+  - data-science-notes
   - statistics
   - central-tendency
-  - tutorial
-  - programming
 tags:
-  - data-science-from-scratch
+  - data-science-notes
   - statistics
-  - programming
+  - central-tendency
   - r
   - python
   - rcpp
 image:
   caption: ''
   focal_point: 'Smart'
-summary: 'Finding median of a sequence, from scratch.'
+summary: 'Finding median of a sequence.'
 output:
   blogdown::html_page:
     toc: true
@@ -48,6 +46,9 @@ editor_options:
 <li><a href="#python">Python</a><ul>
 <li><a href="#statistics.median"><code>statistics.median()</code></a></li>
 <li><a href="#numpy.median"><code>numpy.median()</code></a></li>
+<li><a href="#numba">Numba</a><ul>
+<li><a href="#parallel">Parallel</a></li>
+</ul></li>
 <li><a href="#custom-pure-python">Custom Pure Python</a></li>
 </ul></li>
 <li><a href="#shootout">Shootout</a><ul>
@@ -145,11 +146,9 @@ using std::size;
 double cpp_median_blueprint(const NumericVector&amp; x) {
   auto temp = clone(x);
   const auto n = size(x);
-
   auto mid = begin(temp) + n / 2;
   
   std::nth_element( begin(temp), mid, end(temp) );
-
 
   if (n % 2) {
     return *mid;
@@ -170,9 +169,7 @@ double cpp_median_blueprint(const NumericVector&amp; x) {
 <pre class="cpp"><code>template &lt;int RTYPE&gt;
 auto cpp_median_(const Vector&lt;RTYPE&gt;&amp; x) {
   auto temp = clone(x);
-
   const auto n = std::size(temp);
-
   auto mid = std::begin(temp) + n / 2;
 
   std::nth_element( std::begin(temp), mid, std::end(temp) );
@@ -210,7 +207,7 @@ SEXP cpp_median(const SEXP&amp; x) {
 <div id="statistics.median" class="section level2">
 <h2><code>statistics.median()</code></h2>
 <p>Python’s <code>statistics</code> module is part of its standard library.</p>
-<pre class="python"><code>import statistics as stats
+<pre class="python"><code>import statistics
 
 py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
              190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
@@ -218,8 +215,8 @@ py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
 py_odd_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375]
 
-res1 = stats.median(py_even_n)
-res2 = stats.median(py_odd_n)
+res1 = statistics.median(py_even_n)
+res2 = statistics.median(py_odd_n)
 
 print([res1, res2])</code></pre>
 <pre><code>#&gt; [516.0, 507]</code></pre>
@@ -237,6 +234,32 @@ res2 = np.median(numpy_odd_n)
 print([res1, res2])</code></pre>
 <pre><code>#&gt; [516.0, 507.0]</code></pre>
 </div>
+<div id="numba" class="section level2">
+<h2>Numba</h2>
+<pre class="python"><code>import numba
+
+@numba.jit()
+def numba_median(x):
+  return np.median(x)
+
+res1 = numba_median(numpy_even_n)
+res2 = numba_median(numpy_odd_n)
+
+print([res1, res2])</code></pre>
+<pre><code>#&gt; [516.0, 507.0]</code></pre>
+<div id="parallel" class="section level3">
+<h3>Parallel</h3>
+<pre class="python"><code>@numba.jit(parallel=True)
+def numba_parallel_median(x):
+  return np.median(x)
+
+res1 = numba_parallel_median(numpy_even_n)
+res2 = numba_parallel_median(numpy_odd_n)
+
+print([res1, res2])</code></pre>
+<pre><code>#&gt; [516.0, 507.0]</code></pre>
+</div>
+</div>
 <div id="custom-pure-python" class="section level2">
 <h2>Custom Pure Python</h2>
 <pre class="python"><code>def py_median(x):
@@ -245,7 +268,7 @@ print([res1, res2])</code></pre>
   if n % 2:
     return sorted_x[n // 2]
   return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
-  
+
 res1 = py_median(py_even_n)
 res2 = py_median(py_odd_n)
 
@@ -265,7 +288,7 @@ library(bench)</code></pre>
 <pre class="r"><code>set.seed(831)
 big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
   sample(replace = TRUE, size = 1e5) %&gt;%
-  rep(10) %&gt;% 
+  rep(20) %&gt;%
   sample(replace = TRUE)
 
 validation_data &lt;- big_dbl</code></pre>
@@ -280,9 +303,9 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
             py$numpy_big_dbl)
   )</code></pre>
 <pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;1,000,000&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;2,000,000&quot;</code></pre>
 <pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;8 MB&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;16 MB&quot;</code></pre>
 </p>
 </details>
 <details>
@@ -290,15 +313,19 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
 <p>
 <pre class="r"><code>library(bench)
 
+niter &lt;- 50
+
 res &lt;- mark(
   median.default(big_dbl),
   r_median(big_dbl),
   rcpp_sugar_median(big_dbl),
   cpp_median(big_dbl),
-  py_run_string(&quot;stats.median(py_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;statistics.median(py_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE),
-  iterations = 50, check = FALSE, filter_gc = FALSE
+  py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE),
+  iterations = niter, check = FALSE, filter_gc = FALSE
 )</code></pre>
 </p>
 </details>
@@ -307,23 +334,76 @@ res &lt;- mark(
 <details>
 <summary> Plot </summary>
 <p>
+<pre class="r"><code>res_gg &lt;- res %&gt;% 
+  mutate(expression = as.character(expression)) %&gt;% 
+  mutate(type = recode(
+    expression,
+    &quot;median.default(big_dbl)&quot; = &quot;R&#39;s built-in&quot;,
+    &quot;r_median(big_dbl)&quot; = &quot;Custom R&quot;,
+    &quot;rcpp_sugar_median(big_dbl)&quot; = &quot;Rcpp&#39;s built-in&quot;,
+    &quot;cpp_median(big_dbl)&quot; = &quot;Custom Rcpp&quot;,
+    &#39;py_run_string(&quot;statistics.median(py_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Python&#39;s built-in&quot;,
+    &#39;py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;NumPy&quot;,
+    &#39;py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom Python&quot;,
+    &#39;py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba&quot;,
+    &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Parallel Numba&quot;
+  )) %&gt;%  
+  mutate(expression = recode(
+    expression,
+    &#39;py_run_string(&quot;statistics.median(py_big_dbl)&quot;, convert = FALSE)&#39; = &#39;statistics.median(py_big_dbl)&#39;,
+    &#39;py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;np.median(numpy_big_dbl)&#39;,
+    &#39;py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;py_median(numpy_big_dbl)&#39;,
+    &#39;py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_median(numpy_big_dbl)&quot;,
+    &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;numba_parallel_median(numpy_big_dbl)&#39;
+  )) %&gt;% 
+  unnest() %&gt;%
+  group_by(type) %&gt;%
+  mutate(med = median(as.numeric(time))) %&gt;%
+  ungroup() %&gt;%
+  arrange(desc(med)) %&gt;%
+  mutate(type = as_factor(type)) %&gt;%
+  arrange(med) %&gt;%
+  mutate(expression = as_factor(expression)) %&gt;%
+  ggplot(aes(x = type, y = time, color = expression)) +
+    # ggbeeswarm::geom_beeswarm(cex = 0.65) +
+    stat_ydensity(aes(fill = expression), scale = &quot;width&quot;, bw = 0.01, 
+                  trim = FALSE) +
+    guides(fill = guide_legend(ncol = 2, override.aes = list(size = 3))) +
+    coord_flip() +
+    theme_minimal(base_size = 16, base_family = &quot;serif&quot;) +
+    theme(axis.title = element_blank(),
+          legend.position = &quot;bottom&quot;, legend.title = element_blank(),
+          legend.text = element_text(family = &quot;mono&quot;),
+          plot.title = element_text(face = &quot;bold&quot;),
+          plot.subtitle = element_text(face = &quot;italic&quot;),
+          plot.caption = element_text(family = &quot;mono&quot;, size = 16, face = &quot;bold&quot;)) +
+    labs(title = &quot;Speed Shootout: Median&quot;, 
+         subtitle = glue::glue(
+           &quot;n = {n} ({mem})\n{niter} Iterations&quot;
+           ), 
+         caption = &quot;knapply.com&quot;)</code></pre>
 <pre class="r"><code>res_gg</code></pre>
 </p>
 </details>
-<p><img src="/post/median/index_files/figure-html/unnamed-chunk-23-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="/post/median/index_files/figure-html/unnamed-chunk-25-1.png" width="864" style="display: block; margin: auto;" /></p>
 <details>
 <summary> Post Test Checks </summary>
 <p>
 <p>Do all methods obtain the same results?</p>
 <pre class="r"><code>stopifnot(
-  all.equal(median.default(big_dbl),
-            r_median(big_dbl),
-            rcpp_sugar_median(big_dbl),
-            cpp_median(big_dbl), 
-            py$np$median(py$numpy_big_dbl),
-            py$statistics$median(py$py_big_dbl),
-            py$py_mmedian(py_big_dbl))
-  )</code></pre>
+  all.equal(
+    median.default(big_dbl),
+    r_median(big_dbl),
+    rcpp_sugar_median(big_dbl),
+    cpp_median(big_dbl),
+    py$np$median(py$numpy_big_dbl),
+    py$statistics$median(py$py_big_dbl),
+    py$py_median(py$py_big_dbl),
+    py$numba_median(py$numpy_big_dbl),
+    py$numba_parallel_median(py$numpy_big_dbl),
+    tolerance = 1.5e-7
+  )
+)</code></pre>
 <p>Did the input data remain unchanged?</p>
 <pre class="r"><code>stopifnot(
   all.equal(validation_data, 
@@ -361,20 +441,19 @@ res &lt;- mark(
 #&gt; [10] tidyverse_1.2.1.9000   reticulate_1.10.0.9003
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] beeswarm_0.2.3    tidyselect_0.2.5  xfun_0.4          haven_2.0.0      
-#&gt;  [5] lattice_0.20-35   colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0       
-#&gt;  [9] rlang_0.3.0.1     pillar_1.3.0.9001 glue_1.3.0        withr_2.1.2      
-#&gt; [13] pryr_0.1.4.9000   modelr_0.1.2      readxl_1.1.0      plyr_1.8.4       
-#&gt; [17] munsell_0.5.0     blogdown_0.9.4    gtable_0.2.0      cellranger_1.1.0 
-#&gt; [21] rvest_0.3.2       codetools_0.2-15  evaluate_0.12     knitr_1.20       
-#&gt; [25] vipor_0.4.5       profmem_0.5.0     broom_0.5.0       Rcpp_1.0.0       
-#&gt; [29] backports_1.1.2   scales_1.0.0      jsonlite_1.5      hms_0.4.2        
-#&gt; [33] digest_0.6.18     stringi_1.2.4     bookdown_0.7      grid_3.6.0       
-#&gt; [37] rprojroot_1.3-2   here_0.1-11       cli_1.0.1         tools_3.6.0      
-#&gt; [41] magrittr_1.5      lazyeval_0.2.1    crayon_1.3.4      pkgconfig_2.0.2  
-#&gt; [45] Matrix_1.2-14     xml2_1.2.0        ggbeeswarm_0.6.0  lubridate_1.7.4  
-#&gt; [49] assertthat_0.2.0  rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
-#&gt; [53] R6_2.3.0          nlme_3.1-137      compiler_3.6.0</code></pre>
+#&gt;  [1] tidyselect_0.2.5  xfun_0.4          haven_2.0.0       lattice_0.20-35  
+#&gt;  [5] colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0        rlang_0.3.0.1    
+#&gt;  [9] pillar_1.3.0.9001 glue_1.3.0        withr_2.1.2       pryr_0.1.4.9000  
+#&gt; [13] modelr_0.1.2      readxl_1.1.0      plyr_1.8.4        munsell_0.5.0    
+#&gt; [17] blogdown_0.9.4    gtable_0.2.0      cellranger_1.1.0  rvest_0.3.2      
+#&gt; [21] codetools_0.2-15  evaluate_0.12     knitr_1.20        profmem_0.5.0    
+#&gt; [25] broom_0.5.0       Rcpp_1.0.0        backports_1.1.2   scales_1.0.0     
+#&gt; [29] jsonlite_1.5      hms_0.4.2         digest_0.6.18     stringi_1.2.4    
+#&gt; [33] bookdown_0.7      grid_3.6.0        rprojroot_1.3-2   here_0.1-11      
+#&gt; [37] cli_1.0.1         tools_3.6.0       magrittr_1.5      lazyeval_0.2.1   
+#&gt; [41] crayon_1.3.4      pkgconfig_2.0.2   Matrix_1.2-14     xml2_1.2.0       
+#&gt; [45] lubridate_1.7.4   assertthat_0.2.0  rmarkdown_1.10    httr_1.3.1       
+#&gt; [49] rstudioapi_0.8    R6_2.3.0          nlme_3.1-137      compiler_3.6.0</code></pre>
 </p>
 </details>
 <details>

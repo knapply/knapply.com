@@ -32,24 +32,5 @@
       <description>Length/SizeMinimum and Maximum ValuesUnique ValuesSum$(function(){var hash = document.location.hash;if (hash) {$(&#39;.navbar-nav a[href=&#34;&#39; + hash + &#39;&#34;]&#39;).tab(&#39;show&#39;);}$(&#39;a[data-toggle=&#34;tab&#34;]&#39;).on(&#39;click&#39;, function (e) {history.pushState(null, null, $(this).attr(&#39;href&#39;));});});Length/Size--R----Rcpp----C++----Python----NumPy--</description>
     </item>
     
-    <item>
-      <title>Mean</title>
-      <link>/post/mean/</link>
-      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/mean/</guid>
-      <description>RNaïve ApproachSumLengthPut it all togetherPreferred SolutionRcppNaïve ApproachLengthSumPut it all togetherPreferred SolutionPythonNaïve ApproachSumLengthPut it all togetherPreferred SolutionNote: Rcpp examples assume code is prefaced with…
-#include &amp;lt;Rcpp.h&amp;gt;using namespace Rcpp;Rr_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)Naïve ApproachSumCalculating the sum “from scratch”, using a loop:</description>
-    </item>
-    
-    <item>
-      <title>Median</title>
-      <link>/post/median/</link>
-      <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/median/</guid>
-      <description>What is it?Rstats::median()Custom RRcppRcpp::median()CustomBlueprintTemplate VersionPythonstatistics.median()numpy.median()Custom Pure PythonShootoutResultsEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
-    </item>
-    
   </channel>
 </rss>

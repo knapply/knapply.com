@@ -4,22 +4,20 @@ author: Brendan Knapp
 date: '2018-11-12'
 slug: index
 categories:
-  - data-science-from-scratch
+  - data-science-notes
   - statistics
   - central-tendency
-  - tutorial
-  - programming
 tags:
-  - data-science-from-scratch
+  - data-science-notes
   - statistics
-  - programming
+  - central-tendency
   - r
   - python
   - rcpp
 image:
   caption: ''
   focal_point: 'Smart'
-summary: 'Finding median of a sequence, from scratch.'
+summary: 'Finding median of a sequence.'
 output:
   blogdown::html_page:
     toc: true
@@ -135,11 +133,9 @@ using std::size;
 double cpp_median_blueprint(const NumericVector& x) {
   auto temp = clone(x);
   const auto n = size(x);
-
   auto mid = begin(temp) + n / 2;
   
   std::nth_element( begin(temp), mid, end(temp) );
-
 
   if (n % 2) {
     return *mid;
@@ -166,9 +162,7 @@ cpp_median_blueprint(r_odd_n)
 template <int RTYPE>
 auto cpp_median_(const Vector<RTYPE>& x) {
   auto temp = clone(x);
-
   const auto n = std::size(temp);
-
   auto mid = std::begin(temp) + n / 2;
 
   std::nth_element( std::begin(temp), mid, std::end(temp) );
@@ -210,7 +204,7 @@ cpp_median(r_odd_n)
 Python's `statistics` module is part of its standard library.
 
 ```{python}
-import statistics as stats
+import statistics
 
 py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
              190, 41, 612, 826, 507, 105, 14, 237, 669, 7]
@@ -218,8 +212,8 @@ py_even_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
 py_odd_n = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
             190, 41, 612, 826, 507, 105, 14, 237, 669, 7, 375]
 
-res1 = stats.median(py_even_n)
-res2 = stats.median(py_odd_n)
+res1 = statistics.median(py_even_n)
+res2 = statistics.median(py_odd_n)
 
 print([res1, res2])
 ```
@@ -238,6 +232,33 @@ res2 = np.median(numpy_odd_n)
 print([res1, res2])
 ```
 
+## Numba
+
+```{python}
+import numba
+
+@numba.jit()
+def numba_median(x):
+  return np.median(x)
+
+res1 = numba_median(numpy_even_n)
+res2 = numba_median(numpy_odd_n)
+
+print([res1, res2])
+```
+
+### Parallel
+
+```{python}
+@numba.jit(parallel=True)
+def numba_parallel_median(x):
+  return np.median(x)
+
+res1 = numba_parallel_median(numpy_even_n)
+res2 = numba_parallel_median(numpy_odd_n)
+
+print([res1, res2])
+```
 
 ## Custom Pure Python
 
@@ -248,7 +269,7 @@ def py_median(x):
   if n % 2:
     return sorted_x[n // 2]
   return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
-  
+
 res1 = py_median(py_even_n)
 res2 = py_median(py_odd_n)
 
@@ -276,7 +297,7 @@ Create R Data
 set.seed(831)
 big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
   sample(replace = TRUE, size = 1e5) %>%
-  rep(10) %>% 
+  rep(20) %>%
   sample(replace = TRUE)
 
 validation_data <- big_dbl
@@ -322,15 +343,19 @@ gc()
 ```{r}
 library(bench)
 
+niter <- 50
+
 res <- mark(
   median.default(big_dbl),
   r_median(big_dbl),
   rcpp_sugar_median(big_dbl),
   cpp_median(big_dbl),
-  py_run_string("stats.median(py_big_dbl)", convert = FALSE),
+  py_run_string("statistics.median(py_big_dbl)", convert = FALSE),
   py_run_string("np.median(numpy_big_dbl)", convert = FALSE),
   py_run_string("py_median(numpy_big_dbl)", convert = FALSE),
-  iterations = 50, check = FALSE, filter_gc = FALSE
+  py_run_string("numba_median(numpy_big_dbl)", convert = FALSE),
+  py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE),
+  iterations = niter, check = FALSE, filter_gc = FALSE
 )
 ```
 
@@ -344,7 +369,7 @@ res <- mark(
 <summary> Plot </summary>
 <p>
 
-```{r, echo=FALSE, fig.align='center', fig.width=9, fig.height=11, message=FALSE, warning=FALSE}
+```{r, fig.align='center', fig.width=9, fig.height=11, message=FALSE, warning=FALSE}
 res_gg <- res %>% 
   mutate(expression = as.character(expression)) %>% 
   mutate(type = recode(
@@ -353,15 +378,19 @@ res_gg <- res %>%
     "r_median(big_dbl)" = "Custom R",
     "rcpp_sugar_median(big_dbl)" = "Rcpp's built-in",
     "cpp_median(big_dbl)" = "Custom Rcpp",
-    'py_run_string("stats.median(py_big_dbl)", convert = FALSE)' = "Python's built-in",
+    'py_run_string("statistics.median(py_big_dbl)", convert = FALSE)' = "Python's built-in",
     'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = "NumPy",
-    'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = "Custom Python"
+    'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = "Custom Python",
+    'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "Numba",
+    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = "Parallel Numba"
   )) %>%  
   mutate(expression = recode(
     expression,
-    'py_run_string("stats.median(py_big_dbl)", convert = FALSE)' = 'stats.median(py_big_dbl)',
+    'py_run_string("statistics.median(py_big_dbl)", convert = FALSE)' = 'statistics.median(py_big_dbl)',
     'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = 'np.median(numpy_big_dbl)',
-    'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = 'py_median(numpy_big_dbl)'
+    'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = 'py_median(numpy_big_dbl)',
+    'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "numba_median(numpy_big_dbl)",
+    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = 'numba_parallel_median(numpy_big_dbl)'
   )) %>% 
   unnest() %>%
   group_by(type) %>%
@@ -372,8 +401,10 @@ res_gg <- res %>%
   arrange(med) %>%
   mutate(expression = as_factor(expression)) %>%
   ggplot(aes(x = type, y = time, color = expression)) +
-    ggbeeswarm::geom_beeswarm(cex = 0.65) +
-    guides(color = guide_legend(ncol = 2, override.aes = list(size = 3))) +
+    # ggbeeswarm::geom_beeswarm(cex = 0.65) +
+    stat_ydensity(aes(fill = expression), scale = "width", bw = 0.01, 
+                  trim = FALSE) +
+    guides(fill = guide_legend(ncol = 2, override.aes = list(size = 3))) +
     coord_flip() +
     theme_minimal(base_size = 16, base_family = "serif") +
     theme(axis.title = element_blank(),
@@ -382,12 +413,13 @@ res_gg <- res %>%
           plot.title = element_text(face = "bold"),
           plot.subtitle = element_text(face = "italic"),
           plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
-    labs(title = "Speed Shootout: Statistical Median", 
+    labs(title = "Speed Shootout: Median", 
          subtitle = glue::glue(
-           "n = {n} ({mem})"
+           "n = {n} ({mem})\n{niter} Iterations"
            ), 
          caption = "knapply.com")
 ```
+
 
 
 
@@ -412,15 +444,22 @@ Do all methods obtain the same results?
 
 ```{r}
 stopifnot(
-  all.equal(median.default(big_dbl),
-            r_median(big_dbl),
-            rcpp_sugar_median(big_dbl),
-            cpp_median(big_dbl), 
-            py$np$median(py$numpy_big_dbl),
-            py$statistics$median(py$py_big_dbl),
-            py$py_mmedian(py_big_dbl))
+  all.equal(
+    median.default(big_dbl),
+    r_median(big_dbl),
+    rcpp_sugar_median(big_dbl),
+    cpp_median(big_dbl),
+    py$np$median(py$numpy_big_dbl),
+    py$statistics$median(py$py_big_dbl),
+    py$py_median(py$py_big_dbl),
+    py$numba_median(py$numpy_big_dbl),
+    py$numba_parallel_median(py$numpy_big_dbl),
+    tolerance = 1.5e-7
   )
+)
 ```
+
+
 
 Did the input data remain unchanged?
 
