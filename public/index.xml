@@ -1508,7 +1508,7 @@ library(bench)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Create R Data&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
 big_dbl &amp;lt;- seq(-1e7, 1e7, by = 0.02) %&amp;gt;%
-  sample(replace = TRUE, size = 1e5) %&amp;gt;%
+  sample(replace = TRUE, size = 1e6) %&amp;gt;%
   rep(20) %&amp;gt;%
   sample(replace = TRUE)
 
@@ -1524,12 +1524,12 @@ numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
             py$numpy_big_dbl)
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;2,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;20,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; Registered S3 method overwritten by &amp;#39;pryr&amp;#39;:
 #&amp;gt;   method      from
 #&amp;gt;   print.bytes Rcpp&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;16 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;160 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -2052,7 +2052,7 @@ library(bench)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Create R Data&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
 big_dbl &amp;lt;- seq(-1e7, 1e7, by = 0.02) %&amp;gt;%
-  sample(replace = TRUE, size = 1e5) %&amp;gt;%
+  sample(replace = TRUE, size = 1e6) %&amp;gt;%
   rep(20) %&amp;gt;%
   sample(replace = TRUE)
 
@@ -2068,9 +2068,9 @@ numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
             py$numpy_big_dbl)
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;2,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;20,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;16 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;160 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;

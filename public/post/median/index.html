@@ -731,7 +731,7 @@ library(bench)</code></pre>
 <p>Create R Data</p>
 <pre class="r"><code>set.seed(831)
 big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
-  sample(replace = TRUE, size = 1e5) %&gt;%
+  sample(replace = TRUE, size = 1e6) %&gt;%
   rep(20) %&gt;%
   sample(replace = TRUE)
 
@@ -747,9 +747,9 @@ numpy_big_dbl = np.array(py_big_dbl)</code></pre>
             py$numpy_big_dbl)
   )</code></pre>
 <pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;2,000,000&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;20,000,000&quot;</code></pre>
 <pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;16 MB&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;160 MB&quot;</code></pre>
 </p>
 </details>
 <details>

@@ -296,7 +296,7 @@ Create R Data
 ```{r}
 set.seed(831)
 big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
-  sample(replace = TRUE, size = 1e5) %>%
+  sample(replace = TRUE, size = 1e6) %>%
   rep(20) %>%
   sample(replace = TRUE)
 
