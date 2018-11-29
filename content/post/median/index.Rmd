@@ -318,9 +318,8 @@ Create R Data
 ```{r}
 set.seed(831)
 big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
-  sample(replace = TRUE, size = 1e6) %>%
-  rep(30) %>%
-  c(rep(32.4, 20)) %>% 
+  sample(replace = TRUE, size = 1e7) %>%
+  c(rep(32.4, 20)) %>% # median = 32.4
   sample(replace = TRUE)
 
 validation_data <- big_dbl
@@ -331,8 +330,7 @@ Transfer to Python
 ```{python}
 from copy import deepcopy
 
-py_big_dbl = deepcopy(r.big_dbl)
-numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+numpy_big_dbl = np.array(deepcopy(r.big_dbl))
 cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))
 ```
 
@@ -343,9 +341,8 @@ Do all the data match?
 stopifnot(
   all.equal(validation_data,
             big_dbl,
-            py$py_big_dbl,
             py$numpy_big_dbl,
-            cp$cupy_big_dbl)
+            py$cp$asnumpy(py$cupy_big_dbl))
   )
 ```
 
@@ -375,9 +372,7 @@ res <- mark(
   r_median(big_dbl),
   rcpp_sugar_median(big_dbl),
   cpp_median(big_dbl),
-  py_run_string("statistics.median(py_big_dbl)", convert = FALSE),
   py_run_string("np.median(numpy_big_dbl)", convert = FALSE),
-  py_run_string("py_median(numpy_big_dbl)", convert = FALSE),
   py_run_string("numba_median(numpy_big_dbl)", convert = FALSE),
   py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE),
   py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE),
@@ -405,16 +400,13 @@ res_gg <- res %>%
     "r_median(big_dbl)" = "Custom R",
     "rcpp_sugar_median(big_dbl)" = "Rcpp's built-in",
     "cpp_median(big_dbl)" = "Custom Rcpp",
-    'py_run_string("statistics.median(py_big_dbl)", convert = FALSE)' = "Python's built-in",
     'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = "NumPy",
-    'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = "Custom Python",
     'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "Numba",
     'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = "Numba (Parallel)",
     'py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE)' = "Custom CuPy (GPU)"
   )) %>%  
   mutate(expression = recode(
     expression,
-    'py_run_string("statistics.median(py_big_dbl)", convert = FALSE)' = 'statistics.median(py_big_dbl)',
     'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = 'np.median(numpy_big_dbl)',
     'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = 'py_median(numpy_big_dbl)',
     'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "numba_median(numpy_big_dbl)",
@@ -471,7 +463,7 @@ res_gg
 
 Do all methods obtain the same results?
 
-```{r, eval=FALSE}
+```{r}
 stopifnot(
   all.equal(
     median.default(big_dbl),
@@ -479,25 +471,24 @@ stopifnot(
     rcpp_sugar_median(big_dbl),
     cpp_median(big_dbl),
     py$np$median(py$numpy_big_dbl),
-    py$statistics$median(py$py_big_dbl),
-    py$py_median(py$py_big_dbl),
     py$numba_median(py$numpy_big_dbl),
     py$numba_parallel_median(py$numpy_big_dbl),
-    py$cupy_median(py$cupy_big_dbl)
+    py$cp$asnumpy(py$cupy_median(py$cupy_big_dbl))
   )
 )
 ```
-
 
 
 Did the input data remain unchanged?
 
 ```{r}
 stopifnot(
-  all.equal(validation_data, 
-            big_dbl, 
-            py$py_big_dbl,
-            py$numpy_big_dbl)
+  all.equal(
+    validation_data, 
+    big_dbl, 
+    py$numpy_big_dbl,
+    py$cp$asnumpy(py$cupy_big_dbl)
+    )
   )
 ```
 

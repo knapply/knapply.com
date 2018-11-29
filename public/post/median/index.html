@@ -121,7 +121,7 @@
   
   <meta property="article:published_time" content="2018-11-12T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-11-28T18:08:42-08:00">
+  <meta property="article:modified_time" content="2018-11-28T22:52:25-08:00">
   
 
   
@@ -378,7 +378,7 @@
         Last updated on
     
     <meta content="2018-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-    <time datetime="2018-11-28 18:08:42 -0800 PST" itemprop="dateModified">
+    <time datetime="2018-11-28 22:52:25 -0800 PST" itemprop="dateModified">
       Nov 28, 2018
     </time>
   </span>
@@ -752,30 +752,27 @@ library(bench)</code></pre>
 <p>Create R Data</p>
 <pre class="r"><code>set.seed(831)
 big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
-  sample(replace = TRUE, size = 1e6) %&gt;%
-  rep(30) %&gt;%
-  c(rep(32.4, 20)) %&gt;% 
+  sample(replace = TRUE, size = 1e7) %&gt;%
+  c(rep(32.4, 20)) %&gt;% # median = 32.4
   sample(replace = TRUE)
 
 validation_data &lt;- big_dbl</code></pre>
 <p>Transfer to Python</p>
 <pre class="python"><code>from copy import deepcopy
 
-py_big_dbl = deepcopy(r.big_dbl)
-numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+numpy_big_dbl = np.array(deepcopy(r.big_dbl))
 cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))</code></pre>
 <p>Do all the data match?</p>
 <pre class="r"><code>stopifnot(
   all.equal(validation_data,
             big_dbl,
-            py$py_big_dbl,
             py$numpy_big_dbl,
-            cp$cupy_big_dbl)
+            py$cp$asnumpy(py$cupy_big_dbl))
   )</code></pre>
 <pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;30,000,020&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;10,000,020&quot;</code></pre>
 <pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;240 MB&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;80 MB&quot;</code></pre>
 </p>
 </details>
 <details>
@@ -788,9 +785,7 @@ res &lt;- mark(
   r_median(big_dbl),
   rcpp_sugar_median(big_dbl),
   cpp_median(big_dbl),
-  py_run_string(&quot;statistics.median(py_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE),
-  py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;cupy_median(cupy_big_dbl)&quot;, convert = FALSE),
@@ -812,16 +807,13 @@ res &lt;- mark(
     &quot;r_median(big_dbl)&quot; = &quot;Custom R&quot;,
     &quot;rcpp_sugar_median(big_dbl)&quot; = &quot;Rcpp&#39;s built-in&quot;,
     &quot;cpp_median(big_dbl)&quot; = &quot;Custom Rcpp&quot;,
-    &#39;py_run_string(&quot;statistics.median(py_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Python&#39;s built-in&quot;,
     &#39;py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;NumPy&quot;,
-    &#39;py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom Python&quot;,
     &#39;py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba&quot;,
     &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba (Parallel)&quot;,
     &#39;py_run_string(&quot;cupy_median(cupy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom CuPy (GPU)&quot;
   )) %&gt;%  
   mutate(expression = recode(
     expression,
-    &#39;py_run_string(&quot;statistics.median(py_big_dbl)&quot;, convert = FALSE)&#39; = &#39;statistics.median(py_big_dbl)&#39;,
     &#39;py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;np.median(numpy_big_dbl)&#39;,
     &#39;py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;py_median(numpy_big_dbl)&#39;,
     &#39;py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_median(numpy_big_dbl)&quot;,
@@ -869,19 +861,19 @@ res &lt;- mark(
     rcpp_sugar_median(big_dbl),
     cpp_median(big_dbl),
     py$np$median(py$numpy_big_dbl),
-    py$statistics$median(py$py_big_dbl),
-    py$py_median(py$py_big_dbl),
     py$numba_median(py$numpy_big_dbl),
     py$numba_parallel_median(py$numpy_big_dbl),
-    py$cupy_median(py$cupy_big_dbl)
+    py$cp$asnumpy(py$cupy_median(py$cupy_big_dbl))
   )
 )</code></pre>
 <p>Did the input data remain unchanged?</p>
 <pre class="r"><code>stopifnot(
-  all.equal(validation_data, 
-            big_dbl, 
-            py$py_big_dbl,
-            py$numpy_big_dbl)
+  all.equal(
+    validation_data, 
+    big_dbl, 
+    py$numpy_big_dbl,
+    py$cp$asnumpy(py$cupy_big_dbl)
+    )
   )</code></pre>
 </p>
 </details>
