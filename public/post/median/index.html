@@ -121,7 +121,7 @@
   
   <meta property="article:published_time" content="2018-11-12T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-11-28T14:54:28-08:00">
+  <meta property="article:modified_time" content="2018-11-28T18:08:42-08:00">
   
 
   
@@ -378,7 +378,7 @@
         Last updated on
     
     <meta content="2018-11-12 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-    <time datetime="2018-11-28 14:54:28 -0800 PST" itemprop="dateModified">
+    <time datetime="2018-11-28 18:08:42 -0800 PST" itemprop="dateModified">
       Nov 28, 2018
     </time>
   </span>
@@ -493,6 +493,7 @@
 <li><a href="#numba">Numba</a><ul>
 <li><a href="#parallel">Parallel</a></li>
 </ul></li>
+<li><a href="#custom-cupy">Custom CuPy</a></li>
 <li><a href="#custom-pure-python">Custom Pure Python</a></li>
 </ul></li>
 <li><a href="#shootout">Shootout</a><ul>
@@ -675,8 +676,8 @@ numpy_odd_n = np.array(py_odd_n)
 res1 = np.median(numpy_even_n)
 res2 = np.median(numpy_odd_n)
 
-print([res1, res2])</code></pre>
-<pre><code>#&gt; [516.0, 507.0]</code></pre>
+print(res1, res2)</code></pre>
+<pre><code>#&gt; 516.0 507.0</code></pre>
 </div>
 <div id="numba" class="section level2">
 <h2>Numba</h2>
@@ -689,8 +690,8 @@ def numba_median(x):
 res1 = numba_median(numpy_even_n)
 res2 = numba_median(numpy_odd_n)
 
-print([res1, res2])</code></pre>
-<pre><code>#&gt; [516.0, 507.0]</code></pre>
+print(res1, res2)</code></pre>
+<pre><code>#&gt; 516.0 507.0</code></pre>
 <div id="parallel" class="section level3">
 <h3>Parallel</h3>
 <pre class="python"><code>@numba.jit(parallel=True)
@@ -700,9 +701,29 @@ def numba_parallel_median(x):
 res1 = numba_parallel_median(numpy_even_n)
 res2 = numba_parallel_median(numpy_odd_n)
 
-print([res1, res2])</code></pre>
-<pre><code>#&gt; [516.0, 507.0]</code></pre>
+print(res1, res2)</code></pre>
+<pre><code>#&gt; 516.0 507.0</code></pre>
 </div>
+</div>
+<div id="custom-cupy" class="section level2">
+<h2>Custom CuPy</h2>
+<pre class="python"><code>import cupy as cp
+
+def cupy_median(x):
+  n = cp.size(x)
+  sorted_x = cp.sort(x)
+  if n % 2:
+    return sorted_x[n // 2]
+  return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
+  
+cupy_even_n = cp.array(numpy_even_n)
+cupy_odd_n = cp.array(numpy_odd_n)
+
+res1 = cupy_median(cupy_even_n)
+res2 = cupy_median(cupy_odd_n)
+
+print(res1, res2)</code></pre>
+<pre><code>#&gt; 516.0 507</code></pre>
 </div>
 <div id="custom-pure-python" class="section level2">
 <h2>Custom Pure Python</h2>
@@ -732,32 +753,35 @@ library(bench)</code></pre>
 <pre class="r"><code>set.seed(831)
 big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
   sample(replace = TRUE, size = 1e6) %&gt;%
-  rep(20) %&gt;%
+  rep(30) %&gt;%
+  c(rep(32.4, 20)) %&gt;% 
   sample(replace = TRUE)
 
 validation_data &lt;- big_dbl</code></pre>
 <p>Transfer to Python</p>
-<pre class="python"><code>py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)</code></pre>
+<pre class="python"><code>from copy import deepcopy
+
+py_big_dbl = deepcopy(r.big_dbl)
+numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))</code></pre>
 <p>Do all the data match?</p>
 <pre class="r"><code>stopifnot(
   all.equal(validation_data,
             big_dbl,
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            cp$cupy_big_dbl)
   )</code></pre>
 <pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;20,000,000&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;30,000,020&quot;</code></pre>
 <pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;160 MB&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;240 MB&quot;</code></pre>
 </p>
 </details>
 <details>
 <summary> Run Benchmark Test </summary>
 <p>
 <pre class="r"><code>library(bench)
-
-niter &lt;- 50
 
 res &lt;- mark(
   median.default(big_dbl),
@@ -769,7 +793,9 @@ res &lt;- mark(
   py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE),
   py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE),
-  iterations = niter, check = FALSE, filter_gc = FALSE
+  py_run_string(&quot;cupy_median(cupy_big_dbl)&quot;, convert = FALSE),
+  min_iterations = 5,
+  check = FALSE, filter_gc = FALSE
 )</code></pre>
 </p>
 </details>
@@ -790,7 +816,8 @@ res &lt;- mark(
     &#39;py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;NumPy&quot;,
     &#39;py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom Python&quot;,
     &#39;py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba&quot;,
-    &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Parallel Numba&quot;
+    &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba (Parallel)&quot;,
+    &#39;py_run_string(&quot;cupy_median(cupy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom CuPy (GPU)&quot;
   )) %&gt;%  
   mutate(expression = recode(
     expression,
@@ -798,7 +825,8 @@ res &lt;- mark(
     &#39;py_run_string(&quot;np.median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;np.median(numpy_big_dbl)&#39;,
     &#39;py_run_string(&quot;py_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;py_median(numpy_big_dbl)&#39;,
     &#39;py_run_string(&quot;numba_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_median(numpy_big_dbl)&quot;,
-    &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;numba_parallel_median(numpy_big_dbl)&#39;
+    &#39;py_run_string(&quot;numba_parallel_median(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;numba_parallel_median(numpy_big_dbl)&#39;,
+    &#39;py_run_string(&quot;cupy_median(cupy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;cupy_median(cupy_big_dbl)&quot;
   )) %&gt;% 
   unnest() %&gt;%
   group_by(type) %&gt;%
@@ -823,13 +851,13 @@ res &lt;- mark(
           plot.caption = element_text(family = &quot;mono&quot;, size = 16, face = &quot;bold&quot;)) +
     labs(title = &quot;Speed Shootout: Median&quot;, 
          subtitle = glue::glue(
-           &quot;n = {n} ({mem})\n{niter} Iterations&quot;
+           &quot;n = {n} ({mem})&quot;
            ), 
          caption = &quot;knapply.com&quot;)</code></pre>
 <pre class="r"><code>res_gg</code></pre>
 </p>
 </details>
-<p><img src="/post/median/index_files/figure-html/unnamed-chunk-25-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="/post/median/index_files/figure-html/unnamed-chunk-26-1.png" width="864" style="display: block; margin: auto;" /></p>
 <details>
 <summary> Post Test Checks </summary>
 <p>
@@ -845,7 +873,7 @@ res &lt;- mark(
     py$py_median(py$py_big_dbl),
     py$numba_median(py$numpy_big_dbl),
     py$numba_parallel_median(py$numpy_big_dbl),
-    tolerance = 1.5e-7
+    py$cupy_median(py$cupy_big_dbl)
   )
 )</code></pre>
 <p>Did the input data remain unchanged?</p>
@@ -920,6 +948,10 @@ print(sys.version)</code></pre>
 <pre><code>#&gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
 <pre class="python"><code>print(np.__version__)</code></pre>
 <pre><code>#&gt; 1.15.4</code></pre>
+<pre class="python"><code>print(numba.__version__)</code></pre>
+<pre><code>#&gt; 0.40.0</code></pre>
+<pre class="python"><code>print(cp.__version__)</code></pre>
+<pre><code>#&gt; 4.0.0</code></pre>
 </p>
 </details>
 <details>
@@ -927,6 +959,15 @@ print(sys.version)</code></pre>
 <p>
 <pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
 <pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
 </p>
 </details>
 <details>

@@ -1318,6 +1318,7 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;li&gt;&lt;a href=&#34;#numba&#34;&gt;Numba&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#parallel-1&#34;&gt;Parallel&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#cupy&#34;&gt;CuPy&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#custom-pure-python&#34;&gt;Custom Pure Python&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#shootout&#34;&gt;Shootout&lt;/a&gt;&lt;ul&gt;
@@ -1478,7 +1479,7 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 456.85&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;parallel-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Parallel&lt;/h3&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;@numba.jit(parallel=True)
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;@numba.jit(parallel = True)
 def numba_parallel_mean(x):
   return np.mean(x)
 
@@ -1486,6 +1487,16 @@ res = numba_parallel_mean(numpy_array)
 print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 456.85&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cupy&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;CuPy&lt;/h2&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import cupy as cp
+
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = cp.mean(cupy_array)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 456.85&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;custom-pure-python&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Custom Pure Python&lt;/h2&gt;
@@ -1509,35 +1520,38 @@ library(bench)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
 big_dbl &amp;lt;- seq(-1e7, 1e7, by = 0.02) %&amp;gt;%
   sample(replace = TRUE, size = 1e6) %&amp;gt;%
-  rep(20) %&amp;gt;%
+  rep(30) %&amp;gt;%
   sample(replace = TRUE)
 
 validation_data &amp;lt;- big_dbl&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Transfer to Python&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;from copy import deepcopy
+
+py_big_dbl = deepcopy(r.big_dbl)
+numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Do all the data match?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
   all.equal(validation_data,
             big_dbl,
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            py$cupy_big_dbl
+            )
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;20,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;30,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; Registered S3 method overwritten by &amp;#39;pryr&amp;#39;:
 #&amp;gt;   method      from
 #&amp;gt;   print.bytes Rcpp&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;160 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;240 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
 &lt;summary&gt; Run Benchmark Test &lt;/summary&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(bench)
-
-niter &amp;lt;- 50
 
 res &amp;lt;- mark(
   mean.default(big_dbl),
@@ -1550,7 +1564,10 @@ res &amp;lt;- mark(
   py_run_string(&amp;quot;np.mean(numpy_big_dbl)&amp;quot;, convert = FALSE),
   py_run_string(&amp;quot;numba_mean(numpy_big_dbl)&amp;quot;, convert = FALSE),
   py_run_string(&amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;, convert = FALSE),
-  iterations = niter, check = FALSE, filter_gc = FALSE
+  py_run_string(&amp;quot;cp.mean(cupy_array)&amp;quot;),
+  min_iterations = 5,
+  # iterations = niter, 
+  check = FALSE, filter_gc = FALSE
 )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; The `validate` argument to `as_tibble()` is deprecated. Please use `.name_repair` to control column names.&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
@@ -1568,12 +1585,13 @@ res &amp;lt;- mark(
     &amp;quot;r_mean(big_dbl)&amp;quot; = &amp;quot;Custom R&amp;quot;,
     &amp;quot;rcpp_sugar_mean(big_dbl)&amp;quot; = &amp;quot;Rcpp&amp;#39;s built-in&amp;quot;,
     &amp;quot;cpp_mean(big_dbl)&amp;quot; = &amp;quot;Custom Rcpp&amp;quot;,
-    &amp;quot;cpp_parallel_mean(big_dbl)&amp;quot; = &amp;quot;Parallel Rcpp&amp;quot;,
+    &amp;quot;cpp_parallel_mean(big_dbl)&amp;quot; = &amp;quot;Rcpp (Parallel)&amp;quot;,
     &amp;#39;py_run_string(&amp;quot;py_mean(py_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Custom Python&amp;quot;,
     &amp;#39;py_run_string(&amp;quot;statistics.mean(py_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Python&amp;#39;s Built-in&amp;quot;,
     &amp;#39;py_run_string(&amp;quot;np.mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;NumPy&amp;quot;,
     &amp;#39;py_run_string(&amp;quot;numba_mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Numba&amp;quot;,
-    &amp;#39;py_run_string(&amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Parallel Numba&amp;quot;
+    &amp;#39;py_run_string(&amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Numba (Parallel)&amp;quot;,
+    &amp;#39;py_run_string(&amp;quot;cp.mean(cupy_array)&amp;quot;)&amp;#39; = &amp;quot;CuPy (GPU)&amp;quot;
   )) %&amp;gt;%  
   mutate(expression = recode(
     expression,
@@ -1581,7 +1599,8 @@ res &amp;lt;- mark(
     &amp;#39;py_run_string(&amp;quot;statistics.mean(py_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;#39;statistics.mean(numpy_big_dbl)&amp;#39;,
     &amp;#39;py_run_string(&amp;quot;np.mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;#39;np.mean(numpy_big_dbl)&amp;#39;,
     &amp;#39;py_run_string(&amp;quot;numba_mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;numba_mean(numpy_big_dbl)&amp;quot;,
-    &amp;#39;py_run_string(&amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;
+    &amp;#39;py_run_string(&amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;numba_parallel_mean(numpy_big_dbl)&amp;quot;,
+    &amp;#39;py_run_string(&amp;quot;cp.mean(cupy_array)&amp;quot;)&amp;#39; = &amp;quot;cp.mean(cupy_array)&amp;quot;
   )) %&amp;gt;% 
   unnest() %&amp;gt;%
   group_by(type) %&amp;gt;%
@@ -1606,13 +1625,13 @@ res &amp;lt;- mark(
           plot.caption = element_text(family = &amp;quot;mono&amp;quot;, size = 16, face = &amp;quot;bold&amp;quot;)) +
     labs(title = &amp;quot;Speed Shootout: Mean&amp;quot;, 
          subtitle = glue::glue(
-           &amp;quot;n = {n} ({mem})\n{niter} Iterations&amp;quot;
+           &amp;quot;n = {n} ({mem})&amp;quot;
            ), 
          caption = &amp;quot;knapply.com&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
-&lt;p&gt;&lt;img src=&#34;/post/mean/index_files/figure-html/unnamed-chunk-27-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/mean/index_files/figure-html/unnamed-chunk-28-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;details&gt;
 &lt;summary&gt; Post Test Checks &lt;/summary&gt;
 &lt;p&gt;
@@ -1626,7 +1645,8 @@ res &amp;lt;- mark(
             py$np$mean(py$numpy_big_dbl),
             py$statistics$mean(py$py_big_dbl),
             py$numba_mean(py$numpy_big_dbl),
-            py$numba_parallel_mean(py$numby_big_dbl)
+            py$numba_parallel_mean(py$numpy_big_dbl),
+            py$cp$mean(py$cupy_big_dbl)
   )
 )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Did the input data remain unchanged?&lt;/p&gt;
@@ -1634,7 +1654,8 @@ res &amp;lt;- mark(
   all.equal(validation_data, 
             big_dbl, 
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            py$cupy_big_dbl)
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
@@ -1703,6 +1724,8 @@ print(sys.version)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 1.15.4&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(numba.__version__)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 0.40.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(cp.__version__)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 4.0.0&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -1710,6 +1733,15 @@ print(sys.version)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(system(&amp;quot;wmic cpu get name&amp;quot;, intern = TRUE)[[2]])&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  &lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; GPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic path win32_VideoController get name&amp;quot;, intern = TRUE) %&amp;gt;% 
+  str_subset(&amp;quot;NVIDIA&amp;quot;) %&amp;gt;% 
+  str_trim()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;NVIDIA GeForce GTX 960M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -1814,6 +1846,7 @@ DIMM B
 &lt;li&gt;&lt;a href=&#34;#numba&#34;&gt;Numba&lt;/a&gt;&lt;ul&gt;
 &lt;li&gt;&lt;a href=&#34;#parallel&#34;&gt;Parallel&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#custom-cupy&#34;&gt;Custom CuPy&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#custom-pure-python&#34;&gt;Custom Pure Python&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#shootout&#34;&gt;Shootout&lt;/a&gt;&lt;ul&gt;
@@ -1996,8 +2029,8 @@ numpy_odd_n = np.array(py_odd_n)
 res1 = np.median(numpy_even_n)
 res2 = np.median(numpy_odd_n)
 
-print([res1, res2])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [516.0, 507.0]&lt;/code&gt;&lt;/pre&gt;
+print(res1, res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 516.0 507.0&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;numba&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Numba&lt;/h2&gt;
@@ -2010,8 +2043,8 @@ def numba_median(x):
 res1 = numba_median(numpy_even_n)
 res2 = numba_median(numpy_odd_n)
 
-print([res1, res2])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [516.0, 507.0]&lt;/code&gt;&lt;/pre&gt;
+print(res1, res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 516.0 507.0&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;parallel&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Parallel&lt;/h3&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;@numba.jit(parallel=True)
@@ -2021,9 +2054,29 @@ def numba_parallel_median(x):
 res1 = numba_parallel_median(numpy_even_n)
 res2 = numba_parallel_median(numpy_odd_n)
 
-print([res1, res2])&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [516.0, 507.0]&lt;/code&gt;&lt;/pre&gt;
+print(res1, res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 516.0 507.0&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;custom-cupy&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Custom CuPy&lt;/h2&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import cupy as cp
+
+def cupy_median(x):
+  n = cp.size(x)
+  sorted_x = cp.sort(x)
+  if n % 2:
+    return sorted_x[n // 2]
+  return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
+  
+cupy_even_n = cp.array(numpy_even_n)
+cupy_odd_n = cp.array(numpy_odd_n)
+
+res1 = cupy_median(cupy_even_n)
+res2 = cupy_median(cupy_odd_n)
+
+print(res1, res2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 516.0 507&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;custom-pure-python&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Custom Pure Python&lt;/h2&gt;
@@ -2053,32 +2106,35 @@ library(bench)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
 big_dbl &amp;lt;- seq(-1e7, 1e7, by = 0.02) %&amp;gt;%
   sample(replace = TRUE, size = 1e6) %&amp;gt;%
-  rep(20) %&amp;gt;%
+  rep(30) %&amp;gt;%
+  c(rep(32.4, 20)) %&amp;gt;% 
   sample(replace = TRUE)
 
 validation_data &amp;lt;- big_dbl&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Transfer to Python&lt;/p&gt;
-&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;from copy import deepcopy
+
+py_big_dbl = deepcopy(r.big_dbl)
+numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Do all the data match?&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
   all.equal(validation_data,
             big_dbl,
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            cp$cupy_big_dbl)
   )&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;20,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;30,000,020&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(big_dbl)))&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;160 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;240 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
 &lt;summary&gt; Run Benchmark Test &lt;/summary&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(bench)
-
-niter &amp;lt;- 50
 
 res &amp;lt;- mark(
   median.default(big_dbl),
@@ -2090,7 +2146,9 @@ res &amp;lt;- mark(
   py_run_string(&amp;quot;py_median(numpy_big_dbl)&amp;quot;, convert = FALSE),
   py_run_string(&amp;quot;numba_median(numpy_big_dbl)&amp;quot;, convert = FALSE),
   py_run_string(&amp;quot;numba_parallel_median(numpy_big_dbl)&amp;quot;, convert = FALSE),
-  iterations = niter, check = FALSE, filter_gc = FALSE
+  py_run_string(&amp;quot;cupy_median(cupy_big_dbl)&amp;quot;, convert = FALSE),
+  min_iterations = 5,
+  check = FALSE, filter_gc = FALSE
 )&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
@@ -2111,7 +2169,8 @@ res &amp;lt;- mark(
     &amp;#39;py_run_string(&amp;quot;np.median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;NumPy&amp;quot;,
     &amp;#39;py_run_string(&amp;quot;py_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Custom Python&amp;quot;,
     &amp;#39;py_run_string(&amp;quot;numba_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Numba&amp;quot;,
-    &amp;#39;py_run_string(&amp;quot;numba_parallel_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Parallel Numba&amp;quot;
+    &amp;#39;py_run_string(&amp;quot;numba_parallel_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Numba (Parallel)&amp;quot;,
+    &amp;#39;py_run_string(&amp;quot;cupy_median(cupy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;Custom CuPy (GPU)&amp;quot;
   )) %&amp;gt;%  
   mutate(expression = recode(
     expression,
@@ -2119,7 +2178,8 @@ res &amp;lt;- mark(
     &amp;#39;py_run_string(&amp;quot;np.median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;#39;np.median(numpy_big_dbl)&amp;#39;,
     &amp;#39;py_run_string(&amp;quot;py_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;#39;py_median(numpy_big_dbl)&amp;#39;,
     &amp;#39;py_run_string(&amp;quot;numba_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;numba_median(numpy_big_dbl)&amp;quot;,
-    &amp;#39;py_run_string(&amp;quot;numba_parallel_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;#39;numba_parallel_median(numpy_big_dbl)&amp;#39;
+    &amp;#39;py_run_string(&amp;quot;numba_parallel_median(numpy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;#39;numba_parallel_median(numpy_big_dbl)&amp;#39;,
+    &amp;#39;py_run_string(&amp;quot;cupy_median(cupy_big_dbl)&amp;quot;, convert = FALSE)&amp;#39; = &amp;quot;cupy_median(cupy_big_dbl)&amp;quot;
   )) %&amp;gt;% 
   unnest() %&amp;gt;%
   group_by(type) %&amp;gt;%
@@ -2144,13 +2204,13 @@ res &amp;lt;- mark(
           plot.caption = element_text(family = &amp;quot;mono&amp;quot;, size = 16, face = &amp;quot;bold&amp;quot;)) +
     labs(title = &amp;quot;Speed Shootout: Median&amp;quot;, 
          subtitle = glue::glue(
-           &amp;quot;n = {n} ({mem})\n{niter} Iterations&amp;quot;
+           &amp;quot;n = {n} ({mem})&amp;quot;
            ), 
          caption = &amp;quot;knapply.com&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
-&lt;p&gt;&lt;img src=&#34;/post/median/index_files/figure-html/unnamed-chunk-25-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/median/index_files/figure-html/unnamed-chunk-26-1.png&#34; width=&#34;864&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
 &lt;details&gt;
 &lt;summary&gt; Post Test Checks &lt;/summary&gt;
 &lt;p&gt;
@@ -2166,7 +2226,7 @@ res &amp;lt;- mark(
     py$py_median(py$py_big_dbl),
     py$numba_median(py$numpy_big_dbl),
     py$numba_parallel_median(py$numpy_big_dbl),
-    tolerance = 1.5e-7
+    py$cupy_median(py$cupy_big_dbl)
   )
 )&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;Did the input data remain unchanged?&lt;/p&gt;
@@ -2241,6 +2301,10 @@ print(sys.version)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(np.__version__)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; 1.15.4&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(numba.__version__)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 0.40.0&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;print(cp.__version__)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; 4.0.0&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -2248,6 +2312,15 @@ print(sys.version)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(system(&amp;quot;wmic cpu get name&amp;quot;, intern = TRUE)[[2]])&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  &lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; GPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic path win32_VideoController get name&amp;quot;, intern = TRUE) %&amp;gt;% 
+  str_subset(&amp;quot;NVIDIA&amp;quot;) %&amp;gt;% 
+  str_trim()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;NVIDIA GeForce GTX 960M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;

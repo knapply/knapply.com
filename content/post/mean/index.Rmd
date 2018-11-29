@@ -224,13 +224,25 @@ print(res)
 ### Parallel
 
 ```{python}
-@numba.jit(parallel=True)
+@numba.jit(parallel = True)
 def numba_parallel_mean(x):
   return np.mean(x)
 
 res = numba_parallel_mean(numpy_array)
 print(res)
 ```
+
+## CuPy
+
+```{python}
+import cupy as cp
+
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = cp.mean(cupy_array)
+print(res)
+```
+
 
 ## Custom Pure Python
 
@@ -261,7 +273,7 @@ Create R Data
 set.seed(831)
 big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
   sample(replace = TRUE, size = 1e6) %>%
-  rep(20) %>%
+  rep(30) %>%
   sample(replace = TRUE)
 
 validation_data <- big_dbl
@@ -270,8 +282,11 @@ validation_data <- big_dbl
 Transfer to Python
 
 ```{python}
-py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)
+from copy import deepcopy
+
+py_big_dbl = deepcopy(r.big_dbl)
+numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))
 ```
 
 
@@ -282,7 +297,9 @@ stopifnot(
   all.equal(validation_data,
             big_dbl,
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            py$cupy_big_dbl
+            )
   )
 ```
 
@@ -307,8 +324,6 @@ gc()
 ```{r}
 library(bench)
 
-niter <- 50
-
 res <- mark(
   mean.default(big_dbl),
   r_mean(big_dbl),
@@ -320,7 +335,10 @@ res <- mark(
   py_run_string("np.mean(numpy_big_dbl)", convert = FALSE),
   py_run_string("numba_mean(numpy_big_dbl)", convert = FALSE),
   py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE),
-  iterations = niter, check = FALSE, filter_gc = FALSE
+  py_run_string("cp.mean(cupy_array)"),
+  min_iterations = 5,
+  # iterations = niter, 
+  check = FALSE, filter_gc = FALSE
 )
 ```
 
@@ -343,12 +361,13 @@ res_gg <- res %>%
     "r_mean(big_dbl)" = "Custom R",
     "rcpp_sugar_mean(big_dbl)" = "Rcpp's built-in",
     "cpp_mean(big_dbl)" = "Custom Rcpp",
-    "cpp_parallel_mean(big_dbl)" = "Parallel Rcpp",
+    "cpp_parallel_mean(big_dbl)" = "Rcpp (Parallel)",
     'py_run_string("py_mean(py_big_dbl)", convert = FALSE)' = "Custom Python",
     'py_run_string("statistics.mean(py_big_dbl)", convert = FALSE)' = "Python's Built-in",
     'py_run_string("np.mean(numpy_big_dbl)", convert = FALSE)' = "NumPy",
     'py_run_string("numba_mean(numpy_big_dbl)", convert = FALSE)' = "Numba",
-    'py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE)' = "Parallel Numba"
+    'py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE)' = "Numba (Parallel)",
+    'py_run_string("cp.mean(cupy_array)")' = "CuPy (GPU)"
   )) %>%  
   mutate(expression = recode(
     expression,
@@ -356,7 +375,8 @@ res_gg <- res %>%
     'py_run_string("statistics.mean(py_big_dbl)", convert = FALSE)' = 'statistics.mean(numpy_big_dbl)',
     'py_run_string("np.mean(numpy_big_dbl)", convert = FALSE)' = 'np.mean(numpy_big_dbl)',
     'py_run_string("numba_mean(numpy_big_dbl)", convert = FALSE)' = "numba_mean(numpy_big_dbl)",
-    'py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE)' = "numba_parallel_mean(numpy_big_dbl)"
+    'py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE)' = "numba_parallel_mean(numpy_big_dbl)",
+    'py_run_string("cp.mean(cupy_array)")' = "cp.mean(cupy_array)"
   )) %>% 
   unnest() %>%
   group_by(type) %>%
@@ -381,12 +401,10 @@ res_gg <- res %>%
           plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
     labs(title = "Speed Shootout: Mean", 
          subtitle = glue::glue(
-           "n = {n} ({mem})\n{niter} Iterations"
+           "n = {n} ({mem})"
            ), 
          caption = "knapply.com")
 ```
-
-
 
 
 ```{r, eval=FALSE}
@@ -418,7 +436,8 @@ stopifnot(
             py$np$mean(py$numpy_big_dbl),
             py$statistics$mean(py$py_big_dbl),
             py$numba_mean(py$numpy_big_dbl),
-            py$numba_parallel_mean(py$numby_big_dbl)
+            py$numba_parallel_mean(py$numpy_big_dbl),
+            py$cp$mean(py$cupy_big_dbl)
   )
 )
 ```
@@ -430,7 +449,8 @@ stopifnot(
   all.equal(validation_data, 
             big_dbl, 
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            py$cupy_big_dbl)
   )
 ```
 
@@ -476,6 +496,7 @@ import sys
 print(sys.version)
 print(np.__version__)
 print(numba.__version__)
+print(cp.__version__)
 ```
 
 </p>
@@ -488,6 +509,19 @@ print(numba.__version__)
 
 ```{r}
 cat(system("wmic cpu get name", intern = TRUE)[[2]])
+```
+
+</p>
+</details>
+
+<details>
+<summary> GPU </summary>
+<p>
+
+```{r}
+system("wmic path win32_VideoController get name", intern = TRUE) %>% 
+  str_subset("NVIDIA") %>% 
+  str_trim()
 ```
 
 </p>

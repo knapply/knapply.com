@@ -229,7 +229,7 @@ numpy_odd_n = np.array(py_odd_n)
 res1 = np.median(numpy_even_n)
 res2 = np.median(numpy_odd_n)
 
-print([res1, res2])
+print(res1, res2)
 ```
 
 ## Numba
@@ -244,7 +244,7 @@ def numba_median(x):
 res1 = numba_median(numpy_even_n)
 res2 = numba_median(numpy_odd_n)
 
-print([res1, res2])
+print(res1, res2)
 ```
 
 ### Parallel
@@ -257,8 +257,30 @@ def numba_parallel_median(x):
 res1 = numba_parallel_median(numpy_even_n)
 res2 = numba_parallel_median(numpy_odd_n)
 
-print([res1, res2])
+print(res1, res2)
 ```
+
+## Custom CuPy
+
+```{python}
+import cupy as cp
+
+def cupy_median(x):
+  n = cp.size(x)
+  sorted_x = cp.sort(x)
+  if n % 2:
+    return sorted_x[n // 2]
+  return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
+  
+cupy_even_n = cp.array(numpy_even_n)
+cupy_odd_n = cp.array(numpy_odd_n)
+
+res1 = cupy_median(cupy_even_n)
+res2 = cupy_median(cupy_odd_n)
+
+print(res1, res2)
+```
+
 
 ## Custom Pure Python
 
@@ -297,7 +319,8 @@ Create R Data
 set.seed(831)
 big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
   sample(replace = TRUE, size = 1e6) %>%
-  rep(20) %>%
+  rep(30) %>%
+  c(rep(32.4, 20)) %>% 
   sample(replace = TRUE)
 
 validation_data <- big_dbl
@@ -306,8 +329,11 @@ validation_data <- big_dbl
 Transfer to Python
 
 ```{python}
-py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)
+from copy import deepcopy
+
+py_big_dbl = deepcopy(r.big_dbl)
+numpy_big_dbl = np.array(deepcopy(py_big_dbl))
+cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))
 ```
 
 
@@ -318,7 +344,8 @@ stopifnot(
   all.equal(validation_data,
             big_dbl,
             py$py_big_dbl,
-            py$numpy_big_dbl)
+            py$numpy_big_dbl,
+            cp$cupy_big_dbl)
   )
 ```
 
@@ -343,8 +370,6 @@ gc()
 ```{r}
 library(bench)
 
-niter <- 50
-
 res <- mark(
   median.default(big_dbl),
   r_median(big_dbl),
@@ -355,7 +380,9 @@ res <- mark(
   py_run_string("py_median(numpy_big_dbl)", convert = FALSE),
   py_run_string("numba_median(numpy_big_dbl)", convert = FALSE),
   py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE),
-  iterations = niter, check = FALSE, filter_gc = FALSE
+  py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE),
+  min_iterations = 5,
+  check = FALSE, filter_gc = FALSE
 )
 ```
 
@@ -382,7 +409,8 @@ res_gg <- res %>%
     'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = "NumPy",
     'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = "Custom Python",
     'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "Numba",
-    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = "Parallel Numba"
+    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = "Numba (Parallel)",
+    'py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE)' = "Custom CuPy (GPU)"
   )) %>%  
   mutate(expression = recode(
     expression,
@@ -390,7 +418,8 @@ res_gg <- res %>%
     'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = 'np.median(numpy_big_dbl)',
     'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = 'py_median(numpy_big_dbl)',
     'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "numba_median(numpy_big_dbl)",
-    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = 'numba_parallel_median(numpy_big_dbl)'
+    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = 'numba_parallel_median(numpy_big_dbl)',
+    'py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE)' = "cupy_median(cupy_big_dbl)"
   )) %>% 
   unnest() %>%
   group_by(type) %>%
@@ -415,7 +444,7 @@ res_gg <- res %>%
           plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
     labs(title = "Speed Shootout: Median", 
          subtitle = glue::glue(
-           "n = {n} ({mem})\n{niter} Iterations"
+           "n = {n} ({mem})"
            ), 
          caption = "knapply.com")
 ```
@@ -442,7 +471,7 @@ res_gg
 
 Do all methods obtain the same results?
 
-```{r}
+```{r, eval=FALSE}
 stopifnot(
   all.equal(
     median.default(big_dbl),
@@ -454,7 +483,7 @@ stopifnot(
     py$py_median(py$py_big_dbl),
     py$numba_median(py$numpy_big_dbl),
     py$numba_parallel_median(py$numpy_big_dbl),
-    tolerance = 1.5e-7
+    py$cupy_median(py$cupy_big_dbl)
   )
 )
 ```
@@ -514,6 +543,8 @@ import sys
 
 print(sys.version)
 print(np.__version__)
+print(numba.__version__)
+print(cp.__version__)
 ```
 
 </p>
@@ -526,6 +557,19 @@ print(np.__version__)
 
 ```{r}
 cat(system("wmic cpu get name", intern = TRUE)[[2]])
+```
+
+</p>
+</details>
+
+<details>
+<summary> GPU </summary>
+<p>
+
+```{r}
+system("wmic path win32_VideoController get name", intern = TRUE) %>% 
+  str_subset("NVIDIA") %>% 
+  str_trim()
 ```
 
 </p>
