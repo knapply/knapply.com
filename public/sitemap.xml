@@ -21,7 +21,7 @@
     <url>
     
       <loc>/post/mean/</loc>
-      <lastmod>2018-11-28T22:52:25-08:00</lastmod>
+      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
     </url>
     
   
@@ -29,7 +29,7 @@
     <url>
     
       <loc>/post/median/</loc>
-      <lastmod>2018-11-28T22:52:25-08:00</lastmod>
+      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
     </url>
     
   
@@ -226,7 +226,7 @@
     
     <url>
     
-      <loc>/categories/r/</loc>
+      <loc>/tags/r/</loc>
       <lastmod>2018-11-26T12:47:34-08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -235,7 +235,7 @@
     
     <url>
     
-      <loc>/tags/r/</loc>
+      <loc>/categories/r/</loc>
       <lastmod>2018-11-26T12:47:34-08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -288,8 +288,8 @@
     
     <url>
     
-      <loc>/categories/central-tendency/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <loc>/tags/central-tendency/</loc>
+      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -297,8 +297,8 @@
     
     <url>
     
-      <loc>/tags/central-tendency/</loc>
-      <lastmod>2018-11-28T22:52:25-08:00</lastmod>
+      <loc>/categories/central-tendency/</loc>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -324,15 +324,6 @@
     
     <url>
     
-      <loc>/categories/data-carpentry/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    <url>
-    
       <loc>/tags/data-carpentry/</loc>
       <lastmod>2018-11-26T12:47:34-08:00</lastmod>
       <priority>0</priority>
@@ -342,8 +333,8 @@
     
     <url>
     
-      <loc>/categories/data-science-from-scratch/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <loc>/categories/data-carpentry/</loc>
+      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -360,8 +351,8 @@
     
     <url>
     
-      <loc>/categories/data-science-notes/</loc>
-      <lastmod>2018-11-28T22:52:25-08:00</lastmod>
+      <loc>/categories/data-science-from-scratch/</loc>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -370,7 +361,16 @@
     <url>
     
       <loc>/tags/data-science-notes/</loc>
-      <lastmod>2018-11-28T22:52:25-08:00</lastmod>
+      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/categories/data-science-notes/</loc>
+      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -423,7 +423,7 @@
     
     <url>
     
-      <loc>/categories/programming/</loc>
+      <loc>/tags/programming/</loc>
       <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -432,7 +432,7 @@
     
     <url>
     
-      <loc>/tags/programming/</loc>
+      <loc>/categories/programming/</loc>
       <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -476,7 +476,7 @@
     
     <url>
     
-      <loc>/categories/statistics/</loc>
+      <loc>/tags/statistics/</loc>
       <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -485,7 +485,7 @@
     
     <url>
     
-      <loc>/tags/statistics/</loc>
+      <loc>/categories/statistics/</loc>
       <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
@@ -503,8 +503,8 @@
     
     <url>
     
-      <loc>/categories/tutorial/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <loc>/tags/tutorial/</loc>
+      <lastmod>2018-11-07T14:49:24-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -512,8 +512,8 @@
     
     <url>
     
-      <loc>/tags/tutorial/</loc>
-      <lastmod>2018-11-07T14:49:24-08:00</lastmod>
+      <loc>/categories/tutorial/</loc>
+      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
       <priority>0</priority>
     </url>
     

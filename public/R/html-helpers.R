@@ -74,16 +74,14 @@ glue_html <- function(..., .envir = parent.frame(), .open = "<~", .close = "~>",
                              .na = .na, .transformer = .transformer))
 }
 
-
-
-as_chunk <- function (path, use_local = TRUE, lines = readr::read_lines(path), labels = NULL, 
+as_chunk <- function (path, lines = readr::read_lines(path), labels = NULL, 
     from = NULL, to = NULL, from.offset = 0L, to.offset = 0L, 
     roxygen_comments = TRUE) {
-  if (use_local) {
-    path <- glue::glue('C:/Users/Windows/Documents/tutorial-gists/sections/{path}')
-  } else {
-    path <- glue::glue("https://raw.githubusercontent.com/knapply/tutorial-gists/master/sections/{path}")
-  }
+  # if (use_local) {
+  #   path <- glue::glue('C:/Users/Windows/Documents/tutorial-gists/sections/{path}')
+  # } else {
+  #   path <- glue::glue("https://raw.githubusercontent.com/knapply/tutorial-gists/master/sections/{path}")
+  # }
   # print(path)
     if (!length(lines)) {
         warning("code is empty")
@@ -127,6 +125,59 @@ as_chunk <- function (path, use_local = TRUE, lines = readr::read_lines(path), l
     for (i in which(!nzchar(labels))) labels[i] = knitr:::unnamed_chunk()
     knitr:::knit_code$set(setNames(code, labels))
 }
+
+
+# as_chunk <- function (path, use_local = TRUE, lines = readr::read_lines(path), labels = NULL, 
+#     from = NULL, to = NULL, from.offset = 0L, to.offset = 0L, 
+#     roxygen_comments = TRUE) {
+#   if (use_local) {
+#     path <- glue::glue('C:/Users/Windows/Documents/tutorial-gists/sections/{path}')
+#   } else {
+#     path <- glue::glue("https://raw.githubusercontent.com/knapply/tutorial-gists/master/sections/{path}")
+#   }
+#   # print(path)
+#     if (!length(lines)) {
+#         warning("code is empty")
+#         return(invisible())
+#     }
+#     lab = "^(#|//|--)+\\s*(@knitr|----+)(.*?)-*\\s*$"
+#     if (is.null(labels)) {
+#         if (!knitr:::group_pattern(lab)) 
+#             return(invisible())
+#     }
+#     else {
+#         if (is.null(from)) 
+#             from = 1L
+#         if (!is.numeric(from)) 
+#             from = pattern_index(from, lines)
+#         if (is.null(to)) 
+#             to = c(from[-1L] - 1L, length(lines))
+#         if (!is.numeric(to)) 
+#             to = pattern_index(to, lines)
+#         stopifnot(length(labels) == length(from), length(from) == 
+#             length(to))
+#         from = from + from.offset
+#         to = to + to.offset
+#         code = list()
+#         for (i in seq_along(labels)) {
+#             code[[labels[i]]] = strip_white(lines[from[i]:to[i]])
+#         }
+#         knit_code$set(code)
+#         return(invisible())
+#     }
+#     idx = cumsum(grepl(lab, lines))
+#     if (idx[1] == 0) {
+#         idx = c(0, idx)
+#         lines = c("", lines)
+#     }
+#     groups = unname(split(lines, idx))
+#     labels = stringr::str_trim(gsub(lab, "\\3", sapply(groups, 
+#         `[`, 1)))
+#     labels = gsub(",.*", "", labels)
+#     code = lapply(groups, knitr:::strip_chunk, roxygen_comments)
+#     for (i in which(!nzchar(labels))) labels[i] = knitr:::unnamed_chunk()
+#     knitr:::knit_code$set(setNames(code, labels))
+# }
 
 embed_github_link <- function(path) {
   # https://github.com/knapply/tutorial-gists/blob/master/sections/foundational-programming/r-length1.R

@@ -38,6 +38,7 @@ options(width=90)
 
 source(here::here("static/R/html-helpers.R"))
 source(here::here("static/R/citation.R"))
+source(here::here("static/R/wrangle_plot_save.R"))
 ```
 
 
@@ -53,6 +54,7 @@ Given a sequence, the mode is the value with the highest number of occurrences.
 
 # R
 
+## Base R
 
 ```{r}
 r_mode <- function(x) {
@@ -66,120 +68,30 @@ r_vector <- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
 r_mode(r_vector)
 ```
 
-<!-- ## Breakdown -->
-
-<!-- `duplicated()` returns a `logical` vector indicating which elements in `x` occur more than once. -->
-
-<!-- ```{r} -->
-<!-- duplicated(r_vector)  -->
-<!-- ``` -->
-
-<!-- `!duplicated(x)` swaps `TRUE` for `FALSE` and vice-versa. -->
-
-<!-- ```{r} -->
-<!-- !duplicated(r_vector) -->
-<!-- ``` -->
-
-<!-- `!duplicated(r_vector)` allows us to subset `r_vector` to keep only those elements that are not duplicated, retaining the order in which they occur. -->
-
-<!-- ```{r} -->
-<!-- uniques <- r_vector[!duplicated(r_vector)] -->
-<!-- uniques -->
-<!-- ``` -->
-
-<!-- `match(x, uniques)` returns an `integer` vector containing the indices of elements in the first argument (`r_vector`) matching those in the second argument (`uniques`). -->
-
-<!-- ```{r} -->
-<!-- matched <- match(r_vector, uniques) -->
-<!-- matched -->
-<!-- ``` -->
-
-<!-- `tabulate()` counts the number of times each of those indices occur. -->
-
-<!-- ```{r} -->
-<!-- tabulated <- tabulate(matched) -->
-<!-- tabulated -->
-<!-- ``` -->
-
-<!-- `which.max()` returns an `integer` scalar (in R, this is simply a vector of length 1) indicating the index of the highest number. -->
-
-<!-- ```{r} -->
-<!-- max_count <- which.max(tabulated) -->
-<!-- max_count -->
-<!-- ``` -->
-
-<!-- Which we can then use to subset `uniques` to find our mode. -->
-
-<!-- ```{r} -->
-<!-- uniques[max_count] -->
-<!-- ``` -->
-
-
-
 
 # Rcpp
 
-```{Rcpp, ref.label=knitr::all_rcpp_labels(), include=FALSE}
-```
-
-__Note:__ `Rcpp` examples assume code is prefaced with...
-
-```{Rcpp, eval=FALSE}
-//[[Rcpp::plugins(cpp17)]]
-#include <Rcpp.h>
-using namespace Rcpp;
-```
-
-> C++ References
-
-<div class = "row">
-<div class = "col-md-6">
-
-* [`<algorithm>`](https://en.cppreference.com/w/cpp/header/algorithm)
-    + [`std::max_element()`](https://en.cppreference.com/w/cpp/algorithm/max_element)
-* [`<iterator>`](https://en.cppreference.com/w/cpp/header/iterator)
-    + [`std::begin()`](https://en.cppreference.com/w/cpp/iterator/begin)
-    + [`std::end()`](https://en.cppreference.com/w/cpp/iterator/end)
-
-</div>
-<div class = "col-md-6">
-
-* [`<unordered_map>`](https://en.cppreference.com/w/cpp/header/unordered_map)
-    + [`std::unordered_map`](https://en.cppreference.com/w/cpp/container/unordered_map)
-* [`<utility>`](https://en.cppreference.com/w/cpp/header/utility)
-    + [`std::pair`](https://en.cppreference.com/w/cpp/utility/pair)
-* [`[] ()`](https://en.cppreference.com/w/cpp/language/lambda) (Lambda)
-* [`auto`](https://en.cppreference.com/w/cpp/language/auto)
-    
-</div>
-</div>
-
 ## Blueprint
 
-```{Rcpp, eval=FALSE}
-using std::begin;
-using std::end;
-using std::max_element;
-using std::pair;
-using std::unordered_map;
+```{Rcpp}
+//[[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
 
 // [[Rcpp::export]]
-double cpp_mode_blueprint(const NumericVector& x) {
-  unordered_map<double, size_t> counts;
-
+double cpp_mode_blueprint(const Rcpp::NumericVector& x) {
+  std::unordered_map<double, std::size_t> counter;
+  
+  auto max_count = 0;
+  double out = 0;
   for (auto i : x) {
-    counts[i]++;
+    counter[i]++;
+    if (counter[i] > max_count) {
+      max_count = counter[i];
+      out = i;
+    }
   }
   
-  auto compare_map_vals = [] (const pair<double, size_t>& p1, 
-                              const pair<double, size_t>& p2) {
-    return p1.second < p2.second;
-  };
-
-  const auto max_index = max_element(begin(counts), end(counts), 
-                                     compare_map_vals);
-
-  return (*max_index).first;
+  return out;
 }
 ```
 
@@ -189,81 +101,32 @@ r_vector <- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
 cpp_mode_blueprint(r_vector)
 ```
 
-<!-- ### Breakdown -->
 
-<!-- * `unordered_map<double, size_t>` provides a key-value container in which our keys will be of type `double` and our values will be of type `size_t` (`long long unsigned int`). -->
-<!-- * `for (auto i : x) { counts[i]++; }` loops through our input `x` and -->
-<!--     + checks if each element exists as a key in `counts`, -->
-<!--     + adds the element as key and setting its value to `0` if it doesn't already exist, -->
-<!--     + and increments that value. -->
 
-<!-- The following example walks through the loop step by step. -->
+## Templated 
 
-<!-- ```{Rcpp, eval=FALSE} -->
-<!-- using std::boolalpha; // makes `bool`s print-friendly -->
-<!-- using std::endl;      // inserts new line, flushes output stream -->
-<!-- using std::find;      // returns iterator to first element matching condition OR last -->
-<!-- using std::size;      // returns size (as in number of elements) of a container or array -->
+```{Rcpp}
+//[[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
 
-<!-- // [[Rcpp::export]] -->
-<!-- void breakdown_map_loop(const NumericVector& x) { -->
-<!--   Rcout << "Declaring `counts`" << endl << endl; -->
-<!--   unordered_map<double, size_t> counts; -->
-
-<!--   auto counter = 1; -->
-<!--   Rcout << "... starting loop" << endl; -->
-<!--   for (auto i : x) { -->
-<!--     auto is_already_key = counts.find(i) != end(counts); -->
-
-<!--     Rcout << "... starting " << counter << "st|nd|rd|th element..." << endl; -->
-<!--     Rcout << "`i` = " << i << endl; -->
-
-<!--     Rcout << "Does `x[" << i << "]` already exist in `counts`? " << endl -->
-<!--           << "\t" << boolalpha << is_already_key << endl; -->
-
-<!--     if (is_already_key) { -->
-<!--       Rcout << "`x[" << i << "]`'s current value is " << endl << "\t" << counts[i] << endl; -->
-<!--     } else { -->
-<!--       Rcout << "... `x[" << i << "]` is being added as a key with a value of `0` " << endl; -->
-<!--     } -->
-
-<!--     Rcout << "... `x[" << i << "]` is being incremented" << endl; -->
-<!--     counts[i]++; -->
-<!--     Rcout << "`x[" << i << "]`'s new value is "<< endl << "\t" << counts[i] << endl << endl; -->
-
-<!--     counter++; -->
-<!--   } -->
-<!--   Rcout << endl << "Loop finished" << endl; -->
-<!-- } -->
-
-<!-- ``` -->
-
-<!-- ```{r} -->
-<!-- breakdown_map_loop(c(1, 2, 1)) -->
-<!-- ``` -->
-
-<!-- * `compare_map_vals` is a lambda expression that constructs a closure (a function that is stored with its environment) that we can pass to `std::max_element()`. -->
-<!--     + By default, `std::max_element()` will compare the value of a `std::unordered_map`'s keys, or `.first`s. -->
-<!--     + `compare_map_vals` tells `std::max_element()` to instead compare the values, or `.second`s. -->
-<!-- * `std::max_element()` returns an iterator pointing to an element in `counts`. -->
-<!--     + In order to access the underlying element, we dereference the iterator with `*` and state that we want the key using `.first`. -->
-
-## Templated Version
-
-```{Rcpp, eval = FALSE}
 template <int RTYPE, typename T>
-auto cpp_mode_(const Vector<RTYPE>& x) {
-  std::unordered_map<T, size_t> counts;
+auto cpp_mode_(const Rcpp::Vector<RTYPE>& x) {
+  std::unordered_map<T, size_t> counter(std::size(x));
+  
   for (auto i : x) {
-    counts[i]++;
+    counter[i]++;
   }
-  auto compare_map_vals = [] (const std::pair<T, size_t>& p1,
-                              const std::pair<T, size_t>& p2) {
-    return p1.second < p2.second;
-    };
-  const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
-                                          compare_map_vals);
-  return wrap( (*max_index).first );
+  
+  size_t max = 0;
+  T out;
+  for (const auto& i : counter) {
+    if (i.second > max) {
+      max = i.second;
+      out = i.first;
+    }
+  }
+
+  return Rcpp::wrap(out);
 }
 
 
@@ -277,9 +140,9 @@ SEXP cpp_mode(const SEXP& x) {
     case LGLSXP:
       return cpp_mode_<LGLSXP, bool>(x);
     case STRSXP:
-      return cpp_mode_<STRSXP, String>(x);
+      return cpp_mode_<STRSXP, Rcpp::String>(x);
   }
-  warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), type2name(x));
+  Rcpp::warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), Rcpp::type2name(x));
   return R_NilValue;
 }
 ```
@@ -293,9 +156,7 @@ cpp_mode(r_vector)
 
 # Python
 
-## `statistics.mode()`
-
-`statistics` is part of Python's standard library.
+## Pure Python
 
 ```{python}
 import statistics
@@ -306,19 +167,8 @@ res = statistics.mode(py_list)
 print(res)
 ```
 
-## Custom Pure Python
 
-```{python}
-from collections import Counter
-
-def py_mode(x):
-  return Counter(x).most_common(1)[0][0]
-
-res = py_mode(py_list)
-print(res)
-```
-
-## Custom NumPy
+## NumPy
 
 ```{python}
 import numpy as np
@@ -333,6 +183,50 @@ res = numpy_mode(numpy_array)
 print(res)
 ```
 
+## Numba
+
+```{python}
+import numba
+
+@numba.jit()
+def numba_mode(x):
+  keys, counts = np.unique(x, return_counts = True)
+  return keys[counts.argmax()]
+
+res = numba_mode(numpy_array)
+print(res)
+```
+
+
+### Parallel
+
+```{python}
+import numba
+
+@numba.jit(parallel = True)
+def numba_par_mode(x):
+  keys, counts = np.unique(x, return_counts = True)
+  return keys[counts.argmax()]
+
+res = numba_par_mode(numpy_array)
+print(res)
+```
+
+## CuPy
+
+
+```{python}
+import cupy as cp
+
+def cupy_mode(x):
+  keys, counts = cp.unique(x, return_counts = True)
+  return keys[counts.argmax()]
+  
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = cupy_mode(cupy_array)
+print(res)
+```
 
 # Shootout
 
@@ -351,47 +245,47 @@ Create R Data
 
 ```{r}
 set.seed(831)
-big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
-  sample(replace = TRUE, size = 1e5) %>%
-  rep(20) %>% 
-  c(rep(32.4, 100)) %>%  # our mode is 32.4
-  sample(replace = TRUE)
+r_data <- seq(-1e4, 1e4) %>%
+  sample(replace = TRUE, size = 1e7) %>% 
+  c(rep(32L, 200)) %>%  # our mode is 32
+  sample()
 
-validation_data <- big_dbl
+validation_data <- r_data
 ```
 
 Transfer to Python
 
 ```{python}
-py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)
+from copy import deepcopy
+
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)
 ```
 
 
 Do all the data match?
 
 ```{r}
+are_equal <- list(r_data, py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %>% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
 stopifnot(
-  all.equal(validation_data,
-            big_dbl,
-            py$py_big_dbl,
-            py$numpy_big_dbl)
-  )
+  all(are_equal)
+)
 ```
 
-
 ```{r}
-(n <- scales::comma(length(big_dbl)))
-(mem <- capture.output(pryr::object_size(big_dbl)))
+(n <- scales::comma(length(r_data)))
+(mem <- capture.output(pryr::object_size(r_data)))
 ```
 
 </p>
 </details>
 
 
-
 <details>
-<summary> Run Benchmark Test </summary>
+<summary> `bench::mark()` </summary>
 <p>
 
 ```{r, include=FALSE}
@@ -401,75 +295,55 @@ gc()
 
 ```{r}
 res <- mark(
-  r_mode(big_dbl),
-  cpp_mode(big_dbl),
-  py_run_string("py_mode(py_big_dbl)", convert = FALSE),
-  py_run_string("statistics.mode(py_big_dbl)", convert = FALSE),
-  py_run_string("numpy_mode(numpy_big_dbl)", convert = FALSE),
-  iterations = 50, check = FALSE, filter_gc = FALSE
+  r_mode(r_data),
+  cpp_mode(r_data),
+  py_run_string("numpy_mode(numpy_data)", convert = FALSE),
+  py_run_string("numba_mode(numpy_data)", convert = FALSE),
+  py_run_string("numba_par_mode(numpy_data)", convert = FALSE),
+  py_run_string("cupy_mode(cupy_data)", convert = FALSE),
+  min_iterations = 5,
+  check = FALSE, filter_gc = FALSE
 )
 ```
-
 
 </p>
 </details>
 
 
-
-
-
-
-## Results
+```{r, echo=FALSE}
+as_chunk(here::here("static/R/wrangle_plot_save.R"))
+```
 
 <details>
-<summary> Plot </summary>
+<summary> `wrangle_plot_save()` </summary>
 <p>
 
-```{r, fig.align='center', fig.width=9, fig.height=10, message=FALSE, warning=FALSE}
-res_gg <- res %>%
-  mutate(expression = as.character(expression)) %>%
-  mutate(type = recode(
-    expression,
-    "r_mode(big_dbl)" = "Custom R",
-    "cpp_mode(big_dbl)" = "Custom Rcpp",
-    'py_run_string("statistics.mode(py_big_dbl)", convert = FALSE)' = "Python's built-in",
-    'py_run_string("numpy_mode(numpy_big_dbl)", convert = FALSE)' = "Custom NumPy",
-    'py_run_string("py_mode(py_big_dbl)", convert = FALSE)' = "Custom Python"
-  )) %>%
-  mutate(lang = if_else(str_detect(type, "\\sR(cpp)?"), "R", "Python")) %>% 
-  mutate(expression = recode(
-    expression,
-    'py_run_string("statistics.mode(py_big_dbl)", convert = FALSE)' = 'statistics.mode(py_big_dbl)',
-    'py_run_string("numpy_mode(numpy_big_dbl)", convert = FALSE)' = 'numpy_mode(numpy_big_dbl)',
-    'py_run_string("py_mode(py_big_dbl)", convert = FALSE)' = 'py_mode(py_big_dbl)'
-  )) %>%
-  unnest() %>%
-  group_by(type) %>%
-  mutate(med = median(as.numeric(time))) %>%
-  ungroup() %>%
-  arrange(desc(med)) %>%
-  mutate(type = as_factor(type)) %>%
-  arrange(med) %>%
-  mutate(expression = as_factor(expression)) %>%
-  ggplot(aes(x = type, y = time, color = expression)) +
-    ggbeeswarm::geom_beeswarm(cex = 0.65) +
-    guides(color = guide_legend(ncol = 2, override.aes = list(size = 3))) +
-    coord_flip() +
-    theme_minimal(base_size = 16, base_family = "serif") +
-    theme(axis.title = element_blank(),
-          legend.position = "bottom", legend.title = element_blank(),
-          legend.text = element_text(family = "mono"),
-          plot.title = element_text(face = "bold"),
-          plot.subtitle = element_text(face = "italic"),
-          plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
-    labs(title = "Speed Shootout: Statistical Mode", 
-         subtitle = glue::glue(
-           "n = {n} ({mem})"
-           ), 
-         caption = "knapply.com")
-
-res_gg + facet_wrap(~ lang, ncol = 1, scales = "free_y")
+```{r wrangle_plot_save, eval=FALSE}
 ```
+
+</p>
+</details>
+
+<details>
+<summary> `write_gg()` </summary>
+<p>
+
+```{r write_gg, eval=FALSE}
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> `res_gg` </summary>
+<p>
+
+```{r, fig.align='center', fig.width=9, fig.height=11, message=FALSE, warning=FALSE}
+res_gg <- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = "Benchmarks: Statistical Mode")
+```
+
 
 
 ```{r, eval=FALSE}
@@ -485,7 +359,6 @@ res_gg
 ```
 
 
-
 <details>
 <summary> Post Test Checks </summary>
 <p>
@@ -493,119 +366,51 @@ res_gg
 Do all methods obtain the same results?
 
 ```{r}
-stopifnot(
-  all.equal(r_mode(big_dbl), 
-            cpp_mode(big_dbl), 
-            py$numpy_mode(py$numpy_big_dbl),
-            py$statistics$mode(py$py_big_dbl),
-            py$py_mode(py_big_dbl))
+control_res <- 32L
+
+c(
+  r_mode(r_data),
+  cpp_mode(r_data),
+  py$numpy_mode(py$numpy_data),
+  py$numba_mode(py$numpy_data),
+  py$numba_par_mode(py$numpy_data),
+  py$cp$asnumpy(py$cupy_mode(py$cupy_data))
   )
+
+are_equal <- c(
+  
+  r_mode(r_data),
+  cpp_mode(r_data),
+  py$numpy_mode(py$numpy_data),
+  py$numba_mode(py$numpy_data),
+  py$numba_par_mode(py$numpy_data),
+  py$cp$asnumpy(py$cupy_mode(py$cupy_data))
+  
+  ) %>% 
+  map_lgl(~ control_res == .x)
+
+stopifnot(
+  all(are_equal)
+)
 ```
+
 
 Did the input data remain unchanged?
 
 ```{r}
+are_equal <- list(r_data, 
+                  py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %>% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
 stopifnot(
-  all.equal(validation_data, 
-            big_dbl, 
-            py$py_big_dbl,
-            py$numpy_big_dbl)
-  )
+  all(are_equal)
+)
 ```
 
 </p>
 </details>
 
-## Environment
-
-<details>
-<summary> R </summary>
-<p>
-
-```{r}
-sessionInfo()
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> C++ </summary>
-<p>
-
-```{r}
-if (R.version["minor"] == "6.0") {
-  "GCC 8.2.0"
-  } else {
-  system("gcc --version", intern = TRUE)[[1]]
-  }
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> Python </summary>
-<p>
-
-```{python}
-import sys
-
-print(sys.version)
-print(np.__version__)
-```
-
-</p>
-</details>
-
-<details>
-<summary> CPU </summary>
-<p>
-
-
-```{r}
-cat(system("wmic cpu get name", intern = TRUE)[[2]])
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> Memory </summary>
-<p>
-
-```{r}
-system("wmic MEMORYCHIP get BankLabel, Capacity, Speed", intern = TRUE) %>%
-  str_trim() %>%
-  as_tibble() %>%
-  slice(2:3) %>%
-  separate(value, into = c("BankLabel", "Capacity", "Speed"), sep = "\\s{2,}") %>%
-  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), "GB")) %>%
-  mutate(Speed = paste(Speed, "MHz")) %>%
-  rename_all(str_replace, "L", " L") %>%
-  knitr::kable(format = "html") %>%
-  kableExtra::kable_styling(full_width = FALSE)
-```
-
-</p>
-</details>
-
-
-<br><br><br>
-
-```{r, echo=FALSE, comment=NA, results='markup'}
-print_citation_header()
-```
-
-```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
-print_citation()
-print_bibtex()
-```
-
-```{r, include=FALSE}
-gc()
+```{r child=here::here("static/R/environment-details.Rmd")}
 ```
 

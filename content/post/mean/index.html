@@ -5,8 +5,6 @@ date: '2018-11-12'
 slug: index
 categories:
   - data-science-notes
-  - statistics
-  - central-tendency
 tags:
   - data-science-notes
   - statistics
@@ -17,7 +15,7 @@ tags:
 image:
   caption: ''
   focal_point: 'Smart'
-summary: 'Calculating the mean of a sequence.'
+summary: 'Calculating the arithmetic mean of a sequence.'
 output:
   blogdown::html_page:
     toc: true
@@ -32,64 +30,49 @@ editor_options:
 <div id="TOC">
 <ul>
 <li><a href="#r">R</a><ul>
-<li><a href="#basemean"><code>base::mean()</code></a></li>
-<li><a href="#custom-r">Custom R</a></li>
+<li><a href="#base-r">Base R</a></li>
 </ul></li>
 <li><a href="#rcpp">Rcpp</a><ul>
-<li><a href="#rcppmean"><code>Rcpp::mean()</code></a></li>
+<li><a href="#sugar">Sugar</a></li>
 <li><a href="#custom">Custom</a><ul>
 <li><a href="#blueprint">Blueprint</a></li>
 <li><a href="#templated">Templated</a></li>
-<li><a href="#parallel">Parallel</a></li>
+<li><a href="#rcppparallel">RcppParallel</a></li>
 </ul></li>
 </ul></li>
 <li><a href="#python">Python</a><ul>
-<li><a href="#statistics.mean"><code>statistics.mean()</code></a></li>
-<li><a href="#np.mean"><code>np.mean()</code></a></li>
+<li><a href="#pure-python">Pure Python</a></li>
+<li><a href="#numpy">NumPy</a></li>
 <li><a href="#numba">Numba</a><ul>
-<li><a href="#parallel-1">Parallel</a></li>
+<li><a href="#parallel">Parallel</a></li>
 </ul></li>
 <li><a href="#cupy">CuPy</a></li>
-<li><a href="#custom-pure-python">Custom Pure Python</a></li>
 </ul></li>
-<li><a href="#shootout">Shootout</a><ul>
-<li><a href="#results">Results</a></li>
+<li><a href="#shootout">Shootout</a></li>
 <li><a href="#environment">Environment</a></li>
-</ul></li>
 </ul>
 </div>
 
 <div id="r" class="section level1">
 <h1>R</h1>
-<div id="basemean" class="section level2">
-<h2><code>base::mean()</code></h2>
+<div id="base-r" class="section level2">
+<h2>Base R</h2>
 <pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
 
 mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
-<div id="custom-r" class="section level2">
-<h2>Custom R</h2>
-<pre class="r"><code>r_mean &lt;- function(x) {
-  sum(x) / length(x)
-}
-
-r_mean(r_vector)</code></pre>
-<pre><code>#&gt; [1] 456.85</code></pre>
-</div>
 </div>
 <div id="rcpp" class="section level1">
 <h1>Rcpp</h1>
-<p><strong>Note:</strong> <code>Rcpp</code> examples assume code is prefaced with…</p>
-<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
-#include &lt;Rcpp.h&gt;
-using namespace Rcpp;</code></pre>
-<div id="rcppmean" class="section level2">
-<h2><code>Rcpp::mean()</code></h2>
-<pre class="cpp"><code>// [[Rcpp::export]]
-double rcpp_sugar_mean(NumericVector x) {
-  return mean(x);
+<div id="sugar" class="section level2">
+<h2>Sugar</h2>
+<pre class="cpp"><code>#include &lt;Rcpp.h&gt;
+
+// [[Rcpp::export]]
+double rcpp_sugar_mean(Rcpp::NumericVector x) {
+  return Rcpp::mean(x);
 }</code></pre>
 <pre class="r"><code>r_vector &lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
               190, 41, 612, 826, 507, 105, 14, 237, 669, 7)
@@ -101,27 +84,27 @@ rcpp_sugar_mean(r_vector)</code></pre>
 <h2>Custom</h2>
 <div id="blueprint" class="section level3">
 <h3>Blueprint</h3>
-<pre class="cpp"><code>using std::begin;
-using std::end;
-using std::size;
-using std::accumulate;
+<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
 
 // [[Rcpp::export]]
-double cpp_mean_blueprint(const NumericVector&amp; x) {
-  double n = size(x);
-  return accumulate(begin(x), end(x), 0.0) / n;
+double cpp_mean_blueprint(const Rcpp::NumericVector&amp; x) {
+  double n = std::size(x);
+  return std::accumulate(std::begin(x), std::end(x), 0.0) / n;
 }</code></pre>
 <pre class="r"><code>cpp_mean_blueprint(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
 <div id="templated" class="section level3">
 <h3>Templated</h3>
-<p>The templated version handles R vectors of type <code>integer</code> or <code>double</code>/<code>numeric</code>.</p>
-<pre class="cpp"><code>template &lt;int RTYPE&gt;
-auto cpp_mean_(const Vector&lt;RTYPE&gt;&amp; x) {
+<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
+
+template &lt;int RTYPE&gt;
+auto cpp_mean_(const Rcpp::Vector&lt;RTYPE&gt;&amp; x) {
   const auto out = std::accumulate(std::begin(x), std::end(x), 0.0) / std::size(x);
   
-  return wrap(out);
+  return Rcpp::wrap(out);
 }
 
 // [[Rcpp::export]]
@@ -132,52 +115,51 @@ SEXP cpp_mean(const SEXP&amp; x) {
     case REALSXP:
       return cpp_mean_&lt;REALSXP&gt;(x);
   }
-  warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), type2name(x));
+  Rcpp::warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), Rcpp::type2name(x));
   return R_NilValue;
 }</code></pre>
 <pre class="r"><code>cpp_mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
-<div id="parallel" class="section level3">
-<h3>Parallel</h3>
-<p><code>struct Sum</code> comes from JJ Allaire’s <a href="http://gallery.rcpp.org/articles/parallel-vector-sum/">“Summing a Vector in Parallel with RcppParallel”</a> in the Rcpp Gallery.</p>
-<pre class="cpp"><code>// [[Rcpp::depends(RcppParallel)]]
+<div id="rcppparallel" class="section level3">
+<h3>RcppParallel</h3>
+<p><em>Note:</em> <code>struct Sum</code> comes from the <a href="http://gallery.rcpp.org/articles/parallel-vector-sum/">“Rcpp Gallery”</a>.</p>
+<pre class="cpp"><code>//[[Rcpp::plugins(cpp14)]]
+#include &lt;Rcpp.h&gt;
+// [[Rcpp::depends(RcppParallel)]]
 #include &lt;RcppParallel.h&gt;
-using namespace RcppParallel;
 
-struct Sum : public Worker
-{   
-   const RVector&lt;double&gt; input;
+struct Sum : public RcppParallel::Worker {
+   const RcppParallel::RVector&lt;double&gt; input;
    double value;
-
-   Sum(const NumericVector input) : input(input), value(0) {}
-   Sum(const Sum&amp; sum, Split) : input(sum.input), value(0) {}
-
+   
+   Sum(const Rcpp::NumericVector input) : input(input), value(0) {}
+   Sum(const Sum&amp; sum, RcppParallel::Split) : input(sum.input), value(0) {}
+   
    void operator()(std::size_t begin, std::size_t end) {
       value += std::accumulate(input.begin() + begin, input.begin() + end, 0.0);
    }
-
    void join(const Sum&amp; rhs) { 
       value += rhs.value; 
    }
 };
 
 // [[Rcpp::export]]
-double cpp_parallel_mean(NumericVector x) {
+double cpp_par_mean(Rcpp::NumericVector x) {
    Sum sum(x);
    parallelReduce(0, x.length(), sum);
+
    return sum.value / x.size();
 }</code></pre>
-<pre class="r"><code>cpp_parallel_mean(r_vector)</code></pre>
+<pre class="r"><code>cpp_par_mean(r_vector)</code></pre>
 <pre><code>#&gt; [1] 456.85</code></pre>
 </div>
 </div>
 </div>
 <div id="python" class="section level1">
 <h1>Python</h1>
-<div id="statistics.mean" class="section level2">
-<h2><code>statistics.mean()</code></h2>
-<p>Using Python’s built-in <code>statistics</code> module:</p>
+<div id="pure-python" class="section level2">
+<h2>Pure Python</h2>
 <pre class="python"><code>import statistics
 
 py_list = [126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
@@ -187,8 +169,8 @@ res = statistics.mean(py_list)
 print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
 </div>
-<div id="np.mean" class="section level2">
-<h2><code>np.mean()</code></h2>
+<div id="numpy" class="section level2">
+<h2>NumPy</h2>
 <pre class="python"><code>import numpy as np
 
 numpy_array = np.array(py_list)
@@ -208,13 +190,13 @@ def numba_mean(x):
 res = numba_mean(numpy_array)
 print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
-<div id="parallel-1" class="section level3">
+<div id="parallel" class="section level3">
 <h3>Parallel</h3>
 <pre class="python"><code>@numba.jit(parallel = True)
-def numba_parallel_mean(x):
+def numba_par_mean(x):
   return np.mean(x)
 
-res = numba_parallel_mean(numpy_array)
+res = numba_par_mean(numpy_array)
 print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
 </div>
@@ -229,15 +211,6 @@ res = cp.mean(cupy_array)
 print(res)</code></pre>
 <pre><code>#&gt; 456.85</code></pre>
 </div>
-<div id="custom-pure-python" class="section level2">
-<h2>Custom Pure Python</h2>
-<pre class="python"><code>def py_mean(x):
-  return sum(x) / len(x)
-
-res = py_mean(py_list)
-print(res)</code></pre>
-<pre><code>#&gt; 456.85</code></pre>
-</div>
 </div>
 <div id="shootout" class="section level1">
 <h1>Shootout</h1>
@@ -249,142 +222,205 @@ library(tidyverse)
 library(bench)</code></pre>
 <p>Create R Data</p>
 <pre class="r"><code>set.seed(831)
-big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
-  sample(replace = TRUE, size = 1e7)
+r_data &lt;- seq(-1e4, 1e4, by = 0.2) %&gt;%
+  sample(replace = TRUE, size = 1e7) %&gt;%
+  sample()
 
-validation_data &lt;- big_dbl</code></pre>
+validation_data &lt;- r_data</code></pre>
 <p>Transfer to Python</p>
 <pre class="python"><code>from copy import deepcopy
 
-numpy_big_dbl = np.array(deepcopy(r.big_dbl))
-cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))</code></pre>
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)</code></pre>
 <p>Do all the data match?</p>
-<pre class="r"><code>stopifnot(
-  all.equal(
-    validation_data,
-    big_dbl,
-    py$numpy_big_dbl,
-    py$cp$asnumpy(py$cupy_big_dbl)
-    )
-  )</code></pre>
-<pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
+<pre class="r"><code>are_equal &lt;- list(r_data, py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %&gt;% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
+stopifnot(
+  all(are_equal)
+)</code></pre>
+<pre class="r"><code>(n &lt;- scales::comma(length(r_data)))</code></pre>
 <pre><code>#&gt; [1] &quot;10,000,000&quot;</code></pre>
-<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
-<pre><code>#&gt; Registered S3 method overwritten by &#39;pryr&#39;:
-#&gt;   method      from
-#&gt;   print.bytes Rcpp</code></pre>
+<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(r_data)))</code></pre>
 <pre><code>#&gt; [1] &quot;80 MB&quot;</code></pre>
 </p>
 </details>
 <details>
-<summary> Run Benchmark Test </summary>
+<summary> <code>bench::mark()</code> </summary>
 <p>
-<pre class="r"><code>library(bench)
-
-res &lt;- mark(
-  mean.default(big_dbl),
-  r_mean(big_dbl),
-  rcpp_sugar_mean(big_dbl),
-  cpp_mean(big_dbl),
-  cpp_parallel_mean(big_dbl),
-  py_run_string(&quot;np.mean(numpy_big_dbl)&quot;, convert = FALSE),
-  py_run_string(&quot;numba_mean(numpy_big_dbl)&quot;, convert = FALSE),
-  py_run_string(&quot;numba_parallel_mean(numpy_big_dbl)&quot;, convert = FALSE),
-  py_run_string(&quot;cp.mean(cupy_array)&quot;),
+<pre class="r"><code>res &lt;- mark(
+  mean(r_data),
+  rcpp_sugar_mean(r_data),
+  cpp_mean(r_data),
+  cpp_par_mean(r_data),
+  py_run_string(&quot;np.mean(numpy_data)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_mean(numpy_data)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_par_mean(numpy_data)&quot;, convert = FALSE),
+  py_run_string(&quot;cp.mean(cupy_data)&quot;, convert = FALSE),
   min_iterations = 5,
-  # iterations = niter, 
   check = FALSE, filter_gc = FALSE
 )</code></pre>
-<pre><code>#&gt; The `validate` argument to `as_tibble()` is deprecated. Please use `.name_repair` to control column names.</code></pre>
 </p>
 </details>
-<div id="results" class="section level2">
-<h2>Results</h2>
 <details>
-<summary> Plot </summary>
+<summary> <code>wrangle_plot_save()</code> </summary>
 <p>
-<pre class="r"><code>res_gg &lt;- res %&gt;% 
-  mutate(expression = as.character(expression)) %&gt;% 
-  mutate(type = recode(
-    expression,
-    &quot;mean.default(big_dbl)&quot; = &quot;R&#39;s built-in&quot;,
-    &quot;r_mean(big_dbl)&quot; = &quot;Custom R&quot;,
-    &quot;rcpp_sugar_mean(big_dbl)&quot; = &quot;Rcpp&#39;s built-in&quot;,
-    &quot;cpp_mean(big_dbl)&quot; = &quot;Custom Rcpp&quot;,
-    &quot;cpp_parallel_mean(big_dbl)&quot; = &quot;Rcpp (Parallel)&quot;,
-    &#39;py_run_string(&quot;np.mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;NumPy&quot;,
-    &#39;py_run_string(&quot;numba_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba&quot;,
-    &#39;py_run_string(&quot;numba_parallel_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Numba (Parallel)&quot;,
-    &#39;py_run_string(&quot;cp.mean(cupy_array)&quot;)&#39; = &quot;CuPy (GPU)&quot;
-  )) %&gt;%  
-  mutate(expression = recode(
-    expression,
-    &#39;py_run_string(&quot;np.mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;np.mean(numpy_big_dbl)&#39;,
-    &#39;py_run_string(&quot;numba_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_mean(numpy_big_dbl)&quot;,
-    &#39;py_run_string(&quot;numba_parallel_mean(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;numba_parallel_mean(numpy_big_dbl)&quot;,
-    &#39;py_run_string(&quot;cp.mean(cupy_array)&quot;)&#39; = &quot;cp.mean(cupy_array)&quot;
-  )) %&gt;% 
-  unnest() %&gt;%
-  group_by(type) %&gt;%
-  mutate(med = median(as.numeric(time))) %&gt;%
-  ungroup() %&gt;%
-  arrange(desc(med)) %&gt;%
-  mutate(type = as_factor(type)) %&gt;%
-  arrange(med) %&gt;%
-  mutate(expression = as_factor(expression)) %&gt;%
-  ggplot(aes(x = type, y = time, color = expression)) +
-    # ggbeeswarm::geom_beeswarm(cex = 0.65) +
-    stat_ydensity(aes(fill = expression), scale = &quot;width&quot;, bw = 0.01, 
-                  trim = FALSE) +
-    guides(fill = guide_legend(ncol = 2, override.aes = list(size = 3))) +
-    coord_flip() +
-    theme_minimal(base_size = 16, base_family = &quot;serif&quot;) +
-    theme(axis.title = element_blank(),
-          legend.position = &quot;bottom&quot;, legend.title = element_blank(),
-          legend.text = element_text(family = &quot;mono&quot;),
-          plot.title = element_text(face = &quot;bold&quot;),
-          plot.subtitle = element_text(face = &quot;italic&quot;),
-          plot.caption = element_text(family = &quot;mono&quot;, size = 16, face = &quot;bold&quot;)) +
-    labs(title = &quot;Speed Shootout: Mean&quot;, 
-         subtitle = glue::glue(
-           &quot;n = {n} ({mem})&quot;
-           ), 
-         caption = &quot;knapply.com&quot;)</code></pre>
+<pre class="r"><code>wrangle_plot_save &lt;- function(bench_marks, .n, .mem, .title) {
+  depends &lt;- c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;stringr&quot;, &quot;ggplot2&quot;, &quot;extrafont&quot;)
+  success &lt;- vector(mode = &quot;logical&quot;, length = length(depends))
+  for (i in seq_along(depends)) {
+    success[[i]] &lt;- require(depends[[i]], quietly = TRUE, character.only = TRUE)
+  }
+  if (!all(success)) {
+    stop(paste(depends[!success], &quot;packages not found.&quot;))
+  }
+  
+  extrafont::loadfonts(&quot;win&quot;, quiet = TRUE)
+
+  out &lt;- bench_marks %&gt;% 
+    mutate(expression = as.character(expression)) %&gt;% 
+    mutate(expression = if_else(
+      str_detect(expression, &quot;py_run_string&quot;),
+      str_extract(expression, &#39;(?&lt;=&quot;).*?(?=&quot;)&#39;),
+      expression)
+    ) %&gt;%
+    mutate(expression = str_remove(expression, &quot;(?&lt;=\\().*?(?=\\))&quot;)) %&gt;% 
+    mutate(framework = case_when(
+      str_detect(expression, &quot;^(np\\.|numpy_)&quot;) ~ &quot;NumPy&quot;,
+      str_detect(expression, &quot;^numba_&quot;) ~ &quot;Numba&quot;,
+      str_detect(expression, &quot;^(cp\\.|cupy_)&quot;) ~ &quot;CuPy&quot;,
+      str_detect(expression, &quot;^r?cpp_&quot;) ~ &quot;Rcpp&quot;,
+      str_detect(expression, &quot;^r_&quot;) ~ &quot;Base R&quot;,
+      TRUE ~ &quot;Base R&quot;
+      )
+    ) %&gt;%
+    mutate(framework = str_glue(&quot;  {framework}  &quot;)) %&gt;% 
+    mutate(is_parallel = str_detect(expression, &quot;_par_&quot;)) %&gt;% 
+    mutate(is_gpu = str_detect(expression, &quot;cupy_&quot;)) %&gt;% 
+    unnest() %&gt;%
+    group_by(expression) %&gt;%
+    mutate(med = median(as.numeric(time))) %&gt;%
+    ungroup() %&gt;%
+    arrange(desc(med)) %&gt;%
+    mutate(Expression = as_factor(expression)) %&gt;%
+    arrange(med) %&gt;%
+    # mutate(expression = as_factor(expression)) %&gt;%
+    mutate(framework = as_factor(framework)) %&gt;%
+    rename(Time = time) %&gt;% 
+    ggplot(aes(x = Expression, y = Time)) +
+      stat_ydensity(aes(fill = framework), 
+                    color = &quot;gray&quot;, alpha = 0.85,
+                    size = 0.1, scale = &quot;width&quot;, 
+                    bw = 0.01, trim = FALSE) +
+      scale_fill_viridis_d() +
+      guides(color = FALSE) +
+      coord_flip() +
+      theme_minimal(base_size = 18, base_family = &quot;Palatino Linotype&quot;) +
+      theme(#axis.title.x = element_text(size = 10),
+            axis.title = element_blank(),
+            axis.text.y = element_text(family = &quot;Fira Code Retina&quot;, size = 15, colour = &quot;black&quot;,
+                                       margin = margin(0, 0, 0, 0, &quot;lines&quot;)),
+            axis.text.x = element_text(size = 12, colour = &quot;black&quot;,
+                                       margin = margin(0, 0, 0, 0, &quot;lines&quot;)),
+            legend.position = &quot;bottom&quot;, legend.title = element_blank(),
+            # legend.text = element_text(family = &quot;sans&quot;, size = 14),
+            # legend.key.size = unit(2, &quot;lines&quot;), 
+            plot.title = element_text(face = &quot;bold&quot;),
+            plot.subtitle = element_text(size = 12, face = &quot;italic&quot;),
+            plot.caption = element_text(family = &quot;Fira Code Retina&quot;, size = 14, face = &quot;bold&quot;),
+            panel.spacing = unit(0, &quot;lines&quot;),
+            panel.border = element_rect(colour = NA, fill = NA, size = 0)) +
+      labs(title = .title, 
+           subtitle = str_glue(&quot;n = {n} ({mem})&quot;),
+           caption = &quot;knapply.com&quot;)
+
+  write_gg(plot = out)
+
+  out
+}</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>write_gg()</code> </summary>
+<p>
+<pre class="r"><code>write_gg &lt;- function(plot, path = here::here(glue::glue(&quot;content/post/{rmarkdown::metadata$title}/&quot;)),
+                     width = 580, height = 426, text_factor = 1) {
+  if (!require(ggplot2, quietly = TRUE)) {
+    stop(&quot;`ggplot2` package not found.&quot;)
+  }
+
+  out &lt;- plot +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 7),
+                   legend.position = &quot;none&quot;, 
+                   plot.caption = ggplot2::element_blank(),
+                   plot.subtitle = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_blank())
+  
+  dpi &lt;- text_factor * 125
+  width &lt;- width * 1.5 / dpi
+  height &lt;- height * 1.5 / dpi
+  
+  ggplot2::ggsave(filename = &quot;featured.png&quot;, plot = out, path = path, 
+                  width = width, height = height, dpi = dpi)
+}</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>res_gg</code> </summary>
+<p>
+<pre class="r"><code>res_gg &lt;- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = &quot;Benchmarks: Arithmetic Mean&quot;)</code></pre>
 <pre class="r"><code>res_gg</code></pre>
 </p>
 </details>
-<p><img src="/post/mean/index_files/figure-html/unnamed-chunk-28-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="/post/mean/index_files/figure-html/unnamed-chunk-25-1.png" width="864" style="display: block; margin: auto;" /></p>
 <details>
 <summary> Post Test Checks </summary>
 <p>
 <p>Do all methods obtain the same results?</p>
-<pre class="r"><code>stopifnot(
-  all.equal(
-    mean(big_dbl),
-    r_mean(big_dbl),
-    rcpp_sugar_mean(big_dbl),
-    cpp_mean(big_dbl),
-    cpp_parallel_mean(big_dbl),
-    py$np$mean(py$numpy_big_dbl),
-    py$numba_mean(py$numpy_big_dbl),
-    py$numba_parallel_mean(py$numpy_big_dbl),
-    py$cp$asnumpy(py$cp$mean(py$cupy_big_dbl))
-  )
+<pre class="r"><code>(control_res &lt;- mean(r_data))</code></pre>
+<pre><code>#&gt; [1] 0.1116423</code></pre>
+<pre class="r"><code>c(
+  rcpp_sugar_mean(r_data),
+  cpp_mean(r_data),
+  cpp_par_mean(r_data),
+  py$np$mean(py$numpy_data),
+  py$numba_mean(py$numpy_data),
+  py$numba_par_mean(py$numpy_data),
+  py$cp$asnumpy(py$cp$mean(py$cupy_data))
+  )</code></pre>
+<pre><code>#&gt; [1] 0.1116423 0.1116423 0.1116423 0.1116423 0.1116423 0.1116423 0.1116423</code></pre>
+<pre class="r"><code>are_equal &lt;- c(
+  
+  rcpp_sugar_mean(r_data),
+  cpp_mean(r_data),
+  cpp_par_mean(r_data),
+  py$np$mean(py$numpy_data),
+  py$numba_mean(py$numpy_data),
+  py$numba_par_mean(py$numpy_data),
+  py$cp$asnumpy(py$cp$mean(py$cupy_data))
+  
+  ) %&gt;% 
+  map_lgl(all.equal, control_res)
+
+stopifnot(
+  all(are_equal)
 )</code></pre>
 <p>Did the input data remain unchanged?</p>
-<pre class="r"><code>stopifnot(
-  all.equal(
-    validation_data, 
-    big_dbl, 
-    py$numpy_big_dbl,
-    py$cp$asnumpy(py$cupy_big_dbl)
-    )
-  )</code></pre>
+<pre class="r"><code>are_equal &lt;- list(r_data, 
+                  py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %&gt;% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
+stopifnot(
+  all(are_equal)
+)</code></pre>
 </p>
 </details>
 </div>
-<div id="environment" class="section level2">
-<h2>Environment</h2>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
 <details>
 <summary> R </summary>
 <p>
@@ -404,26 +440,26 @@ res &lt;- mark(
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt;  [1] bench_1.0.1.9000       forcats_0.3.0          stringr_1.3.1.9000    
-#&gt;  [4] dplyr_0.7.99.9000      purrr_0.2.5            readr_1.2.1           
-#&gt;  [7] tidyr_0.8.2.9000       tibble_1.4.99.9005     ggplot2_3.1.0.9000    
-#&gt; [10] tidyverse_1.2.1.9000   reticulate_1.10.0.9003
+#&gt;  [1] extrafont_0.17         bench_1.0.1.9000       forcats_0.3.0         
+#&gt;  [4] stringr_1.3.1.9000     dplyr_0.7.99.9000      purrr_0.2.5           
+#&gt;  [7] readr_1.2.1            tidyr_0.8.2.9000       tibble_1.4.99.9005    
+#&gt; [10] ggplot2_3.1.0.9000     tidyverse_1.2.1.9000   reticulate_1.10.0.9003
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] tidyselect_0.2.5     xfun_0.4             haven_2.0.0          lattice_0.20-35     
-#&gt;  [5] colorspace_1.3-2     htmltools_0.3.6      yaml_2.2.0           rlang_0.3.0.1       
-#&gt;  [9] pillar_1.3.0.9001    glue_1.3.0           withr_2.1.2          pryr_0.1.4.9000     
-#&gt; [13] modelr_0.1.2         readxl_1.1.0         plyr_1.8.4           munsell_0.5.0       
-#&gt; [17] blogdown_0.9.4       gtable_0.2.0         cellranger_1.1.0     rvest_0.3.2         
-#&gt; [21] codetools_0.2-15     evaluate_0.12        knitr_1.20           profmem_0.5.0       
-#&gt; [25] broom_0.5.0          Rcpp_1.0.0           backports_1.1.2      scales_1.0.0        
-#&gt; [29] RcppParallel_4.4.1-1 jsonlite_1.5         hms_0.4.2            digest_0.6.18       
-#&gt; [33] stringi_1.2.4        bookdown_0.7         grid_3.6.0           rprojroot_1.3-2     
-#&gt; [37] here_0.1-11          cli_1.0.1            tools_3.6.0          magrittr_1.5        
-#&gt; [41] lazyeval_0.2.1       crayon_1.3.4         pkgconfig_2.0.2      Matrix_1.2-14       
-#&gt; [45] xml2_1.2.0           lubridate_1.7.4      assertthat_0.2.0     rmarkdown_1.10      
-#&gt; [49] httr_1.3.1           rstudioapi_0.8       R6_2.3.0             nlme_3.1-137        
-#&gt; [53] compiler_3.6.0</code></pre>
+#&gt;  [5] colorspace_1.3-2     viridisLite_0.3.0    htmltools_0.3.6      yaml_2.2.0          
+#&gt;  [9] rlang_0.3.0.1        pillar_1.3.0.9001    glue_1.3.0           withr_2.1.2         
+#&gt; [13] pryr_0.1.4.9000      modelr_0.1.2         readxl_1.1.0         plyr_1.8.4          
+#&gt; [17] munsell_0.5.0        blogdown_0.9.4       gtable_0.2.0         cellranger_1.1.0    
+#&gt; [21] rvest_0.3.2          codetools_0.2-15     evaluate_0.12        knitr_1.20          
+#&gt; [25] Rttf2pt1_1.3.7       profmem_0.5.0        broom_0.5.0          Rcpp_1.0.0          
+#&gt; [29] backports_1.1.2      scales_1.0.0         RcppParallel_4.4.1-1 jsonlite_1.5        
+#&gt; [33] hms_0.4.2            digest_0.6.18        stringi_1.2.4        bookdown_0.7        
+#&gt; [37] grid_3.6.0           rprojroot_1.3-2      here_0.1-11          cli_1.0.1           
+#&gt; [41] tools_3.6.0          magrittr_1.5         lazyeval_0.2.1       extrafontdb_1.0     
+#&gt; [45] crayon_1.3.4         pkgconfig_2.0.2      Matrix_1.2-14        xml2_1.2.0          
+#&gt; [49] lubridate_1.7.4      assertthat_0.2.0     rmarkdown_1.10       httr_1.3.1          
+#&gt; [53] rstudioapi_0.8       R6_2.3.0             nlme_3.1-137         compiler_3.6.0</code></pre>
 </p>
 </details>
 <details>
@@ -441,6 +477,7 @@ res &lt;- mark(
 <summary> Python </summary>
 <p>
 <pre class="python"><code>import sys
+
 print(sys.version)</code></pre>
 <pre><code>#&gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
 <pre class="python"><code>print(np.__version__)</code></pre>
@@ -448,7 +485,7 @@ print(sys.version)</code></pre>
 <pre class="python"><code>print(numba.__version__)</code></pre>
 <pre><code>#&gt; 0.40.0</code></pre>
 <pre class="python"><code>print(cp.__version__)</code></pre>
-<pre><code>#&gt; 4.0.0</code></pre>
+<pre><code>#&gt; 5.0.0</code></pre>
 </p>
 </details>
 <details>
@@ -480,8 +517,6 @@ print(sys.version)</code></pre>
   rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
   knitr::kable(format = &quot;html&quot;) %&gt;%
   kableExtra::kable_styling(full_width = FALSE)</code></pre>
-<pre><code>#&gt; Warning: Calling `as_tibble()` on a vector is discouraged, because the behavior is likely
-#&gt; to change in the future. Use `enframe(name = NULL)` instead.</code></pre>
 <table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -535,5 +570,4 @@ DIMM B
   month  = Nov,
   day    = 12,
 }</code></pre>
-</div>
 </div>

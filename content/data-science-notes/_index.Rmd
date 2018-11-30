@@ -42,7 +42,7 @@ check <- '<input type="checkbox" checked onclick="return false;">'
 uncheck <- '<input type="checkbox" unchecked onclick="return false;">'
 
 build_link <- function(text, slug, e = parent.frame()) {
-  glue_html('<a href="/post/<~slug~>"><~text~> </a>')
+  glue_html('<a href="/post/<~slug~>"><~text~></a>')
 }
 
 # build_header_link <- function(topic, slug, header, e = parent.frame()) {
@@ -129,15 +129,14 @@ style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; f
 Various statistical methods using built-in and custom implementations in R, Python, and C++.
 
 ```{r}
+collapser <- "<br>"
+
 toc_df <- tibble(
   ` ` = c(
-    rep("Essential Tasks", 2),
     rep("Central Tendency", 3),
     rep("Dispersion", 2)
     ),
   Topic = c(
-    build_link("length", "mean/"),
-    build_link("sum", "mean/"),
     build_link("mean", "mean/"),
     build_link("median", "median/"),
     build_link("mode", "mode/"),
@@ -145,35 +144,60 @@ toc_df <- tibble(
     build_link("standard_deviation", "standard-deviation/")
     ),
   r_icon = c(
-    build_link("R", "mean/#length"),
-    build_link("R", "mean/#sum"),
-    build_link("R", "mean/#r"),
-    build_link("R", "median/#r"),
-    build_link("R", "mode/#r"),
-    build_link("R", "variance/#r"),
-    build_link("R", "standard_deviation/#r")
+    build_link("<strong>R</strong>", "mean/#r"),
+    build_link("<strong>R</strong>", "median/#r"),
+    build_link("<strong>R</strong>", "mode/#r"),
+    build_link("<strong>R</strong>", "variance/#r"),
+    build_link("<strong>R</strong>", "standard_deviation/#r")
     ),
   rcpp = c(
-    build_link("Rcpp", "mean/#length-1"),
-    build_link("Rcpp", "mean/#sum-1"),
-    build_link("Rcpp", "mean/#rcpp"),
-    build_link("Rcpp", "median/#rcpp"),
-    build_link("Rcpp", "mode/#rcpp"),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "mean/#rcpp"),
+        build_link("Sugar", "mean/#sugar"),
+        build_link("Custom", "mean/#blueprint"),
+        build_link("Templated", "mean/#templated"),
+        build_link("RcppParallel", "mean/#rcppparallel")), collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "median/#rcpp"),
+        build_link("Sugar", "median/#sugar"),
+        build_link("Custom", "median/#blueprint"),
+        build_link("Templated", "median/#templated")), collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "mode/#rcpp"),
+        build_link("Custom", "mode/#blueprint"),
+        build_link("Templated", "median/#templated")), collapse = collapser
+      ),
     build_link("Rcpp", "variance/#rcpp"),
     build_link("Rcpp", "standard_deviation/#rcpp")
     ),
   py = c(
-    build_link("Python", "mean/#length-2"),
-    build_link("Python", "mean/#sum-2"),
-    build_link("Python", "mean/#python"),
-    build_link("Python", "median/#python"),
-    build_link("Python", "mode/#python"),
-    build_link("Python", "variance/#python"),
-    build_link("Python", "standard_deviation/#python")
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "mean/#python"),
+        build_link("Pure Python", "mean/#pure-python"),
+        build_link("NumPy", "mean/#numpy"),
+        build_link("Numba", "mean/#numba"),
+        build_link("CuPy", "mean/#cupy")), collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "median/#python"),
+        build_link("Pure Python", "median/#pure-python"),
+        build_link("NumPy", "median/#numpy"),
+        build_link("Numba", "median/#numba"),
+        build_link("CuPy", "median/#cupy")), collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "mode/#python"),
+        build_link("Pure Python", "mode/#pure-python"),
+        build_link("NumPy", "mode/#numpy"),
+        build_link("Numba", "mode/#numba"),
+        build_link("CuPy", "mode/#cupy")), collapse = collapser
+      ),
+    build_link("<strong>Python</strong>", "variance/#python"),
+    build_link("<strong>Python</strong>", "standard_deviation/#python")
     ),
   shootout = c(
-    "",
-    "",
     build_link("Shootout", "mean/#shootout"),
     build_link("Shootout", "median/#shootout"),
     build_link("Shootout", "mode/#shootout"),

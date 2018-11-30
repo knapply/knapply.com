@@ -1,0 +1,112 @@
+---
+output: html_document
+---
+
+# Environment
+
+<details>
+<summary> R </summary>
+<p>
+
+```{r}
+sessionInfo()
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> C++ </summary>
+<p>
+
+```{r}
+if (R.version["minor"] == "6.0") {
+  "GCC 8.2.0"
+  } else {
+  system("gcc --version", intern = TRUE)[[1]]
+  }
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> Python </summary>
+<p>
+
+```{python}
+import sys
+
+print(sys.version)
+print(np.__version__)
+print(numba.__version__)
+print(cp.__version__)
+```
+
+</p>
+</details>
+
+<details>
+<summary> CPU </summary>
+<p>
+
+
+```{r}
+cat(system("wmic cpu get name", intern = TRUE)[[2]])
+```
+
+</p>
+</details>
+
+<details>
+<summary> GPU </summary>
+<p>
+
+```{r}
+system("wmic path win32_VideoController get name", intern = TRUE) %>% 
+  str_subset("NVIDIA") %>% 
+  str_trim()
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> Memory </summary>
+<p>
+
+```{r}
+system("wmic MEMORYCHIP get BankLabel, Capacity, Speed", intern = TRUE) %>%
+  str_trim() %>%
+  as_tibble() %>%
+  slice(2:3) %>%
+  separate(value, into = c("BankLabel", "Capacity", "Speed"), sep = "\\s{2,}") %>%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), "GB")) %>%
+  mutate(Speed = paste(Speed, "MHz")) %>%
+  rename_all(str_replace, "L", " L") %>%
+  knitr::kable(format = "html") %>%
+  kableExtra::kable_styling(full_width = FALSE)
+```
+
+</p>
+</details>
+
+
+<br><br><br>
+
+```{r, echo=FALSE, comment=NA, results='markup'}
+print_citation_header()
+```
+
+```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
+print_citation()
+print_bibtex()
+```
+
+```{r, include=FALSE}
+gc()
+```
+

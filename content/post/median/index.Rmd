@@ -16,7 +16,7 @@ tags:
   - rcpp
 image:
   caption: ''
-  focal_point: 'Smart'
+  focal_point: 'TopLeft'
 summary: 'Finding median of a sequence.'
 output:
   blogdown::html_page:
@@ -34,7 +34,10 @@ options(width=90)
 
 source(here::here("static/R/html-helpers.R"))
 source(here::here("static/R/citation.R"))
+source(here::here("static/R/wrangle_plot_save.R"))
 ```
+
+
 
 
 
@@ -52,7 +55,7 @@ Given a sequence, which is the middle-most value. Put another way, what value is
 
 # R
 
-## `stats::median()`
+## Base R
 
 ```{r}
 r_even_n <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
@@ -65,7 +68,7 @@ median(r_even_n)
 median(r_odd_n)
 ```
 
-## Custom R
+## Custom Base R
 
 _Note: This is essentially a stripped-down version of `median.default()`._
 
@@ -87,24 +90,14 @@ r_median(r_odd_n)
 
 # Rcpp
 
-```{Rcpp, ref.label=knitr::all_rcpp_labels(), include=FALSE}
-```
+## Sugar
 
-__Note:__ `Rcpp` examples assume code is prefaced with...
-
-```{Rcpp, eval=FALSE}
-//[[Rcpp::plugins(cpp17)]]
+```{Rcpp}
 #include <Rcpp.h>
-using namespace Rcpp;
-```
 
-
-## `Rcpp::median()`
-
-```{Rcpp, eval=FALSE}
 // [[Rcpp::export]]
-double rcpp_sugar_median(NumericVector x) {
-  return median(x);
+double rcpp_sugar_median(Rcpp::NumericVector x) {
+  return Rcpp::median(x);
 }
 ```
 
@@ -123,26 +116,24 @@ rcpp_sugar_median(r_odd_n)
 
 ### Blueprint
 
-```{Rcpp, eval=FALSE}
-using std::begin;
-using std::end;
-using std::nth_element;
-using std::size;
+```{Rcpp}
+//[[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
 
 // [[Rcpp::export]]
-double cpp_median_blueprint(const NumericVector& x) {
-  auto temp = clone(x);
-  const auto n = size(x);
-  auto mid = begin(temp) + n / 2;
+auto cpp_median_blueprint(const Rcpp::NumericVector& x) {
+  auto temp = Rcpp::clone(x);
+  const auto n = std::size(x);
+  auto mid = std::begin(temp) + n / 2;
   
-  std::nth_element( begin(temp), mid, end(temp) );
+  std::nth_element( std::begin(temp), mid, std::end(temp) );
 
   if (n % 2) {
     return *mid;
   }
 
   const auto mid1 = *mid;
-  nth_element( begin(temp), --mid, end(temp) );
+  std::nth_element( std::begin(temp), --mid, std::end(temp) );
 
   return ( mid1 + *mid ) / 2.0;
 }
@@ -156,25 +147,28 @@ cpp_median_blueprint(r_even_n)
 cpp_median_blueprint(r_odd_n)
 ```
 
-### Template Version
+### Templated
 
-```{Rcpp, eval=FALSE}
+```{Rcpp}
+//[[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
+
 template <int RTYPE>
-auto cpp_median_(const Vector<RTYPE>& x) {
-  auto temp = clone(x);
+auto cpp_median_(const Rcpp::Vector<RTYPE>& x) {
+  auto temp = Rcpp::clone(x);
   const auto n = std::size(temp);
   auto mid = std::begin(temp) + n / 2;
 
   std::nth_element( std::begin(temp), mid, std::end(temp) );
 
   if (n % 2) {
-    return wrap( *mid );
+    return Rcpp::wrap( *mid );
   }
   
   const auto mid1 = *mid;
   std::nth_element( std::begin(temp), --mid, std::end(temp) );
 
-  return wrap( (mid1 + *mid) / 2.0 );
+  return Rcpp::wrap( (mid1 + *mid) / 2.0 );
 }
 
 // [[Rcpp::export]]
@@ -185,7 +179,7 @@ SEXP cpp_median(const SEXP& x) {
     case REALSXP:
       return cpp_median_<REALSXP>(x);
   }
-  warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), type2name(x));
+  Rcpp::warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), Rcpp::type2name(x));
   return R_NilValue;
 }
 ```
@@ -199,9 +193,7 @@ cpp_median(r_odd_n)
 
 # Python
 
-## `statistics.median()`
-
-Python's `statistics` module is part of its standard library.
+## Pure Python
 
 ```{python}
 import statistics
@@ -218,7 +210,7 @@ res2 = statistics.median(py_odd_n)
 print([res1, res2])
 ```
 
-## `numpy.median()`
+## NumPy
 
 ```{python}
 import numpy as np
@@ -251,16 +243,16 @@ print(res1, res2)
 
 ```{python}
 @numba.jit(parallel=True)
-def numba_parallel_median(x):
+def numba_par_median(x):
   return np.median(x)
 
-res1 = numba_parallel_median(numpy_even_n)
-res2 = numba_parallel_median(numpy_odd_n)
+res1 = numba_par_median(numpy_even_n)
+res2 = numba_par_median(numpy_odd_n)
 
 print(res1, res2)
 ```
 
-## Custom CuPy
+## CuPy
 
 ```{python}
 import cupy as cp
@@ -282,23 +274,6 @@ print(res1, res2)
 ```
 
 
-## Custom Pure Python
-
-```{python}
-def py_median(x):
-  n = len(x)
-  sorted_x = sorted(x)
-  if n % 2:
-    return sorted_x[n // 2]
-  return (sorted_x[n // 2 - 1] + sorted_x[n // 2]) / 2
-
-res1 = py_median(py_even_n)
-res2 = py_median(py_odd_n)
-
-print([res1, res2])
-```
-
-
 
 
 # Shootout
@@ -306,6 +281,7 @@ print([res1, res2])
 <details>
 <summary> Test Setup </summary>
 <p>
+
 
 ```{r, message=FALSE, warning=FALSE}
 library(reticulate)
@@ -317,12 +293,11 @@ Create R Data
 
 ```{r}
 set.seed(831)
-big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
+r_data <- seq(-1e4, 1e4, by = 0.2) %>%
   sample(replace = TRUE, size = 1e7) %>%
-  c(rep(32.4, 20)) %>% # median = 32.4
-  sample(replace = TRUE)
+  sample()
 
-validation_data <- big_dbl
+validation_data <- r_data
 ```
 
 Transfer to Python
@@ -330,25 +305,26 @@ Transfer to Python
 ```{python}
 from copy import deepcopy
 
-numpy_big_dbl = np.array(deepcopy(r.big_dbl))
-cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)
 ```
 
 
 Do all the data match?
 
 ```{r}
+are_equal <- list(r_data, py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %>% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
 stopifnot(
-  all.equal(validation_data,
-            big_dbl,
-            py$numpy_big_dbl,
-            py$cp$asnumpy(py$cupy_big_dbl))
-  )
+  all(are_equal)
+)
 ```
 
 ```{r}
-(n <- scales::comma(length(big_dbl)))
-(mem <- capture.output(pryr::object_size(big_dbl)))
+(n <- scales::comma(length(r_data)))
+(mem <- capture.output(pryr::object_size(r_data)))
 ```
 
 </p>
@@ -356,7 +332,7 @@ stopifnot(
 
 
 <details>
-<summary> Run Benchmark Test </summary>
+<summary> `bench::mark()` </summary>
 <p>
 
 ```{r, include=FALSE}
@@ -365,17 +341,14 @@ gc()
 
 
 ```{r}
-library(bench)
-
 res <- mark(
-  median.default(big_dbl),
-  r_median(big_dbl),
-  rcpp_sugar_median(big_dbl),
-  cpp_median(big_dbl),
-  py_run_string("np.median(numpy_big_dbl)", convert = FALSE),
-  py_run_string("numba_median(numpy_big_dbl)", convert = FALSE),
-  py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE),
-  py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE),
+  median(r_data),
+  rcpp_sugar_median(r_data),
+  cpp_median(r_data),
+  py_run_string("np.median(numpy_data)", convert = FALSE),
+  py_run_string("numba_median(numpy_data)", convert = FALSE),
+  py_run_string("numba_par_median(numpy_data)", convert = FALSE),
+  py_run_string("cupy_median(cupy_data)", convert = FALSE),
   min_iterations = 5,
   check = FALSE, filter_gc = FALSE
 )
@@ -385,62 +358,39 @@ res <- mark(
 </details>
 
 
-## Results
+```{r, echo=FALSE}
+as_chunk(here::here("static/R/wrangle_plot_save.R"))
+```
 
 <details>
-<summary> Plot </summary>
+<summary> `wrangle_plot_save()` </summary>
+<p>
+
+```{r wrangle_plot_save, eval=FALSE}
+```
+
+</p>
+</details>
+
+<details>
+<summary> `write_gg()` </summary>
+<p>
+
+```{r write_gg, eval=FALSE}
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> `res_gg` </summary>
 <p>
 
 ```{r, fig.align='center', fig.width=9, fig.height=11, message=FALSE, warning=FALSE}
-res_gg <- res %>% 
-  mutate(expression = as.character(expression)) %>% 
-  mutate(type = recode(
-    expression,
-    "median.default(big_dbl)" = "R's built-in",
-    "r_median(big_dbl)" = "Custom R",
-    "rcpp_sugar_median(big_dbl)" = "Rcpp's built-in",
-    "cpp_median(big_dbl)" = "Custom Rcpp",
-    'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = "NumPy",
-    'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "Numba",
-    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = "Numba (Parallel)",
-    'py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE)' = "Custom CuPy (GPU)"
-  )) %>%  
-  mutate(expression = recode(
-    expression,
-    'py_run_string("np.median(numpy_big_dbl)", convert = FALSE)' = 'np.median(numpy_big_dbl)',
-    'py_run_string("py_median(numpy_big_dbl)", convert = FALSE)' = 'py_median(numpy_big_dbl)',
-    'py_run_string("numba_median(numpy_big_dbl)", convert = FALSE)' = "numba_median(numpy_big_dbl)",
-    'py_run_string("numba_parallel_median(numpy_big_dbl)", convert = FALSE)' = 'numba_parallel_median(numpy_big_dbl)',
-    'py_run_string("cupy_median(cupy_big_dbl)", convert = FALSE)' = "cupy_median(cupy_big_dbl)"
-  )) %>% 
-  unnest() %>%
-  group_by(type) %>%
-  mutate(med = median(as.numeric(time))) %>%
-  ungroup() %>%
-  arrange(desc(med)) %>%
-  mutate(type = as_factor(type)) %>%
-  arrange(med) %>%
-  mutate(expression = as_factor(expression)) %>%
-  ggplot(aes(x = type, y = time, color = expression)) +
-    # ggbeeswarm::geom_beeswarm(cex = 0.65) +
-    stat_ydensity(aes(fill = expression), scale = "width", bw = 0.01, 
-                  trim = FALSE) +
-    guides(fill = guide_legend(ncol = 2, override.aes = list(size = 3))) +
-    coord_flip() +
-    theme_minimal(base_size = 16, base_family = "serif") +
-    theme(axis.title = element_blank(),
-          legend.position = "bottom", legend.title = element_blank(),
-          legend.text = element_text(family = "mono"),
-          plot.title = element_text(face = "bold"),
-          plot.subtitle = element_text(face = "italic"),
-          plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
-    labs(title = "Speed Shootout: Median", 
-         subtitle = glue::glue(
-           "n = {n} ({mem})"
-           ), 
-         caption = "knapply.com")
+res_gg <- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = "Benchmarks: Median")
 ```
-
 
 
 
@@ -464,17 +414,29 @@ res_gg
 Do all methods obtain the same results?
 
 ```{r}
+(control_res <- median(r_data))
+
+c(rcpp_sugar_median(r_data),
+  cpp_median(r_data),
+  py$np$median(py$numpy_data),
+  py$numba_median(py$numpy_data),
+  py$numba_par_median(py$numpy_data),
+  py$cp$asnumpy(py$cupy_median(py$cupy_data)))
+
+are_equal <- c(
+  
+  rcpp_sugar_median(r_data),
+  cpp_median(r_data),
+  py$np$median(py$numpy_data),
+  py$numba_median(py$numpy_data),
+  py$numba_par_median(py$numpy_data),
+  py$cp$asnumpy(py$cupy_median(py$cupy_data))
+  
+  ) %>% 
+  map_lgl(~ control_res == .x)
+
 stopifnot(
-  all.equal(
-    median.default(big_dbl),
-    r_median(big_dbl),
-    rcpp_sugar_median(big_dbl),
-    cpp_median(big_dbl),
-    py$np$median(py$numpy_big_dbl),
-    py$numba_median(py$numpy_big_dbl),
-    py$numba_parallel_median(py$numpy_big_dbl),
-    py$cp$asnumpy(py$cupy_median(py$cupy_big_dbl))
-  )
+  all(are_equal)
 )
 ```
 
@@ -482,124 +444,19 @@ stopifnot(
 Did the input data remain unchanged?
 
 ```{r}
+are_equal <- list(r_data, 
+                  py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %>% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
 stopifnot(
-  all.equal(
-    validation_data, 
-    big_dbl, 
-    py$numpy_big_dbl,
-    py$cp$asnumpy(py$cupy_big_dbl)
-    )
-  )
+  all(are_equal)
+)
 ```
 
 </p>
 </details>
 
-## Environment
-
-<details>
-<summary> R </summary>
-<p>
-
-```{r}
-sessionInfo()
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> C++ </summary>
-<p>
-
-```{r}
-if (R.version["minor"] == "6.0") {
-  "GCC 8.2.0"
-  } else {
-  system("gcc --version", intern = TRUE)[[1]]
-  }
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> Python </summary>
-<p>
-
-```{python}
-import sys
-
-print(sys.version)
-print(np.__version__)
-print(numba.__version__)
-print(cp.__version__)
-```
-
-</p>
-</details>
-
-<details>
-<summary> CPU </summary>
-<p>
-
-
-```{r}
-cat(system("wmic cpu get name", intern = TRUE)[[2]])
-```
-
-</p>
-</details>
-
-<details>
-<summary> GPU </summary>
-<p>
-
-```{r}
-system("wmic path win32_VideoController get name", intern = TRUE) %>% 
-  str_subset("NVIDIA") %>% 
-  str_trim()
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> Memory </summary>
-<p>
-
-```{r}
-system("wmic MEMORYCHIP get BankLabel, Capacity, Speed", intern = TRUE) %>%
-  str_trim() %>%
-  as_tibble() %>%
-  slice(2:3) %>%
-  separate(value, into = c("BankLabel", "Capacity", "Speed"), sep = "\\s{2,}") %>%
-  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), "GB")) %>%
-  mutate(Speed = paste(Speed, "MHz")) %>%
-  rename_all(str_replace, "L", " L") %>%
-  knitr::kable(format = "html") %>%
-  kableExtra::kable_styling(full_width = FALSE)
-```
-
-</p>
-</details>
-
-
-<br><br><br>
-
-```{r, echo=FALSE, comment=NA, results='markup'}
-print_citation_header()
-```
-
-```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
-print_citation()
-print_bibtex()
-```
-
-```{r, include=FALSE}
-
+```{r child=here::here("static/R/environment-details.Rmd")}
 ```
 

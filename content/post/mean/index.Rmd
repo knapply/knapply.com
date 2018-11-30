@@ -5,8 +5,6 @@ date: '2018-11-12'
 slug: index
 categories:
   - data-science-notes
-  - statistics
-  - central-tendency
 tags:
   - data-science-notes
   - statistics
@@ -17,7 +15,7 @@ tags:
 image:
   caption: ''
   focal_point: 'Smart'
-summary: 'Calculating the mean of a sequence.'
+summary: 'Calculating the arithmetic mean of a sequence.'
 output:
   blogdown::html_page:
     toc: true
@@ -28,18 +26,19 @@ editor_options:
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(cache = FALSE, comment = "#>")
+knitr::opts_chunk$set(cache = FALSE, comment = "#>", warning = FALSE, message = FALSE)
 
 options(width=90)
 
 source(here::here("static/R/html-helpers.R"))
 source(here::here("static/R/citation.R"))
+source(here::here("static/R/wrangle_plot_save.R"))
 ```
 
 
 # R
 
-## `base::mean()`
+## Base R
 
 ```{r}
 r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
@@ -48,37 +47,16 @@ r_vector <- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,
 mean(r_vector)
 ```
 
-## Custom R
-
-```{r}
-r_mean <- function(x) {
-  sum(x) / length(x)
-}
-
-r_mean(r_vector)
-```
-
-
 # Rcpp
 
-```{Rcpp, ref.label=knitr::all_rcpp_labels(), include=FALSE}
-```
+## Sugar
 
-__Note:__ `Rcpp` examples assume code is prefaced with...
-
-```{Rcpp, eval=FALSE}
-//[[Rcpp::plugins(cpp17)]]
+```{Rcpp}
 #include <Rcpp.h>
-using namespace Rcpp;
-```
 
-
-## `Rcpp::mean()`
-
-```{Rcpp, eval=FALSE}
 // [[Rcpp::export]]
-double rcpp_sugar_mean(NumericVector x) {
-  return mean(x);
+double rcpp_sugar_mean(Rcpp::NumericVector x) {
+  return Rcpp::mean(x);
 }
 ```
 
@@ -94,16 +72,14 @@ rcpp_sugar_mean(r_vector)
 
 ### Blueprint
 
-```{Rcpp, eval=FALSE}
-using std::begin;
-using std::end;
-using std::size;
-using std::accumulate;
+```{Rcpp}
+//[[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
 
 // [[Rcpp::export]]
-double cpp_mean_blueprint(const NumericVector& x) {
-  double n = size(x);
-  return accumulate(begin(x), end(x), 0.0) / n;
+double cpp_mean_blueprint(const Rcpp::NumericVector& x) {
+  double n = std::size(x);
+  return std::accumulate(std::begin(x), std::end(x), 0.0) / n;
 }
 ```
 
@@ -113,14 +89,15 @@ cpp_mean_blueprint(r_vector)
 
 ### Templated
 
-The templated version handles R vectors of type `integer` or `double`/`numeric`.
+```{Rcpp}
+//[[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
 
-```{Rcpp, eval=FALSE}
 template <int RTYPE>
-auto cpp_mean_(const Vector<RTYPE>& x) {
+auto cpp_mean_(const Rcpp::Vector<RTYPE>& x) {
   const auto out = std::accumulate(std::begin(x), std::end(x), 0.0) / std::size(x);
   
-  return wrap(out);
+  return Rcpp::wrap(out);
 }
 
 // [[Rcpp::export]]
@@ -131,7 +108,7 @@ SEXP cpp_mean(const SEXP& x) {
     case REALSXP:
       return cpp_mean_<REALSXP>(x);
   }
-  warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), type2name(x));
+  Rcpp::warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), Rcpp::type2name(x));
   return R_NilValue;
 }
 ```
@@ -140,52 +117,50 @@ SEXP cpp_mean(const SEXP& x) {
 cpp_mean(r_vector)
 ```
 
-### Parallel
+### RcppParallel
 
-`struct Sum` comes from JJ Allaire's ["Summing a Vector in Parallel with RcppParallel"](http://gallery.rcpp.org/articles/parallel-vector-sum/) in the Rcpp Gallery.
+_Note:_ `struct Sum` comes from the ["Rcpp Gallery"](http://gallery.rcpp.org/articles/parallel-vector-sum/).
 
-```{Rcpp, eval=FALSE}
+
+```{Rcpp}
+//[[Rcpp::plugins(cpp14)]]
+#include <Rcpp.h>
 // [[Rcpp::depends(RcppParallel)]]
 #include <RcppParallel.h>
-using namespace RcppParallel;
 
-struct Sum : public Worker
-{   
-   const RVector<double> input;
+struct Sum : public RcppParallel::Worker {
+   const RcppParallel::RVector<double> input;
    double value;
-
-   Sum(const NumericVector input) : input(input), value(0) {}
-   Sum(const Sum& sum, Split) : input(sum.input), value(0) {}
-
+   
+   Sum(const Rcpp::NumericVector input) : input(input), value(0) {}
+   Sum(const Sum& sum, RcppParallel::Split) : input(sum.input), value(0) {}
+   
    void operator()(std::size_t begin, std::size_t end) {
       value += std::accumulate(input.begin() + begin, input.begin() + end, 0.0);
    }
-
    void join(const Sum& rhs) { 
       value += rhs.value; 
    }
 };
 
 // [[Rcpp::export]]
-double cpp_parallel_mean(NumericVector x) {
+double cpp_par_mean(Rcpp::NumericVector x) {
    Sum sum(x);
    parallelReduce(0, x.length(), sum);
+
    return sum.value / x.size();
 }
 ```
 
 ```{r}
-cpp_parallel_mean(r_vector)
+cpp_par_mean(r_vector)
 ```
 
 
 
 # Python
 
-
-## `statistics.mean()`
-
-Using Python's built-in `statistics` module:
+## Pure Python
 
 ```{python}
 import statistics
@@ -197,7 +172,7 @@ res = statistics.mean(py_list)
 print(res)
 ```
 
-## `np.mean()`
+## NumPy
 
 ```{python}
 import numpy as np
@@ -225,10 +200,10 @@ print(res)
 
 ```{python}
 @numba.jit(parallel = True)
-def numba_parallel_mean(x):
+def numba_par_mean(x):
   return np.mean(x)
 
-res = numba_parallel_mean(numpy_array)
+res = numba_par_mean(numpy_array)
 print(res)
 ```
 
@@ -244,22 +219,12 @@ print(res)
 ```
 
 
-## Custom Pure Python
-
-```{python}
-def py_mean(x):
-  return sum(x) / len(x)
-
-res = py_mean(py_list)
-print(res)
-```
-
-
 # Shootout
 
 <details>
 <summary> Test Setup </summary>
 <p>
+
 
 ```{r, message=FALSE, warning=FALSE}
 library(reticulate)
@@ -271,10 +236,11 @@ Create R Data
 
 ```{r}
 set.seed(831)
-big_dbl <- seq(-1e7, 1e7, by = 0.02) %>%
-  sample(replace = TRUE, size = 1e7)
+r_data <- seq(-1e4, 1e4, by = 0.2) %>%
+  sample(replace = TRUE, size = 1e7) %>%
+  sample()
 
-validation_data <- big_dbl
+validation_data <- r_data
 ```
 
 Transfer to Python
@@ -282,27 +248,26 @@ Transfer to Python
 ```{python}
 from copy import deepcopy
 
-numpy_big_dbl = np.array(deepcopy(r.big_dbl))
-cupy_big_dbl = cp.array(deepcopy(numpy_big_dbl))
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)
 ```
 
 
 Do all the data match?
 
 ```{r}
+are_equal <- list(r_data, py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %>% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
 stopifnot(
-  all.equal(
-    validation_data,
-    big_dbl,
-    py$numpy_big_dbl,
-    py$cp$asnumpy(py$cupy_big_dbl)
-    )
-  )
+  all(are_equal)
+)
 ```
 
 ```{r}
-(n <- scales::comma(length(big_dbl)))
-(mem <- capture.output(pryr::object_size(big_dbl)))
+(n <- scales::comma(length(r_data)))
+(mem <- capture.output(pryr::object_size(r_data)))
 ```
 
 </p>
@@ -310,7 +275,7 @@ stopifnot(
 
 
 <details>
-<summary> Run Benchmark Test </summary>
+<summary> `bench::mark()` </summary>
 <p>
 
 ```{r, include=FALSE}
@@ -319,20 +284,16 @@ gc()
 
 
 ```{r}
-library(bench)
-
 res <- mark(
-  mean.default(big_dbl),
-  r_mean(big_dbl),
-  rcpp_sugar_mean(big_dbl),
-  cpp_mean(big_dbl),
-  cpp_parallel_mean(big_dbl),
-  py_run_string("np.mean(numpy_big_dbl)", convert = FALSE),
-  py_run_string("numba_mean(numpy_big_dbl)", convert = FALSE),
-  py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE),
-  py_run_string("cp.mean(cupy_array)"),
+  mean(r_data),
+  rcpp_sugar_mean(r_data),
+  cpp_mean(r_data),
+  cpp_par_mean(r_data),
+  py_run_string("np.mean(numpy_data)", convert = FALSE),
+  py_run_string("numba_mean(numpy_data)", convert = FALSE),
+  py_run_string("numba_par_mean(numpy_data)", convert = FALSE),
+  py_run_string("cp.mean(cupy_data)", convert = FALSE),
   min_iterations = 5,
-  # iterations = niter, 
   check = FALSE, filter_gc = FALSE
 )
 ```
@@ -341,61 +302,40 @@ res <- mark(
 </details>
 
 
-## Results
+```{r, echo=FALSE}
+as_chunk(here::here("static/R/wrangle_plot_save.R"))
+```
 
 <details>
-<summary> Plot </summary>
+<summary> `wrangle_plot_save()` </summary>
 <p>
 
-```{r, fig.align='center', fig.width=9, fig.height=14, message=FALSE, warning=FALSE}
-res_gg <- res %>% 
-  mutate(expression = as.character(expression)) %>% 
-  mutate(type = recode(
-    expression,
-    "mean.default(big_dbl)" = "R's built-in",
-    "r_mean(big_dbl)" = "Custom R",
-    "rcpp_sugar_mean(big_dbl)" = "Rcpp's built-in",
-    "cpp_mean(big_dbl)" = "Custom Rcpp",
-    "cpp_parallel_mean(big_dbl)" = "Rcpp (Parallel)",
-    'py_run_string("np.mean(numpy_big_dbl)", convert = FALSE)' = "NumPy",
-    'py_run_string("numba_mean(numpy_big_dbl)", convert = FALSE)' = "Numba",
-    'py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE)' = "Numba (Parallel)",
-    'py_run_string("cp.mean(cupy_array)")' = "CuPy (GPU)"
-  )) %>%  
-  mutate(expression = recode(
-    expression,
-    'py_run_string("np.mean(numpy_big_dbl)", convert = FALSE)' = 'np.mean(numpy_big_dbl)',
-    'py_run_string("numba_mean(numpy_big_dbl)", convert = FALSE)' = "numba_mean(numpy_big_dbl)",
-    'py_run_string("numba_parallel_mean(numpy_big_dbl)", convert = FALSE)' = "numba_parallel_mean(numpy_big_dbl)",
-    'py_run_string("cp.mean(cupy_array)")' = "cp.mean(cupy_array)"
-  )) %>% 
-  unnest() %>%
-  group_by(type) %>%
-  mutate(med = median(as.numeric(time))) %>%
-  ungroup() %>%
-  arrange(desc(med)) %>%
-  mutate(type = as_factor(type)) %>%
-  arrange(med) %>%
-  mutate(expression = as_factor(expression)) %>%
-  ggplot(aes(x = type, y = time, color = expression)) +
-    # ggbeeswarm::geom_beeswarm(cex = 0.65) +
-    stat_ydensity(aes(fill = expression), scale = "width", bw = 0.01, 
-                  trim = FALSE) +
-    guides(fill = guide_legend(ncol = 2, override.aes = list(size = 3))) +
-    coord_flip() +
-    theme_minimal(base_size = 16, base_family = "serif") +
-    theme(axis.title = element_blank(),
-          legend.position = "bottom", legend.title = element_blank(),
-          legend.text = element_text(family = "mono"),
-          plot.title = element_text(face = "bold"),
-          plot.subtitle = element_text(face = "italic"),
-          plot.caption = element_text(family = "mono", size = 16, face = "bold")) +
-    labs(title = "Speed Shootout: Mean", 
-         subtitle = glue::glue(
-           "n = {n} ({mem})"
-           ), 
-         caption = "knapply.com")
+```{r wrangle_plot_save, eval=FALSE}
 ```
+
+</p>
+</details>
+
+<details>
+<summary> `write_gg()` </summary>
+<p>
+
+```{r write_gg, eval=FALSE}
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> `res_gg` </summary>
+<p>
+
+```{r, fig.align='center', fig.width=9, fig.height=11, message=FALSE, warning=FALSE}
+res_gg <- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = "Benchmarks: Arithmetic Mean")
+```
+
 
 
 ```{r, eval=FALSE}
@@ -418,142 +358,53 @@ res_gg
 Do all methods obtain the same results?
 
 ```{r}
-stopifnot(
-  all.equal(
-    mean(big_dbl),
-    r_mean(big_dbl),
-    rcpp_sugar_mean(big_dbl),
-    cpp_mean(big_dbl),
-    cpp_parallel_mean(big_dbl),
-    py$np$mean(py$numpy_big_dbl),
-    py$numba_mean(py$numpy_big_dbl),
-    py$numba_parallel_mean(py$numpy_big_dbl),
-    py$cp$asnumpy(py$cp$mean(py$cupy_big_dbl))
+(control_res <- mean(r_data))
+
+c(
+  rcpp_sugar_mean(r_data),
+  cpp_mean(r_data),
+  cpp_par_mean(r_data),
+  py$np$mean(py$numpy_data),
+  py$numba_mean(py$numpy_data),
+  py$numba_par_mean(py$numpy_data),
+  py$cp$asnumpy(py$cp$mean(py$cupy_data))
   )
+
+are_equal <- c(
+  
+  rcpp_sugar_mean(r_data),
+  cpp_mean(r_data),
+  cpp_par_mean(r_data),
+  py$np$mean(py$numpy_data),
+  py$numba_mean(py$numpy_data),
+  py$numba_par_mean(py$numpy_data),
+  py$cp$asnumpy(py$cp$mean(py$cupy_data))
+  
+  ) %>% 
+  map_lgl(all.equal, control_res)
+
+stopifnot(
+  all(are_equal)
 )
 ```
+
 
 Did the input data remain unchanged?
 
 ```{r}
+are_equal <- list(r_data, 
+                  py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %>% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
 stopifnot(
-  all.equal(
-    validation_data, 
-    big_dbl, 
-    py$numpy_big_dbl,
-    py$cp$asnumpy(py$cupy_big_dbl)
-    )
-  )
+  all(are_equal)
+)
 ```
 
 </p>
 </details>
 
-## Environment
-
-<details>
-<summary> R </summary>
-<p>
-
-```{r}
-sessionInfo()
+```{r child=here::here("static/R/environment-details.Rmd")}
 ```
-
-</p>
-</details>
-
-
-<details>
-<summary> C++ </summary>
-<p>
-
-```{r}
-if (R.version["minor"] == "6.0") {
-  "GCC 8.2.0"
-  } else {
-  system("gcc --version", intern = TRUE)[[1]]
-  }
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> Python </summary>
-<p>
-
-```{python}
-import sys
-print(sys.version)
-print(np.__version__)
-print(numba.__version__)
-print(cp.__version__)
-```
-
-</p>
-</details>
-
-<details>
-<summary> CPU </summary>
-<p>
-
-
-```{r}
-cat(system("wmic cpu get name", intern = TRUE)[[2]])
-```
-
-</p>
-</details>
-
-<details>
-<summary> GPU </summary>
-<p>
-
-```{r}
-system("wmic path win32_VideoController get name", intern = TRUE) %>% 
-  str_subset("NVIDIA") %>% 
-  str_trim()
-```
-
-</p>
-</details>
-
-
-<details>
-<summary> Memory </summary>
-<p>
-
-```{r}
-system("wmic MEMORYCHIP get BankLabel, Capacity, Speed", intern = TRUE) %>%
-  str_trim() %>%
-  as_tibble() %>%
-  slice(2:3) %>%
-  separate(value, into = c("BankLabel", "Capacity", "Speed"), sep = "\\s{2,}") %>%
-  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), "GB")) %>%
-  mutate(Speed = paste(Speed, "MHz")) %>%
-  rename_all(str_replace, "L", " L") %>%
-  knitr::kable(format = "html") %>%
-  kableExtra::kable_styling(full_width = FALSE)
-```
-
-</p>
-</details>
-
-
-<br><br><br>
-
-```{r, echo=FALSE, comment=NA, results='markup'}
-print_citation_header()
-```
-
-```{r, echo=FALSE, comment=NA, results='markup', class.output='citation'}
-print_citation()
-print_bibtex()
-```
-
-```{r, include=FALSE}
-
-```
-
 

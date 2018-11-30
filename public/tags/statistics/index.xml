@@ -18,9 +18,9 @@
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/mode/</guid>
-      <description>What is it?RRcppBlueprintTemplated VersionPythonstatistics.mode()Custom Pure PythonCustom NumPyShootoutResultsEnvironmentThis post was last updated on 2018-11-27.
+      <description>What is it?RBase RRcppBlueprintTemplatedPythonPure PythonNumPyNumbaParallelCuPyShootoutEnvironmentThis post was last updated on 2018-11-30.
 What is it?Given a sequence, the mode is the value with the highest number of occurrences.
-Stepsfind the unique valuescount the number of occurrences of each valuethe mode is the value with the highest number of occurrencesRr_mode &amp;lt;- function(x) {uniques &amp;lt;- x[!</description>
+Stepsfind the unique valuescount the number of occurrences of each valuethe mode is the value with the highest number of occurrencesRBase Rr_mode &amp;lt;- function(x) {uniques &amp;lt;- x[!</description>
     </item>
     
     <item>
@@ -38,7 +38,7 @@
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/mean/</guid>
-      <description>Rbase::mean()Custom RRcppRcpp::mean()CustomBlueprintTemplatedParallelPythonstatistics.mean()np.mean()NumbaParallelCuPyCustom Pure PythonShootoutResultsEnvironmentRbase::mean()r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)mean(r_vector)#&amp;gt; [1] 456.85Custom Rr_mean &amp;lt;- function(x) {sum(x) / length(x)}r_mean(r_vector)#&amp;gt; [1] 456.</description>
+      <description>RBase RRcppSugarCustomBlueprintTemplatedRcppParallelPythonPure PythonNumPyNumbaParallelCuPyShootoutEnvironmentRBase Rr_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)mean(r_vector)#&amp;gt; [1] 456.85RcppSugar#include &amp;lt;Rcpp.h&amp;gt;// [[Rcpp::export]]double rcpp_sugar_mean(Rcpp::NumericVector x) {return Rcpp::mean(x);}r_vector &amp;lt;- c(126, 793, 999, 525, 851, 798, 120, 714, 852, 151,190, 41, 612, 826, 507, 105, 14, 237, 669, 7)rcpp_sugar_mean(r_vector)#&amp;gt; [1] 456.</description>
     </item>
     
     <item>
@@ -47,7 +47,7 @@
       <pubDate>Mon, 12 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/median/</guid>
-      <description>What is it?Rstats::median()Custom RRcppRcpp::median()CustomBlueprintTemplate VersionPythonstatistics.median()numpy.median()NumbaParallelCustom CuPyCustom Pure PythonShootoutResultsEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
+      <description>What is it?RBase RCustom Base RRcppSugarCustomBlueprintTemplatedPythonPure PythonNumPyNumbaParallelCuPyShootoutEnvironmentWhat is it?Given a sequence, which is the middle-most value. Put another way, what value is equally likely to be greater than the first half of a sorted sequence and lesser than the second half of a sorted sequence.</description>
     </item>
     
   </channel>

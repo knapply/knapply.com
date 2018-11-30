@@ -351,18 +351,22 @@
 
 
 
-  
 
+<div class="article-header d-xl-none">
+  <img src="/post/mode/featured_hub71892d73ff203bcdc4caba9657d764d_12677_1600x400_fill_q90_box_smart1_2.png" class="article-banner" itemprop="image" alt="">
   
-  
-  
-<div class="article-container pt-3">
-  <h1 itemprop="name">Mode</h1>
+</div>
 
-  
 
-  
-    
+<div class="container-fluid split-header d-none d-xl-block">
+  <div class="row">
+    <div class="col-6">
+      <div class="split-header-content">
+        <h1 itemprop="name">Mode</h1>
+
+        
+
+        
 
 <div class="article-metadata">
 
@@ -389,7 +393,127 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    6 min read
+    7 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/mode/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science-from-scratch/">data-science-from-scratch</a>, 
+    
+    <a href="/categories/statistics/">statistics</a>, 
+    
+    <a href="/categories/central-tendency/">central-tendency</a>, 
+    
+    <a href="/categories/tutorial/">tutorial</a>, 
+    
+    <a href="/categories/programming/">programming</a>
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+        
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Mode&amp;url=%2fpost%2fmode%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fmode%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fmode%2f&amp;title=Mode"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fmode%2f&amp;title=Mode"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Mode&amp;body=%2fpost%2fmode%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="split-header-image">
+        <img src="/post/mode/featured_hub71892d73ff203bcdc4caba9657d764d_12677_680x500_fill_q90_box_smart1_2.png" itemprop="image" alt="">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-container d-xl-none">
+  <h1 itemprop="name">Mode</h1>
+
+  
+
+  
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+        Last updated on
+    
+    <meta content="2018-11-23 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-11-27 12:45:00 -0800 PST" itemprop="dateModified">
+      Nov 27, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    7 min read
   </span>
   
 
@@ -466,7 +590,6 @@
 
 </div>
 
-  
 </div>
 
 
@@ -480,25 +603,28 @@
 <div id="TOC">
 <ul>
 <li><a href="#what-is-it">What is it?</a></li>
-<li><a href="#r">R</a></li>
+<li><a href="#r">R</a><ul>
+<li><a href="#base-r">Base R</a></li>
+</ul></li>
 <li><a href="#rcpp">Rcpp</a><ul>
 <li><a href="#blueprint">Blueprint</a></li>
-<li><a href="#templated-version">Templated Version</a></li>
+<li><a href="#templated">Templated</a></li>
 </ul></li>
 <li><a href="#python">Python</a><ul>
-<li><a href="#statistics.mode"><code>statistics.mode()</code></a></li>
-<li><a href="#custom-pure-python">Custom Pure Python</a></li>
-<li><a href="#custom-numpy">Custom NumPy</a></li>
+<li><a href="#pure-python">Pure Python</a></li>
+<li><a href="#numpy">NumPy</a></li>
+<li><a href="#numba">Numba</a><ul>
+<li><a href="#parallel">Parallel</a></li>
 </ul></li>
-<li><a href="#shootout">Shootout</a><ul>
-<li><a href="#results">Results</a></li>
+<li><a href="#cupy">CuPy</a></li>
+</ul></li>
+<li><a href="#shootout">Shootout</a></li>
 <li><a href="#environment">Environment</a></li>
-</ul></li>
 </ul>
 </div>
 
 <blockquote>
-<p><em>This post was last updated on 2018-11-27.</em></p>
+<p><em>This post was last updated on 2018-11-30.</em></p>
 </blockquote>
 <div id="what-is-it" class="section level1">
 <h1>What is it?</h1>
@@ -514,6 +640,8 @@
 </div>
 <div id="r" class="section level1">
 <h1>R</h1>
+<div id="base-r" class="section level2">
+<h2>Base R</h2>
 <pre class="r"><code>r_mode &lt;- function(x) {
   uniques &lt;- x[!duplicated(x)]
   uniques[which.max(tabulate(match(x, uniques)))]
@@ -524,169 +652,59 @@ r_vector &lt;- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
 
 r_mode(r_vector)</code></pre>
 <pre><code>#&gt; [1] 4</code></pre>
-<!-- ## Breakdown -->
-<!-- `duplicated()` returns a `logical` vector indicating which elements in `x` occur more than once. -->
-<!-- ```{r} -->
-<!-- duplicated(r_vector)  -->
-<!-- ``` -->
-<!-- `!duplicated(x)` swaps `TRUE` for `FALSE` and vice-versa. -->
-<!-- ```{r} -->
-<!-- !duplicated(r_vector) -->
-<!-- ``` -->
-<!-- `!duplicated(r_vector)` allows us to subset `r_vector` to keep only those elements that are not duplicated, retaining the order in which they occur. -->
-<!-- ```{r} -->
-<!-- uniques <- r_vector[!duplicated(r_vector)] -->
-<!-- uniques -->
-<!-- ``` -->
-<!-- `match(x, uniques)` returns an `integer` vector containing the indices of elements in the first argument (`r_vector`) matching those in the second argument (`uniques`). -->
-<!-- ```{r} -->
-<!-- matched <- match(r_vector, uniques) -->
-<!-- matched -->
-<!-- ``` -->
-<!-- `tabulate()` counts the number of times each of those indices occur. -->
-<!-- ```{r} -->
-<!-- tabulated <- tabulate(matched) -->
-<!-- tabulated -->
-<!-- ``` -->
-<!-- `which.max()` returns an `integer` scalar (in R, this is simply a vector of length 1) indicating the index of the highest number. -->
-<!-- ```{r} -->
-<!-- max_count <- which.max(tabulated) -->
-<!-- max_count -->
-<!-- ``` -->
-<!-- Which we can then use to subset `uniques` to find our mode. -->
-<!-- ```{r} -->
-<!-- uniques[max_count] -->
-<!-- ``` -->
+</div>
 </div>
 <div id="rcpp" class="section level1">
 <h1>Rcpp</h1>
-<p><strong>Note:</strong> <code>Rcpp</code> examples assume code is prefaced with…</p>
-<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
-#include &lt;Rcpp.h&gt;
-using namespace Rcpp;</code></pre>
-<blockquote>
-<p>C++ References</p>
-</blockquote>
-<div class="row">
-<div class="col-md-6">
-<ul>
-<li><a href="https://en.cppreference.com/w/cpp/header/algorithm"><code>&lt;algorithm&gt;</code></a>
-<ul>
-<li><a href="https://en.cppreference.com/w/cpp/algorithm/max_element"><code>std::max_element()</code></a></li>
-</ul></li>
-<li><a href="https://en.cppreference.com/w/cpp/header/iterator"><code>&lt;iterator&gt;</code></a>
-<ul>
-<li><a href="https://en.cppreference.com/w/cpp/iterator/begin"><code>std::begin()</code></a></li>
-<li><a href="https://en.cppreference.com/w/cpp/iterator/end"><code>std::end()</code></a></li>
-</ul></li>
-</ul>
-</div>
-<div class="col-md-6">
-<ul>
-<li><a href="https://en.cppreference.com/w/cpp/header/unordered_map"><code>&lt;unordered_map&gt;</code></a>
-<ul>
-<li><a href="https://en.cppreference.com/w/cpp/container/unordered_map"><code>std::unordered_map</code></a></li>
-</ul></li>
-<li><a href="https://en.cppreference.com/w/cpp/header/utility"><code>&lt;utility&gt;</code></a>
-<ul>
-<li><a href="https://en.cppreference.com/w/cpp/utility/pair"><code>std::pair</code></a></li>
-</ul></li>
-<li><a href="https://en.cppreference.com/w/cpp/language/lambda"><code>[] ()</code></a> (Lambda)</li>
-<li><a href="https://en.cppreference.com/w/cpp/language/auto"><code>auto</code></a></li>
-</ul>
-</div>
-</div>
 <div id="blueprint" class="section level2">
 <h2>Blueprint</h2>
-<pre class="cpp"><code>using std::begin;
-using std::end;
-using std::max_element;
-using std::pair;
-using std::unordered_map;
+<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
 
 // [[Rcpp::export]]
-double cpp_mode_blueprint(const NumericVector&amp; x) {
-  unordered_map&lt;double, size_t&gt; counts;
-
+double cpp_mode_blueprint(const Rcpp::NumericVector&amp; x) {
+  std::unordered_map&lt;double, std::size_t&gt; counter;
+  
+  auto max_count = 0;
+  double out = 0;
   for (auto i : x) {
-    counts[i]++;
+    counter[i]++;
+    if (counter[i] &gt; max_count) {
+      max_count = counter[i];
+      out = i;
+    }
   }
   
-  auto compare_map_vals = [] (const pair&lt;double, size_t&gt;&amp; p1, 
-                              const pair&lt;double, size_t&gt;&amp; p2) {
-    return p1.second &lt; p2.second;
-  };
-
-  const auto max_index = max_element(begin(counts), end(counts), 
-                                     compare_map_vals);
-
-  return (*max_index).first;
+  return out;
 }</code></pre>
 <pre class="r"><code>r_vector &lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
 
 cpp_mode_blueprint(r_vector)</code></pre>
 <pre><code>#&gt; [1] 4</code></pre>
-<!-- ### Breakdown -->
-<!-- * `unordered_map<double, size_t>` provides a key-value container in which our keys will be of type `double` and our values will be of type `size_t` (`long long unsigned int`). -->
-<!-- * `for (auto i : x) { counts[i]++; }` loops through our input `x` and -->
-<!--     + checks if each element exists as a key in `counts`, -->
-<!--     + adds the element as key and setting its value to `0` if it doesn't already exist, -->
-<!--     + and increments that value. -->
-<!-- The following example walks through the loop step by step. -->
-<!-- ```{Rcpp, eval=FALSE} -->
-<!-- using std::boolalpha; // makes `bool`s print-friendly -->
-<!-- using std::endl;      // inserts new line, flushes output stream -->
-<!-- using std::find;      // returns iterator to first element matching condition OR last -->
-<!-- using std::size;      // returns size (as in number of elements) of a container or array -->
-<!-- // [[Rcpp::export]] -->
-<!-- void breakdown_map_loop(const NumericVector& x) { -->
-<!--   Rcout << "Declaring `counts`" << endl << endl; -->
-<!--   unordered_map<double, size_t> counts; -->
-<!--   auto counter = 1; -->
-<!--   Rcout << "... starting loop" << endl; -->
-<!--   for (auto i : x) { -->
-<!--     auto is_already_key = counts.find(i) != end(counts); -->
-<!--     Rcout << "... starting " << counter << "st|nd|rd|th element..." << endl; -->
-<!--     Rcout << "`i` = " << i << endl; -->
-<!--     Rcout << "Does `x[" << i << "]` already exist in `counts`? " << endl -->
-<!--           << "\t" << boolalpha << is_already_key << endl; -->
-<!--     if (is_already_key) { -->
-<!--       Rcout << "`x[" << i << "]`'s current value is " << endl << "\t" << counts[i] << endl; -->
-<!--     } else { -->
-<!--       Rcout << "... `x[" << i << "]` is being added as a key with a value of `0` " << endl; -->
-<!--     } -->
-<!--     Rcout << "... `x[" << i << "]` is being incremented" << endl; -->
-<!--     counts[i]++; -->
-<!--     Rcout << "`x[" << i << "]`'s new value is "<< endl << "\t" << counts[i] << endl << endl; -->
-<!--     counter++; -->
-<!--   } -->
-<!--   Rcout << endl << "Loop finished" << endl; -->
-<!-- } -->
-<!-- ``` -->
-<!-- ```{r} -->
-<!-- breakdown_map_loop(c(1, 2, 1)) -->
-<!-- ``` -->
-<!-- * `compare_map_vals` is a lambda expression that constructs a closure (a function that is stored with its environment) that we can pass to `std::max_element()`. -->
-<!--     + By default, `std::max_element()` will compare the value of a `std::unordered_map`'s keys, or `.first`s. -->
-<!--     + `compare_map_vals` tells `std::max_element()` to instead compare the values, or `.second`s. -->
-<!-- * `std::max_element()` returns an iterator pointing to an element in `counts`. -->
-<!--     + In order to access the underlying element, we dereference the iterator with `*` and state that we want the key using `.first`. -->
 </div>
-<div id="templated-version" class="section level2">
-<h2>Templated Version</h2>
-<pre class="cpp"><code>template &lt;int RTYPE, typename T&gt;
-auto cpp_mode_(const Vector&lt;RTYPE&gt;&amp; x) {
-  std::unordered_map&lt;T, size_t&gt; counts;
+<div id="templated" class="section level2">
+<h2>Templated</h2>
+<pre class="cpp"><code>//[[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
+
+template &lt;int RTYPE, typename T&gt;
+auto cpp_mode_(const Rcpp::Vector&lt;RTYPE&gt;&amp; x) {
+  std::unordered_map&lt;T, size_t&gt; counter(std::size(x));
+  
   for (auto i : x) {
-    counts[i]++;
+    counter[i]++;
   }
-  auto compare_map_vals = [] (const std::pair&lt;T, size_t&gt;&amp; p1,
-                              const std::pair&lt;T, size_t&gt;&amp; p2) {
-    return p1.second &lt; p2.second;
-    };
-  const auto max_index = std::max_element(std::begin(counts), std::end(counts), 
-                                          compare_map_vals);
-  return wrap( (*max_index).first );
+  
+  size_t max = 0;
+  T out;
+  for (const auto&amp; i : counter) {
+    if (i.second &gt; max) {
+      max = i.second;
+      out = i.first;
+    }
+  }
+
+  return Rcpp::wrap(out);
 }
 
 
@@ -700,9 +718,9 @@ SEXP cpp_mode(const SEXP&amp; x) {
     case LGLSXP:
       return cpp_mode_&lt;LGLSXP, bool&gt;(x);
     case STRSXP:
-      return cpp_mode_&lt;STRSXP, String&gt;(x);
+      return cpp_mode_&lt;STRSXP, Rcpp::String&gt;(x);
   }
-  warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), type2name(x));
+  Rcpp::warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), Rcpp::type2name(x));
   return R_NilValue;
 }</code></pre>
 <pre class="r"><code>r_vector &lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
@@ -713,9 +731,8 @@ cpp_mode(r_vector)</code></pre>
 </div>
 <div id="python" class="section level1">
 <h1>Python</h1>
-<div id="statistics.mode" class="section level2">
-<h2><code>statistics.mode()</code></h2>
-<p><code>statistics</code> is part of Python’s standard library.</p>
+<div id="pure-python" class="section level2">
+<h2>Pure Python</h2>
 <pre class="python"><code>import statistics
 
 py_list = [4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3]
@@ -724,19 +741,8 @@ res = statistics.mode(py_list)
 print(res)</code></pre>
 <pre><code>#&gt; 4</code></pre>
 </div>
-<div id="custom-pure-python" class="section level2">
-<h2>Custom Pure Python</h2>
-<pre class="python"><code>from collections import Counter
-
-def py_mode(x):
-  return Counter(x).most_common(1)[0][0]
-
-res = py_mode(py_list)
-print(res)</code></pre>
-<pre><code>#&gt; 4</code></pre>
-</div>
-<div id="custom-numpy" class="section level2">
-<h2>Custom NumPy</h2>
+<div id="numpy" class="section level2">
+<h2>NumPy</h2>
 <pre class="python"><code>import numpy as np
 
 def numpy_mode(x):
@@ -746,6 +752,46 @@ def numpy_mode(x):
 numpy_array = np.array(py_list)
 
 res = numpy_mode(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 4</code></pre>
+</div>
+<div id="numba" class="section level2">
+<h2>Numba</h2>
+<pre class="python"><code>import numba
+
+@numba.jit()
+def numba_mode(x):
+  keys, counts = np.unique(x, return_counts = True)
+  return keys[counts.argmax()]
+
+res = numba_mode(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 4</code></pre>
+<div id="parallel" class="section level3">
+<h3>Parallel</h3>
+<pre class="python"><code>import numba
+
+@numba.jit(parallel = True)
+def numba_par_mode(x):
+  keys, counts = np.unique(x, return_counts = True)
+  return keys[counts.argmax()]
+
+res = numba_par_mode(numpy_array)
+print(res)</code></pre>
+<pre><code>#&gt; 4</code></pre>
+</div>
+</div>
+<div id="cupy" class="section level2">
+<h2>CuPy</h2>
+<pre class="python"><code>import cupy as cp
+
+def cupy_mode(x):
+  keys, counts = cp.unique(x, return_counts = True)
+  return keys[counts.argmax()]
+  
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = cupy_mode(cupy_array)
 print(res)</code></pre>
 <pre><code>#&gt; 4</code></pre>
 </div>
@@ -760,118 +806,202 @@ library(tidyverse)
 library(bench)</code></pre>
 <p>Create R Data</p>
 <pre class="r"><code>set.seed(831)
-big_dbl &lt;- seq(-1e7, 1e7, by = 0.02) %&gt;%
-  sample(replace = TRUE, size = 1e5) %&gt;%
-  rep(20) %&gt;% 
-  c(rep(32.4, 100)) %&gt;%  # our mode is 32.4
-  sample(replace = TRUE)
+r_data &lt;- seq(-1e4, 1e4) %&gt;%
+  sample(replace = TRUE, size = 1e7) %&gt;% 
+  c(rep(32L, 200)) %&gt;%  # our mode is 32
+  sample()
 
-validation_data &lt;- big_dbl</code></pre>
+validation_data &lt;- r_data</code></pre>
 <p>Transfer to Python</p>
-<pre class="python"><code>py_big_dbl = r.big_dbl
-numpy_big_dbl = np.array(py_big_dbl)</code></pre>
+<pre class="python"><code>from copy import deepcopy
+
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)</code></pre>
 <p>Do all the data match?</p>
-<pre class="r"><code>stopifnot(
-  all.equal(validation_data,
-            big_dbl,
-            py$py_big_dbl,
-            py$numpy_big_dbl)
-  )</code></pre>
-<pre class="r"><code>(n &lt;- scales::comma(length(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;2,000,100&quot;</code></pre>
-<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(big_dbl)))</code></pre>
-<pre><code>#&gt; [1] &quot;16 MB&quot;</code></pre>
+<pre class="r"><code>are_equal &lt;- list(r_data, py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %&gt;% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
+stopifnot(
+  all(are_equal)
+)</code></pre>
+<pre class="r"><code>(n &lt;- scales::comma(length(r_data)))</code></pre>
+<pre><code>#&gt; [1] &quot;10,000,200&quot;</code></pre>
+<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(r_data)))</code></pre>
+<pre><code>#&gt; [1] &quot;40 MB&quot;</code></pre>
 </p>
 </details>
 <details>
-<summary> Run Benchmark Test </summary>
+<summary> <code>bench::mark()</code> </summary>
 <p>
 <pre class="r"><code>res &lt;- mark(
-  r_mode(big_dbl),
-  cpp_mode(big_dbl),
-  py_run_string(&quot;py_mode(py_big_dbl)&quot;, convert = FALSE),
-  py_run_string(&quot;statistics.mode(py_big_dbl)&quot;, convert = FALSE),
-  py_run_string(&quot;numpy_mode(numpy_big_dbl)&quot;, convert = FALSE),
-  iterations = 50, check = FALSE, filter_gc = FALSE
+  r_mode(r_data),
+  cpp_mode(r_data),
+  py_run_string(&quot;numpy_mode(numpy_data)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_mode(numpy_data)&quot;, convert = FALSE),
+  py_run_string(&quot;numba_par_mode(numpy_data)&quot;, convert = FALSE),
+  py_run_string(&quot;cupy_mode(cupy_data)&quot;, convert = FALSE),
+  min_iterations = 5,
+  check = FALSE, filter_gc = FALSE
 )</code></pre>
 </p>
 </details>
-<div id="results" class="section level2">
-<h2>Results</h2>
 <details>
-<summary> Plot </summary>
+<summary> <code>wrangle_plot_save()</code> </summary>
 <p>
-<pre class="r"><code>res_gg &lt;- res %&gt;%
-  mutate(expression = as.character(expression)) %&gt;%
-  mutate(type = recode(
-    expression,
-    &quot;r_mode(big_dbl)&quot; = &quot;Custom R&quot;,
-    &quot;cpp_mode(big_dbl)&quot; = &quot;Custom Rcpp&quot;,
-    &#39;py_run_string(&quot;statistics.mode(py_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Python&#39;s built-in&quot;,
-    &#39;py_run_string(&quot;numpy_mode(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom NumPy&quot;,
-    &#39;py_run_string(&quot;py_mode(py_big_dbl)&quot;, convert = FALSE)&#39; = &quot;Custom Python&quot;
-  )) %&gt;%
-  mutate(lang = if_else(str_detect(type, &quot;\\sR(cpp)?&quot;), &quot;R&quot;, &quot;Python&quot;)) %&gt;% 
-  mutate(expression = recode(
-    expression,
-    &#39;py_run_string(&quot;statistics.mode(py_big_dbl)&quot;, convert = FALSE)&#39; = &#39;statistics.mode(py_big_dbl)&#39;,
-    &#39;py_run_string(&quot;numpy_mode(numpy_big_dbl)&quot;, convert = FALSE)&#39; = &#39;numpy_mode(numpy_big_dbl)&#39;,
-    &#39;py_run_string(&quot;py_mode(py_big_dbl)&quot;, convert = FALSE)&#39; = &#39;py_mode(py_big_dbl)&#39;
-  )) %&gt;%
-  unnest() %&gt;%
-  group_by(type) %&gt;%
-  mutate(med = median(as.numeric(time))) %&gt;%
-  ungroup() %&gt;%
-  arrange(desc(med)) %&gt;%
-  mutate(type = as_factor(type)) %&gt;%
-  arrange(med) %&gt;%
-  mutate(expression = as_factor(expression)) %&gt;%
-  ggplot(aes(x = type, y = time, color = expression)) +
-    ggbeeswarm::geom_beeswarm(cex = 0.65) +
-    guides(color = guide_legend(ncol = 2, override.aes = list(size = 3))) +
-    coord_flip() +
-    theme_minimal(base_size = 16, base_family = &quot;serif&quot;) +
-    theme(axis.title = element_blank(),
-          legend.position = &quot;bottom&quot;, legend.title = element_blank(),
-          legend.text = element_text(family = &quot;mono&quot;),
-          plot.title = element_text(face = &quot;bold&quot;),
-          plot.subtitle = element_text(face = &quot;italic&quot;),
-          plot.caption = element_text(family = &quot;mono&quot;, size = 16, face = &quot;bold&quot;)) +
-    labs(title = &quot;Speed Shootout: Statistical Mode&quot;, 
-         subtitle = glue::glue(
-           &quot;n = {n} ({mem})&quot;
-           ), 
-         caption = &quot;knapply.com&quot;)
+<pre class="r"><code>wrangle_plot_save &lt;- function(bench_marks, .n, .mem, .title) {
+  depends &lt;- c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;stringr&quot;, &quot;ggplot2&quot;, &quot;extrafont&quot;)
+  success &lt;- vector(mode = &quot;logical&quot;, length = length(depends))
+  for (i in seq_along(depends)) {
+    success[[i]] &lt;- require(depends[[i]], quietly = TRUE, character.only = TRUE)
+  }
+  if (!all(success)) {
+    stop(paste(depends[!success], &quot;packages not found.&quot;))
+  }
+  
+  extrafont::loadfonts(&quot;win&quot;, quiet = TRUE)
 
-res_gg + facet_wrap(~ lang, ncol = 1, scales = &quot;free_y&quot;)</code></pre>
-<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-18-1.png" width="864" style="display: block; margin: auto;" /></p>
+  out &lt;- bench_marks %&gt;% 
+    mutate(expression = as.character(expression)) %&gt;% 
+    mutate(expression = if_else(
+      str_detect(expression, &quot;py_run_string&quot;),
+      str_extract(expression, &#39;(?&lt;=&quot;).*?(?=&quot;)&#39;),
+      expression)
+    ) %&gt;%
+    mutate(expression = str_remove(expression, &quot;(?&lt;=\\().*?(?=\\))&quot;)) %&gt;% 
+    mutate(framework = case_when(
+      str_detect(expression, &quot;^(np\\.|numpy_)&quot;) ~ &quot;NumPy&quot;,
+      str_detect(expression, &quot;^numba_&quot;) ~ &quot;Numba&quot;,
+      str_detect(expression, &quot;^(cp\\.|cupy_)&quot;) ~ &quot;CuPy&quot;,
+      str_detect(expression, &quot;^r?cpp_&quot;) ~ &quot;Rcpp&quot;,
+      str_detect(expression, &quot;^r_&quot;) ~ &quot;Base R&quot;,
+      TRUE ~ &quot;Base R&quot;
+      )
+    ) %&gt;%
+    mutate(framework = str_glue(&quot;  {framework}  &quot;)) %&gt;% 
+    mutate(is_parallel = str_detect(expression, &quot;_par_&quot;)) %&gt;% 
+    mutate(is_gpu = str_detect(expression, &quot;cupy_&quot;)) %&gt;% 
+    unnest() %&gt;%
+    group_by(expression) %&gt;%
+    mutate(med = median(as.numeric(time))) %&gt;%
+    ungroup() %&gt;%
+    arrange(desc(med)) %&gt;%
+    mutate(Expression = as_factor(expression)) %&gt;%
+    arrange(med) %&gt;%
+    # mutate(expression = as_factor(expression)) %&gt;%
+    mutate(framework = as_factor(framework)) %&gt;%
+    rename(Time = time) %&gt;% 
+    ggplot(aes(x = Expression, y = Time)) +
+      stat_ydensity(aes(fill = framework), 
+                    color = &quot;gray&quot;, alpha = 0.85,
+                    size = 0.1, scale = &quot;width&quot;, 
+                    bw = 0.01, trim = FALSE) +
+      scale_fill_viridis_d() +
+      guides(color = FALSE) +
+      coord_flip() +
+      theme_minimal(base_size = 18, base_family = &quot;Palatino Linotype&quot;) +
+      theme(#axis.title.x = element_text(size = 10),
+            axis.title = element_blank(),
+            axis.text.y = element_text(family = &quot;Fira Code Retina&quot;, size = 15, colour = &quot;black&quot;,
+                                       margin = margin(0, 0, 0, 0, &quot;lines&quot;)),
+            axis.text.x = element_text(size = 12, colour = &quot;black&quot;,
+                                       margin = margin(0, 0, 0, 0, &quot;lines&quot;)),
+            legend.position = &quot;bottom&quot;, legend.title = element_blank(),
+            # legend.text = element_text(family = &quot;sans&quot;, size = 14),
+            # legend.key.size = unit(2, &quot;lines&quot;), 
+            plot.title = element_text(face = &quot;bold&quot;),
+            plot.subtitle = element_text(size = 12, face = &quot;italic&quot;),
+            plot.caption = element_text(family = &quot;Fira Code Retina&quot;, size = 14, face = &quot;bold&quot;),
+            panel.spacing = unit(0, &quot;lines&quot;),
+            panel.border = element_rect(colour = NA, fill = NA, size = 0)) +
+      labs(title = .title, 
+           subtitle = str_glue(&quot;n = {n} ({mem})&quot;),
+           caption = &quot;knapply.com&quot;)
+
+  write_gg(plot = out)
+
+  out
+}</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>write_gg()</code> </summary>
+<p>
+<pre class="r"><code>write_gg &lt;- function(plot, path = here::here(glue::glue(&quot;content/post/{rmarkdown::metadata$title}/&quot;)),
+                     width = 580, height = 426, text_factor = 1) {
+  if (!require(ggplot2, quietly = TRUE)) {
+    stop(&quot;`ggplot2` package not found.&quot;)
+  }
+
+  out &lt;- plot +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 7),
+                   legend.position = &quot;none&quot;, 
+                   plot.caption = ggplot2::element_blank(),
+                   plot.subtitle = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_blank())
+  
+  dpi &lt;- text_factor * 125
+  width &lt;- width * 1.5 / dpi
+  height &lt;- height * 1.5 / dpi
+  
+  ggplot2::ggsave(filename = &quot;featured.png&quot;, plot = out, path = path, 
+                  width = width, height = height, dpi = dpi)
+}</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>res_gg</code> </summary>
+<p>
+<pre class="r"><code>res_gg &lt;- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = &quot;Benchmarks: Statistical Mode&quot;)</code></pre>
 <pre class="r"><code>res_gg</code></pre>
 </p>
 </details>
-<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-20-1.png" width="864" style="display: block; margin: auto;" /></p>
+<p><img src="/post/mode/index_files/figure-html/unnamed-chunk-21-1.png" width="864" style="display: block; margin: auto;" /></p>
 <details>
 <summary> Post Test Checks </summary>
 <p>
 <p>Do all methods obtain the same results?</p>
-<pre class="r"><code>stopifnot(
-  all.equal(r_mode(big_dbl), 
-            cpp_mode(big_dbl), 
-            py$numpy_mode(py$numpy_big_dbl),
-            py$statistics$mode(py$py_big_dbl),
-            py$py_mode(py_big_dbl))
+<pre class="r"><code>control_res &lt;- 32L
+
+c(
+  r_mode(r_data),
+  cpp_mode(r_data),
+  py$numpy_mode(py$numpy_data),
+  py$numba_mode(py$numpy_data),
+  py$numba_par_mode(py$numpy_data),
+  py$cp$asnumpy(py$cupy_mode(py$cupy_data))
   )</code></pre>
+<pre><code>#&gt; [1] 32 32 32 32 32 32</code></pre>
+<pre class="r"><code>are_equal &lt;- c(
+  
+  r_mode(r_data),
+  cpp_mode(r_data),
+  py$numpy_mode(py$numpy_data),
+  py$numba_mode(py$numpy_data),
+  py$numba_par_mode(py$numpy_data),
+  py$cp$asnumpy(py$cupy_mode(py$cupy_data))
+  
+  ) %&gt;% 
+  map_lgl(~ control_res == .x)
+
+stopifnot(
+  all(are_equal)
+)</code></pre>
 <p>Did the input data remain unchanged?</p>
-<pre class="r"><code>stopifnot(
-  all.equal(validation_data, 
-            big_dbl, 
-            py$py_big_dbl,
-            py$numpy_big_dbl)
-  )</code></pre>
+<pre class="r"><code>are_equal &lt;- list(r_data, 
+                  py$numpy_data,
+                  py$cp$asnumpy(py$cupy_data)) %&gt;% 
+    map_lgl(~ all.equal(validation_data, as.vector(.x)))
+
+stopifnot(
+  all(are_equal)
+)</code></pre>
 </p>
 </details>
 </div>
-<div id="environment" class="section level2">
-<h2>Environment</h2>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
 <details>
 <summary> R </summary>
 <p>
@@ -891,24 +1021,24 @@ res_gg + facet_wrap(~ lang, ncol = 1, scales = &quot;free_y&quot;)</code></pre>
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt;  [1] bench_1.0.1.9000       forcats_0.3.0          stringr_1.3.1.9000    
-#&gt;  [4] dplyr_0.7.99.9000      purrr_0.2.5            readr_1.2.1           
-#&gt;  [7] tidyr_0.8.2.9000       tibble_1.4.99.9005     ggplot2_3.1.0.9000    
-#&gt; [10] tidyverse_1.2.1.9000   reticulate_1.10.0.9003
+#&gt;  [1] extrafont_0.17         bench_1.0.1.9000       forcats_0.3.0         
+#&gt;  [4] stringr_1.3.1.9000     dplyr_0.7.99.9000      purrr_0.2.5           
+#&gt;  [7] readr_1.2.1            tidyr_0.8.2.9000       tibble_1.4.99.9005    
+#&gt; [10] ggplot2_3.1.0.9000     tidyverse_1.2.1.9000   reticulate_1.10.0.9003
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] beeswarm_0.2.3    tidyselect_0.2.5  xfun_0.4          haven_2.0.0      
-#&gt;  [5] lattice_0.20-35   colorspace_1.3-2  htmltools_0.3.6   yaml_2.2.0       
+#&gt;  [1] tidyselect_0.2.5  xfun_0.4          haven_2.0.0       lattice_0.20-35  
+#&gt;  [5] colorspace_1.3-2  viridisLite_0.3.0 htmltools_0.3.6   yaml_2.2.0       
 #&gt;  [9] rlang_0.3.0.1     pillar_1.3.0.9001 glue_1.3.0        withr_2.1.2      
 #&gt; [13] pryr_0.1.4.9000   modelr_0.1.2      readxl_1.1.0      plyr_1.8.4       
 #&gt; [17] munsell_0.5.0     blogdown_0.9.4    gtable_0.2.0      cellranger_1.1.0 
 #&gt; [21] rvest_0.3.2       codetools_0.2-15  evaluate_0.12     knitr_1.20       
-#&gt; [25] vipor_0.4.5       profmem_0.5.0     broom_0.5.0       Rcpp_1.0.0       
+#&gt; [25] Rttf2pt1_1.3.7    profmem_0.5.0     broom_0.5.0       Rcpp_1.0.0       
 #&gt; [29] backports_1.1.2   scales_1.0.0      jsonlite_1.5      hms_0.4.2        
 #&gt; [33] digest_0.6.18     stringi_1.2.4     bookdown_0.7      grid_3.6.0       
 #&gt; [37] rprojroot_1.3-2   here_0.1-11       cli_1.0.1         tools_3.6.0      
-#&gt; [41] magrittr_1.5      lazyeval_0.2.1    crayon_1.3.4      pkgconfig_2.0.2  
-#&gt; [45] Matrix_1.2-14     xml2_1.2.0        ggbeeswarm_0.6.0  lubridate_1.7.4  
+#&gt; [41] magrittr_1.5      lazyeval_0.2.1    extrafontdb_1.0   crayon_1.3.4     
+#&gt; [45] pkgconfig_2.0.2   Matrix_1.2-14     xml2_1.2.0        lubridate_1.7.4  
 #&gt; [49] assertthat_0.2.0  rmarkdown_1.10    httr_1.3.1        rstudioapi_0.8   
 #&gt; [53] R6_2.3.0          nlme_3.1-137      compiler_3.6.0</code></pre>
 </p>
@@ -933,6 +1063,10 @@ print(sys.version)</code></pre>
 <pre><code>#&gt; 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]</code></pre>
 <pre class="python"><code>print(np.__version__)</code></pre>
 <pre><code>#&gt; 1.15.4</code></pre>
+<pre class="python"><code>print(numba.__version__)</code></pre>
+<pre><code>#&gt; 0.40.0</code></pre>
+<pre class="python"><code>print(cp.__version__)</code></pre>
+<pre><code>#&gt; 5.0.0</code></pre>
 </p>
 </details>
 <details>
@@ -940,6 +1074,15 @@ print(sys.version)</code></pre>
 <p>
 <pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
 <pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
 </p>
 </details>
 <details>
@@ -1008,7 +1151,6 @@ DIMM B
   month  = Nov,
   day    = 23,
 }</code></pre>
-</div>
 </div>
 
     </div>
