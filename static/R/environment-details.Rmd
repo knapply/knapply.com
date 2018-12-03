@@ -3,6 +3,7 @@ output: html_document
 ---
 
 ```{r, include=FALSE}
+source(here::here("static/R/citation.R"))
 library(tidyverse)
 ```
 

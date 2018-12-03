@@ -25,7 +25,6 @@ citation_url: https://knapply.com/data-science-notes/
 knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
 
 source(here::here("static/R/html-helpers.R"))
-source(here::here("static/R/citation.R"))
 ```
 
 ```{r}
@@ -131,10 +130,13 @@ style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; f
 collapser <- "<br>"
 
 la_df <- tibble(
+  ` ` = c(
+    rep("Basics", 7)
+    ),
   Topic  = c(
     build_link("Setup", "linear-algebra/#setup"),
     build_link("Scalar Multiplication",
-               "linear-algebra/#matrix-scalar-multiplication"),
+               "linear-algebra/#scalar-multiplication"),
     build_link("Matrix-Vector Multiplication",
                "linear-algebra/#matrix-vector-multiplication"),
     build_link("Vector-Matrix Multiplication",
@@ -147,104 +149,91 @@ la_df <- tibble(
                "linear-algebra/#transpose")
     ),
   r_icon = c(
-    build_link("<strong>R</strong>", "linear-algebra/"),
-    build_link("<strong>R</strong>", "linear-algebra/"),
-    build_link("<strong>R</strong>", "linear-algebra/"),
-    build_link("<strong>R</strong>", "linear-algebra/"),
-    build_link("<strong>R</strong>", "linear-algebra/"),
-    build_link("<strong>R</strong>", "linear-algebra/"),
-    build_link("<strong>R</strong>", "linear-algebra/")
+    build_link("<strong>R</strong>", "linear-algebra/#r"),
+    build_link("<strong>R</strong>", "linear-algebra/#r-1"),
+    build_link("<strong>R</strong>", "linear-algebra/#r-2"),
+    build_link("<strong>R</strong>", "linear-algebra/#r-3"),
+    build_link("<strong>R</strong>", "linear-algebra/#r-4"),
+    build_link("<strong>R</strong>", "linear-algebra/#r-5"),
+    build_link("<strong>R</strong>", "linear-algebra/#r-6")
     ),
   rcpp = list(
+    "",
+    # str_flatten(
+      # c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        # build_link("RcppAmardillo", "linear-algebra/")),
+      # collapse = collapser
+      # ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp"),
+        build_link("RcppAmardillo", "linear-algebra/#rcpparmadillo")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp-1"),
+        build_link("RcppAmardillo", "linear-algebra/rcpparmadillo-1")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp-2"),
+        build_link("RcppAmardillo", "linear-algebra/rcpparmadillo-2")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
-      collapse = collapser
-      ),
-    str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp-3"),
+        build_link("RcppAmardillo", "linear-algebra/#rcpparmadillo-3")),
       collapse = collapser
     ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp-4"),
+        build_link("RcppAmardillo", "linear-algebra/#rcpparmadillo-4")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
-        build_link("Built-in", "linear-algebra/"),
-        build_link("RcppAmardillo", "linear-algebra/")),
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp-5"),
+        build_link("RcppAmardillo", "linear-algebra/#rcpparmadillo-5")),
       collapse = collapser
       )
     ),
   py = c(
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python"),
+        build_link("NumPy", "linear-algebra/#numpy")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python-1"),
+        build_link("NumPy", "linear-algebra/#numpy-1")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python-2"),
+        build_link("NumPy", "linear-algebra/#numpy-2")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python-3"),
+        build_link("NumPy", "linear-algebra/#numpy-3")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python-4"),
+        build_link("NumPy", "linear-algebra/#numpy-4")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python-5"),
+        build_link("NumPy", "linear-algebra/#numpy-5")),
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/"),
-        build_link("NumPy", "linear-algebra/"),
-        build_link("CuPy", "linear-algebra/")),
+      c(build_link("<strong>Python</strong>", "linear-algebra/#python-6"),
+        build_link("NumPy", "linear-algebra/#numpy-6")),
       collapse = collapser
       )
     )
   ) %>% 
-  set_names(c("Topic", build_icon("r"), build_icon("rcpp"), build_icon("py")))
+  set_names(c(" ", "Topic", build_icon("r"), build_icon("rcpp"), build_icon("py")))
 ```
 
 
@@ -253,15 +242,14 @@ la_df <- tibble(
 ```{r, class.output='toc-table'}
 la_df %>% 
   kable(escape = FALSE, align = "c") %>% 
-  kable_styling(font_size = 20, position = "center") %>% 
-  # column_spec(1, color = "black", bold = TRUE, width = "20%", italic = TRUE,
-              # background = "#dee0e2",
-              # extra_css = "font-size:20px; border-color:black;") %>%
+  kable_styling(font_size = 20, position = "center", bootstrap_options = "condensed") %>% 
+  column_spec(1, color = "black", bold = TRUE, width = "20%", italic = TRUE,
+              background = "#dee0e2",
+              extra_css = "font-size:20px; border-color:black;") %>%
   # column_spec(1, extra_css = "text-align:center;") %>% 
   column_spec(2:ncol(la_df), monospace = TRUE) %>% 
-  row_spec(row = 1:nrow(la_df), align = "center")
-# %>% 
-  # collapse_rows(columns = 1:2, valign = "middle")
+  row_spec(row = 1:nrow(la_df), align = "center") %>% 
+  collapse_rows(columns = 1:2, valign = "middle")
 ```
 
 </div>
@@ -381,6 +369,7 @@ stats_df %>%
 
 
 ```{r, echo=FALSE, comment=NA, results='markup'}
+source(here::here("static/R/citation.R"))
 print_citation_header()
 ```
 

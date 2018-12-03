@@ -38,22 +38,15 @@
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/data-science-notes/</guid>
-      <description>Linear AlgebraStatisticsLinear AlgebraTopic
+      <description>Linear AlgebraStatisticsLinear AlgebraTopic
 
 
-SetupRRcpp
-Built-in
+BasicsSetupRPython
+NumPyScalar MultiplicationRRcpp
 RcppAmardilloPython
-NumPy
-CuPyScalar MultiplicationRRcpp
-Built-in
+NumPyMatrix-Vector MultiplicationRRcpp
 RcppAmardilloPython
-NumPy
-CuPyMatrix-Vector MultiplicationRRcpp
-Built-in
-RcppAmardilloPython
-NumPy
-CuPyVector-Matrix MultiplicationRRcpp</description>
+NumPyVector-Matrix MultiplicationRRcpp</description>
     </item>
     
     <item>

@@ -33,13 +33,32 @@ knitr::opts_chunk$set(cache = FALSE, comment = "#>", message = FALSE, warning = 
 options(width=90)
 
 source(here::here("static/R/html-helpers.R"))
-source(here::here("static/R/citation.R"))
+# source(here::here("static/R/citation.R"))
 source(here::here("static/R/wrangle_plot_save.R"))
 ```
 
 
+```{r, eval = FALSE, echo=FALSE}
+as_latex_matrix <- function(x, append = "") {
+  stopifnot(is.matrix(x))
+  apply(x, 1, function(y) {
+    cat(paste0(y, glue::glue(" {append}"), collapse = "  &  "), 
+              "\\\\\n")
+  })
+  invisible(NULL)
+}
+as_latex_matrix(2 * r_mat)
+
+as_latex_matrix(r_mat, "\\cdot 2")
+```
+
 
 # Setup
+
+```{r}
+library(reticulate)
+```
+
 
 ## R
 
@@ -69,6 +88,20 @@ np_mat
 ```
 
 
+<details>
+<summary> Sanity Check </summary>
+<p>
+
+```{r}
+stopifnot(
+  all.equal(r_mat,
+            py$np_mat)
+  )
+```
+
+</p>
+</details>
+
 
 # Scalar Multiplication
 
@@ -94,19 +127,7 @@ $$
 \end{pmatrix}
 $$
 
-```{r, eval = FALSE, echo=FALSE}
-as_latex_matrix <- function(x, append = "") {
-  stopifnot(is.matrix(x))
-  apply(x, 1, function(y) {
-    cat(paste0(y, glue::glue(" {append}"), collapse = "  &  "), 
-              "\\\\\n")
-  })
-  invisible(NULL)
-}
-as_latex_matrix(2 * r_mat)
 
-as_latex_matrix(r_mat, "\\cdot 2")
-```
 
 
 ## R
@@ -114,40 +135,22 @@ as_latex_matrix(r_mat, "\\cdot 2")
 ### Base R
 
 ```{r}
-r_mat * 2
+r_res <- r_mat * 2
+r_res
 ```
 
 ## Rcpp
 
-### Built-in
-
-```{Rcpp}
-// [[Rcpp::plugins(cpp17)]]
-#include <Rcpp.h>
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-auto cpp_scalar_multiply(NumericMatrix x, int scalar) {
-  auto out = x * scalar; 
-
-  return out;
-}
-```
-
-```{r}
-cpp_scalar_multiply(r_mat, 2)
-```
-
 ### RcppArmadillo
 
 ```{Rcpp}
-// [[Rcpp::plugins(cpp17)]]
+// [[Rcpp::plugins(cpp14)]]
 // [[Rcpp::depends(RcppArmadillo)]]
 #include <RcppArmadillo.h>
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_arma_scalar_multiply(NumericMatrix x, int scalar) {
+auto cpp_mat_dot_scalar(NumericMatrix x, int scalar) {
   auto arma_matrix = as<arma::mat>(x);
   auto out = arma_matrix * scalar;
   
@@ -156,7 +159,8 @@ auto cpp_arma_scalar_multiply(NumericMatrix x, int scalar) {
 ```
 
 ```{r}
-cpp_arma_scalar_multiply(r_mat, 2)
+cpp_arma_res <- cpp_mat_dot_scalar(r_mat, 2)
+cpp_arma_res
 ```
 
 
@@ -170,6 +174,20 @@ res = np_mat * 2
 print(res)
 ```
 
+<details>
+<summary> Sanity Check </summary>
+<p>
+
+```{r}
+stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )
+```
+
+</p>
+</details>
 
 # Matrix-Vector Multiplication
 
@@ -210,16 +228,41 @@ $$
 ### Base R
 
 ```{r}
-r_mat %*% c(1,
-            2,
-            3)
+r_res <- r_mat %*% c(1,
+                     2,
+                     3)
+r_res
 ```
 
 ## Rcpp
 
-### Built-in
-
 ### RcppArmadillo
+
+```{Rcpp}
+// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_mat_dot_vec(NumericMatrix mat, NumericVector col_vec) {
+  auto arma_mat = as<arma::mat>(mat);
+  auto arma_vec = as<arma::colvec>(col_vec);
+  
+  auto out = arma_mat * arma_vec;
+  
+  return wrap(out);
+}
+```
+
+```{r}
+cpp_arma_res <- cpp_mat_dot_vec(r_mat, c(1, 
+                                         2,
+                                         3))
+cpp_arma_res
+```
+
+
 
 ## Python
 
@@ -231,6 +274,23 @@ res = np_mat.dot(np.array([[1],
                            [3]]))
 print(res)
 ```
+
+
+<details>
+<summary> Sanity Check </summary>
+<p>
+
+```{r}
+stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )
+```
+
+</p>
+</details>
+
 
 # Vector-Matrix Multiplication
 
@@ -259,23 +319,49 @@ $$
 \end{pmatrix}
 $$
 
-### R
+## R
 
-#### Base R
+### Base R
 
 ```{r}
-c(1, 2, 3) %*% r_mat
+r_res <- c(1, 2, 3) %*% r_mat
+
+r_res
 ```
 
-### Rcpp
+## Rcpp
 
-#### Built-in
+### RcppArmadillo
 
-#### RcppArmadillo
+```{Rcpp}
+// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+using namespace Rcpp;
 
-### Python
+// [[Rcpp::export]]
+auto cpp_vec_dot_mat(NumericVector row_vec, NumericMatrix mat) {
+  auto arma_mat = as<arma::mat>(mat);
+  auto arma_vec = as<arma::rowvec>(row_vec);
+  
+  auto out = arma_vec * arma_mat;
+  
+  return wrap(out);
+}
+```
 
-#### NumPy
+```{r}
+cpp_arma_res <- cpp_vec_dot_mat(
+  c(1, 2, 3), r_mat
+  )
+cpp_arma_res
+```
+
+
+
+## Python
+
+### NumPy
 
 ```{python}
 res = np.array([[1, 2, 3]]).dot(np_mat)
@@ -283,9 +369,127 @@ print(res)
 ```
 
 
+<details>
+<summary> Sanity Check </summary>
+<p>
+
+```{r}
+stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )
+```
 
 </p>
 </details>
+
+
+# Matrix-Matrix Multiplication
+
+
+$$
+\begin{pmatrix}
+  1   &  2   &  3  \\
+  4   &  5   &  6  \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1   &  4   &  7  \\
+  2   &  5   &  8  \\
+  3   &  6   &  9  \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1\cdot1 + 2\cdot2 + 3\cdot3 ~&~ 1\cdot4 + 2\cdot5 + 3\cdot6 ~&~ 1\cdot7 + 2\cdot8 + 3\cdot9 \\
+  4\cdot1 + 5\cdot2 + 6\cdot3 ~&~ 4\cdot4 + 5\cdot5 + 6\cdot6 ~&~ 4\cdot7 + 5\cdot8 + 6\cdot9 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1+4+9 ~&~ 4+10+18 ~&~ 7+16+27 \\
+  4+10+18 ~&~ 16+25+36 ~&~ 28+40+54 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  14   &  32   &  50  \\
+  32   &  77   &  122  \\
+\end{pmatrix}
+$$
+
+## R
+
+### Base R
+
+```{r}
+r_mat2 <- t(r_mat[,1:2])
+r_mat2
+```
+
+
+```{r}
+r_res <- r_mat2 %*% r_mat
+r_res
+```
+
+
+## Rcpp
+
+### RcppArmadillo
+
+```{Rcpp}
+// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_mat_dot_mat(NumericMatrix mat1, NumericMatrix mat2) {
+  auto arma_mat1 = as<arma::mat>(mat1);
+  auto arma_mat2 = as<arma::mat>(mat2);
+  
+  auto out = arma_mat1 * arma_mat2;
+  
+  return wrap(out);
+}
+```
+
+```{r}
+cpp_arma_res <- cpp_mat_dot_mat(r_mat2, r_mat)
+cpp_arma_res
+```
+
+
+## Python
+
+### NumPy
+
+```{python}
+np_mat2 = np_mat[:, 0:2].transpose()
+print(np_mat2)
+```
+
+```{python}
+res = np_mat2.dot(np_mat)
+print(res)
+```
+
+
+
+<details>
+<summary> Sanity Check </summary>
+<p>
+
+```{r}
+stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )
+```
+
+</p>
+</details>
+
 
 ```{r child=here::here("static/R/environment-details.Rmd")}
 ```

@@ -15,10 +15,10 @@
   
     
   
-  <meta name="description" content="Common linear algebra operations.">
+  <meta name="description" content="Calculating Krackhardt&#39;s EI-Index from scratch.">
 
   
-  <link rel="alternate" hreflang="en-us" href="/post/linear-algebra/">
+  <link rel="alternate" hreflang="en-us" href="/post/ei-index/">
 
   
 
@@ -102,7 +102,7 @@
   <link rel="icon" type="image/png" href="/img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
 
-  <link rel="canonical" href="/post/linear-algebra/">
+  <link rel="canonical" href="/post/ei-index/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -110,25 +110,25 @@
   <meta property="twitter:creator" content="@knapply_">
   
   <meta property="og:site_name" content="knapply()">
-  <meta property="og:url" content="/post/linear-algebra/">
-  <meta property="og:title" content="Linear Algebra | knapply()">
-  <meta property="og:description" content="Common linear algebra operations.">
+  <meta property="og:url" content="/post/ei-index/">
+  <meta property="og:title" content="EI-Index | knapply()">
+  <meta property="og:description" content="Calculating Krackhardt&#39;s EI-Index from scratch.">
   
   
     
   <meta property="og:image" content="/img/logo.png">
   <meta property="og:locale" content="en-us">
   
-  <meta property="article:published_time" content="2018-12-02T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2018-12-03T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-12-02T19:24:32-08:00">
-  
-
+  <meta property="article:modified_time" content="2018-12-03T00:00:00&#43;00:00">
   
 
   
 
-  <title>Linear Algebra | knapply()</title>
+  
+
+  <title>EI-Index | knapply()</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
@@ -357,7 +357,7 @@
   
   
 <div class="article-container pt-3">
-  <h1 itemprop="name">Linear Algebra</h1>
+  <h1 itemprop="name">EI-Index</h1>
 
   
 
@@ -375,11 +375,9 @@
 
   <span class="article-date">
     
-        Last updated on
-    
-    <meta content="2018-12-02 00:00:00 &#43;0000 UTC" itemprop="datePublished">
-    <time datetime="2018-12-02 19:24:32 -0800 PST" itemprop="dateModified">
-      Dec 2, 2018
+    <meta content="2018-12-03 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-12-03 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Dec 3, 2018
     </time>
   </span>
   <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
@@ -389,14 +387,14 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    7 min read
+    6 min read
   </span>
   
 
   
   
   <span class="middot-divider"></span>
-  <a href="/post/linear-algebra/#disqus_thread"></a>
+  <a href="/post/ei-index/#disqus_thread"></a>
   
 
   
@@ -418,35 +416,35 @@
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Linear%20Algebra&amp;url=%2fpost%2flinear-algebra%2f"
+         href="https://twitter.com/intent/tweet?text=EI-Index&amp;url=%2fpost%2fei-index%2f"
          target="_blank" rel="noopener">
         <i class="fab fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=%2fpost%2flinear-algebra%2f"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fei-index%2f"
          target="_blank" rel="noopener">
         <i class="fab fa-facebook-f"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2flinear-algebra%2f&amp;title=Linear%20Algebra"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fei-index%2f&amp;title=EI-Index"
          target="_blank" rel="noopener">
         <i class="fab fa-linkedin-in"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=%2fpost%2flinear-algebra%2f&amp;title=Linear%20Algebra"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fei-index%2f&amp;title=EI-Index"
          target="_blank" rel="noopener">
         <i class="fab fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Linear%20Algebra&amp;body=%2fpost%2flinear-algebra%2f">
+         href="mailto:?subject=EI-Index&amp;body=%2fpost%2fei-index%2f">
         <i class="fas fa-envelope"></i>
       </a>
     </li>
@@ -471,29 +469,27 @@
 
 <div id="TOC">
 <ul>
+<li><a href="#requirements">Requirements</a></li>
 <li><a href="#setup">Setup</a><ul>
-<li><a href="#r">R</a></li>
-<li><a href="#python">Python</a></li>
+<li><a href="#data">Data</a></li>
 </ul></li>
-<li><a href="#scalar-multiplication">Scalar Multiplication</a><ul>
-<li><a href="#r-1">R</a></li>
-<li><a href="#rcpp">Rcpp</a></li>
-<li><a href="#python-1">Python</a></li>
+<li><a href="#vertex-attribute">Vertex Attribute</a><ul>
+<li><a href="#network"><code>network</code></a></li>
+<li><a href="#igraph"><code>igraph</code></a></li>
+<li><a href="#single-attr-variable">Single <code>attr</code> Variable</a></li>
 </ul></li>
-<li><a href="#matrix-vector-multiplication">Matrix-Vector Multiplication</a><ul>
-<li><a href="#r-2">R</a></li>
-<li><a href="#rcpp-1">Rcpp</a></li>
-<li><a href="#python-2">Python</a></li>
+<li><a href="#index-edge-list">Index Edge List</a><ul>
+<li><a href="#network-1"><code>network</code></a></li>
+<li><a href="#igraph-1"><code>igraph</code></a></li>
+<li><a href="#single-el-variable">Single <code>el</code> Variable</a></li>
 </ul></li>
-<li><a href="#vector-matrix-multiplication">Vector-Matrix Multiplication</a><ul>
-<li><a href="#r-3">R</a></li>
-<li><a href="#rcpp-2">Rcpp</a></li>
-<li><a href="#python-3">Python</a></li>
+<li><a href="#attribute-edge-list">Attribute Edge List</a></li>
+<li><a href="#count-external-and-internal-edges">Count External and Internal Edges</a><ul>
+<li><a href="#external">External</a></li>
+<li><a href="#internal">Internal</a></li>
 </ul></li>
-<li><a href="#matrix-matrix-multiplication">Matrix-Matrix Multiplication</a><ul>
-<li><a href="#r-4">R</a></li>
-<li><a href="#rcpp-3">Rcpp</a></li>
-<li><a href="#python-4">Python</a></li>
+<li><a href="#calculate-the-e-i-index">Calculate the E-I Index</a><ul>
+<li><a href="#validate-result">Validate Result</a></li>
 </ul></li>
 <li><a href="#environment">Environment</a></li>
 </ul>
@@ -502,401 +498,217 @@
 <blockquote>
 <p><em>This post was last updated on 2018-12-03.</em></p>
 </blockquote>
+<div id="requirements" class="section level1">
+<h1>Requirements</h1>
+<pre class="r"><code>packages_required &lt;- c(&quot;ergm&quot;, &quot;igraph&quot;, &quot;network&quot;, &quot;snatools&quot;)
+packages_available &lt;- installed.packages()[, &quot;Package&quot;]
+
+if (!all(packages_required %in% packages_available)) {
+  missings &lt;- packages_required[!packages_required %in% packages_available]
+  stop(sprintf(&quot;Package(s) Missing:\n%s&quot;, paste0(missings, collapse = &quot;, &quot;)))
+}</code></pre>
+</div>
 <div id="setup" class="section level1">
 <h1>Setup</h1>
-<pre class="r"><code>library(reticulate)</code></pre>
-<div id="r" class="section level2">
-<h2>R</h2>
-<div id="base-r" class="section level3">
-<h3>Base R</h3>
-<pre class="r"><code>r_mat &lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),
-                nrow = 3, ncol = 3)
+<p><code>igraph</code> and <code>network</code> don’t play along, but we can prevent that headache by defining our own methods to wrap the operations we need.</p>
+<pre class="r"><code># extract vertex attributes
+get_attr &lt;- function(x, attr, ...) UseMethod(&quot;get_attr&quot;)
 
-r_mat</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]    1    4    7
-#&gt; [2,]    2    5    8
-#&gt; [3,]    3    6    9</code></pre>
-</div>
-</div>
-<div id="python" class="section level2">
-<h2>Python</h2>
-<div id="numpy" class="section level3">
-<h3>NumPy</h3>
-<pre class="python"><code>import numpy as np
+get_attr.igraph &lt;- function(x, attr, ...) {
+  igraph::vertex_attr(graph = x, name = attr, ...)
+}
 
-np_mat = np.array([[1, 4, 7],
-                   [2, 5, 8],
-                   [3, 6, 9]])
+get_attr.network &lt;- function(x, attr, ...) {
+  network::get.vertex.attribute(x = x, attrname = attr, ...)
+}
 
-np_mat</code></pre>
-<details>
-<summary> Sanity Check </summary>
-<p>
-<pre class="r"><code>stopifnot(
-  all.equal(r_mat,
-            py$np_mat)
-  )</code></pre>
-</p>
-</details>
-</div>
-</div>
-</div>
-<div id="scalar-multiplication" class="section level1">
-<h1>Scalar Multiplication</h1>
-<p><span class="math display">\[
-  2 
-\cdot
-\begin{pmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
-\end{pmatrix}
-  =
-\begin{pmatrix}
-  1 \cdot 2  &amp;  4 \cdot 2  &amp;  7 \cdot 2 \\
-  2 \cdot 2  &amp;  5 \cdot 2  &amp;  8 \cdot 2 \\
-  3 \cdot 2  &amp;  6 \cdot 2  &amp;  9 \cdot 2 \\
-\end{pmatrix}
-  =
-\begin{pmatrix}
-  2   &amp;  8   &amp;  14  \\
-  4   &amp;  10   &amp;  16  \\
-  6   &amp;  12   &amp;  18  \\
-\end{pmatrix}
-\]</span></p>
-<div id="r-1" class="section level2">
-<h2>R</h2>
-<div id="base-r-1" class="section level3">
-<h3>Base R</h3>
-<pre class="r"><code>r_res &lt;- r_mat * 2
-r_res</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]    2    8   14
-#&gt; [2,]    4   10   16
-#&gt; [3,]    6   12   18</code></pre>
-</div>
-</div>
-<div id="rcpp" class="section level2">
-<h2>Rcpp</h2>
-<div id="rcpparmadillo" class="section level3">
-<h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
-#include &lt;RcppArmadillo.h&gt;
-using namespace Rcpp;
 
-// [[Rcpp::export]]
-auto cpp_mat_dot_scalar(NumericMatrix x, int scalar) {
-  auto arma_matrix = as&lt;arma::mat&gt;(x);
-  auto out = arma_matrix * scalar;
-  
-  return wrap(out);
+# get edgelist representations
+get_el &lt;- function(x, ...) UseMethod(&quot;get_el&quot;)
+
+get_el.igraph &lt;- function(x, ...) {
+  igraph::as_edgelist(graph = x, names = FALSE, ...)
+}
+
+get_el.network &lt;- function(x, ...) {
+  out &lt;- network::as.matrix.network.edgelist(x = x, ...)
+  attributes(out) &lt;- attributes(out)[!names(attributes(out)) %in% c(&quot;n&quot;, &quot;vnames&quot;)] 
+  out
 }</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_scalar(r_mat, 2)
-cpp_arma_res</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]    2    8   14
-#&gt; [2,]    4   10   16
-#&gt; [3,]    6   12   18</code></pre>
-</div>
-</div>
-<div id="python-1" class="section level2">
-<h2>Python</h2>
-<div id="numpy-1" class="section level3">
-<h3>NumPy</h3>
-<pre class="python"><code>res = np_mat * 2
-print(res)</code></pre>
-<pre><code>#&gt; [[ 2  8 14]
-#&gt;  [ 4 10 16]
-#&gt;  [ 6 12 18]]</code></pre>
-<details>
-<summary> Sanity Check </summary>
-<p>
-<pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
-  )</code></pre>
-</p>
-</details>
-</div>
-</div>
-</div>
-<div id="matrix-vector-multiplication" class="section level1">
-<h1>Matrix-Vector Multiplication</h1>
-<p><span class="math display">\[
-\begin{pmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
-\end{pmatrix}
-\cdot
-\begin{pmatrix}
-  1 \\
-  2 \\
-  3 \\
-\end{pmatrix} 
-  \\=
-\begin{pmatrix}
-  1 \cdot 1 + 4 \cdot 2 + 7 \cdot 3 \\
-  2 \cdot 1 + 5 \cdot 2 + 8 \cdot 3 \\
-  3 \cdot 1 + 6 \cdot 2 + 9 \cdot 3 \\
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  1 + 8 + 21 \\
-  2 + 10 + 24 \\
-  3 + 12 + 27 \\
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  30  \\
-  36  \\
-  42  \\
-\end{pmatrix}
-\]</span></p>
-<div id="r-2" class="section level2">
-<h2>R</h2>
-<div id="base-r-2" class="section level3">
-<h3>Base R</h3>
-<pre class="r"><code>r_res &lt;- r_mat %*% c(1,
-                     2,
-                     3)
-r_res</code></pre>
-<pre><code>#&gt;      [,1]
-#&gt; [1,]   30
-#&gt; [2,]   36
-#&gt; [3,]   42</code></pre>
-</div>
-</div>
-<div id="rcpp-1" class="section level2">
-<h2>Rcpp</h2>
-<div id="rcpparmadillo-1" class="section level3">
-<h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
-#include &lt;RcppArmadillo.h&gt;
-using namespace Rcpp;
+<div id="data" class="section level2">
+<h2>Data</h2>
+<pre class="r"><code>data(faux.magnolia.high, package = &quot;ergm&quot;)
 
-// [[Rcpp::export]]
-auto cpp_mat_dot_vec(NumericMatrix mat, NumericVector col_vec) {
-  auto arma_mat = as&lt;arma::mat&gt;(mat);
-  auto arma_vec = as&lt;arma::colvec&gt;(col_vec);
-  
-  auto out = arma_mat * arma_vec;
-  
-  return wrap(out);
-}</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_vec(r_mat, c(1, 
-                                         2,
-                                         3))
-cpp_arma_res</code></pre>
-<pre><code>#&gt;      [,1]
-#&gt; [1,]   30
-#&gt; [2,]   36
-#&gt; [3,]   42</code></pre>
-</div>
-</div>
-<div id="python-2" class="section level2">
-<h2>Python</h2>
-<div id="numpy-2" class="section level3">
-<h3>NumPy</h3>
-<pre class="python"><code>res = np_mat.dot(np.array([[1],
-                           [2],
-                           [3]]))
-print(res)</code></pre>
-<pre><code>#&gt; [[30]
-#&gt;  [36]
-#&gt;  [42]]</code></pre>
-<details>
-<summary> Sanity Check </summary>
-<p>
-<pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
-  )</code></pre>
-</p>
-</details>
-</div>
-</div>
-</div>
-<div id="vector-matrix-multiplication" class="section level1">
-<h1>Vector-Matrix Multiplication</h1>
-<p><span class="math display">\[
-\begin{pmatrix}
-  1 &amp; 2 &amp; 3
-\end{pmatrix}
-\cdot
-\begin{pmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  1 \cdot 1 + 2 \cdot 2 + 3 \cdot 3 ~&amp;~ 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 ~&amp;~ 1 \cdot 7 + 2 \cdot 8 + 3 \cdot 9
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  1 + 4 + 9 ~&amp;~ 4 + 10 + 18 ~&amp;~ 7 + 16 + 27
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-14   &amp;  32   &amp;  50  \\
-\end{pmatrix}
-\]</span></p>
-<div id="r-3" class="section level2">
-<h2>R</h2>
-<div id="base-r-3" class="section level3">
-<h3>Base R</h3>
-<pre class="r"><code>r_res &lt;- c(1, 2, 3) %*% r_mat
+nw &lt;- faux.magnolia.high</code></pre>
+<pre class="r"><code>library(snatools)
+ig &lt;- as_igraph(nw)
 
-r_res</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]   14   32   50</code></pre>
+ig</code></pre>
+<pre><code>#&gt; IGRAPH bcfa9d9 UN-- 1461 974 -- 
+#&gt; + attr: .vrt_id (v/n), name (v/c), Race (v/c), Grade (v/n), Sex (v/c),
+#&gt; | .edg_id (e/n)
+#&gt; + edges from bcfa9d9 (vertex names):
+#&gt;  [1] 1 --669  2 --751  2 --912  2 --963  3 --284  3 --310  4 --677  4 --703 
+#&gt;  [9] 5 --1159 7 --702  8 --1118 11--238  12--138  12--1308 12--1309 14--437 
+#&gt; [17] 14--452  14--702  15--805  16--603  16--610  16--621  16--970  17--385 
+#&gt; [25] 17--597  17--609  19--68   19--375  19--419  21--577  21--914  21--1220
+#&gt; [33] 21--1338 21--1363 22--1388 23--411  25--447  25--1404 26--422  31--89  
+#&gt; [41] 31--97   31--377  33--342  35--772  36--595  37--73   37--801  38--1450
+#&gt; [49] 40--671  41--610  42--1323 43--1439 44--433  45--1088 45--1336 46--219 
+#&gt; + ... omitted several edges</code></pre>
 </div>
 </div>
-<div id="rcpp-2" class="section level2">
-<h2>Rcpp</h2>
-<div id="rcpparmadillo-2" class="section level3">
-<h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
-#include &lt;RcppArmadillo.h&gt;
-using namespace Rcpp;
+<div id="vertex-attribute" class="section level1">
+<h1>Vertex Attribute</h1>
+<p>Using the attribute of interest, get a vector of each vertices’ value.</p>
+<pre class="r"><code>attr_of_interest &lt;- &quot;Sex&quot;</code></pre>
+<div id="network" class="section level2">
+<h2><code>network</code></h2>
+<pre class="r"><code>nw_attr &lt;- get_attr(nw, attr = attr_of_interest)
 
-// [[Rcpp::export]]
-auto cpp_vec_dot_mat(NumericVector row_vec, NumericMatrix mat) {
-  auto arma_mat = as&lt;arma::mat&gt;(mat);
-  auto arma_vec = as&lt;arma::rowvec&gt;(row_vec);
-  
-  auto out = arma_vec * arma_mat;
-  
-  return wrap(out);
-}</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_vec_dot_mat(
-  c(1, 2, 3), r_mat
-  )
-cpp_arma_res</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]   14   32   50</code></pre>
+head(nw_attr, 15)</code></pre>
+<pre><code>#&gt;  [1] &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot;</code></pre>
 </div>
+<div id="igraph" class="section level2">
+<h2><code>igraph</code></h2>
+<pre class="r"><code>ig_attr &lt;- get_attr(ig, attr = attr_of_interest)
+head(ig_attr, 15)</code></pre>
+<pre><code>#&gt;  [1] &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot;</code></pre>
 </div>
-<div id="python-3" class="section level2">
-<h2>Python</h2>
-<div id="numpy-3" class="section level3">
-<h3>NumPy</h3>
-<pre class="python"><code>res = np.array([[1, 2, 3]]).dot(np_mat)
-print(res)</code></pre>
-<pre><code>#&gt; [[14 32 50]]</code></pre>
-<details>
-<summary> Sanity Check </summary>
-<p>
-<pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
-  )</code></pre>
-</p>
-</details>
-</div>
-</div>
-</div>
-<div id="matrix-matrix-multiplication" class="section level1">
-<h1>Matrix-Matrix Multiplication</h1>
-<p><span class="math display">\[
-\begin{pmatrix}
-  1   &amp;  2   &amp;  3  \\
-  4   &amp;  5   &amp;  6  \\
-\end{pmatrix}
-\cdot
-\begin{pmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  1\cdot1 + 2\cdot2 + 3\cdot3 ~&amp;~ 1\cdot4 + 2\cdot5 + 3\cdot6 ~&amp;~ 1\cdot7 + 2\cdot8 + 3\cdot9 \\
-  4\cdot1 + 5\cdot2 + 6\cdot3 ~&amp;~ 4\cdot4 + 5\cdot5 + 6\cdot6 ~&amp;~ 4\cdot7 + 5\cdot8 + 6\cdot9 \\
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  1+4+9 ~&amp;~ 4+10+18 ~&amp;~ 7+16+27 \\
-  4+10+18 ~&amp;~ 16+25+36 ~&amp;~ 28+40+54 \\
-\end{pmatrix}
-  \\=
-\begin{pmatrix}
-  14   &amp;  32   &amp;  50  \\
-  32   &amp;  77   &amp;  122  \\
-\end{pmatrix}
-\]</span></p>
-<div id="r-4" class="section level2">
-<h2>R</h2>
-<div id="base-r-4" class="section level3">
-<h3>Base R</h3>
-<pre class="r"><code>r_mat2 &lt;- t(r_mat[,1:2])
-r_mat2</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]    1    2    3
-#&gt; [2,]    4    5    6</code></pre>
-<pre class="r"><code>r_res &lt;- r_mat2 %*% r_mat
-r_res</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]   14   32   50
-#&gt; [2,]   32   77  122</code></pre>
-</div>
-</div>
-<div id="rcpp-3" class="section level2">
-<h2>Rcpp</h2>
-<div id="rcpparmadillo-3" class="section level3">
-<h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
-#include &lt;RcppArmadillo.h&gt;
-using namespace Rcpp;
+<div id="single-attr-variable" class="section level2">
+<h2>Single <code>attr</code> Variable</h2>
+<pre class="r"><code>if (!identical(nw_attr, ig_attr)) {
+  stop(&quot;attrs don&#39;t match&quot;)
+}
 
-// [[Rcpp::export]]
-auto cpp_mat_dot_mat(NumericMatrix mat1, NumericMatrix mat2) {
-  auto arma_mat1 = as&lt;arma::mat&gt;(mat1);
-  auto arma_mat2 = as&lt;arma::mat&gt;(mat2);
-  
-  auto out = arma_mat1 * arma_mat2;
-  
-  return wrap(out);
-}</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_mat(r_mat2, r_mat)
-cpp_arma_res</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]   14   32   50
-#&gt; [2,]   32   77  122</code></pre>
+attr &lt;- nw_attr</code></pre>
 </div>
 </div>
-<div id="python-4" class="section level2">
-<h2>Python</h2>
-<div id="numpy-4" class="section level3">
-<h3>NumPy</h3>
-<pre class="python"><code>np_mat2 = np_mat[:, 0:2].transpose()
-print(np_mat2)</code></pre>
-<pre><code>#&gt; [[1 2 3]
-#&gt;  [4 5 6]]</code></pre>
-<pre class="python"><code>res = np_mat2.dot(np_mat)
-print(res)</code></pre>
-<pre><code>#&gt; [[ 14  32  50]
-#&gt;  [ 32  77 122]]</code></pre>
-<details>
-<summary> Sanity Check </summary>
-<p>
-<pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
-  )</code></pre>
-</p>
-</details>
+<div id="index-edge-list" class="section level1">
+<h1>Index Edge List</h1>
+<p>Get the edge list as a matrix, filled by vertex indices.</p>
+<div id="network-1" class="section level2">
+<h2><code>network</code></h2>
+<pre class="r"><code>nw_el &lt;- get_el(nw)
+
+head(nw_el, 10)</code></pre>
+<pre><code>#&gt;       [,1] [,2]
+#&gt;  [1,]    1  669
+#&gt;  [2,]    2  751
+#&gt;  [3,]    2  912
+#&gt;  [4,]    2  963
+#&gt;  [5,]    3  284
+#&gt;  [6,]    3  310
+#&gt;  [7,]    4  677
+#&gt;  [8,]    4  703
+#&gt;  [9,]    5 1159
+#&gt; [10,]    7  702</code></pre>
 </div>
+<div id="igraph-1" class="section level2">
+<h2><code>igraph</code></h2>
+<pre class="r"><code>ig_el &lt;- get_el(ig)
+
+head(ig_el, 10)</code></pre>
+<pre><code>#&gt;       [,1] [,2]
+#&gt;  [1,]    1  669
+#&gt;  [2,]    2  751
+#&gt;  [3,]    2  912
+#&gt;  [4,]    2  963
+#&gt;  [5,]    3  284
+#&gt;  [6,]    3  310
+#&gt;  [7,]    4  677
+#&gt;  [8,]    4  703
+#&gt;  [9,]    5 1159
+#&gt; [10,]    7  702</code></pre>
+</div>
+<div id="single-el-variable" class="section level2">
+<h2>Single <code>el</code> Variable</h2>
+<pre class="r"><code>if (!all.equal(nw_el, ig_el)) {
+  stop(&quot;edgelists don&#39;t match&quot;)
+}
+
+el &lt;- nw_el</code></pre>
+</div>
+</div>
+<div id="attribute-edge-list" class="section level1">
+<h1>Attribute Edge List</h1>
+<p>Fill the edge list with the chosen <code>attr</code>ibute by using <code>el</code> to index into <code>attr</code>.</p>
+<pre class="r"><code>vectorized_attr_el &lt;- attr[el]
+head(vectorized_attr_el, 15)</code></pre>
+<pre><code>#&gt;  [1] &quot;F&quot; &quot;M&quot; &quot;M&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;M&quot; &quot;F&quot; &quot;F&quot; &quot;F&quot;</code></pre>
+<p>Give <code>vectorized_attr_el</code> <code>dim</code>ensions by converting the result to a 2 column <code>matrix</code>.</p>
+<pre class="r"><code>attr_el &lt;- matrix(vectorized_attr_el, ncol = 2)
+head(attr_el, 10)</code></pre>
+<pre><code>#&gt;       [,1] [,2]
+#&gt;  [1,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [2,] &quot;M&quot;  &quot;M&quot; 
+#&gt;  [3,] &quot;M&quot;  &quot;M&quot; 
+#&gt;  [4,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [5,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [6,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [7,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [8,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [9,] &quot;F&quot;  &quot;F&quot; 
+#&gt; [10,] &quot;M&quot;  &quot;F&quot;</code></pre>
+</div>
+<div id="count-external-and-internal-edges" class="section level1">
+<h1>Count External and Internal Edges</h1>
+<div id="external" class="section level2">
+<h2>External</h2>
+<p>Filter <code>attr_el</code> for <code>external_rows</code> by subsetting those where the first column (<code>attr_el[, 1]</code>) <strong>does not</strong> equal (<code>!=</code>) the second column (<code>attr_el[, 2]</code>).</p>
+<pre class="r"><code>external_rows &lt;- attr_el[ attr_el[, 1] != attr_el[, 2], ]
+head(external_rows, 10)</code></pre>
+<pre><code>#&gt;       [,1] [,2]
+#&gt;  [1,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [2,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [3,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [4,] &quot;F&quot;  &quot;M&quot; 
+#&gt;  [5,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [6,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [7,] &quot;F&quot;  &quot;M&quot; 
+#&gt;  [8,] &quot;M&quot;  &quot;F&quot; 
+#&gt;  [9,] &quot;M&quot;  &quot;F&quot; 
+#&gt; [10,] &quot;M&quot;  &quot;F&quot;</code></pre>
+<div id="how-many" class="section level3">
+<h3>How many?</h3>
+<pre class="r"><code>external_n &lt;- nrow(external_rows)
+external_n</code></pre>
+<pre><code>#&gt; [1] 285</code></pre>
+</div>
+</div>
+<div id="internal" class="section level2">
+<h2>Internal</h2>
+<p>Filter <code>attr_el</code> for <code>internal_rows</code> by subsetting those where the first column (<code>attr_el[, 1]</code>) <strong>does</strong> equal (<code>==</code>) the second column (<code>attr_el[, 2]</code>).</p>
+<pre class="r"><code>internal_rows &lt;- attr_el[ attr_el[, 1] == attr_el[, 2], ]
+head(internal_rows, 10)</code></pre>
+<pre><code>#&gt;       [,1] [,2]
+#&gt;  [1,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [2,] &quot;M&quot;  &quot;M&quot; 
+#&gt;  [3,] &quot;M&quot;  &quot;M&quot; 
+#&gt;  [4,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [5,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [6,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [7,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [8,] &quot;F&quot;  &quot;F&quot; 
+#&gt;  [9,] &quot;F&quot;  &quot;F&quot; 
+#&gt; [10,] &quot;F&quot;  &quot;F&quot;</code></pre>
+<div id="how-many-1" class="section level3">
+<h3>How many?</h3>
+<pre class="r"><code>internal_n &lt;- nrow(internal_rows)
+internal_n</code></pre>
+<pre><code>#&gt; [1] 689</code></pre>
+</div>
+</div>
+</div>
+<div id="calculate-the-e-i-index" class="section level1">
+<h1>Calculate the E-I Index</h1>
+<p><span class="math display">\[EI~Index = \frac{EL-IL}{EL+IL}\]</span></p>
+<pre class="r"><code>ei_index &lt;- (external_n - internal_n) / (external_n + internal_n)
+ei_index</code></pre>
+<pre><code>#&gt; [1] -0.4147844</code></pre>
+<div id="validate-result" class="section level2">
+<h2>Validate Result</h2>
+<pre class="r"><code>stopifnot(all.equal(ei_index, -0.4147844))</code></pre>
 </div>
 </div>
 <div id="environment" class="section level1">
@@ -912,37 +724,39 @@ print(res)</code></pre>
 #&gt; Matrix products: default
 #&gt; 
 #&gt; locale:
-#&gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
-#&gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&gt; [1] LC_COLLATE=English_United States.1252 
+#&gt; [2] LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252
+#&gt; [4] LC_NUMERIC=C                          
 #&gt; [5] LC_TIME=English_United States.1252    
 #&gt; 
 #&gt; attached base packages:
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt;  [1] forcats_0.3.0          stringr_1.3.1.9000     dplyr_0.7.99.9000     
-#&gt;  [4] purrr_0.2.4.9000       readr_1.1.1            tidyr_0.8.1.9000      
-#&gt;  [7] tibble_1.4.2           ggplot2_3.1.0.9000     tidyverse_1.2.1.9000  
-#&gt; [10] reticulate_1.10.0.9002
+#&gt;  [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000   
+#&gt;  [4] purrr_0.2.4.9000     readr_1.1.1          tidyr_0.8.1.9000    
+#&gt;  [7] tibble_1.4.2         ggplot2_3.1.0.9000   tidyverse_1.2.1.9000
+#&gt; [10] snatools_0.0.0.9000 
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] tidyselect_0.2.5          xfun_0.4                  haven_1.1.2.9000         
-#&gt;  [4] lattice_0.20-35           colorspace_1.3-2          generics_0.0.1.9000      
-#&gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.9000         
-#&gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2.9000         
-#&gt; [13] modelr_0.1.2              readxl_1.1.0              plyr_1.8.4               
-#&gt; [16] munsell_0.5.0             blogdown_0.9.1            gtable_0.2.0             
-#&gt; [19] cellranger_1.1.0          rvest_0.3.2               evaluate_0.12            
-#&gt; [22] knitr_1.20.21             RcppArmadillo_0.9.200.4.0 broom_0.5.0.9001         
-#&gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0.9000        
-#&gt; [28] jsonlite_1.5              hms_0.4.2                 digest_0.6.18            
-#&gt; [31] stringi_1.2.4             bookdown_0.7.21           grid_3.5.1               
-#&gt; [34] rprojroot_1.3-2           here_0.1                  cli_1.0.1                
-#&gt; [37] tools_3.5.1               magrittr_1.5              lazyeval_0.2.1           
-#&gt; [40] crayon_1.3.4              pkgconfig_2.0.2           Matrix_1.2-14            
-#&gt; [43] xml2_1.2.0                lubridate_1.7.4           assertthat_0.2.0         
-#&gt; [46] rmarkdown_1.10.14         httr_1.3.1                rstudioapi_0.8.0.9000    
-#&gt; [49] htmldeps_0.1.1            R6_2.3.0                  compiler_3.5.1</code></pre>
+#&gt;  [1] Rcpp_1.0.0            cellranger_1.1.0      plyr_1.8.4           
+#&gt;  [4] pillar_1.3.0.9001     compiler_3.5.1        tools_3.5.1          
+#&gt;  [7] htmldeps_0.1.1        digest_0.6.18         jsonlite_1.5         
+#&gt; [10] lubridate_1.7.4       evaluate_0.12         gtable_0.2.0         
+#&gt; [13] pkgconfig_2.0.2       rlang_0.3.0.9000      igraph_1.2.2         
+#&gt; [16] cli_1.0.1             rstudioapi_0.8.0.9000 yaml_2.2.0           
+#&gt; [19] haven_1.1.2.9000      blogdown_0.9.1        xfun_0.4             
+#&gt; [22] withr_2.1.2.9000      xml2_1.2.0            httr_1.3.1           
+#&gt; [25] knitr_1.20.21         hms_0.4.2             generics_0.0.1.9000  
+#&gt; [28] rprojroot_1.3-2       grid_3.5.1            tidyselect_0.2.5     
+#&gt; [31] glue_1.3.0            here_0.1              R6_2.3.0             
+#&gt; [34] readxl_1.1.0          rmarkdown_1.10.14     bookdown_0.7.21      
+#&gt; [37] modelr_0.1.2          magrittr_1.5          backports_1.1.2      
+#&gt; [40] scales_1.0.0.9000     htmltools_0.3.6       rvest_0.3.2          
+#&gt; [43] assertthat_0.2.0      colorspace_1.3-2      stringi_1.2.4        
+#&gt; [46] network_1.14-355      lazyeval_0.2.1        munsell_0.5.0        
+#&gt; [49] broom_0.5.0.9001      crayon_1.3.4</code></pre>
 </p>
 </details>
 <details>
@@ -1055,14 +869,14 @@ DIMM B
 <p><br><br><br></p>
 <p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
 <p>When using or referring to this post, please consider citing it.</p>
-<pre class="citation"><code>Knapp, B. (2018, Dec. 2). Linear Algebra. Retrieved from https://knapply.com/post/linear-algebra/</code></pre>
-<pre class="citation"><code>@misc{linear-algebra,
+<pre class="citation"><code>Knapp, B. (2018, Dec. 3). EI-Index. Retrieved from https://knapply.com/post/ei-index/</code></pre>
+<pre class="citation"><code>@misc{ei-index,
   author = {Knapp, Brendan},
-  title  = {Linear Algebra},
-  url    = {https://knapply.com/post/linear-algebra/},
+  title  = {EI-Index},
+  url    = {https://knapply.com/post/ei-index/},
   year   = 2018,
   month  = Dec,
-  day    = 2,
+  day    = 3,
 }</code></pre>
 </div>
 
@@ -1075,15 +889,9 @@ DIMM B
   
   <a class="badge badge-light" href="/tags/data-science-from-scratch/">data-science-from-scratch</a>
   
-  <a class="badge badge-light" href="/tags/statistics/">statistics</a>
-  
-  <a class="badge badge-light" href="/tags/programming/">programming</a>
+  <a class="badge badge-light" href="/tags/network-analysis/">network-analysis</a>
   
   <a class="badge badge-light" href="/tags/r/">r</a>
-  
-  <a class="badge badge-light" href="/tags/python/">python</a>
-  
-  <a class="badge badge-light" href="/tags/rcpp/">rcpp</a>
   
 </div>
 
@@ -1188,13 +996,13 @@ DIMM B
       <h3>Related</h3>
       <ul>
         
+        <li><a href="/post/linear-algebra/">Linear Algebra</a></li>
+        
         <li><a href="/post/mode/">Mode</a></li>
         
         <li><a href="/post/variance-and-standard-deviation/">Variance and Standard Deviation</a></li>
         
         <li><a href="/post/describing-data/">Describing Data</a></li>
-        
-        <li><a href="/post/mean/">Mean</a></li>
         
         <li><a href="/post/median/">Median</a></li>
         

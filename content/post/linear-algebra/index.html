@@ -43,16 +43,26 @@ editor_options:
 <li><a href="#rcpp-1">Rcpp</a></li>
 <li><a href="#python-2">Python</a></li>
 </ul></li>
-<li><a href="#vector-matrix-multiplication">Vector-Matrix Multiplication</a></li>
+<li><a href="#vector-matrix-multiplication">Vector-Matrix Multiplication</a><ul>
+<li><a href="#r-3">R</a></li>
+<li><a href="#rcpp-2">Rcpp</a></li>
+<li><a href="#python-3">Python</a></li>
+</ul></li>
+<li><a href="#matrix-matrix-multiplication">Matrix-Matrix Multiplication</a><ul>
+<li><a href="#r-4">R</a></li>
+<li><a href="#rcpp-3">Rcpp</a></li>
+<li><a href="#python-4">Python</a></li>
+</ul></li>
 <li><a href="#environment">Environment</a></li>
 </ul>
 </div>
 
 <blockquote>
-<p><em>This post was last updated on 2018-12-02.</em></p>
+<p><em>This post was last updated on 2018-12-03.</em></p>
 </blockquote>
 <div id="setup" class="section level1">
 <h1>Setup</h1>
+<pre class="r"><code>library(reticulate)</code></pre>
 <div id="r" class="section level2">
 <h2>R</h2>
 <div id="base-r" class="section level3">
@@ -78,9 +88,15 @@ np_mat = np.array([[1, 4, 7],
                    [3, 6, 9]])
 
 np_mat</code></pre>
-<pre><code>#&gt; array([[1, 4, 7],
-#&gt;        [2, 5, 8],
-#&gt;        [3, 6, 9]])</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>stopifnot(
+  all.equal(r_mat,
+            py$np_mat)
+  )</code></pre>
+</p>
+</details>
 </div>
 </div>
 </div>
@@ -111,7 +127,8 @@ np_mat</code></pre>
 <h2>R</h2>
 <div id="base-r-1" class="section level3">
 <h3>Base R</h3>
-<pre class="r"><code>r_mat * 2</code></pre>
+<pre class="r"><code>r_res &lt;- r_mat * 2
+r_res</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    2    8   14
 #&gt; [2,]    4   10   16
@@ -120,39 +137,22 @@ np_mat</code></pre>
 </div>
 <div id="rcpp" class="section level2">
 <h2>Rcpp</h2>
-<div id="built-in" class="section level3">
-<h3>Built-in</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
-#include &lt;Rcpp.h&gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-auto cpp_scalar_multiply(NumericMatrix x, int scalar) {
-  auto out = x * scalar; 
-
-  return out;
-}</code></pre>
-<pre class="r"><code>cpp_scalar_multiply(r_mat, 2)</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]    2    8   14
-#&gt; [2,]    4   10   16
-#&gt; [3,]    6   12   18</code></pre>
-</div>
 <div id="rcpparmadillo" class="section level3">
 <h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
 // [[Rcpp::depends(RcppArmadillo)]]
 #include &lt;RcppArmadillo.h&gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_arma_scalar_multiply(NumericMatrix x, int scalar) {
+auto cpp_mat_dot_scalar(NumericMatrix x, int scalar) {
   auto arma_matrix = as&lt;arma::mat&gt;(x);
   auto out = arma_matrix * scalar;
   
   return wrap(out);
 }</code></pre>
-<pre class="r"><code>cpp_arma_scalar_multiply(r_mat, 2)</code></pre>
+<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_scalar(r_mat, 2)
+cpp_arma_res</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    2    8   14
 #&gt; [2,]    4   10   16
@@ -168,6 +168,16 @@ print(res)</code></pre>
 <pre><code>#&gt; [[ 2  8 14]
 #&gt;  [ 4 10 16]
 #&gt;  [ 6 12 18]]</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )</code></pre>
+</p>
+</details>
 </div>
 </div>
 </div>
@@ -208,9 +218,10 @@ print(res)</code></pre>
 <h2>R</h2>
 <div id="base-r-2" class="section level3">
 <h3>Base R</h3>
-<pre class="r"><code>r_mat %*% c(1,
-            2,
-            3)</code></pre>
+<pre class="r"><code>r_res &lt;- r_mat %*% c(1,
+                     2,
+                     3)
+r_res</code></pre>
 <pre><code>#&gt;      [,1]
 #&gt; [1,]   30
 #&gt; [2,]   36
@@ -219,11 +230,30 @@ print(res)</code></pre>
 </div>
 <div id="rcpp-1" class="section level2">
 <h2>Rcpp</h2>
-<div id="built-in-1" class="section level3">
-<h3>Built-in</h3>
-</div>
 <div id="rcpparmadillo-1" class="section level3">
 <h3>RcppArmadillo</h3>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &lt;RcppArmadillo.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_mat_dot_vec(NumericMatrix mat, NumericVector col_vec) {
+  auto arma_mat = as&lt;arma::mat&gt;(mat);
+  auto arma_vec = as&lt;arma::colvec&gt;(col_vec);
+  
+  auto out = arma_mat * arma_vec;
+  
+  return wrap(out);
+}</code></pre>
+<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_vec(r_mat, c(1, 
+                                         2,
+                                         3))
+cpp_arma_res</code></pre>
+<pre><code>#&gt;      [,1]
+#&gt; [1,]   30
+#&gt; [2,]   36
+#&gt; [3,]   42</code></pre>
 </div>
 </div>
 <div id="python-2" class="section level2">
@@ -237,6 +267,16 @@ print(res)</code></pre>
 <pre><code>#&gt; [[30]
 #&gt;  [36]
 #&gt;  [42]]</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )</code></pre>
+</p>
+</details>
 </div>
 </div>
 </div>
@@ -265,31 +305,153 @@ print(res)</code></pre>
 14   &amp;  32   &amp;  50  \\
 \end{pmatrix}
 \]</span></p>
-<div id="r-3" class="section level3">
-<h3>R</h3>
-<div id="base-r-3" class="section level4">
-<h4>Base R</h4>
-<pre class="r"><code>c(1, 2, 3) %*% r_mat</code></pre>
+<div id="r-3" class="section level2">
+<h2>R</h2>
+<div id="base-r-3" class="section level3">
+<h3>Base R</h3>
+<pre class="r"><code>r_res &lt;- c(1, 2, 3) %*% r_mat
+
+r_res</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]   14   32   50</code></pre>
 </div>
 </div>
-<div id="rcpp-2" class="section level3">
-<h3>Rcpp</h3>
-<div id="built-in-2" class="section level4">
-<h4>Built-in</h4>
+<div id="rcpp-2" class="section level2">
+<h2>Rcpp</h2>
+<div id="rcpparmadillo-2" class="section level3">
+<h3>RcppArmadillo</h3>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &lt;RcppArmadillo.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_vec_dot_mat(NumericVector row_vec, NumericMatrix mat) {
+  auto arma_mat = as&lt;arma::mat&gt;(mat);
+  auto arma_vec = as&lt;arma::rowvec&gt;(row_vec);
+  
+  auto out = arma_vec * arma_mat;
+  
+  return wrap(out);
+}</code></pre>
+<pre class="r"><code>cpp_arma_res &lt;- cpp_vec_dot_mat(
+  c(1, 2, 3), r_mat
+  )
+cpp_arma_res</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]   14   32   50</code></pre>
 </div>
-<div id="rcpparmadillo-2" class="section level4">
-<h4>RcppArmadillo</h4>
 </div>
-</div>
-<div id="python-3" class="section level3">
-<h3>Python</h3>
-<div id="numpy-3" class="section level4">
-<h4>NumPy</h4>
+<div id="python-3" class="section level2">
+<h2>Python</h2>
+<div id="numpy-3" class="section level3">
+<h3>NumPy</h3>
 <pre class="python"><code>res = np.array([[1, 2, 3]]).dot(np_mat)
 print(res)</code></pre>
 <pre><code>#&gt; [[14 32 50]]</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )</code></pre>
+</p>
+</details>
+</div>
+</div>
+</div>
+<div id="matrix-matrix-multiplication" class="section level1">
+<h1>Matrix-Matrix Multiplication</h1>
+<p><span class="math display">\[
+\begin{pmatrix}
+  1   &amp;  2   &amp;  3  \\
+  4   &amp;  5   &amp;  6  \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1   &amp;  4   &amp;  7  \\
+  2   &amp;  5   &amp;  8  \\
+  3   &amp;  6   &amp;  9  \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1\cdot1 + 2\cdot2 + 3\cdot3 ~&amp;~ 1\cdot4 + 2\cdot5 + 3\cdot6 ~&amp;~ 1\cdot7 + 2\cdot8 + 3\cdot9 \\
+  4\cdot1 + 5\cdot2 + 6\cdot3 ~&amp;~ 4\cdot4 + 5\cdot5 + 6\cdot6 ~&amp;~ 4\cdot7 + 5\cdot8 + 6\cdot9 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1+4+9 ~&amp;~ 4+10+18 ~&amp;~ 7+16+27 \\
+  4+10+18 ~&amp;~ 16+25+36 ~&amp;~ 28+40+54 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  14   &amp;  32   &amp;  50  \\
+  32   &amp;  77   &amp;  122  \\
+\end{pmatrix}
+\]</span></p>
+<div id="r-4" class="section level2">
+<h2>R</h2>
+<div id="base-r-4" class="section level3">
+<h3>Base R</h3>
+<pre class="r"><code>r_mat2 &lt;- t(r_mat[,1:2])
+r_mat2</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    2    3
+#&gt; [2,]    4    5    6</code></pre>
+<pre class="r"><code>r_res &lt;- r_mat2 %*% r_mat
+r_res</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]   14   32   50
+#&gt; [2,]   32   77  122</code></pre>
+</div>
+</div>
+<div id="rcpp-3" class="section level2">
+<h2>Rcpp</h2>
+<div id="rcpparmadillo-3" class="section level3">
+<h3>RcppArmadillo</h3>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &lt;RcppArmadillo.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_mat_dot_mat(NumericMatrix mat1, NumericMatrix mat2) {
+  auto arma_mat1 = as&lt;arma::mat&gt;(mat1);
+  auto arma_mat2 = as&lt;arma::mat&gt;(mat2);
+  
+  auto out = arma_mat1 * arma_mat2;
+  
+  return wrap(out);
+}</code></pre>
+<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_mat(r_mat2, r_mat)
+cpp_arma_res</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]   14   32   50
+#&gt; [2,]   32   77  122</code></pre>
+</div>
+</div>
+<div id="python-4" class="section level2">
+<h2>Python</h2>
+<div id="numpy-4" class="section level3">
+<h3>NumPy</h3>
+<pre class="python"><code>np_mat2 = np_mat[:, 0:2].transpose()
+print(np_mat2)</code></pre>
+<pre><code>#&gt; [[1 2 3]
+#&gt;  [4 5 6]]</code></pre>
+<pre class="python"><code>res = np_mat2.dot(np_mat)
+print(res)</code></pre>
+<pre><code>#&gt; [[ 14  32  50]
+#&gt;  [ 32  77 122]]</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )</code></pre>
 </p>
 </details>
 </div>
@@ -301,7 +463,7 @@ print(res)</code></pre>
 <summary> R </summary>
 <p>
 <pre class="r"><code>sessionInfo()</code></pre>
-<pre><code>#&gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+<pre><code>#&gt; R version 3.5.1 (2018-07-02)
 #&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
 #&gt; Running under: Windows 10 x64 (build 17134)
 #&gt; 
@@ -316,28 +478,29 @@ print(res)</code></pre>
 #&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&gt; 
 #&gt; other attached packages:
-#&gt; [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000    purrr_0.2.5         
-#&gt; [5] readr_1.2.1          tidyr_0.8.2.9000     tibble_1.4.99.9005   ggplot2_3.1.0.9000  
-#&gt; [9] tidyverse_1.2.1.9000
+#&gt;  [1] forcats_0.3.0          stringr_1.3.1.9000     dplyr_0.7.99.9000     
+#&gt;  [4] purrr_0.2.4.9000       readr_1.1.1            tidyr_0.8.1.9000      
+#&gt;  [7] tibble_1.4.2           ggplot2_3.1.0.9000     tidyverse_1.2.1.9000  
+#&gt; [10] reticulate_1.10.0.9002
 #&gt; 
 #&gt; loaded via a namespace (and not attached):
-#&gt;  [1] reticulate_1.10.0.9003    tidyselect_0.2.5          xfun_0.4                 
-#&gt;  [4] haven_2.0.0               lattice_0.20-35           colorspace_1.3-2         
-#&gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.1            
-#&gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2              
+#&gt;  [1] tidyselect_0.2.5          xfun_0.4                  haven_1.1.2.9000         
+#&gt;  [4] lattice_0.20-35           colorspace_1.3-2          generics_0.0.1.9000      
+#&gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.9000         
+#&gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2.9000         
 #&gt; [13] modelr_0.1.2              readxl_1.1.0              plyr_1.8.4               
-#&gt; [16] munsell_0.5.0             blogdown_0.9.4            gtable_0.2.0             
+#&gt; [16] munsell_0.5.0             blogdown_0.9.1            gtable_0.2.0             
 #&gt; [19] cellranger_1.1.0          rvest_0.3.2               evaluate_0.12            
-#&gt; [22] knitr_1.20                RcppArmadillo_0.9.200.5.0 broom_0.5.0              
-#&gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0             
+#&gt; [22] knitr_1.20.21             RcppArmadillo_0.9.200.4.0 broom_0.5.0.9001         
+#&gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0.9000        
 #&gt; [28] jsonlite_1.5              hms_0.4.2                 digest_0.6.18            
-#&gt; [31] stringi_1.2.4             bookdown_0.7              grid_3.6.0               
-#&gt; [34] rprojroot_1.3-2           here_0.1-11               cli_1.0.1                
-#&gt; [37] tools_3.6.0               magrittr_1.5              lazyeval_0.2.1           
+#&gt; [31] stringi_1.2.4             bookdown_0.7.21           grid_3.5.1               
+#&gt; [34] rprojroot_1.3-2           here_0.1                  cli_1.0.1                
+#&gt; [37] tools_3.5.1               magrittr_1.5              lazyeval_0.2.1           
 #&gt; [40] crayon_1.3.4              pkgconfig_2.0.2           Matrix_1.2-14            
 #&gt; [43] xml2_1.2.0                lubridate_1.7.4           assertthat_0.2.0         
-#&gt; [46] rmarkdown_1.10            httr_1.3.1                rstudioapi_0.8           
-#&gt; [49] R6_2.3.0                  nlme_3.1-137              compiler_3.6.0</code></pre>
+#&gt; [46] rmarkdown_1.10.14         httr_1.3.1                rstudioapi_0.8.0.9000    
+#&gt; [49] htmldeps_0.1.1            R6_2.3.0                  compiler_3.5.1</code></pre>
 </p>
 </details>
 <details>
@@ -348,7 +511,7 @@ print(res)</code></pre>
   } else {
   system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
   }</code></pre>
-<pre><code>#&gt; [1] &quot;GCC 8.2.0&quot;</code></pre>
+<pre><code>#&gt; [1] &quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&quot;</code></pre>
 </p>
 </details>
 <details>

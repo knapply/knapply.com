@@ -11,6 +11,430 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>EI-Index</title>
+      <link>/post/ei-index/</link>
+      <pubDate>Mon, 03 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/ei-index/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#requirements&#34;&gt;Requirements&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#setup&#34;&gt;Setup&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#data&#34;&gt;Data&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#vertex-attribute&#34;&gt;Vertex Attribute&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#network&#34;&gt;&lt;code&gt;network&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#igraph&#34;&gt;&lt;code&gt;igraph&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#single-attr-variable&#34;&gt;Single &lt;code&gt;attr&lt;/code&gt; Variable&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#index-edge-list&#34;&gt;Index Edge List&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#network-1&#34;&gt;&lt;code&gt;network&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#igraph-1&#34;&gt;&lt;code&gt;igraph&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#single-el-variable&#34;&gt;Single &lt;code&gt;el&lt;/code&gt; Variable&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#attribute-edge-list&#34;&gt;Attribute Edge List&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#count-external-and-internal-edges&#34;&gt;Count External and Internal Edges&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#external&#34;&gt;External&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#internal&#34;&gt;Internal&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#calculate-the-e-i-index&#34;&gt;Calculate the E-I Index&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#validate-result&#34;&gt;Validate Result&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;This post was last updated on 2018-12-03.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div id=&#34;requirements&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Requirements&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;packages_required &amp;lt;- c(&amp;quot;ergm&amp;quot;, &amp;quot;igraph&amp;quot;, &amp;quot;network&amp;quot;, &amp;quot;snatools&amp;quot;)
+packages_available &amp;lt;- installed.packages()[, &amp;quot;Package&amp;quot;]
+
+if (!all(packages_required %in% packages_available)) {
+  missings &amp;lt;- packages_required[!packages_required %in% packages_available]
+  stop(sprintf(&amp;quot;Package(s) Missing:\n%s&amp;quot;, paste0(missings, collapse = &amp;quot;, &amp;quot;)))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;setup&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Setup&lt;/h1&gt;
+&lt;p&gt;&lt;code&gt;igraph&lt;/code&gt; and &lt;code&gt;network&lt;/code&gt; don’t play along, but we can prevent that headache by defining our own methods to wrap the operations we need.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# extract vertex attributes
+get_attr &amp;lt;- function(x, attr, ...) UseMethod(&amp;quot;get_attr&amp;quot;)
+
+get_attr.igraph &amp;lt;- function(x, attr, ...) {
+  igraph::vertex_attr(graph = x, name = attr, ...)
+}
+
+get_attr.network &amp;lt;- function(x, attr, ...) {
+  network::get.vertex.attribute(x = x, attrname = attr, ...)
+}
+
+
+# get edgelist representations
+get_el &amp;lt;- function(x, ...) UseMethod(&amp;quot;get_el&amp;quot;)
+
+get_el.igraph &amp;lt;- function(x, ...) {
+  igraph::as_edgelist(graph = x, names = FALSE, ...)
+}
+
+get_el.network &amp;lt;- function(x, ...) {
+  out &amp;lt;- network::as.matrix.network.edgelist(x = x, ...)
+  attributes(out) &amp;lt;- attributes(out)[!names(attributes(out)) %in% c(&amp;quot;n&amp;quot;, &amp;quot;vnames&amp;quot;)] 
+  out
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;data(faux.magnolia.high, package = &amp;quot;ergm&amp;quot;)
+
+nw &amp;lt;- faux.magnolia.high&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(snatools)
+ig &amp;lt;- as_igraph(nw)
+
+ig&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; IGRAPH bcfa9d9 UN-- 1461 974 -- 
+#&amp;gt; + attr: .vrt_id (v/n), name (v/c), Race (v/c), Grade (v/n), Sex (v/c),
+#&amp;gt; | .edg_id (e/n)
+#&amp;gt; + edges from bcfa9d9 (vertex names):
+#&amp;gt;  [1] 1 --669  2 --751  2 --912  2 --963  3 --284  3 --310  4 --677  4 --703 
+#&amp;gt;  [9] 5 --1159 7 --702  8 --1118 11--238  12--138  12--1308 12--1309 14--437 
+#&amp;gt; [17] 14--452  14--702  15--805  16--603  16--610  16--621  16--970  17--385 
+#&amp;gt; [25] 17--597  17--609  19--68   19--375  19--419  21--577  21--914  21--1220
+#&amp;gt; [33] 21--1338 21--1363 22--1388 23--411  25--447  25--1404 26--422  31--89  
+#&amp;gt; [41] 31--97   31--377  33--342  35--772  36--595  37--73   37--801  38--1450
+#&amp;gt; [49] 40--671  41--610  42--1323 43--1439 44--433  45--1088 45--1336 46--219 
+#&amp;gt; + ... omitted several edges&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;vertex-attribute&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Vertex Attribute&lt;/h1&gt;
+&lt;p&gt;Using the attribute of interest, get a vector of each vertices’ value.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;attr_of_interest &amp;lt;- &amp;quot;Sex&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;network&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;network&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nw_attr &amp;lt;- get_attr(nw, attr = attr_of_interest)
+
+head(nw_attr, 15)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1] &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;igraph&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;igraph&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ig_attr &amp;lt;- get_attr(ig, attr = attr_of_interest)
+head(ig_attr, 15)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1] &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;single-attr-variable&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Single &lt;code&gt;attr&lt;/code&gt; Variable&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!identical(nw_attr, ig_attr)) {
+  stop(&amp;quot;attrs don&amp;#39;t match&amp;quot;)
+}
+
+attr &amp;lt;- nw_attr&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;index-edge-list&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Index Edge List&lt;/h1&gt;
+&lt;p&gt;Get the edge list as a matrix, filled by vertex indices.&lt;/p&gt;
+&lt;div id=&#34;network-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;network&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;nw_el &amp;lt;- get_el(nw)
+
+head(nw_el, 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;       [,1] [,2]
+#&amp;gt;  [1,]    1  669
+#&amp;gt;  [2,]    2  751
+#&amp;gt;  [3,]    2  912
+#&amp;gt;  [4,]    2  963
+#&amp;gt;  [5,]    3  284
+#&amp;gt;  [6,]    3  310
+#&amp;gt;  [7,]    4  677
+#&amp;gt;  [8,]    4  703
+#&amp;gt;  [9,]    5 1159
+#&amp;gt; [10,]    7  702&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;igraph-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;code&gt;igraph&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ig_el &amp;lt;- get_el(ig)
+
+head(ig_el, 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;       [,1] [,2]
+#&amp;gt;  [1,]    1  669
+#&amp;gt;  [2,]    2  751
+#&amp;gt;  [3,]    2  912
+#&amp;gt;  [4,]    2  963
+#&amp;gt;  [5,]    3  284
+#&amp;gt;  [6,]    3  310
+#&amp;gt;  [7,]    4  677
+#&amp;gt;  [8,]    4  703
+#&amp;gt;  [9,]    5 1159
+#&amp;gt; [10,]    7  702&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;single-el-variable&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Single &lt;code&gt;el&lt;/code&gt; Variable&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!all.equal(nw_el, ig_el)) {
+  stop(&amp;quot;edgelists don&amp;#39;t match&amp;quot;)
+}
+
+el &amp;lt;- nw_el&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;attribute-edge-list&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Attribute Edge List&lt;/h1&gt;
+&lt;p&gt;Fill the edge list with the chosen &lt;code&gt;attr&lt;/code&gt;ibute by using &lt;code&gt;el&lt;/code&gt; to index into &lt;code&gt;attr&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;vectorized_attr_el &amp;lt;- attr[el]
+head(vectorized_attr_el, 15)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;  [1] &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;M&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;M&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot; &amp;quot;F&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Give &lt;code&gt;vectorized_attr_el&lt;/code&gt; &lt;code&gt;dim&lt;/code&gt;ensions by converting the result to a 2 column &lt;code&gt;matrix&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;attr_el &amp;lt;- matrix(vectorized_attr_el, ncol = 2)
+head(attr_el, 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;       [,1] [,2]
+#&amp;gt;  [1,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [2,] &amp;quot;M&amp;quot;  &amp;quot;M&amp;quot; 
+#&amp;gt;  [3,] &amp;quot;M&amp;quot;  &amp;quot;M&amp;quot; 
+#&amp;gt;  [4,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [5,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [6,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [7,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [8,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [9,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt; [10,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;count-external-and-internal-edges&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Count External and Internal Edges&lt;/h1&gt;
+&lt;div id=&#34;external&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;External&lt;/h2&gt;
+&lt;p&gt;Filter &lt;code&gt;attr_el&lt;/code&gt; for &lt;code&gt;external_rows&lt;/code&gt; by subsetting those where the first column (&lt;code&gt;attr_el[, 1]&lt;/code&gt;) &lt;strong&gt;does not&lt;/strong&gt; equal (&lt;code&gt;!=&lt;/code&gt;) the second column (&lt;code&gt;attr_el[, 2]&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;external_rows &amp;lt;- attr_el[ attr_el[, 1] != attr_el[, 2], ]
+head(external_rows, 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;       [,1] [,2]
+#&amp;gt;  [1,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [2,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [3,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [4,] &amp;quot;F&amp;quot;  &amp;quot;M&amp;quot; 
+#&amp;gt;  [5,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [6,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [7,] &amp;quot;F&amp;quot;  &amp;quot;M&amp;quot; 
+#&amp;gt;  [8,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [9,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt; [10,] &amp;quot;M&amp;quot;  &amp;quot;F&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;how-many&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;How many?&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;external_n &amp;lt;- nrow(external_rows)
+external_n&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 285&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;internal&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Internal&lt;/h2&gt;
+&lt;p&gt;Filter &lt;code&gt;attr_el&lt;/code&gt; for &lt;code&gt;internal_rows&lt;/code&gt; by subsetting those where the first column (&lt;code&gt;attr_el[, 1]&lt;/code&gt;) &lt;strong&gt;does&lt;/strong&gt; equal (&lt;code&gt;==&lt;/code&gt;) the second column (&lt;code&gt;attr_el[, 2]&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;internal_rows &amp;lt;- attr_el[ attr_el[, 1] == attr_el[, 2], ]
+head(internal_rows, 10)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;       [,1] [,2]
+#&amp;gt;  [1,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [2,] &amp;quot;M&amp;quot;  &amp;quot;M&amp;quot; 
+#&amp;gt;  [3,] &amp;quot;M&amp;quot;  &amp;quot;M&amp;quot; 
+#&amp;gt;  [4,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [5,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [6,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [7,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [8,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt;  [9,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot; 
+#&amp;gt; [10,] &amp;quot;F&amp;quot;  &amp;quot;F&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;how-many-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;How many?&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;internal_n &amp;lt;- nrow(internal_rows)
+internal_n&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] 689&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;calculate-the-e-i-index&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Calculate the E-I Index&lt;/h1&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[EI~Index = \frac{EL-IL}{EL+IL}\]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ei_index &amp;lt;- (external_n - internal_n) / (external_n + internal_n)
+ei_index&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] -0.4147844&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;validate-result&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Validate Result&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(all.equal(ei_index, -0.4147844))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;environment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Environment&lt;/h1&gt;
+&lt;details&gt;
+&lt;summary&gt; R &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.5.1 (2018-07-02)
+#&amp;gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&amp;gt; Running under: Windows 10 x64 (build 17134)
+#&amp;gt; 
+#&amp;gt; Matrix products: default
+#&amp;gt; 
+#&amp;gt; locale:
+#&amp;gt; [1] LC_COLLATE=English_United States.1252 
+#&amp;gt; [2] LC_CTYPE=English_United States.1252   
+#&amp;gt; [3] LC_MONETARY=English_United States.1252
+#&amp;gt; [4] LC_NUMERIC=C                          
+#&amp;gt; [5] LC_TIME=English_United States.1252    
+#&amp;gt; 
+#&amp;gt; attached base packages:
+#&amp;gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&amp;gt; 
+#&amp;gt; other attached packages:
+#&amp;gt;  [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000   
+#&amp;gt;  [4] purrr_0.2.4.9000     readr_1.1.1          tidyr_0.8.1.9000    
+#&amp;gt;  [7] tibble_1.4.2         ggplot2_3.1.0.9000   tidyverse_1.2.1.9000
+#&amp;gt; [10] snatools_0.0.0.9000 
+#&amp;gt; 
+#&amp;gt; loaded via a namespace (and not attached):
+#&amp;gt;  [1] Rcpp_1.0.0            cellranger_1.1.0      plyr_1.8.4           
+#&amp;gt;  [4] pillar_1.3.0.9001     compiler_3.5.1        tools_3.5.1          
+#&amp;gt;  [7] htmldeps_0.1.1        digest_0.6.18         jsonlite_1.5         
+#&amp;gt; [10] lubridate_1.7.4       evaluate_0.12         gtable_0.2.0         
+#&amp;gt; [13] pkgconfig_2.0.2       rlang_0.3.0.9000      igraph_1.2.2         
+#&amp;gt; [16] cli_1.0.1             rstudioapi_0.8.0.9000 yaml_2.2.0           
+#&amp;gt; [19] haven_1.1.2.9000      blogdown_0.9.1        xfun_0.4             
+#&amp;gt; [22] withr_2.1.2.9000      xml2_1.2.0            httr_1.3.1           
+#&amp;gt; [25] knitr_1.20.21         hms_0.4.2             generics_0.0.1.9000  
+#&amp;gt; [28] rprojroot_1.3-2       grid_3.5.1            tidyselect_0.2.5     
+#&amp;gt; [31] glue_1.3.0            here_0.1              R6_2.3.0             
+#&amp;gt; [34] readxl_1.1.0          rmarkdown_1.10.14     bookdown_0.7.21      
+#&amp;gt; [37] modelr_0.1.2          magrittr_1.5          backports_1.1.2      
+#&amp;gt; [40] scales_1.0.0.9000     htmltools_0.3.6       rvest_0.3.2          
+#&amp;gt; [43] assertthat_0.2.0      colorspace_1.3-2      stringi_1.2.4        
+#&amp;gt; [46] network_1.14-355      lazyeval_0.2.1        munsell_0.5.0        
+#&amp;gt; [49] broom_0.5.0.9001      crayon_1.3.4&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; C++ &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (R.version[&amp;quot;minor&amp;quot;] == &amp;quot;6.0&amp;quot;) {
+  &amp;quot;GCC 8.2.0&amp;quot;
+  } else {
+  system(&amp;quot;gcc --version&amp;quot;, intern = TRUE)[[1]]
+  }&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Python &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &amp;quot;Python&amp;quot;: sys.version,
+  &amp;quot;NumPy&amp;quot;: numpy.__version__,
+  &amp;quot;Numba&amp;quot;: numba.__version__,
+  &amp;quot;CuPy&amp;quot;: cupy.__version__,
+  &amp;quot;Pandas&amp;quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&amp;quot;{k}: {v}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&amp;gt; NumPy: 1.15.4
+#&amp;gt; Numba: 0.40.0
+#&amp;gt; CuPy: 5.0.0
+#&amp;gt; Pandas: 0.23.4&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; CPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(system(&amp;quot;wmic cpu get name&amp;quot;, intern = TRUE)[[2]])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  &lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; GPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic path win32_VideoController get name&amp;quot;, intern = TRUE) %&amp;gt;% 
+  str_subset(&amp;quot;NVIDIA&amp;quot;) %&amp;gt;% 
+  str_trim()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;NVIDIA GeForce GTX 960M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Memory &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&amp;quot;, intern = TRUE) %&amp;gt;%
+  str_trim() %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  slice(2:3) %&amp;gt;%
+  separate(value, into = c(&amp;quot;BankLabel&amp;quot;, &amp;quot;Capacity&amp;quot;, &amp;quot;Speed&amp;quot;), sep = &amp;quot;\\s{2,}&amp;quot;) %&amp;gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &amp;quot;GB&amp;quot;)) %&amp;gt;%
+  mutate(Speed = paste(Speed, &amp;quot;MHz&amp;quot;)) %&amp;gt;%
+  rename_all(str_replace, &amp;quot;L&amp;quot;, &amp;quot; L&amp;quot;) %&amp;gt;%
+  knitr::kable(format = &amp;quot;html&amp;quot;) %&amp;gt;%
+  kableExtra::kable_styling(full_width = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Bank Label
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Capacity
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Speed
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+DIMM A
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+17.18 GB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+2400 MHz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+DIMM B
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+17.18 GB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+2400 MHz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When using or referring to this post, please consider citing it.&lt;/p&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Dec. 3). EI-Index. Retrieved from https://knapply.com/post/ei-index/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{ei-index,
+  author = {Knapp, Brendan},
+  title  = {EI-Index},
+  url    = {https://knapply.com/post/ei-index/},
+  year   = 2018,
+  month  = Dec,
+  day    = 3,
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Linear Algebra</title>
       <link>/post/linear-algebra/</link>
       <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
@@ -35,16 +459,26 @@
 &lt;li&gt;&lt;a href=&#34;#rcpp-1&#34;&gt;Rcpp&lt;/a&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#python-2&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;a href=&#34;#vector-matrix-multiplication&#34;&gt;Vector-Matrix Multiplication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#vector-matrix-multiplication&#34;&gt;Vector-Matrix Multiplication&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#r-3&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcpp-2&#34;&gt;Rcpp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#python-3&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#matrix-matrix-multiplication&#34;&gt;Matrix-Matrix Multiplication&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#r-4&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcpp-3&#34;&gt;Rcpp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#python-4&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
 &lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/div&gt;
 
 &lt;blockquote&gt;
-&lt;p&gt;&lt;em&gt;This post was last updated on 2018-12-02.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;This post was last updated on 2018-12-03.&lt;/em&gt;&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;div id=&#34;setup&#34; class=&#34;section level1&#34;&gt;
 &lt;h1&gt;Setup&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(reticulate)&lt;/code&gt;&lt;/pre&gt;
 &lt;div id=&#34;r&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;R&lt;/h2&gt;
 &lt;div id=&#34;base-r&#34; class=&#34;section level3&#34;&gt;
@@ -70,9 +504,15 @@ np_mat = np.array([[1, 4, 7],
                    [3, 6, 9]])
 
 np_mat&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; array([[1, 4, 7],
-#&amp;gt;        [2, 5, 8],
-#&amp;gt;        [3, 6, 9]])&lt;/code&gt;&lt;/pre&gt;
+&lt;details&gt;
+&lt;summary&gt; Sanity Check &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(r_mat,
+            py$np_mat)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -103,7 +543,8 @@ np_mat&lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;R&lt;/h2&gt;
 &lt;div id=&#34;base-r-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Base R&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mat * 2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_res &amp;lt;- r_mat * 2
+r_res&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
 #&amp;gt; [1,]    2    8   14
 #&amp;gt; [2,]    4   10   16
@@ -112,39 +553,22 @@ np_mat&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;rcpp&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Rcpp&lt;/h2&gt;
-&lt;div id=&#34;built-in&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Built-in&lt;/h3&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
-#include &amp;lt;Rcpp.h&amp;gt;
-using namespace Rcpp;
-
-// [[Rcpp::export]]
-auto cpp_scalar_multiply(NumericMatrix x, int scalar) {
-  auto out = x * scalar; 
-
-  return out;
-}&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_scalar_multiply(r_mat, 2)&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
-#&amp;gt; [1,]    2    8   14
-#&amp;gt; [2,]    4   10   16
-#&amp;gt; [3,]    6   12   18&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
 &lt;div id=&#34;rcpparmadillo&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;RcppArmadillo&lt;/h3&gt;
-&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp14)]]
 // [[Rcpp::depends(RcppArmadillo)]]
 #include &amp;lt;RcppArmadillo.h&amp;gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_arma_scalar_multiply(NumericMatrix x, int scalar) {
+auto cpp_mat_dot_scalar(NumericMatrix x, int scalar) {
   auto arma_matrix = as&amp;lt;arma::mat&amp;gt;(x);
   auto out = arma_matrix * scalar;
   
   return wrap(out);
 }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_arma_scalar_multiply(r_mat, 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_arma_res &amp;lt;- cpp_mat_dot_scalar(r_mat, 2)
+cpp_arma_res&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
 #&amp;gt; [1,]    2    8   14
 #&amp;gt; [2,]    4   10   16
@@ -160,6 +584,16 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [[ 2  8 14]
 #&amp;gt;  [ 4 10 16]
 #&amp;gt;  [ 6 12 18]]&lt;/code&gt;&lt;/pre&gt;
+&lt;details&gt;
+&lt;summary&gt; Sanity Check &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -200,9 +634,10 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;h2&gt;R&lt;/h2&gt;
 &lt;div id=&#34;base-r-2&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Base R&lt;/h3&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mat %*% c(1,
-            2,
-            3)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_res &amp;lt;- r_mat %*% c(1,
+                     2,
+                     3)
+r_res&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1]
 #&amp;gt; [1,]   30
 #&amp;gt; [2,]   36
@@ -211,11 +646,30 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;rcpp-1&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Rcpp&lt;/h2&gt;
-&lt;div id=&#34;built-in-1&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Built-in&lt;/h3&gt;
-&lt;/div&gt;
 &lt;div id=&#34;rcpparmadillo-1&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;RcppArmadillo&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &amp;lt;RcppArmadillo.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_mat_dot_vec(NumericMatrix mat, NumericVector col_vec) {
+  auto arma_mat = as&amp;lt;arma::mat&amp;gt;(mat);
+  auto arma_vec = as&amp;lt;arma::colvec&amp;gt;(col_vec);
+  
+  auto out = arma_mat * arma_vec;
+  
+  return wrap(out);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_arma_res &amp;lt;- cpp_mat_dot_vec(r_mat, c(1, 
+                                         2,
+                                         3))
+cpp_arma_res&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1]
+#&amp;gt; [1,]   30
+#&amp;gt; [2,]   36
+#&amp;gt; [3,]   42&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;python-2&#34; class=&#34;section level2&#34;&gt;
@@ -229,6 +683,16 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [[30]
 #&amp;gt;  [36]
 #&amp;gt;  [42]]&lt;/code&gt;&lt;/pre&gt;
+&lt;details&gt;
+&lt;summary&gt; Sanity Check &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;/div&gt;
@@ -257,31 +721,153 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 14   &amp;amp;  32   &amp;amp;  50  \\
 \end{pmatrix}
 \]&lt;/span&gt;&lt;/p&gt;
-&lt;div id=&#34;r-3&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;R&lt;/h3&gt;
-&lt;div id=&#34;base-r-3&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Base R&lt;/h4&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;c(1, 2, 3) %*% r_mat&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;r-3&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;R&lt;/h2&gt;
+&lt;div id=&#34;base-r-3&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Base R&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_res &amp;lt;- c(1, 2, 3) %*% r_mat
+
+r_res&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
 #&amp;gt; [1,]   14   32   50&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;/div&gt;
-&lt;div id=&#34;rcpp-2&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Rcpp&lt;/h3&gt;
-&lt;div id=&#34;built-in-2&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;Built-in&lt;/h4&gt;
+&lt;div id=&#34;rcpp-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Rcpp&lt;/h2&gt;
+&lt;div id=&#34;rcpparmadillo-2&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;RcppArmadillo&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &amp;lt;RcppArmadillo.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_vec_dot_mat(NumericVector row_vec, NumericMatrix mat) {
+  auto arma_mat = as&amp;lt;arma::mat&amp;gt;(mat);
+  auto arma_vec = as&amp;lt;arma::rowvec&amp;gt;(row_vec);
+  
+  auto out = arma_vec * arma_mat;
+  
+  return wrap(out);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_arma_res &amp;lt;- cpp_vec_dot_mat(
+  c(1, 2, 3), r_mat
+  )
+cpp_arma_res&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]   14   32   50&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;rcpparmadillo-2&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;RcppArmadillo&lt;/h4&gt;
 &lt;/div&gt;
-&lt;/div&gt;
-&lt;div id=&#34;python-3&#34; class=&#34;section level3&#34;&gt;
-&lt;h3&gt;Python&lt;/h3&gt;
-&lt;div id=&#34;numpy-3&#34; class=&#34;section level4&#34;&gt;
-&lt;h4&gt;NumPy&lt;/h4&gt;
+&lt;div id=&#34;python-3&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Python&lt;/h2&gt;
+&lt;div id=&#34;numpy-3&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;NumPy&lt;/h3&gt;
 &lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np.array([[1, 2, 3]]).dot(np_mat)
 print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;#&amp;gt; [[14 32 50]]&lt;/code&gt;&lt;/pre&gt;
+&lt;details&gt;
+&lt;summary&gt; Sanity Check &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matrix-matrix-multiplication&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Matrix-Matrix Multiplication&lt;/h1&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\begin{pmatrix}
+  1   &amp;amp;  2   &amp;amp;  3  \\
+  4   &amp;amp;  5   &amp;amp;  6  \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1   &amp;amp;  4   &amp;amp;  7  \\
+  2   &amp;amp;  5   &amp;amp;  8  \\
+  3   &amp;amp;  6   &amp;amp;  9  \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1\cdot1 + 2\cdot2 + 3\cdot3 ~&amp;amp;~ 1\cdot4 + 2\cdot5 + 3\cdot6 ~&amp;amp;~ 1\cdot7 + 2\cdot8 + 3\cdot9 \\
+  4\cdot1 + 5\cdot2 + 6\cdot3 ~&amp;amp;~ 4\cdot4 + 5\cdot5 + 6\cdot6 ~&amp;amp;~ 4\cdot7 + 5\cdot8 + 6\cdot9 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1+4+9 ~&amp;amp;~ 4+10+18 ~&amp;amp;~ 7+16+27 \\
+  4+10+18 ~&amp;amp;~ 16+25+36 ~&amp;amp;~ 28+40+54 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  14   &amp;amp;  32   &amp;amp;  50  \\
+  32   &amp;amp;  77   &amp;amp;  122  \\
+\end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;div id=&#34;r-4&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;R&lt;/h2&gt;
+&lt;div id=&#34;base-r-4&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Base R&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mat2 &amp;lt;- t(r_mat[,1:2])
+r_mat2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]    1    2    3
+#&amp;gt; [2,]    4    5    6&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_res &amp;lt;- r_mat2 %*% r_mat
+r_res&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]   14   32   50
+#&amp;gt; [2,]   32   77  122&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpp-3&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Rcpp&lt;/h2&gt;
+&lt;div id=&#34;rcpparmadillo-3&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;RcppArmadillo&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp14)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &amp;lt;RcppArmadillo.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_mat_dot_mat(NumericMatrix mat1, NumericMatrix mat2) {
+  auto arma_mat1 = as&amp;lt;arma::mat&amp;gt;(mat1);
+  auto arma_mat2 = as&amp;lt;arma::mat&amp;gt;(mat2);
+  
+  auto out = arma_mat1 * arma_mat2;
+  
+  return wrap(out);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_arma_res &amp;lt;- cpp_mat_dot_mat(r_mat2, r_mat)
+cpp_arma_res&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]   14   32   50
+#&amp;gt; [2,]   32   77  122&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;python-4&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Python&lt;/h2&gt;
+&lt;div id=&#34;numpy-4&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;NumPy&lt;/h3&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;np_mat2 = np_mat[:, 0:2].transpose()
+print(np_mat2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [[1 2 3]
+#&amp;gt;  [4 5 6]]&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np_mat2.dot(np_mat)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [[ 14  32  50]
+#&amp;gt;  [ 32  77 122]]&lt;/code&gt;&lt;/pre&gt;
+&lt;details&gt;
+&lt;summary&gt; Sanity Check &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;stopifnot(
+  all.equal(r_res,
+            cpp_arma_res,
+            py$res)
+  )&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;/div&gt;
@@ -293,7 +879,7 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 &lt;summary&gt; R &lt;/summary&gt;
 &lt;p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.5.1 (2018-07-02)
 #&amp;gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
 #&amp;gt; Running under: Windows 10 x64 (build 17134)
 #&amp;gt; 
@@ -308,28 +894,29 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
 #&amp;gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
 #&amp;gt; 
 #&amp;gt; other attached packages:
-#&amp;gt; [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000    purrr_0.2.5         
-#&amp;gt; [5] readr_1.2.1          tidyr_0.8.2.9000     tibble_1.4.99.9005   ggplot2_3.1.0.9000  
-#&amp;gt; [9] tidyverse_1.2.1.9000
+#&amp;gt;  [1] forcats_0.3.0          stringr_1.3.1.9000     dplyr_0.7.99.9000     
+#&amp;gt;  [4] purrr_0.2.4.9000       readr_1.1.1            tidyr_0.8.1.9000      
+#&amp;gt;  [7] tibble_1.4.2           ggplot2_3.1.0.9000     tidyverse_1.2.1.9000  
+#&amp;gt; [10] reticulate_1.10.0.9002
 #&amp;gt; 
 #&amp;gt; loaded via a namespace (and not attached):
-#&amp;gt;  [1] reticulate_1.10.0.9003    tidyselect_0.2.5          xfun_0.4                 
-#&amp;gt;  [4] haven_2.0.0               lattice_0.20-35           colorspace_1.3-2         
-#&amp;gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.1            
-#&amp;gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2              
+#&amp;gt;  [1] tidyselect_0.2.5          xfun_0.4                  haven_1.1.2.9000         
+#&amp;gt;  [4] lattice_0.20-35           colorspace_1.3-2          generics_0.0.1.9000      
+#&amp;gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.9000         
+#&amp;gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2.9000         
 #&amp;gt; [13] modelr_0.1.2              readxl_1.1.0              plyr_1.8.4               
-#&amp;gt; [16] munsell_0.5.0             blogdown_0.9.4            gtable_0.2.0             
+#&amp;gt; [16] munsell_0.5.0             blogdown_0.9.1            gtable_0.2.0             
 #&amp;gt; [19] cellranger_1.1.0          rvest_0.3.2               evaluate_0.12            
-#&amp;gt; [22] knitr_1.20                RcppArmadillo_0.9.200.5.0 broom_0.5.0              
-#&amp;gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0             
+#&amp;gt; [22] knitr_1.20.21             RcppArmadillo_0.9.200.4.0 broom_0.5.0.9001         
+#&amp;gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0.9000        
 #&amp;gt; [28] jsonlite_1.5              hms_0.4.2                 digest_0.6.18            
-#&amp;gt; [31] stringi_1.2.4             bookdown_0.7              grid_3.6.0               
-#&amp;gt; [34] rprojroot_1.3-2           here_0.1-11               cli_1.0.1                
-#&amp;gt; [37] tools_3.6.0               magrittr_1.5              lazyeval_0.2.1           
+#&amp;gt; [31] stringi_1.2.4             bookdown_0.7.21           grid_3.5.1               
+#&amp;gt; [34] rprojroot_1.3-2           here_0.1                  cli_1.0.1                
+#&amp;gt; [37] tools_3.5.1               magrittr_1.5              lazyeval_0.2.1           
 #&amp;gt; [40] crayon_1.3.4              pkgconfig_2.0.2           Matrix_1.2-14            
 #&amp;gt; [43] xml2_1.2.0                lubridate_1.7.4           assertthat_0.2.0         
-#&amp;gt; [46] rmarkdown_1.10            httr_1.3.1                rstudioapi_0.8           
-#&amp;gt; [49] R6_2.3.0                  nlme_3.1-137              compiler_3.6.0&lt;/code&gt;&lt;/pre&gt;
+#&amp;gt; [46] rmarkdown_1.10.14         httr_1.3.1                rstudioapi_0.8.0.9000    
+#&amp;gt; [49] htmldeps_0.1.1            R6_2.3.0                  compiler_3.5.1&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -340,7 +927,7 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   } else {
   system(&amp;quot;gcc --version&amp;quot;, intern = TRUE)[[1]]
   }&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;GCC 8.2.0&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&amp;quot;&lt;/code&gt;&lt;/pre&gt;
 &lt;/p&gt;
 &lt;/details&gt;
 &lt;details&gt;
@@ -12350,15 +12937,6 @@ Oceania
       <pubDate>Fri, 23 Feb 2018 00:00:00 -0800</pubDate>
       
       <guid>/talk/r-for-data-carpentry/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Programming in R with RStudio</title>
-      <link>/talk/intro-to-r/</link>
-      <pubDate>Fri, 22 Sep 2017 00:00:00 -0700</pubDate>
-      
-      <guid>/talk/intro-to-r/</guid>
       <description></description>
     </item>
     
