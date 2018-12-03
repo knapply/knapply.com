@@ -2,6 +2,11 @@
 output: html_document
 ---
 
+```{r, include=FALSE}
+library(tidyverse)
+```
+
+
 # Environment
 
 <details>
@@ -38,11 +43,21 @@ if (R.version["minor"] == "6.0") {
 
 ```{python}
 import sys
+import numpy
+import numba
+import cupy
+import pandas
 
-print(sys.version)
-print(np.__version__)
-print(numba.__version__)
-print(cp.__version__)
+mod_info = {
+  "Python": sys.version,
+  "NumPy": numpy.__version__,
+  "Numba": numba.__version__,
+  "CuPy": cupy.__version__,
+  "Pandas": pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f"{k}: {v}")
 ```
 
 </p>

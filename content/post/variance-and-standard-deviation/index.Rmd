@@ -1,0 +1,528 @@
+---
+title: Variance and Standard Deviation
+author: Brendan Knapp
+date: '2018-11-23'
+slug: index
+categories:
+  - data-science-notes
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Finding the mode of a sequence, from scratch.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 5
+citation_url: https://knapply.com/post/variance-and-standard-deviation/
+editor_options: 
+  chunk_output_type: console
+---
+
+> _This post was last updated on `r format(Sys.Date(), "%Y-%m-%d")`._
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, comment = "#>", message = FALSE, warning = FALSE)
+
+options(width=90)
+
+source(here::here("static/R/html-helpers.R"))
+source(here::here("static/R/citation.R"))
+source(here::here("static/R/wrangle_plot_save.R"))
+```
+
+
+
+# What is it?
+
+## Variance
+
+$$Var(x) = \sigma^2 = \frac{\sum(x_i - \mu_x)^2} {N-1}$$
+<center> or... </center>
+
+$$Var(x) = s^2 = \frac{\sum(x_i - \bar{x})^2} {n-1}$$
+
+* $x_i$: for each i in x
+* $\mu_x$ and $\bar{x}$: arithmetic mean of the values in $x$
+* $N$ and $n$: number of observations in $x$
+* $\sum$: sum
+
+### Translation
+
+$$\textbf{variance} ~←~ \frac{\textbf{sum}(~(~\textbf{for}~i~\textbf{in}~x: i -\textbf{mean}(x)~)^2~)} {\textbf{length}(x) - 1}$$
+
+## Standard Deviation
+
+$$\sigma = \sqrt{ \frac{\sum(x_i - \mu_x)^2} {N-1} }$$
+<center> or... </center>
+
+$$s = \sqrt{ \frac{\sum(x_i - \bar{x})^2} {n-1} }$$
+
+<center> or, much more simply... </center>
+
+$$\sigma = \sqrt{ Var(x) }$$
+
+### Translation
+
+$$\textbf{standard_deviation} ~←~ \textbf{sqrt}(~\textbf{variance}(x)~)$$
+
+```{r}
+library(glue)
+```
+
+# R
+
+## Base R
+
+* variance: `r r_as_href("stats::var()", "cor")` 
+* standard deviation: `r r_as_href("stats::sd()")`
+
+
+
+```{r}
+r_vector <- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
+
+glue("variance = {var(r_vector)}
+     standard deviation = {sd(r_vector)}")
+```
+
+
+
+# Rcpp
+
+## Sugar
+
+```{Rcpp}
+// [[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
+
+// [[Rcpp::export]]
+double rcpp_sugar_var(const Rcpp::NumericVector& x) {
+  return Rcpp::var(x);
+}
+
+// [[Rcpp::export]]
+double rcpp_sug_sd(const Rcpp::NumericVector& x) {
+  return Rcpp::sd(x);
+}
+```
+
+```{r}
+r_vector <- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue("variance = {rcpp_sugar_var(r_vector)}
+     standard deviation = {rcpp_sug_sd(r_vector)}")
+```
+
+## RcppArmadillo
+
+```{Rcpp}
+// [[Rcpp::plugins(cpp17)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include <RcppArmadillo.h>
+
+// [[Rcpp::export]]
+auto cpp_arma_var(const Rcpp::NumericVector& x) {
+  return arma::var( Rcpp::as<arma::vec>(x) );
+}
+
+// [[Rcpp::export]]
+auto cpp_arma_sd(const Rcpp::NumericVector& x) {
+  return arma::stddev( Rcpp::as<arma::vec>(x) );
+}
+```
+
+```{r}
+r_vector <- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue("variance = {cpp_arma_var(r_vector)}
+     standard deviation = {cpp_arma_sd(r_vector)}")
+```
+
+
+
+
+## Custom Template
+
+```{Rcpp}
+// [[Rcpp::plugins(cpp17)]]
+#include <Rcpp.h>
+#include <cmath> // std::pow
+
+// variance
+template <int RTYPE, typename T>                      // variance template
+auto cpp_var_(const Rcpp::Vector<RTYPE>& x) {
+  const auto n = std::size(x);
+  const auto mean = std::accumulate(std::begin(x), std::end(x), 0.0) / n;
+
+  const auto x_minus_x_bar_squared = [mean] (const auto& i) {
+    return std::pow(i - mean, 2.0);
+  };
+
+  double sum_squared_dev = 0;
+  for (auto i : x) {
+    sum_squared_dev += x_minus_x_bar_squared(i);
+  }
+
+  return sum_squared_dev / (n - 1);
+}
+
+// [[Rcpp::export]]
+SEXP cpp_var(const SEXP& x) {                         // variance wrapper
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return Rcpp::wrap( cpp_var_<INTSXP, int>(x) );
+    case REALSXP:
+      return Rcpp::wrap( cpp_var_<REALSXP, double>(x) );
+  }
+  Rcpp::warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), Rcpp::type2name(x));
+  return R_NilValue;
+}
+
+// standard deviation
+template <int RTYPE, typename T>                      // stantard deviation template
+auto cpp_sd_(const Rcpp::Vector<RTYPE>& x) {
+  return Rcpp::sqrt( cpp_var(x) );
+}
+
+// [[Rcpp::export]]
+SEXP cpp_sd(const SEXP& x) {                          // standard deviation wrapper
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return Rcpp::wrap( cpp_sd_<INTSXP, int>(x) );
+    case REALSXP:
+      return Rcpp::wrap( cpp_sd_<REALSXP, double>(x) );
+  }
+  Rcpp::warning("Invalid SEXPTYPE %d (%s).\n", TYPEOF(x), Rcpp::type2name(x));
+  return R_NilValue;
+}
+```
+
+
+```{r}
+r_vector <- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue("variance = {cpp_var(r_vector)}
+     standard deviation = {cpp_sd(r_vector)}")
+```
+
+
+
+
+# Python
+
+## Pure Python
+
+* variance: `r py_as_href("statistics.variance()")`
+* standard deviation: `r py_as_href("statistics.stdev()")`
+
+```{python}
+import statistics
+
+py_list = [4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3]
+
+res = {
+  "variance": statistics.variance(py_list),
+  "standard deviation": statistics.stdev(py_list)
+  }
+
+for key, val in res.items():
+  print(f"{key}: {val}")
+```
+
+
+## NumPy
+
+* variance: `r py_as_href("np.var()")`
+* standard deviation: `r py_as_href("np.std()")`
+
+```{python}
+import numpy as np
+    
+numpy_array = np.array(py_list).astype('float64')
+
+res = {
+  "variance": np.var(numpy_array, ddof = 1),
+  "standard deviation": np.std(numpy_array, ddof = 1)
+  }
+
+for key, val in res.items():
+  print(f"{key}: {val}")
+```
+
+
+## CuPy
+
+* variance: `r py_as_href("cp.var()")`
+* standard deviation: `r py_as_href("cp.std()")`
+
+```{python}
+import cupy as cp
+  
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = {
+  "variance": cp.var(cupy_array, ddof = 1),
+  "standard deviation": cp.std(cupy_array, ddof = 1)
+  }
+
+for key, val in res.items():
+ print(f"{key}: {val}")
+```
+
+# Shootout
+
+<details>
+<summary> Test Setup </summary>
+<p>
+
+
+```{r, message=FALSE, warning=FALSE}
+library(reticulate)
+library(tidyverse)
+library(bench)
+```
+
+
+Create R Data
+
+```{r}
+set.seed(831)
+r_data <- seq(-1e4, 1e4, by = 0.2) %>%
+  sample(replace = TRUE, size = 1e7)
+
+validation_data <- r_data
+```
+
+Transfer to Python
+
+```{python}
+from copy import deepcopy
+
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)
+```
+
+
+Do all the data match?
+
+```{r validate_data}
+```
+
+```{r}
+validate_data(
+   control_data = validation_data,
+  `R Data Used` = r_data,
+  `NumPy Data Used` = py$numpy_data,
+  `CuPy Data Used` = py$cp$asnumpy(py$cupy_data)
+  )
+```
+
+
+```{r}
+(n <- scales::comma(length(r_data)))
+(mem <- capture.output(pryr::object_size(r_data)))
+```
+
+</p>
+</details>
+
+
+<details>
+<summary> `bench::mark()` </summary>
+<p>
+
+```{r, include=FALSE}
+gc()
+```
+
+
+```{r}
+res <- mark(
+  sd(r_data),
+  rcpp_sug_sd(r_data),
+  cpp_sd(r_data),
+  py_run_string("np.std(numpy_data, ddof = 1)", convert = FALSE),
+  py_run_string("cp.std(cupy_data, ddof = 1)", convert = FALSE),
+  # min_iterations = 10,
+  iterations = 10,
+  check = FALSE, filter_gc = FALSE
+)
+```
+
+</p>
+</details>
+
+```{r, echo=FALSE}
+as_chunk(here::here("static/R/wrangle_plot_save.R"))
+```
+
+<details>
+<summary> `wrangle_plot_save()` </summary>
+<p>
+
+```{r wrangle_plot_save, eval=FALSE}
+```
+
+</p>
+</details>
+
+<details>
+<summary> `write_gg()` </summary>
+<p>
+
+```{r write_gg, eval=FALSE}
+```
+
+</p>
+</details>
+
+<details>
+<summary> `res_gg` </summary>
+<p>
+
+```{r, message=FALSE, warning=FALSE}
+res_gg <- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = "Benchmarks: Standard Deviation")
+```
+
+
+
+```{r, eval=FALSE}
+res_gg
+```
+
+</p>
+</details>
+
+
+```{r, echo=FALSE, fig.align='center', fig.width=8, fig.height=10, message=FALSE, warning=FALSE}
+res_gg
+```
+
+
+<details>
+<summary> Post Test Checks </summary>
+<p>
+
+Do all methods obtain the same results?
+
+```{r validate_results}
+```
+
+
+```{r}
+validate_results(
+   control_res = sd(r_data),
+  `Rcpp Sugar` = rcpp_sug_sd(r_data),
+   Rcpp =  cpp_sd(r_data),
+   NumPy = py$np$std(py$numpy_data, ddof = 1),
+   CuPy = py$cp$asnumpy(py$cp$std(py$cupy_data, ddof = 1))
+  )
+```
+
+Did the input data remain unchanged?
+
+```{r data_still_intact}
+```
+
+
+```{r}
+validate_data(
+   control_data = validation_data,
+  `R Data Used` = r_data,
+  `NumPy Data Used` = py$numpy_data,
+  `CuPy Data Used` = py$cp$asnumpy(py$cupy_data)
+  )
+```
+
+</p>
+</details>
+
+```{r child=here::here("static/R/environment-details.Rmd")}
+```
+
+
+
+
+
+
+
+
+```{r}
+# n_row <- 1e4
+# n_col <- 1e4
+# 
+# set.seed(831)
+# r_data <- seq(-1000, 1000, by = 0.1) %>%
+#   sample(replace = TRUE, size = n_row * n_col) %>% 
+#   matrix(nrow = n_row, ncol = n_col)
+```
+
+
+
+
+<!-- ```{python} -->
+<!-- import numpy as np -->
+<!-- import cupy as cp -->
+<!-- from copy import deepcopy -->
+
+<!-- numpy_data = np.array(deepcopy(r.r_data)) -->
+<!-- cupy64 = cp.array(numpy_data, copy = True) -->
+<!-- cupy32 = cp.array(numpy_data.astype('float32'), copy = True) -->
+<!-- ``` -->
+
+
+<!-- ```{python} -->
+<!-- cupy_res32 = cp.std(cupy32, axis=0, ddof = 1) -->
+<!-- cupy_res64 = cp.std(cupy64, axis=0, ddof = 1) -->
+<!-- ``` -->
+
+
+<!-- ```{python} -->
+<!-- import pycuda.driver as cuda -->
+<!-- import pycuda.autoinit -->
+<!-- from pycuda.compiler import SourceModule -->
+
+<!-- import skcuda.misc -->
+
+<!-- alloc = pycuda.driver.DeviceAllocation -->
+
+<!-- pycuda_array = pycuda.gpuarray.GPUArray(alloc, dtype = 'float64') -->
+
+<!-- skc.std(  ) -->
+<!-- ``` -->
+
+
+
+<!-- ```{r} -->
+<!-- library(reticulate) -->
+
+<!-- all.equal( -->
+<!--   as.vector(py$cp$asnumpy(py$cupy_res32)), -->
+<!--   as.vector(py$cp$asnumpy(py$cupy_res64)), -->
+<!--   cpp_arma_sd(r_data), -->
+<!--   apply(r_data, 2, sd) -->
+<!-- ) -->
+<!-- ``` -->
+
+<!-- ```{r} -->
+<!-- res <- bench::mark( -->
+<!--   py_run_string("cp.std(cupy32, axis=1, ddof = 1)", convert = FALSE), -->
+<!--   py_run_string("cp.std(cupy64, axis=1, ddof = 1)", convert = FALSE), -->
+<!--   py_run_string("np.std(numpy_data, axis=1, ddof = 1)", convert = FALSE), -->
+<!--   cpp_arma_sd(r_data, by_col = FALSE), -->
+<!--   check = FALSE -->
+<!--   ) -->
+<!-- res -->
+<!-- ggplot2::autoplot(res) -->
+<!-- ``` -->
+
+
+

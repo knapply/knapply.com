@@ -19,6 +19,7 @@ citation_url: https://knapply.com/data-science-notes/
 
 <div id="TOC">
 <ul>
+<li><a href="#linear-algebra"><span>Linear Algebra</span></a></li>
 <li><a href="#statistics">Statistics</a></li>
 </ul>
 </div>
@@ -28,6 +29,139 @@ citation_url: https://knapply.com/data-science-notes/
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <p><link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous"></p>
+<div id="linear-algebra" class="section level1">
+<h1><a href="/post/linear-algebra">Linear Algebra</a></h1>
+<div class='toc-table'>
+
+<table class="table" style="font-size: 20px; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:center;">
+Topic
+</th>
+<th style="text-align:center;">
+<div style="color:#276DC3; display:grid;">
+<p><i class="fab fa-r-project" title="R" style="color:#276DC3; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+</i></p>
+</div>
+</th>
+<th style="text-align:center;">
+<div style="color:red; display:grid;">
+<p><i class="devicon-cplusplus-plain" title="Rcpp" style="color:red; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+</i></p>
+</div>
+</th>
+<th style="text-align:center;">
+<div style="color:#43B02A; display:grid;">
+<p><i class="fab fa-python" title="Python" style="color:#43B02A; vertical-align:top; display:grid; font-size:50px; font-weight:normal; padding:0;">
+</i></p>
+</div>
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#setup">Setup</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#matrix-scalar-multiplication">Scalar Multiplication</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#matrix-vector-multiplication">Matrix-Vector Multiplication</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#vector-matrix-multiplication">Vector-Matrix Multiplication</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#matrix-matrix-multiplication">Matrix-Matrix Multiplication</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#inverse-and-identity">Inverse and Identity</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+<tr>
+<td style="text-align:center;text-align: center;">
+<a href="/post/linear-algebra/#transpose">Transpose</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>R</strong></a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Rcpp</strong></a><br><a href="/post/linear-algebra/">Built-in</a><br><a href="/post/linear-algebra/">RcppAmardillo</a>
+</td>
+<td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/linear-algebra/"><strong>Python</strong></a><br><a href="/post/linear-algebra/">NumPy</a><br><a href="/post/linear-algebra/">CuPy</a>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
 <div id="statistics" class="section level1">
 <h1>Statistics</h1>
 <p>Various statistical methods using built-in and custom implementations in R, Python, and C++.</p>
@@ -69,7 +203,7 @@ Topic
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="3">
+<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;text-align:center; font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="3">
 Central Tendency
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
@@ -82,10 +216,10 @@ Central Tendency
 <a href="/post/mean/#rcpp"><strong>Rcpp</strong></a><br><a href="/post/mean/#sugar">Sugar</a><br><a href="/post/mean/#blueprint">Custom</a><br><a href="/post/mean/#templated">Templated</a><br><a href="/post/mean/#rcppparallel">RcppParallel</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/mean/#python"><strong>Python</strong></a><br><a href="/post/mean/#pure-python">Pure Python</a><br><a href="/post/mean/#numpy">NumPy</a><br><a href="/post/mean/#numba">Numba</a><br><a href="/post/mean/#cupy">CuPy</a>
+<a href="/post/mean/#python"><strong>Python</strong></a><br><a href="/post/mean/#pure-python">Pure</a><br><a href="/post/mean/#numpy">NumPy</a><br><a href="/post/mean/#numba">Numba</a><br><a href="/post/mean/#cupy">CuPy</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/mean/#shootout">Shootout</a>
+<a href="/post/mean/#shootout">Mean Shootout</a>
 </td>
 </tr>
 <tr>
@@ -99,10 +233,10 @@ Central Tendency
 <a href="/post/median/#rcpp"><strong>Rcpp</strong></a><br><a href="/post/median/#sugar">Sugar</a><br><a href="/post/median/#blueprint">Custom</a><br><a href="/post/median/#templated">Templated</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/median/#python"><strong>Python</strong></a><br><a href="/post/median/#pure-python">Pure Python</a><br><a href="/post/median/#numpy">NumPy</a><br><a href="/post/median/#numba">Numba</a><br><a href="/post/median/#cupy">CuPy</a>
+<a href="/post/median/#python"><strong>Python</strong></a><br><a href="/post/median/#pure-python">Pure</a><br><a href="/post/median/#numpy">NumPy</a><br><a href="/post/median/#numba">Numba</a><br><a href="/post/median/#cupy">CuPy</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/median/#shootout">Shootout</a>
+<a href="/post/median/#shootout">Median Shootout</a>
 </td>
 </tr>
 <tr>
@@ -113,142 +247,49 @@ Central Tendency
 <a href="/post/mode/#r"><strong>R</strong></a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/mode/#rcpp"><strong>Rcpp</strong></a><br><a href="/post/mode/#blueprint">Custom</a><br><a href="/post/median/#templated">Templated</a>
+<a href="/post/mode/#rcpp"><strong>Rcpp</strong></a><br><a href="/post/mode/#blueprint">Custom</a><br><a href="/post/mode/#templated">Templated</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/mode/#python"><strong>Python</strong></a><br><a href="/post/mode/#pure-python">Pure Python</a><br><a href="/post/mode/#numpy">NumPy</a><br><a href="/post/mode/#numba">Numba</a><br><a href="/post/mode/#cupy">CuPy</a>
+<a href="/post/mode/#python"><strong>Python</strong></a><br><a href="/post/mode/#pure-python">Pure</a><br><a href="/post/mode/#numpy">NumPy</a><br><a href="/post/mode/#numba">Numba</a><br><a href="/post/mode/#cupy">CuPy</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/mode/#shootout">Shootout</a>
+<a href="/post/mode/#shootout">Mode Shootout</a>
 </td>
 </tr>
 <tr>
-<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="2">
+<td style="text-align:center;width: 20%; font-weight: bold;font-style: italic;color: black;background-color: #dee0e2;text-align:center; font-size:20px; border-color:black;text-align: center;vertical-align: middle !important;" rowspan="2">
 Dispersion
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/variance/">variance</a>
+<a href="/post/variance-and-standard-deviation/">variance<br>standard_deviation</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/variance/#r"><strong>R</strong></a>
+<a href="/post/variance-and-standard-deviation/#r"><strong>R</strong></a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/variance/#rcpp">Rcpp</a>
+<a href="/post/variance-and-standard-deviation//#rcpp"><strong>Rcpp</strong></a><br><a href="/post/variance-and-standard-deviation//#sugar">Sugar</a><br><a href="/post/variance-and-standard-deviation//#custom-template">Custom Template</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/variance/#python"><strong>Python</strong></a>
+<a href="/post/variance-and-standard-deviation//#python"><strong>Python</strong></a><br><a href="/post/variance-and-standard-deviation//#pure-python">Pure</a><br><a href="/post/variance-and-standard-deviation//#numpy">NumPy</a><br><a href="/post/variance-and-standard-deviation//#cupy">CuPy</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
+<a href="/post/variance-and-standard-deviation//#shootout">Standard Deviation Shootout</a>
 </td>
 </tr>
 <tr>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/standard-deviation/">standard_deviation</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/standard_deviation/#r"><strong>R</strong></a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/standard_deviation/#rcpp">Rcpp</a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
-<a href="/post/standard_deviation/#python"><strong>Python</strong></a>
 </td>
 <td style="text-align:center;font-family: monospace;text-align: center;">
 </td>
 </tr>
 </tbody>
 </table>
-<!-- ## Programming -->
-<!-- <div class='toc-table'> -->
-<!-- ```{r, class.output='toc-table'} -->
-<!-- tibble( -->
-<!--   ` ` = c( -->
-<!--     "Basics", -->
-<!--     "Basics" -->
-<!--     ), -->
-<!--   Topic = c( -->
-<!--     build_link("Defining Functions", "functions"),  -->
-<!--     build_link("Foundational Programming", "stats-prereqs") -->
-<!--   ), -->
-<!--   `R?` = c(check, check), -->
-<!--   `Python?` = c(check, check), -->
-<!--   `C++/Rcpp?` = c(check, check), -->
-<!--   `From Scratch?` = c(check, check), -->
-<!--   slug = c("functions", "stats-prereqs"), -->
-<!--   Contents = list( -->
-<!--     c(build_link("Defining a Basic Function", "functions/#define-doubler_-function"), -->
-<!--       build_link("Using a Basic Function", "functions/#run-doubler_-function")), -->
-<!--     c(build_link("Collection Lengths", "foundational-programming/#length"), -->
-<!--       build_link("Sets of Unique Values", "foundational-programming/#sets-of-unique-values"), -->
-<!--       build_link("Minimum & Values", "foundational-programming/#minimum-and-maximum-values") -->
-<!--       ) -->
-<!--     ) %>%  -->
-<!--     map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>%  -->
-<!--     paste0("<ol>", ., "</ol>") -->
-<!--   ) %>%  -->
-<!--   select(-slug) %>% -->
-<!--   kable(escape = FALSE, align = "c") %>%  -->
-<!--   kable_styling(font_size = 16) %>%  -->
-<!--   row_spec(row = 1, align = "center") %>%  -->
-<!--   column_spec(1, bold = TRUE, width = "10%", italic = TRUE, background = "#dee0e2", -->
-<!--               extra_css = "border-style:solid;font-size:20px;") %>%  -->
-<!--   column_spec(2, width = "20%") %>% -->
-<!--   # column_spec(3:5, width = "10%") %>% -->
-<!--   column_spec(7, width = "30%", extra_css = "text-align:left;") %>% -->
-<!--   collapse_rows(columns = 1, valign = "middle") -->
-<!-- ``` -->
-<!-- </div> -->
-<!-- <br><br> -->
-<!-- ## Statistics -->
-<!-- <div class='toc-table'> -->
-<!-- ```{r, class.output='toc-table'} -->
-<!-- tibble( -->
-<!--   ` ` = c( -->
-<!--     "Basics", -->
-<!--     "Basics", -->
-<!--     "Basics", -->
-<!--     "Linear Models", -->
-<!--     "Linear Models" -->
-<!--     ), -->
-<!--   Topic = c( -->
-<!--     build_link("Central Tendency", "central-tendency"), -->
-<!--     build_link("Dispersion", "dispersion"), -->
-<!--     build_link("Correlation", "correlation"), -->
-<!--     build_link("Simple Linear Regression", "simple-linear-regression"), -->
-<!--     build_link("Multiple Linear Regression", "multiple-linear-regression") -->
-<!--   ), -->
-<!--   `R?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   `Python?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   `C++/Rcpp?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   `From Scratch?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   slug = c("central-tendency", "dispersion", "correlation", -->
-<!--            "simple-linear-regression", "multiple-linear-regression"), -->
-<!--   Contents = list( -->
-<!--     c(build_link("Mean", "central-tendency/#mean"), -->
-<!--       build_link("Median", "central-tendency/#median"), -->
-<!--       build_link("Mode", "central-tendency/#mode")), -->
-<!--     c(build_link("Standard Deviation", "dispersion/#standard-deviation"), -->
-<!--       build_link("Variance", "dispersion/#variance")), -->
-<!--     c(build_link("Pearson", "correlation/#pearsons"), -->
-<!--       build_link("Spearman", "dispersion/#spearman")), -->
-<!--     c(build_link("Equation", "simple-linear-regression/#equation")), -->
-<!--     c(build_link("Equation", "multiple-linear-regression/#equation")) -->
-<!--     ) %>%  -->
-<!--     map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>%  -->
-<!--     paste0("<ol>", ., "</ol>") -->
-<!--   ) %>%  -->
-<!--   select(-slug) %>% -->
-<!--   kable(escape = FALSE, align = "c") %>%  -->
-<!--   kable_styling(font_size = 16) %>%  -->
-<!--   row_spec(row = 1, align = "center") %>%  -->
-<!--   column_spec(1, bold = TRUE, width = "10%", italic = TRUE, background = "#dee0e2", -->
-<!--               extra_css = "border-style:solid;font-size:20px;") %>%  -->
-<!--   column_spec(2, width = "20%") %>% -->
-<!--   # column_spec(3:6, width = "12%") %>% -->
-<!--   column_spec(7, width = "30%", extra_css = "text-align:left;") %>% -->
-<!--   collapse_rows(columns = 1, valign = "middle") -->
-<!-- ``` -->
 </div>
 <p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
 <p>When using or referring to this post, please consider citing it.</p>

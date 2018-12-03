@@ -1,0 +1,462 @@
+---
+title: Linear Algebra
+author: Brendan Knapp
+date: '2018-12-02'
+slug: index
+categories:
+  - data-science-notes
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Common linear algebra operations.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+citation_url: https://knapply.com/post/linear-algebra/
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#setup">Setup</a><ul>
+<li><a href="#r">R</a></li>
+<li><a href="#python">Python</a></li>
+</ul></li>
+<li><a href="#scalar-multiplication">Scalar Multiplication</a><ul>
+<li><a href="#r-1">R</a></li>
+<li><a href="#rcpp">Rcpp</a></li>
+<li><a href="#python-1">Python</a></li>
+</ul></li>
+<li><a href="#matrix-vector-multiplication">Matrix-Vector Multiplication</a><ul>
+<li><a href="#r-2">R</a></li>
+<li><a href="#rcpp-1">Rcpp</a></li>
+<li><a href="#python-2">Python</a></li>
+</ul></li>
+<li><a href="#vector-matrix-multiplication">Vector-Matrix Multiplication</a></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<blockquote>
+<p><em>This post was last updated on 2018-12-02.</em></p>
+</blockquote>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<div id="r" class="section level2">
+<h2>R</h2>
+<div id="base-r" class="section level3">
+<h3>Base R</h3>
+<pre class="r"><code>r_mat &lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),
+                nrow = 3, ncol = 3)
+
+r_mat</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    7
+#&gt; [2,]    2    5    8
+#&gt; [3,]    3    6    9</code></pre>
+</div>
+</div>
+<div id="python" class="section level2">
+<h2>Python</h2>
+<div id="numpy" class="section level3">
+<h3>NumPy</h3>
+<pre class="python"><code>import numpy as np
+
+np_mat = np.array([[1, 4, 7],
+                   [2, 5, 8],
+                   [3, 6, 9]])
+
+np_mat</code></pre>
+<pre><code>#&gt; array([[1, 4, 7],
+#&gt;        [2, 5, 8],
+#&gt;        [3, 6, 9]])</code></pre>
+</div>
+</div>
+</div>
+<div id="scalar-multiplication" class="section level1">
+<h1>Scalar Multiplication</h1>
+<p><span class="math display">\[
+  2 
+\cdot
+\begin{pmatrix}
+  1   &amp;  4   &amp;  7  \\
+  2   &amp;  5   &amp;  8  \\
+  3   &amp;  6   &amp;  9  \\
+\end{pmatrix}
+  =
+\begin{pmatrix}
+  1 \cdot 2  &amp;  4 \cdot 2  &amp;  7 \cdot 2 \\
+  2 \cdot 2  &amp;  5 \cdot 2  &amp;  8 \cdot 2 \\
+  3 \cdot 2  &amp;  6 \cdot 2  &amp;  9 \cdot 2 \\
+\end{pmatrix}
+  =
+\begin{pmatrix}
+  2   &amp;  8   &amp;  14  \\
+  4   &amp;  10   &amp;  16  \\
+  6   &amp;  12   &amp;  18  \\
+\end{pmatrix}
+\]</span></p>
+<div id="r-1" class="section level2">
+<h2>R</h2>
+<div id="base-r-1" class="section level3">
+<h3>Base R</h3>
+<pre class="r"><code>r_mat * 2</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    2    8   14
+#&gt; [2,]    4   10   16
+#&gt; [3,]    6   12   18</code></pre>
+</div>
+</div>
+<div id="rcpp" class="section level2">
+<h2>Rcpp</h2>
+<div id="built-in" class="section level3">
+<h3>Built-in</h3>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_scalar_multiply(NumericMatrix x, int scalar) {
+  auto out = x * scalar; 
+
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_scalar_multiply(r_mat, 2)</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    2    8   14
+#&gt; [2,]    4   10   16
+#&gt; [3,]    6   12   18</code></pre>
+</div>
+<div id="rcpparmadillo" class="section level3">
+<h3>RcppArmadillo</h3>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &lt;RcppArmadillo.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_arma_scalar_multiply(NumericMatrix x, int scalar) {
+  auto arma_matrix = as&lt;arma::mat&gt;(x);
+  auto out = arma_matrix * scalar;
+  
+  return wrap(out);
+}</code></pre>
+<pre class="r"><code>cpp_arma_scalar_multiply(r_mat, 2)</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    2    8   14
+#&gt; [2,]    4   10   16
+#&gt; [3,]    6   12   18</code></pre>
+</div>
+</div>
+<div id="python-1" class="section level2">
+<h2>Python</h2>
+<div id="numpy-1" class="section level3">
+<h3>NumPy</h3>
+<pre class="python"><code>res = np_mat * 2
+print(res)</code></pre>
+<pre><code>#&gt; [[ 2  8 14]
+#&gt;  [ 4 10 16]
+#&gt;  [ 6 12 18]]</code></pre>
+</div>
+</div>
+</div>
+<div id="matrix-vector-multiplication" class="section level1">
+<h1>Matrix-Vector Multiplication</h1>
+<p><span class="math display">\[
+\begin{pmatrix}
+  1   &amp;  4   &amp;  7  \\
+  2   &amp;  5   &amp;  8  \\
+  3   &amp;  6   &amp;  9  \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1 \\
+  2 \\
+  3 \\
+\end{pmatrix} 
+  \\=
+\begin{pmatrix}
+  1 \cdot 1 + 4 \cdot 2 + 7 \cdot 3 \\
+  2 \cdot 1 + 5 \cdot 2 + 8 \cdot 3 \\
+  3 \cdot 1 + 6 \cdot 2 + 9 \cdot 3 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1 + 8 + 21 \\
+  2 + 10 + 24 \\
+  3 + 12 + 27 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  30  \\
+  36  \\
+  42  \\
+\end{pmatrix}
+\]</span></p>
+<div id="r-2" class="section level2">
+<h2>R</h2>
+<div id="base-r-2" class="section level3">
+<h3>Base R</h3>
+<pre class="r"><code>r_mat %*% c(1,
+            2,
+            3)</code></pre>
+<pre><code>#&gt;      [,1]
+#&gt; [1,]   30
+#&gt; [2,]   36
+#&gt; [3,]   42</code></pre>
+</div>
+</div>
+<div id="rcpp-1" class="section level2">
+<h2>Rcpp</h2>
+<div id="built-in-1" class="section level3">
+<h3>Built-in</h3>
+</div>
+<div id="rcpparmadillo-1" class="section level3">
+<h3>RcppArmadillo</h3>
+</div>
+</div>
+<div id="python-2" class="section level2">
+<h2>Python</h2>
+<div id="numpy-2" class="section level3">
+<h3>NumPy</h3>
+<pre class="python"><code>res = np_mat.dot(np.array([[1],
+                           [2],
+                           [3]]))
+print(res)</code></pre>
+<pre><code>#&gt; [[30]
+#&gt;  [36]
+#&gt;  [42]]</code></pre>
+</div>
+</div>
+</div>
+<div id="vector-matrix-multiplication" class="section level1">
+<h1>Vector-Matrix Multiplication</h1>
+<p><span class="math display">\[
+\begin{pmatrix}
+  1 &amp; 2 &amp; 3
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1   &amp;  4   &amp;  7  \\
+  2   &amp;  5   &amp;  8  \\
+  3   &amp;  6   &amp;  9  \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1 \cdot 1 + 2 \cdot 2 + 3 \cdot 3 ~&amp;~ 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 ~&amp;~ 1 \cdot 7 + 2 \cdot 8 + 3 \cdot 9
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1 + 4 + 9 ~&amp;~ 4 + 10 + 18 ~&amp;~ 7 + 16 + 27
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+14   &amp;  32   &amp;  50  \\
+\end{pmatrix}
+\]</span></p>
+<div id="r-3" class="section level3">
+<h3>R</h3>
+<div id="base-r-3" class="section level4">
+<h4>Base R</h4>
+<pre class="r"><code>c(1, 2, 3) %*% r_mat</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]   14   32   50</code></pre>
+</div>
+</div>
+<div id="rcpp-2" class="section level3">
+<h3>Rcpp</h3>
+<div id="built-in-2" class="section level4">
+<h4>Built-in</h4>
+</div>
+<div id="rcpparmadillo-2" class="section level4">
+<h4>RcppArmadillo</h4>
+</div>
+</div>
+<div id="python-3" class="section level3">
+<h3>Python</h3>
+<div id="numpy-3" class="section level4">
+<h4>NumPy</h4>
+<pre class="python"><code>res = np.array([[1, 2, 3]]).dot(np_mat)
+print(res)</code></pre>
+<pre><code>#&gt; [[14 32 50]]</code></pre>
+</p>
+</details>
+</div>
+</div>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt; [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000    purrr_0.2.5         
+#&gt; [5] readr_1.2.1          tidyr_0.8.2.9000     tibble_1.4.99.9005   ggplot2_3.1.0.9000  
+#&gt; [9] tidyverse_1.2.1.9000
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] reticulate_1.10.0.9003    tidyselect_0.2.5          xfun_0.4                 
+#&gt;  [4] haven_2.0.0               lattice_0.20-35           colorspace_1.3-2         
+#&gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.1            
+#&gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2              
+#&gt; [13] modelr_0.1.2              readxl_1.1.0              plyr_1.8.4               
+#&gt; [16] munsell_0.5.0             blogdown_0.9.4            gtable_0.2.0             
+#&gt; [19] cellranger_1.1.0          rvest_0.3.2               evaluate_0.12            
+#&gt; [22] knitr_1.20                RcppArmadillo_0.9.200.5.0 broom_0.5.0              
+#&gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0             
+#&gt; [28] jsonlite_1.5              hms_0.4.2                 digest_0.6.18            
+#&gt; [31] stringi_1.2.4             bookdown_0.7              grid_3.6.0               
+#&gt; [34] rprojroot_1.3-2           here_0.1-11               cli_1.0.1                
+#&gt; [37] tools_3.6.0               magrittr_1.5              lazyeval_0.2.1           
+#&gt; [40] crayon_1.3.4              pkgconfig_2.0.2           Matrix_1.2-14            
+#&gt; [43] xml2_1.2.0                lubridate_1.7.4           assertthat_0.2.0         
+#&gt; [46] rmarkdown_1.10            httr_1.3.1                rstudioapi_0.8           
+#&gt; [49] R6_2.3.0                  nlme_3.1-137              compiler_3.6.0</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="r"><code>if (R.version[&quot;minor&quot;] == &quot;6.0&quot;) {
+  &quot;GCC 8.2.0&quot;
+  } else {
+  system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
+  }</code></pre>
+<pre><code>#&gt; [1] &quot;GCC 8.2.0&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &quot;Python&quot;: sys.version,
+  &quot;NumPy&quot;: numpy.__version__,
+  &quot;Numba&quot;: numba.__version__,
+  &quot;CuPy&quot;: cupy.__version__,
+  &quot;Pandas&quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&quot;{k}: {v}&quot;)</code></pre>
+<pre><code>#&gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&gt; NumPy: 1.15.4
+#&gt; Numba: 0.40.0
+#&gt; CuPy: 5.0.0
+#&gt; Pandas: 0.23.4</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;%
+  str_trim() %&gt;%
+  as_tibble() %&gt;%
+  slice(2:3) %&gt;%
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;%
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;%
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
+  knitr::kable(format = &quot;html&quot;) %&gt;%
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Dec. 2). Linear Algebra. Retrieved from https://knapply.com/post/linear-algebra/</code></pre>
+<pre class="citation"><code>@misc{linear-algebra,
+  author = {Knapp, Brendan},
+  title  = {Linear Algebra},
+  url    = {https://knapply.com/post/linear-algebra/},
+  year   = 2018,
+  month  = Dec,
+  day    = 2,
+}</code></pre>
+</div>

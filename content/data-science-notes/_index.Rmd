@@ -124,6 +124,148 @@ style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; f
 }
 ```
 
+
+# [Linear Algebra](/post/linear-algebra)
+
+```{r}
+collapser <- "<br>"
+
+la_df <- tibble(
+  Topic  = c(
+    build_link("Setup", "linear-algebra/#setup"),
+    build_link("Scalar Multiplication",
+               "linear-algebra/#matrix-scalar-multiplication"),
+    build_link("Matrix-Vector Multiplication",
+               "linear-algebra/#matrix-vector-multiplication"),
+    build_link("Vector-Matrix Multiplication",
+               "linear-algebra/#vector-matrix-multiplication"),
+    build_link("Matrix-Matrix Multiplication",
+               "linear-algebra/#matrix-matrix-multiplication"),
+    build_link("Inverse and Identity",
+               "linear-algebra/#inverse-and-identity"),
+    build_link("Transpose",
+               "linear-algebra/#transpose")
+    ),
+  r_icon = c(
+    build_link("<strong>R</strong>", "linear-algebra/"),
+    build_link("<strong>R</strong>", "linear-algebra/"),
+    build_link("<strong>R</strong>", "linear-algebra/"),
+    build_link("<strong>R</strong>", "linear-algebra/"),
+    build_link("<strong>R</strong>", "linear-algebra/"),
+    build_link("<strong>R</strong>", "linear-algebra/"),
+    build_link("<strong>R</strong>", "linear-algebra/")
+    ),
+  rcpp = list(
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+    ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "linear-algebra/"),
+        build_link("Built-in", "linear-algebra/"),
+        build_link("RcppAmardillo", "linear-algebra/")),
+      collapse = collapser
+      )
+    ),
+  py = c(
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      ),
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "linear-algebra/"),
+        build_link("NumPy", "linear-algebra/"),
+        build_link("CuPy", "linear-algebra/")),
+      collapse = collapser
+      )
+    )
+  ) %>% 
+  set_names(c("Topic", build_icon("r"), build_icon("rcpp"), build_icon("py")))
+```
+
+
+<div class='toc-table'>
+
+```{r, class.output='toc-table'}
+la_df %>% 
+  kable(escape = FALSE, align = "c") %>% 
+  kable_styling(font_size = 20, position = "center") %>% 
+  # column_spec(1, color = "black", bold = TRUE, width = "20%", italic = TRUE,
+              # background = "#dee0e2",
+              # extra_css = "font-size:20px; border-color:black;") %>%
+  # column_spec(1, extra_css = "text-align:center;") %>% 
+  column_spec(2:ncol(la_df), monospace = TRUE) %>% 
+  row_spec(row = 1:nrow(la_df), align = "center")
+# %>% 
+  # collapse_rows(columns = 1:2, valign = "middle")
+```
+
+</div>
+
 # Statistics
 
 Various statistical methods using built-in and custom implementations in R, Python, and C++.
@@ -131,7 +273,7 @@ Various statistical methods using built-in and custom implementations in R, Pyth
 ```{r}
 collapser <- "<br>"
 
-toc_df <- tibble(
+stats_df <- tibble(
   ` ` = c(
     rep("Central Tendency", 3),
     rep("Dispersion", 2)
@@ -140,15 +282,15 @@ toc_df <- tibble(
     build_link("mean", "mean/"),
     build_link("median", "median/"),
     build_link("mode", "mode/"),
-    build_link("variance", "variance/"),
-    build_link("standard_deviation", "standard-deviation/")
+    build_link("variance<br>standard_deviation", "variance-and-standard-deviation/"),
+    ""
     ),
   r_icon = c(
     build_link("<strong>R</strong>", "mean/#r"),
     build_link("<strong>R</strong>", "median/#r"),
     build_link("<strong>R</strong>", "mode/#r"),
-    build_link("<strong>R</strong>", "variance/#r"),
-    build_link("<strong>R</strong>", "standard_deviation/#r")
+    build_link("<strong>R</strong>", "variance-and-standard-deviation/#r"),
+    ""
     ),
   rcpp = c(
     str_flatten(
@@ -167,43 +309,54 @@ toc_df <- tibble(
     str_flatten(
       c(build_link("<strong>Rcpp</strong>", "mode/#rcpp"),
         build_link("Custom", "mode/#blueprint"),
-        build_link("Templated", "median/#templated")), collapse = collapser
+        build_link("Templated", "mode/#templated")), collapse = collapser
       ),
-    build_link("Rcpp", "variance/#rcpp"),
-    build_link("Rcpp", "standard_deviation/#rcpp")
+    str_flatten(
+      c(build_link("<strong>Rcpp</strong>", "variance-and-standard-deviation//#rcpp"),
+        build_link("Sugar", "variance-and-standard-deviation//#sugar"),
+        build_link("Custom Template", "variance-and-standard-deviation//#custom-template")),
+        collapse = collapser
+      ),
+    ""
     ),
   py = c(
     str_flatten(
       c(build_link("<strong>Python</strong>", "mean/#python"),
-        build_link("Pure Python", "mean/#pure-python"),
+        build_link("Pure", "mean/#pure-python"),
         build_link("NumPy", "mean/#numpy"),
         build_link("Numba", "mean/#numba"),
         build_link("CuPy", "mean/#cupy")), collapse = collapser
       ),
     str_flatten(
       c(build_link("<strong>Python</strong>", "median/#python"),
-        build_link("Pure Python", "median/#pure-python"),
+        build_link("Pure", "median/#pure-python"),
         build_link("NumPy", "median/#numpy"),
         build_link("Numba", "median/#numba"),
         build_link("CuPy", "median/#cupy")), collapse = collapser
       ),
     str_flatten(
       c(build_link("<strong>Python</strong>", "mode/#python"),
-        build_link("Pure Python", "mode/#pure-python"),
+        build_link("Pure", "mode/#pure-python"),
         build_link("NumPy", "mode/#numpy"),
         build_link("Numba", "mode/#numba"),
         build_link("CuPy", "mode/#cupy")), collapse = collapser
       ),
-    build_link("<strong>Python</strong>", "variance/#python"),
-    build_link("<strong>Python</strong>", "standard_deviation/#python")
+    str_flatten(
+      c(build_link("<strong>Python</strong>", "variance-and-standard-deviation//#python"),
+        build_link("Pure", "variance-and-standard-deviation//#pure-python"),
+        build_link("NumPy", "variance-and-standard-deviation//#numpy"),
+        build_link("CuPy", "variance-and-standard-deviation//#cupy")),
+      collapse = collapser
+      ),
+    ""
     ),
   shootout = c(
-    build_link("Shootout", "mean/#shootout"),
-    build_link("Shootout", "median/#shootout"),
-    build_link("Shootout", "mode/#shootout"),
-    "",
+    build_link("Mean Shootout", "mean/#shootout"),
+    build_link("Median Shootout", "median/#shootout"),
+    build_link("Mode Shootout", "mode/#shootout"),
+    build_link("Standard Deviation Shootout", "variance-and-standard-deviation//#shootout"),
     ""
-  )
+    )
   ) %>% 
   set_names(c(" ", "Topic", build_icon("r"), build_icon("rcpp"), build_icon("py"),
               build_icon("shootout")))
@@ -213,124 +366,16 @@ toc_df <- tibble(
 <div class='toc-table'>
 
 ```{r, class.output='toc-table'}
-toc_df %>% 
+stats_df %>% 
   kable(escape = FALSE, align = "c") %>% 
-  kable_styling(font_size = 20) %>% 
-  column_spec(1, color = "black", bold = TRUE, width = "20%", italic = TRUE, background = "#dee0e2",#) %>% 
-              extra_css = "font-size:20px; border-color:black;") %>%
-  column_spec(2:ncol(toc_df), monospace = TRUE) %>% 
-  row_spec(row = 1:nrow(toc_df), align = "center") %>% 
+  kable_styling(font_size = 20, position = "center") %>% 
+  column_spec(1, color = "black", bold = TRUE, width = "20%", italic = TRUE, 
+              background = "#dee0e2",
+              extra_css = "text-align:center; font-size:20px; border-color:black;") %>%
+  column_spec(2:ncol(stats_df), monospace = TRUE) %>% 
+  row_spec(row = 1:nrow(stats_df), align = "center") %>% 
   collapse_rows(columns = 1:2, valign = "middle")
-  # collapse_rows(columns = 2, valign = "middle")
-
-
-# %>% 
-#   row_spec(row = 1, align = "center") %>% 
-  
-#   column_spec(2, width = "20%") %>%
-#   # column_spec(3:5, width = "10%") %>%
-#   column_spec(7, width = "30%", extra_css = "text-align:left;") %>%
-  
 ```
-
-
-<!-- ## Programming -->
-
-<!-- <div class='toc-table'> -->
-
-<!-- ```{r, class.output='toc-table'} -->
-<!-- tibble( -->
-<!--   ` ` = c( -->
-<!--     "Basics", -->
-<!--     "Basics" -->
-<!--     ), -->
-<!--   Topic = c( -->
-<!--     build_link("Defining Functions", "functions"),  -->
-<!--     build_link("Foundational Programming", "stats-prereqs") -->
-<!--   ), -->
-<!--   `R?` = c(check, check), -->
-<!--   `Python?` = c(check, check), -->
-<!--   `C++/Rcpp?` = c(check, check), -->
-<!--   `From Scratch?` = c(check, check), -->
-<!--   slug = c("functions", "stats-prereqs"), -->
-<!--   Contents = list( -->
-<!--     c(build_link("Defining a Basic Function", "functions/#define-doubler_-function"), -->
-<!--       build_link("Using a Basic Function", "functions/#run-doubler_-function")), -->
-<!--     c(build_link("Collection Lengths", "foundational-programming/#length"), -->
-<!--       build_link("Sets of Unique Values", "foundational-programming/#sets-of-unique-values"), -->
-<!--       build_link("Minimum & Values", "foundational-programming/#minimum-and-maximum-values") -->
-<!--       ) -->
-<!--     ) %>%  -->
-<!--     map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>%  -->
-<!--     paste0("<ol>", ., "</ol>") -->
-<!--   ) %>%  -->
-<!--   select(-slug) %>% -->
-<!--   kable(escape = FALSE, align = "c") %>%  -->
-<!--   kable_styling(font_size = 16) %>%  -->
-<!--   row_spec(row = 1, align = "center") %>%  -->
-<!--   column_spec(1, bold = TRUE, width = "10%", italic = TRUE, background = "#dee0e2", -->
-<!--               extra_css = "border-style:solid;font-size:20px;") %>%  -->
-<!--   column_spec(2, width = "20%") %>% -->
-<!--   # column_spec(3:5, width = "10%") %>% -->
-<!--   column_spec(7, width = "30%", extra_css = "text-align:left;") %>% -->
-<!--   collapse_rows(columns = 1, valign = "middle") -->
-<!-- ``` -->
-
-<!-- </div> -->
-
-<!-- <br><br> -->
-
-<!-- ## Statistics -->
-
-<!-- <div class='toc-table'> -->
-
-<!-- ```{r, class.output='toc-table'} -->
-<!-- tibble( -->
-<!--   ` ` = c( -->
-<!--     "Basics", -->
-<!--     "Basics", -->
-<!--     "Basics", -->
-<!--     "Linear Models", -->
-<!--     "Linear Models" -->
-<!--     ), -->
-<!--   Topic = c( -->
-<!--     build_link("Central Tendency", "central-tendency"), -->
-<!--     build_link("Dispersion", "dispersion"), -->
-<!--     build_link("Correlation", "correlation"), -->
-<!--     build_link("Simple Linear Regression", "simple-linear-regression"), -->
-<!--     build_link("Multiple Linear Regression", "multiple-linear-regression") -->
-<!--   ), -->
-<!--   `R?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   `Python?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   `C++/Rcpp?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   `From Scratch?` = c(check, uncheck, uncheck, uncheck, uncheck), -->
-<!--   slug = c("central-tendency", "dispersion", "correlation", -->
-<!--            "simple-linear-regression", "multiple-linear-regression"), -->
-<!--   Contents = list( -->
-<!--     c(build_link("Mean", "central-tendency/#mean"), -->
-<!--       build_link("Median", "central-tendency/#median"), -->
-<!--       build_link("Mode", "central-tendency/#mode")), -->
-<!--     c(build_link("Standard Deviation", "dispersion/#standard-deviation"), -->
-<!--       build_link("Variance", "dispersion/#variance")), -->
-<!--     c(build_link("Pearson", "correlation/#pearsons"), -->
-<!--       build_link("Spearman", "dispersion/#spearman")), -->
-<!--     c(build_link("Equation", "simple-linear-regression/#equation")), -->
-<!--     c(build_link("Equation", "multiple-linear-regression/#equation")) -->
-<!--     ) %>%  -->
-<!--     map_chr(~ str_flatten(ifelse(nchar(.x) == 0, paste(.x), str_glue("<left><li>{.x}</li></left>")))) %>%  -->
-<!--     paste0("<ol>", ., "</ol>") -->
-<!--   ) %>%  -->
-<!--   select(-slug) %>% -->
-<!--   kable(escape = FALSE, align = "c") %>%  -->
-<!--   kable_styling(font_size = 16) %>%  -->
-<!--   row_spec(row = 1, align = "center") %>%  -->
-<!--   column_spec(1, bold = TRUE, width = "10%", italic = TRUE, background = "#dee0e2", -->
-<!--               extra_css = "border-style:solid;font-size:20px;") %>%  -->
-<!--   column_spec(2, width = "20%") %>% -->
-<!--   # column_spec(3:6, width = "12%") %>% -->
-<!--   column_spec(7, width = "30%", extra_css = "text-align:left;") %>% -->
-<!--   collapse_rows(columns = 1, valign = "middle") -->
-<!-- ``` -->
 
 </div>
 

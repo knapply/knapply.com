@@ -33,34 +33,27 @@
     </item>
     
     <item>
-      <title>Standard Deviation</title>
-      <link>/post/standard-deviation/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/standard-deviation/</guid>
-      <description>-- -- ----</description>
-    </item>
-    
-    <item>
       <title>Data Science Notes</title>
       <link>/data-science-notes/</link>
       <pubDate>Sat, 03 Nov 2018 00:00:00 +0000</pubDate>
       
       <guid>/data-science-notes/</guid>
-      <description>StatisticsStatisticsVarious statistical methods using built-in and custom implementations in R, Python, and C++.
-Topic
+      <description>Linear AlgebraStatisticsLinear AlgebraTopic
 
 
-
-Central TendencymeanRRcpp
-Sugar
-Custom
-Templated
-RcppParallelPython
-Pure Python
+SetupRRcpp
+Built-in
+RcppAmardilloPython
 NumPy
-Numba
-CuPyShootoutmedianRRcpp</description>
+CuPyScalar MultiplicationRRcpp
+Built-in
+RcppAmardilloPython
+NumPy
+CuPyMatrix-Vector MultiplicationRRcpp
+Built-in
+RcppAmardilloPython
+NumPy
+CuPyVector-Matrix MultiplicationRRcpp</description>
     </item>
     
     <item>

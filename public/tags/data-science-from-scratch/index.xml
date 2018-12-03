@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
-    <lastBuildDate>Fri, 23 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/data-science-from-scratch/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Linear Algebra</title>
+      <link>/post/linear-algebra/</link>
+      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linear-algebra/</guid>
+      <description>SetupRPythonScalar MultiplicationRRcppPythonMatrix-Vector MultiplicationRRcppPythonVector-Matrix MultiplicationEnvironmentThis post was last updated on 2018-12-02.
+SetupRBase Rr_mat &amp;lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),nrow = 3, ncol = 3)r_mat#&amp;gt; [,1] [,2] [,3]#&amp;gt; [1,] 1 4 7#&amp;gt; [2,] 2 5 8#&amp;gt; [3,] 3 6 9PythonNumPyimport numpy as npnp_mat = np.</description>
+    </item>
     
     <item>
       <title>Mode</title>
@@ -21,6 +31,17 @@
       <description>What is it?RBase RRcppBlueprintTemplatedPythonPure PythonNumPyNumbaParallelCuPyShootoutEnvironmentThis post was last updated on 2018-11-30.
 What is it?Given a sequence, the mode is the value with the highest number of occurrences.
 Stepsfind the unique valuescount the number of occurrences of each valuethe mode is the value with the highest number of occurrencesRBase Rr_mode &amp;lt;- function(x) {uniques &amp;lt;- x[!</description>
+    </item>
+    
+    <item>
+      <title>Variance and Standard Deviation</title>
+      <link>/post/variance-and-standard-deviation/</link>
+      <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/variance-and-standard-deviation/</guid>
+      <description>What is it?VarianceTranslationStandard DeviationTranslationRBase RRcppSugarRcppArmadilloCustom TemplatePythonPure PythonNumPyCuPyShootoutEnvironmentThis post was last updated on 2018-12-02.
+What is it?Variance\[Var(x) = \sigma^2 = \frac{\sum(x_i - \mu_x)^2} {N-1}\]or…\[Var(x) = s^2 = \frac{\sum(x_i - \bar{x})^2} {n-1}\]
+\(x_i\): for each i in x\(\mu_x\) and \(\bar{x}\): arithmetic mean of the values in \(x\)\(N\) and \(n\): number of observations in \(x\)\(\sum\): sumTranslation\[\textbf{variance} ~←~ \frac{\textbf{sum}(~(~\textbf{for}~i~\textbf{in}~x: i -\textbf{mean}(x)~)^2~)} {\textbf{length}(x) - 1}\]</description>
     </item>
     
     <item>

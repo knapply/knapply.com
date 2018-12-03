@@ -11,6 +11,451 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Linear Algebra</title>
+      <link>/post/linear-algebra/</link>
+      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/linear-algebra/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#setup&#34;&gt;Setup&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#scalar-multiplication&#34;&gt;Scalar Multiplication&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#r-1&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcpp&#34;&gt;Rcpp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#python-1&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#matrix-vector-multiplication&#34;&gt;Matrix-Vector Multiplication&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#r-2&#34;&gt;R&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcpp-1&#34;&gt;Rcpp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#python-2&#34;&gt;Python&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#vector-matrix-multiplication&#34;&gt;Vector-Matrix Multiplication&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;This post was last updated on 2018-12-02.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div id=&#34;setup&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Setup&lt;/h1&gt;
+&lt;div id=&#34;r&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;R&lt;/h2&gt;
+&lt;div id=&#34;base-r&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Base R&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mat &amp;lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),
+                nrow = 3, ncol = 3)
+
+r_mat&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]    1    4    7
+#&amp;gt; [2,]    2    5    8
+#&amp;gt; [3,]    3    6    9&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;python&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Python&lt;/h2&gt;
+&lt;div id=&#34;numpy&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;NumPy&lt;/h3&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+
+np_mat = np.array([[1, 4, 7],
+                   [2, 5, 8],
+                   [3, 6, 9]])
+
+np_mat&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; array([[1, 4, 7],
+#&amp;gt;        [2, 5, 8],
+#&amp;gt;        [3, 6, 9]])&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;scalar-multiplication&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Scalar Multiplication&lt;/h1&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+  2 
+\cdot
+\begin{pmatrix}
+  1   &amp;amp;  4   &amp;amp;  7  \\
+  2   &amp;amp;  5   &amp;amp;  8  \\
+  3   &amp;amp;  6   &amp;amp;  9  \\
+\end{pmatrix}
+  =
+\begin{pmatrix}
+  1 \cdot 2  &amp;amp;  4 \cdot 2  &amp;amp;  7 \cdot 2 \\
+  2 \cdot 2  &amp;amp;  5 \cdot 2  &amp;amp;  8 \cdot 2 \\
+  3 \cdot 2  &amp;amp;  6 \cdot 2  &amp;amp;  9 \cdot 2 \\
+\end{pmatrix}
+  =
+\begin{pmatrix}
+  2   &amp;amp;  8   &amp;amp;  14  \\
+  4   &amp;amp;  10   &amp;amp;  16  \\
+  6   &amp;amp;  12   &amp;amp;  18  \\
+\end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;div id=&#34;r-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;R&lt;/h2&gt;
+&lt;div id=&#34;base-r-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Base R&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mat * 2&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]    2    8   14
+#&amp;gt; [2,]    4   10   16
+#&amp;gt; [3,]    6   12   18&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpp&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Rcpp&lt;/h2&gt;
+&lt;div id=&#34;built-in&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Built-in&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
+#include &amp;lt;Rcpp.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_scalar_multiply(NumericMatrix x, int scalar) {
+  auto out = x * scalar; 
+
+  return out;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_scalar_multiply(r_mat, 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]    2    8   14
+#&amp;gt; [2,]    4   10   16
+#&amp;gt; [3,]    6   12   18&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpparmadillo&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;RcppArmadillo&lt;/h3&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &amp;lt;RcppArmadillo.h&amp;gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+auto cpp_arma_scalar_multiply(NumericMatrix x, int scalar) {
+  auto arma_matrix = as&amp;lt;arma::mat&amp;gt;(x);
+  auto out = arma_matrix * scalar;
+  
+  return wrap(out);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cpp_arma_scalar_multiply(r_mat, 2)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]    2    8   14
+#&amp;gt; [2,]    4   10   16
+#&amp;gt; [3,]    6   12   18&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;python-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Python&lt;/h2&gt;
+&lt;div id=&#34;numpy-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;NumPy&lt;/h3&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np_mat * 2
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [[ 2  8 14]
+#&amp;gt;  [ 4 10 16]
+#&amp;gt;  [ 6 12 18]]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;matrix-vector-multiplication&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Matrix-Vector Multiplication&lt;/h1&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\begin{pmatrix}
+  1   &amp;amp;  4   &amp;amp;  7  \\
+  2   &amp;amp;  5   &amp;amp;  8  \\
+  3   &amp;amp;  6   &amp;amp;  9  \\
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1 \\
+  2 \\
+  3 \\
+\end{pmatrix} 
+  \\=
+\begin{pmatrix}
+  1 \cdot 1 + 4 \cdot 2 + 7 \cdot 3 \\
+  2 \cdot 1 + 5 \cdot 2 + 8 \cdot 3 \\
+  3 \cdot 1 + 6 \cdot 2 + 9 \cdot 3 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1 + 8 + 21 \\
+  2 + 10 + 24 \\
+  3 + 12 + 27 \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  30  \\
+  36  \\
+  42  \\
+\end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;div id=&#34;r-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;R&lt;/h2&gt;
+&lt;div id=&#34;base-r-2&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Base R&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_mat %*% c(1,
+            2,
+            3)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1]
+#&amp;gt; [1,]   30
+#&amp;gt; [2,]   36
+#&amp;gt; [3,]   42&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpp-1&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Rcpp&lt;/h2&gt;
+&lt;div id=&#34;built-in-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Built-in&lt;/h3&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpparmadillo-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;RcppArmadillo&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;python-2&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Python&lt;/h2&gt;
+&lt;div id=&#34;numpy-2&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;NumPy&lt;/h3&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np_mat.dot(np.array([[1],
+                           [2],
+                           [3]]))
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [[30]
+#&amp;gt;  [36]
+#&amp;gt;  [42]]&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;vector-matrix-multiplication&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Vector-Matrix Multiplication&lt;/h1&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
+\begin{pmatrix}
+  1 &amp;amp; 2 &amp;amp; 3
+\end{pmatrix}
+\cdot
+\begin{pmatrix}
+  1   &amp;amp;  4   &amp;amp;  7  \\
+  2   &amp;amp;  5   &amp;amp;  8  \\
+  3   &amp;amp;  6   &amp;amp;  9  \\
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1 \cdot 1 + 2 \cdot 2 + 3 \cdot 3 ~&amp;amp;~ 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 ~&amp;amp;~ 1 \cdot 7 + 2 \cdot 8 + 3 \cdot 9
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+  1 + 4 + 9 ~&amp;amp;~ 4 + 10 + 18 ~&amp;amp;~ 7 + 16 + 27
+\end{pmatrix}
+  \\=
+\begin{pmatrix}
+14   &amp;amp;  32   &amp;amp;  50  \\
+\end{pmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;div id=&#34;r-3&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;R&lt;/h3&gt;
+&lt;div id=&#34;base-r-3&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Base R&lt;/h4&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;c(1, 2, 3) %*% r_mat&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt;      [,1] [,2] [,3]
+#&amp;gt; [1,]   14   32   50&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpp-2&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Rcpp&lt;/h3&gt;
+&lt;div id=&#34;built-in-2&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Built-in&lt;/h4&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpparmadillo-2&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;RcppArmadillo&lt;/h4&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;python-3&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Python&lt;/h3&gt;
+&lt;div id=&#34;numpy-3&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;NumPy&lt;/h4&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;res = np.array([[1, 2, 3]]).dot(np_mat)
+print(res)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [[14 32 50]]&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;environment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Environment&lt;/h1&gt;
+&lt;details&gt;
+&lt;summary&gt; R &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+#&amp;gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&amp;gt; Running under: Windows 10 x64 (build 17134)
+#&amp;gt; 
+#&amp;gt; Matrix products: default
+#&amp;gt; 
+#&amp;gt; locale:
+#&amp;gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&amp;gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&amp;gt; [5] LC_TIME=English_United States.1252    
+#&amp;gt; 
+#&amp;gt; attached base packages:
+#&amp;gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&amp;gt; 
+#&amp;gt; other attached packages:
+#&amp;gt; [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000    purrr_0.2.5         
+#&amp;gt; [5] readr_1.2.1          tidyr_0.8.2.9000     tibble_1.4.99.9005   ggplot2_3.1.0.9000  
+#&amp;gt; [9] tidyverse_1.2.1.9000
+#&amp;gt; 
+#&amp;gt; loaded via a namespace (and not attached):
+#&amp;gt;  [1] reticulate_1.10.0.9003    tidyselect_0.2.5          xfun_0.4                 
+#&amp;gt;  [4] haven_2.0.0               lattice_0.20-35           colorspace_1.3-2         
+#&amp;gt;  [7] htmltools_0.3.6           yaml_2.2.0                rlang_0.3.0.1            
+#&amp;gt; [10] pillar_1.3.0.9001         glue_1.3.0                withr_2.1.2              
+#&amp;gt; [13] modelr_0.1.2              readxl_1.1.0              plyr_1.8.4               
+#&amp;gt; [16] munsell_0.5.0             blogdown_0.9.4            gtable_0.2.0             
+#&amp;gt; [19] cellranger_1.1.0          rvest_0.3.2               evaluate_0.12            
+#&amp;gt; [22] knitr_1.20                RcppArmadillo_0.9.200.5.0 broom_0.5.0              
+#&amp;gt; [25] Rcpp_1.0.0                backports_1.1.2           scales_1.0.0             
+#&amp;gt; [28] jsonlite_1.5              hms_0.4.2                 digest_0.6.18            
+#&amp;gt; [31] stringi_1.2.4             bookdown_0.7              grid_3.6.0               
+#&amp;gt; [34] rprojroot_1.3-2           here_0.1-11               cli_1.0.1                
+#&amp;gt; [37] tools_3.6.0               magrittr_1.5              lazyeval_0.2.1           
+#&amp;gt; [40] crayon_1.3.4              pkgconfig_2.0.2           Matrix_1.2-14            
+#&amp;gt; [43] xml2_1.2.0                lubridate_1.7.4           assertthat_0.2.0         
+#&amp;gt; [46] rmarkdown_1.10            httr_1.3.1                rstudioapi_0.8           
+#&amp;gt; [49] R6_2.3.0                  nlme_3.1-137              compiler_3.6.0&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; C++ &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (R.version[&amp;quot;minor&amp;quot;] == &amp;quot;6.0&amp;quot;) {
+  &amp;quot;GCC 8.2.0&amp;quot;
+  } else {
+  system(&amp;quot;gcc --version&amp;quot;, intern = TRUE)[[1]]
+  }&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;GCC 8.2.0&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Python &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &amp;quot;Python&amp;quot;: sys.version,
+  &amp;quot;NumPy&amp;quot;: numpy.__version__,
+  &amp;quot;Numba&amp;quot;: numba.__version__,
+  &amp;quot;CuPy&amp;quot;: cupy.__version__,
+  &amp;quot;Pandas&amp;quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&amp;quot;{k}: {v}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&amp;gt; NumPy: 1.15.4
+#&amp;gt; Numba: 0.40.0
+#&amp;gt; CuPy: 5.0.0
+#&amp;gt; Pandas: 0.23.4&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; CPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(system(&amp;quot;wmic cpu get name&amp;quot;, intern = TRUE)[[2]])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  &lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; GPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic path win32_VideoController get name&amp;quot;, intern = TRUE) %&amp;gt;% 
+  str_subset(&amp;quot;NVIDIA&amp;quot;) %&amp;gt;% 
+  str_trim()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;NVIDIA GeForce GTX 960M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Memory &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&amp;quot;, intern = TRUE) %&amp;gt;%
+  str_trim() %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  slice(2:3) %&amp;gt;%
+  separate(value, into = c(&amp;quot;BankLabel&amp;quot;, &amp;quot;Capacity&amp;quot;, &amp;quot;Speed&amp;quot;), sep = &amp;quot;\\s{2,}&amp;quot;) %&amp;gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &amp;quot;GB&amp;quot;)) %&amp;gt;%
+  mutate(Speed = paste(Speed, &amp;quot;MHz&amp;quot;)) %&amp;gt;%
+  rename_all(str_replace, &amp;quot;L&amp;quot;, &amp;quot; L&amp;quot;) %&amp;gt;%
+  knitr::kable(format = &amp;quot;html&amp;quot;) %&amp;gt;%
+  kableExtra::kable_styling(full_width = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Bank Label
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Capacity
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Speed
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+DIMM A
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+17.18 GB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+2400 MHz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+DIMM B
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+17.18 GB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+2400 MHz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When using or referring to this post, please consider citing it.&lt;/p&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Dec. 2). Linear Algebra. Retrieved from https://knapply.com/post/linear-algebra/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{linear-algebra,
+  author = {Knapp, Brendan},
+  title  = {Linear Algebra},
+  url    = {https://knapply.com/post/linear-algebra/},
+  year   = 2018,
+  month  = Dec,
+  day    = 2,
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Mode</title>
       <link>/post/mode/</link>
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
@@ -570,6 +1015,844 @@ DIMM B
   month  = Nov,
   day    = 23,
 }&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Variance and Standard Deviation</title>
+      <link>/post/variance-and-standard-deviation/</link>
+      <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/variance-and-standard-deviation/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/kePrint/kePrint.js&#34;&gt;&lt;/script&gt;
+
+&lt;div id=&#34;TOC&#34;&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#what-is-it&#34;&gt;What is it?&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#variance&#34;&gt;Variance&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#translation&#34;&gt;Translation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#standard-deviation&#34;&gt;Standard Deviation&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#translation-1&#34;&gt;Translation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#r&#34;&gt;R&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#base-r&#34;&gt;Base R&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcpp&#34;&gt;Rcpp&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#sugar&#34;&gt;Sugar&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#rcpparmadillo&#34;&gt;RcppArmadillo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#custom-template&#34;&gt;Custom Template&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#python&#34;&gt;Python&lt;/a&gt;&lt;ul&gt;
+&lt;li&gt;&lt;a href=&#34;#pure-python&#34;&gt;Pure Python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#numpy&#34;&gt;NumPy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#cupy&#34;&gt;CuPy&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#shootout&#34;&gt;Shootout&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href=&#34;#environment&#34;&gt;Environment&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;&lt;em&gt;This post was last updated on 2018-12-02.&lt;/em&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div id=&#34;what-is-it&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;What is it?&lt;/h1&gt;
+&lt;div id=&#34;variance&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Variance&lt;/h2&gt;
+&lt;span class=&#34;math display&#34;&gt;\[Var(x) = \sigma^2 = \frac{\sum(x_i - \mu_x)^2} {N-1}\]&lt;/span&gt;
+&lt;center&gt;
+or…
+&lt;/center&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[Var(x) = s^2 = \frac{\sum(x_i - \bar{x})^2} {n-1}\]&lt;/span&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(x_i\)&lt;/span&gt;: for each i in x&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\mu_x\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(\bar{x}\)&lt;/span&gt;: arithmetic mean of the values in &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(N\)&lt;/span&gt; and &lt;span class=&#34;math inline&#34;&gt;\(n\)&lt;/span&gt;: number of observations in &lt;span class=&#34;math inline&#34;&gt;\(x\)&lt;/span&gt;&lt;/li&gt;
+&lt;li&gt;&lt;span class=&#34;math inline&#34;&gt;\(\sum\)&lt;/span&gt;: sum&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;translation&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Translation&lt;/h3&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\textbf{variance} ~←~ \frac{\textbf{sum}(~(~\textbf{for}~i~\textbf{in}~x: i -\textbf{mean}(x)~)^2~)} {\textbf{length}(x) - 1}\]&lt;/span&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;standard-deviation&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Standard Deviation&lt;/h2&gt;
+&lt;span class=&#34;math display&#34;&gt;\[\sigma = \sqrt{ \frac{\sum(x_i - \mu_x)^2} {N-1} }\]&lt;/span&gt;
+&lt;center&gt;
+or…
+&lt;/center&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[s = \sqrt{ \frac{\sum(x_i - \bar{x})^2} {n-1} }\]&lt;/span&gt;&lt;/p&gt;
+&lt;center&gt;
+or, much more simply…
+&lt;/center&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\sigma = \sqrt{ Var(x) }\]&lt;/span&gt;&lt;/p&gt;
+&lt;div id=&#34;translation-1&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Translation&lt;/h3&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[\textbf{standard_deviation} ~←~ \textbf{sqrt}(~\textbf{variance}(x)~)\]&lt;/span&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(glue)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;r&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;R&lt;/h1&gt;
+&lt;div id=&#34;base-r&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Base R&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;variance: &lt;a href=&#34;https://www.rdocumentation.org/packages/stats/topics/cor&#34;&gt;&lt;code&gt;var()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;standard deviation: &lt;a href=&#34;https://www.rdocumentation.org/packages/stats/topics/sd&#34;&gt;&lt;code&gt;sd()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&amp;quot;variance = {var(r_vector)}
+     standard deviation = {sd(r_vector)}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance = 1.71969696969697
+#&amp;gt; standard deviation = 1.31137217055151&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpp&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Rcpp&lt;/h1&gt;
+&lt;div id=&#34;sugar&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Sugar&lt;/h2&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
+#include &amp;lt;Rcpp.h&amp;gt;
+
+// [[Rcpp::export]]
+double rcpp_sugar_var(const Rcpp::NumericVector&amp;amp; x) {
+  return Rcpp::var(x);
+}
+
+// [[Rcpp::export]]
+double rcpp_sug_sd(const Rcpp::NumericVector&amp;amp; x) {
+  return Rcpp::sd(x);
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&amp;quot;variance = {rcpp_sugar_var(r_vector)}
+     standard deviation = {rcpp_sug_sd(r_vector)}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance = 1.71969696969697
+#&amp;gt; standard deviation = 1.31137217055151&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;rcpparmadillo&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;RcppArmadillo&lt;/h2&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &amp;lt;RcppArmadillo.h&amp;gt;
+
+// [[Rcpp::export]]
+auto cpp_arma_var(const Rcpp::NumericVector&amp;amp; x) {
+  return arma::var( Rcpp::as&amp;lt;arma::vec&amp;gt;(x) );
+}
+
+// [[Rcpp::export]]
+auto cpp_arma_sd(const Rcpp::NumericVector&amp;amp; x) {
+  return arma::stddev( Rcpp::as&amp;lt;arma::vec&amp;gt;(x) );
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&amp;quot;variance = {cpp_arma_var(r_vector)}
+     standard deviation = {cpp_arma_sd(r_vector)}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance = 1.71969696969697
+#&amp;gt; standard deviation = 1.31137217055151&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;custom-template&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Custom Template&lt;/h2&gt;
+&lt;pre class=&#34;cpp&#34;&gt;&lt;code&gt;// [[Rcpp::plugins(cpp17)]]
+#include &amp;lt;Rcpp.h&amp;gt;
+#include &amp;lt;cmath&amp;gt; // std::pow
+
+// variance
+template &amp;lt;int RTYPE, typename T&amp;gt;                      // variance template
+auto cpp_var_(const Rcpp::Vector&amp;lt;RTYPE&amp;gt;&amp;amp; x) {
+  const auto n = std::size(x);
+  const auto mean = std::accumulate(std::begin(x), std::end(x), 0.0) / n;
+
+  const auto x_minus_x_bar_squared = [mean] (const auto&amp;amp; i) {
+    return std::pow(i - mean, 2.0);
+  };
+
+  double sum_squared_dev = 0;
+  for (auto i : x) {
+    sum_squared_dev += x_minus_x_bar_squared(i);
+  }
+
+  return sum_squared_dev / (n - 1);
+}
+
+// [[Rcpp::export]]
+SEXP cpp_var(const SEXP&amp;amp; x) {                         // variance wrapper
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return Rcpp::wrap( cpp_var_&amp;lt;INTSXP, int&amp;gt;(x) );
+    case REALSXP:
+      return Rcpp::wrap( cpp_var_&amp;lt;REALSXP, double&amp;gt;(x) );
+  }
+  Rcpp::warning(&amp;quot;Invalid SEXPTYPE %d (%s).\n&amp;quot;, TYPEOF(x), Rcpp::type2name(x));
+  return R_NilValue;
+}
+
+// standard deviation
+template &amp;lt;int RTYPE, typename T&amp;gt;                      // stantard deviation template
+auto cpp_sd_(const Rcpp::Vector&amp;lt;RTYPE&amp;gt;&amp;amp; x) {
+  return Rcpp::sqrt( cpp_var(x) );
+}
+
+// [[Rcpp::export]]
+SEXP cpp_sd(const SEXP&amp;amp; x) {                          // standard deviation wrapper
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return Rcpp::wrap( cpp_sd_&amp;lt;INTSXP, int&amp;gt;(x) );
+    case REALSXP:
+      return Rcpp::wrap( cpp_sd_&amp;lt;REALSXP, double&amp;gt;(x) );
+  }
+  Rcpp::warning(&amp;quot;Invalid SEXPTYPE %d (%s).\n&amp;quot;, TYPEOF(x), Rcpp::type2name(x));
+  return R_NilValue;
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;r_vector &amp;lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&amp;quot;variance = {cpp_var(r_vector)}
+     standard deviation = {cpp_sd(r_vector)}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance = 1.71969696969697
+#&amp;gt; standard deviation = 1.31137217055151&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;python&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Python&lt;/h1&gt;
+&lt;div id=&#34;pure-python&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Pure Python&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;variance: &lt;a href=&#34;https://docs.python.org/3/library/statistics.html#statistics.variance&#34;&gt;&lt;code&gt;statistics.variance()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;standard deviation: &lt;a href=&#34;https://docs.python.org/3/library/statistics.html#statistics.stdev&#34;&gt;&lt;code&gt;statistics.stdev()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import statistics
+
+py_list = [4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3]
+
+res = {
+  &amp;quot;variance&amp;quot;: statistics.variance(py_list),
+  &amp;quot;standard deviation&amp;quot;: statistics.stdev(py_list)
+  }
+
+for key, val in res.items():
+  print(f&amp;quot;{key}: {val}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance: 1.7196969696969697
+#&amp;gt; standard deviation: 1.3113721705515067&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;numpy&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;NumPy&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;variance: &lt;a href=&#34;https://docs.scipy.org/doc/numpy/reference/generated/numpy.var.html&#34;&gt;&lt;code&gt;np.var()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;standard deviation: &lt;a href=&#34;https://docs.scipy.org/doc/numpy/reference/generated/numpy.std.html&#34;&gt;&lt;code&gt;np.std()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import numpy as np
+    
+numpy_array = np.array(py_list).astype(&amp;#39;float64&amp;#39;)
+
+res = {
+  &amp;quot;variance&amp;quot;: np.var(numpy_array, ddof = 1),
+  &amp;quot;standard deviation&amp;quot;: np.std(numpy_array, ddof = 1)
+  }
+
+for key, val in res.items():
+  print(f&amp;quot;{key}: {val}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance: 1.7196969696969697
+#&amp;gt; standard deviation: 1.3113721705515067&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;cupy&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;CuPy&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;variance: &lt;a href=&#34;https://docs-cupy.chainer.org/en/stable/reference/generated/cupy.var.html&#34;&gt;&lt;code&gt;cp.var()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;standard deviation: &lt;a href=&#34;https://docs-cupy.chainer.org/en/stable/reference/generated/cupy.std.html&#34;&gt;&lt;code&gt;cp.std()&lt;/code&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import cupy as cp
+  
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = {
+  &amp;quot;variance&amp;quot;: cp.var(cupy_array, ddof = 1),
+  &amp;quot;standard deviation&amp;quot;: cp.std(cupy_array, ddof = 1)
+  }
+
+for key, val in res.items():
+ print(f&amp;quot;{key}: {val}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; variance: 1.71969696969697
+#&amp;gt; standard deviation: 1.3113721705515067&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;shootout&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Shootout&lt;/h1&gt;
+&lt;details&gt;
+&lt;summary&gt; Test Setup &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(reticulate)
+library(tidyverse)
+library(bench)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Create R Data&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(831)
+r_data &amp;lt;- seq(-1e4, 1e4, by = 0.2) %&amp;gt;%
+  sample(replace = TRUE, size = 1e7)
+
+validation_data &amp;lt;- r_data&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Transfer to Python&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;from copy import deepcopy
+
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Do all the data match?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;validate_data(
+   control_data = validation_data,
+  `R Data Used` = r_data,
+  `NumPy Data Used` = py$numpy_data,
+  `CuPy Data Used` = py$cp$asnumpy(py$cupy_data)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Method
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Still Intact?
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Original R Data
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+R Data Used
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NumPy Data Used
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+CuPy Data Used
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(n &amp;lt;- scales::comma(length(r_data)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;10,000,000&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;(mem &amp;lt;- capture.output(pryr::object_size(r_data)))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;80 MB&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; &lt;code&gt;bench::mark()&lt;/code&gt; &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res &amp;lt;- mark(
+  sd(r_data),
+  rcpp_sug_sd(r_data),
+  cpp_sd(r_data),
+  py_run_string(&amp;quot;np.std(numpy_data, ddof = 1)&amp;quot;, convert = FALSE),
+  py_run_string(&amp;quot;cp.std(cupy_data, ddof = 1)&amp;quot;, convert = FALSE),
+  # min_iterations = 10,
+  iterations = 10,
+  check = FALSE, filter_gc = FALSE
+)&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; &lt;code&gt;wrangle_plot_save()&lt;/code&gt; &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;wrangle_plot_save &amp;lt;- function(bench_marks, .n, .mem, .title, ...) {
+  depends &amp;lt;- c(&amp;quot;dplyr&amp;quot;, &amp;quot;tidyr&amp;quot;, &amp;quot;stringr&amp;quot;, &amp;quot;ggplot2&amp;quot;, &amp;quot;extrafont&amp;quot;)
+  success &amp;lt;- vector(mode = &amp;quot;logical&amp;quot;, length = length(depends))
+  for (i in seq_along(depends)) {
+    success[[i]] &amp;lt;- require(depends[[i]], quietly = TRUE, character.only = TRUE)
+  }
+  if (!all(success)) {
+    stop(paste(depends[!success], &amp;quot;packages not found.&amp;quot;))
+  }
+  
+  extrafont::loadfonts(&amp;quot;win&amp;quot;, quiet = TRUE)
+
+  df &amp;lt;- bench_marks %&amp;gt;% 
+    mutate(expression = as.character(expression)) %&amp;gt;% 
+    mutate(expression = if_else(
+      str_detect(expression, &amp;quot;py_run_string&amp;quot;),
+      str_extract(expression, &amp;#39;(?&amp;lt;=&amp;quot;).*?(?=&amp;quot;)&amp;#39;),
+      expression)
+    ) %&amp;gt;%
+    mutate(framework = case_when(
+      str_detect(expression, &amp;quot;^(np\\.|numpy_)&amp;quot;) ~ &amp;quot;NumPy&amp;quot;,
+      str_detect(expression, &amp;quot;^numba_&amp;quot;) ~ &amp;quot;Numba&amp;quot;,
+      str_detect(expression, &amp;quot;^numba_&amp;quot;) ~ &amp;quot;Numba Parallel&amp;quot;,
+      str_detect(expression, &amp;quot;^(cp\\.|cupy_)&amp;quot;) ~ &amp;quot;CuPy&amp;quot;,
+      str_detect(expression, &amp;quot;^r?cpp_arma_&amp;quot;) ~ &amp;quot;RcppArmadillo&amp;quot;,
+      str_detect(expression, &amp;quot;^r?cpp_par&amp;quot;) ~ &amp;quot;RcppParallel&amp;quot;,
+      str_detect(expression, &amp;quot;^r?cpp_&amp;quot;) ~ &amp;quot;Rcpp&amp;quot;,
+      str_detect(expression, &amp;quot;^r_&amp;quot;) ~ &amp;quot;Base R&amp;quot;,
+      TRUE ~ &amp;quot;Base R&amp;quot;
+      )
+    ) %&amp;gt;%
+    mutate(expression = str_remove(expression, &amp;quot;(?&amp;lt;=\\().*?(?=\\))&amp;quot;)) %&amp;gt;%
+    mutate(framework = str_glue(&amp;quot;  {framework}  &amp;quot;)) %&amp;gt;% 
+    mutate(is_parallel = str_detect(expression, &amp;quot;_par_&amp;quot;)) %&amp;gt;% 
+    mutate(is_gpu = str_detect(expression, &amp;quot;cupy_&amp;quot;)) %&amp;gt;% 
+    unnest() %&amp;gt;%
+    group_by(expression) %&amp;gt;%
+    mutate(med = median(as.numeric(time))) %&amp;gt;%
+    ungroup() %&amp;gt;%
+    arrange(desc(med)) %&amp;gt;%
+    mutate(Expression = as_factor(expression)) %&amp;gt;%
+    arrange(med) %&amp;gt;%
+    # mutate(expression = as_factor(expression)) %&amp;gt;%
+    mutate(framework = as_factor(framework)) %&amp;gt;%
+    rename(Time = time)
+  
+  out &amp;lt;- df %&amp;gt;% 
+    ggplot(aes(x = Expression, y = Time)) +
+      ggbeeswarm::geom_beeswarm(aes(fill = framework), 
+                                alpha = 0.8, shape = 21, size = 4, cex = 2) +
+      scale_fill_viridis_d() +
+      bench::scale_y_bench_time(base = NULL) +
+      guides(fill = guide_legend(override.aes = list(size = 5))) +
+      coord_flip() +
+      theme_minimal(base_size = 18, base_family = &amp;quot;Palatino Linotype&amp;quot;) +
+      theme(axis.title = element_blank(),
+            axis.text.y = element_text(family = &amp;quot;Fira Code Retina&amp;quot;, size = 14, 
+                                       colour = &amp;quot;black&amp;quot;,
+                                       margin = margin(0, 0, 0, 0, &amp;quot;lines&amp;quot;)),
+            axis.text.x = element_text(size = 12, colour = &amp;quot;black&amp;quot;,
+                                       margin = margin(0, 0, 0, 0, &amp;quot;lines&amp;quot;)),
+            legend.position = &amp;quot;bottom&amp;quot;, legend.title = element_blank(),
+            plot.title = element_text(face = &amp;quot;bold&amp;quot;),
+            plot.subtitle = element_text(size = 12, face = &amp;quot;italic&amp;quot;),
+            plot.caption = element_text(family = &amp;quot;Fira Code Retina&amp;quot;, size = 14, 
+                                        face = &amp;quot;bold&amp;quot;),
+            panel.spacing = unit(0, &amp;quot;lines&amp;quot;),
+            panel.border = element_rect(colour = NA, fill = NA, size = 0)) +
+      labs(title = .title, 
+           subtitle = str_glue(&amp;quot;n = {n} ({mem})&amp;quot;),
+           caption = &amp;quot;knapply.com&amp;quot;)
+
+  write_gg(plot = out, ...)
+
+  out
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; &lt;code&gt;write_gg()&lt;/code&gt; &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;write_gg &amp;lt;- function(plot, path = get_post_path(), width = 580, height = 426) {
+  if (!require(ggplot2, quietly = TRUE)) {
+    stop(&amp;quot;`ggplot2` package not found.&amp;quot;)
+  }
+
+  out &amp;lt;- plot +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 7),
+                   legend.position = &amp;quot;none&amp;quot;, 
+                   plot.caption = ggplot2::element_blank(),
+                   plot.subtitle = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_blank())
+  
+  dpi &amp;lt;- 125
+  width &amp;lt;- width * 1.5 / dpi
+  height &amp;lt;- height * 1.5 / dpi
+  
+  ggplot2::ggsave(filename = &amp;quot;featured.png&amp;quot;, plot = out, path = path, 
+                  width = width, height = height, dpi = dpi)
+}
+
+get_post_path &amp;lt;- function() {
+  depends &amp;lt;- c(&amp;quot;here&amp;quot;, &amp;quot;rmarkdown&amp;quot;, &amp;quot;stringr&amp;quot;)
+  success &amp;lt;- vector(mode = &amp;quot;logical&amp;quot;, length = length(depends))
+  for (i in seq_along(depends)) {
+    success[[i]] &amp;lt;- require(depends[[i]], quietly = TRUE, character.only = TRUE)
+  }
+  if (!all(success)) {
+    stop(paste(depends[!success], &amp;quot;packages not found.&amp;quot;))
+  }
+  post_title &amp;lt;- rmarkdown::metadata$title
+  clean_title &amp;lt;- stringr::str_to_lower(stringr::str_replace_all(post_title, &amp;quot;\\s&amp;quot;, &amp;quot;-&amp;quot;))
+  here::here(stringr::str_glue(&amp;quot;content/post/{clean_title}/&amp;quot;))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; &lt;code&gt;res_gg&lt;/code&gt; &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg &amp;lt;- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = &amp;quot;Benchmarks: Standard Deviation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;res_gg&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;&lt;img src=&#34;/post/variance-and-standard-deviation/index_files/figure-html/unnamed-chunk-22-1.png&#34; width=&#34;768&#34; style=&#34;display: block; margin: auto;&#34; /&gt;&lt;/p&gt;
+&lt;details&gt;
+&lt;summary&gt; Post Test Checks &lt;/summary&gt;
+&lt;p&gt;
+&lt;p&gt;Do all methods obtain the same results?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;validate_results &amp;lt;- function(control_res, ..., tol = sqrt(.Machine$double.eps)) {
+  dots &amp;lt;- list(`Base R` = control_res, ...)
+  res &amp;lt;- vapply(dots, eval, double(1))
+  
+  stopifnot(all(vapply(res, all.equal, FUN.VALUE = logical(1), 
+                       control_res, tolerance = tol)))
+
+  res_df &amp;lt;- tibble::tibble(Method = names(res), Result = res)
+  kableExtra::kable_styling(knitr::kable(res_df), 
+                            bootstrap_options = &amp;quot;condensed&amp;quot;,
+                            full_width = FALSE)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;validate_results(
+   control_res = sd(r_data),
+  `Rcpp Sugar` = rcpp_sug_sd(r_data),
+   Rcpp =  cpp_sd(r_data),
+   NumPy = py$np$std(py$numpy_data, ddof = 1),
+   CuPy = py$cp$asnumpy(py$cp$std(py$cupy_data, ddof = 1))
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Method
+&lt;/th&gt;
+&lt;th style=&#34;text-align:right;&#34;&gt;
+Result
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Base R
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5775.081
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Rcpp Sugar
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5775.081
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Rcpp
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5775.081
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NumPy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5775.081
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+CuPy
+&lt;/td&gt;
+&lt;td style=&#34;text-align:right;&#34;&gt;
+5775.081
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Did the input data remain unchanged?&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;validate_data(
+   control_data = validation_data,
+  `R Data Used` = r_data,
+  `NumPy Data Used` = py$numpy_data,
+  `CuPy Data Used` = py$cp$asnumpy(py$cupy_data)
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table table-condensed&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Method
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Still Intact?
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+Original R Data
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+R Data Used
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+NumPy Data Used
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+CuPy Data Used
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+TRUE
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;/div&gt;
+&lt;div id=&#34;environment&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Environment&lt;/h1&gt;
+&lt;details&gt;
+&lt;summary&gt; R &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+#&amp;gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&amp;gt; Running under: Windows 10 x64 (build 17134)
+#&amp;gt; 
+#&amp;gt; Matrix products: default
+#&amp;gt; 
+#&amp;gt; locale:
+#&amp;gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&amp;gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&amp;gt; [5] LC_TIME=English_United States.1252    
+#&amp;gt; 
+#&amp;gt; attached base packages:
+#&amp;gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&amp;gt; 
+#&amp;gt; other attached packages:
+#&amp;gt;  [1] rmarkdown_1.10         here_0.1-11            extrafont_0.17        
+#&amp;gt;  [4] bench_1.0.1.9000       forcats_0.3.0          stringr_1.3.1.9000    
+#&amp;gt;  [7] dplyr_0.7.99.9000      purrr_0.2.5            readr_1.2.1           
+#&amp;gt; [10] tidyr_0.8.2.9000       tibble_1.4.99.9005     ggplot2_3.1.0.9000    
+#&amp;gt; [13] tidyverse_1.2.1.9000   reticulate_1.10.0.9003 glue_1.3.0            
+#&amp;gt; 
+#&amp;gt; loaded via a namespace (and not attached):
+#&amp;gt;  [1] Rcpp_1.0.0                lubridate_1.7.4           lattice_0.20-35          
+#&amp;gt;  [4] assertthat_0.2.0          rprojroot_1.3-2           digest_0.6.18            
+#&amp;gt;  [7] R6_2.3.0                  cellranger_1.1.0          plyr_1.8.4               
+#&amp;gt; [10] backports_1.1.2           evaluate_0.12             httr_1.3.1               
+#&amp;gt; [13] highr_0.7                 blogdown_0.9.4            pillar_1.3.0.9001        
+#&amp;gt; [16] rlang_0.3.0.1             lazyeval_0.2.1            readxl_1.1.0             
+#&amp;gt; [19] rstudioapi_0.8            extrafontdb_1.0           Matrix_1.2-14            
+#&amp;gt; [22] webshot_0.5.1             munsell_0.5.0             broom_0.5.0              
+#&amp;gt; [25] vipor_0.4.5               compiler_3.6.0            modelr_0.1.2             
+#&amp;gt; [28] xfun_0.4                  pkgconfig_2.0.2           ggbeeswarm_0.6.0         
+#&amp;gt; [31] htmltools_0.3.6           tidyselect_0.2.5          bookdown_0.7             
+#&amp;gt; [34] codetools_0.2-15          viridisLite_0.3.0         crayon_1.3.4             
+#&amp;gt; [37] withr_2.1.2               grid_3.6.0                nlme_3.1-137             
+#&amp;gt; [40] jsonlite_1.5              Rttf2pt1_1.3.7            gtable_0.2.0             
+#&amp;gt; [43] magrittr_1.5              scales_1.0.0              cli_1.0.1                
+#&amp;gt; [46] stringi_1.2.4             profmem_0.5.0             pryr_0.1.4.9000          
+#&amp;gt; [49] RcppArmadillo_0.9.200.5.0 xml2_1.2.0                kableExtra_0.9.0         
+#&amp;gt; [52] tools_3.6.0               beeswarm_0.2.3            hms_0.4.2                
+#&amp;gt; [55] yaml_2.2.0                colorspace_1.3-2          rvest_0.3.2              
+#&amp;gt; [58] knitr_1.20                haven_2.0.0&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; C++ &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (R.version[&amp;quot;minor&amp;quot;] == &amp;quot;6.0&amp;quot;) {
+  &amp;quot;GCC 8.2.0&amp;quot;
+  } else {
+  system(&amp;quot;gcc --version&amp;quot;, intern = TRUE)[[1]]
+  }&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;GCC 8.2.0&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Python &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &amp;quot;Python&amp;quot;: sys.version,
+  &amp;quot;NumPy&amp;quot;: numpy.__version__,
+  &amp;quot;Numba&amp;quot;: numba.__version__,
+  &amp;quot;CuPy&amp;quot;: cupy.__version__,
+  &amp;quot;Pandas&amp;quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&amp;quot;{k}: {v}&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&amp;gt; NumPy: 1.15.4
+#&amp;gt; Numba: 0.40.0
+#&amp;gt; CuPy: 5.0.0
+#&amp;gt; Pandas: 0.23.4&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; CPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;cat(system(&amp;quot;wmic cpu get name&amp;quot;, intern = TRUE)[[2]])&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  &lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; GPU &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic path win32_VideoController get name&amp;quot;, intern = TRUE) %&amp;gt;% 
+  str_subset(&amp;quot;NVIDIA&amp;quot;) %&amp;gt;% 
+  str_trim()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;#&amp;gt; [1] &amp;quot;NVIDIA GeForce GTX 960M&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;details&gt;
+&lt;summary&gt; Memory &lt;/summary&gt;
+&lt;p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;system(&amp;quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&amp;quot;, intern = TRUE) %&amp;gt;%
+  str_trim() %&amp;gt;%
+  as_tibble() %&amp;gt;%
+  slice(2:3) %&amp;gt;%
+  separate(value, into = c(&amp;quot;BankLabel&amp;quot;, &amp;quot;Capacity&amp;quot;, &amp;quot;Speed&amp;quot;), sep = &amp;quot;\\s{2,}&amp;quot;) %&amp;gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &amp;quot;GB&amp;quot;)) %&amp;gt;%
+  mutate(Speed = paste(Speed, &amp;quot;MHz&amp;quot;)) %&amp;gt;%
+  rename_all(str_replace, &amp;quot;L&amp;quot;, &amp;quot; L&amp;quot;) %&amp;gt;%
+  knitr::kable(format = &amp;quot;html&amp;quot;) %&amp;gt;%
+  kableExtra::kable_styling(full_width = FALSE)&lt;/code&gt;&lt;/pre&gt;
+&lt;table class=&#34;table&#34; style=&#34;width: auto !important; margin-left: auto; margin-right: auto;&#34;&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Bank Label
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Capacity
+&lt;/th&gt;
+&lt;th style=&#34;text-align:left;&#34;&gt;
+Speed
+&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+DIMM A
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+17.18 GB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+2400 MHz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+DIMM B
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+17.18 GB
+&lt;/td&gt;
+&lt;td style=&#34;text-align:left;&#34;&gt;
+2400 MHz
+&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/p&gt;
+&lt;/details&gt;
+&lt;p&gt;&lt;br&gt;&lt;br&gt;&lt;br&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Citation and &lt;span class=&#34;math inline&#34;&gt;\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)&lt;/span&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;When using or referring to this post, please consider citing it.&lt;/p&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;Knapp, B. (2018, Nov. 23). Variance and Standard Deviation. Retrieved from https://knapply.com/post/variance-and-standard-deviation/&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;citation&#34;&gt;&lt;code&gt;@misc{variance-and-standard-deviation,
+  author = {Knapp, Brendan},
+  title  = {Variance and Standard Deviation},
+  url    = {https://knapply.com/post/variance-and-standard-deviation/},
+  year   = 2018,
+  month  = Nov,
+  day    = 23,
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# n_row &amp;lt;- 1e4
+# n_col &amp;lt;- 1e4
+# 
+# set.seed(831)
+# r_data &amp;lt;- seq(-1000, 1000, by = 0.1) %&amp;gt;%
+#   sample(replace = TRUE, size = n_row * n_col) %&amp;gt;% 
+#   matrix(nrow = n_row, ncol = n_col)&lt;/code&gt;&lt;/pre&gt;
+&lt;!-- ```{python} --&gt;
+&lt;!-- import numpy as np --&gt;
+&lt;!-- import cupy as cp --&gt;
+&lt;!-- from copy import deepcopy --&gt;
+&lt;!-- numpy_data = np.array(deepcopy(r.r_data)) --&gt;
+&lt;!-- cupy64 = cp.array(numpy_data, copy = True) --&gt;
+&lt;!-- cupy32 = cp.array(numpy_data.astype(&#39;float32&#39;), copy = True) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ```{python} --&gt;
+&lt;!-- cupy_res32 = cp.std(cupy32, axis=0, ddof = 1) --&gt;
+&lt;!-- cupy_res64 = cp.std(cupy64, axis=0, ddof = 1) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ```{python} --&gt;
+&lt;!-- import pycuda.driver as cuda --&gt;
+&lt;!-- import pycuda.autoinit --&gt;
+&lt;!-- from pycuda.compiler import SourceModule --&gt;
+&lt;!-- import skcuda.misc --&gt;
+&lt;!-- alloc = pycuda.driver.DeviceAllocation --&gt;
+&lt;!-- pycuda_array = pycuda.gpuarray.GPUArray(alloc, dtype = &#39;float64&#39;) --&gt;
+&lt;!-- skc.std(  ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- library(reticulate) --&gt;
+&lt;!-- all.equal( --&gt;
+&lt;!--   as.vector(py$cp$asnumpy(py$cupy_res32)), --&gt;
+&lt;!--   as.vector(py$cp$asnumpy(py$cupy_res64)), --&gt;
+&lt;!--   cpp_arma_sd(r_data), --&gt;
+&lt;!--   apply(r_data, 2, sd) --&gt;
+&lt;!-- ) --&gt;
+&lt;!-- ``` --&gt;
+&lt;!-- ```{r} --&gt;
+&lt;!-- res &lt;- bench::mark( --&gt;
+&lt;!--   py_run_string(&#34;cp.std(cupy32, axis=1, ddof = 1)&#34;, convert = FALSE), --&gt;
+&lt;!--   py_run_string(&#34;cp.std(cupy64, axis=1, ddof = 1)&#34;, convert = FALSE), --&gt;
+&lt;!--   py_run_string(&#34;np.std(numpy_data, axis=1, ddof = 1)&#34;, convert = FALSE), --&gt;
+&lt;!--   cpp_arma_sd(r_data, by_col = FALSE), --&gt;
+&lt;!--   check = FALSE --&gt;
+&lt;!--   ) --&gt;
+&lt;!-- res --&gt;
+&lt;!-- ggplot2::autoplot(res) --&gt;
+&lt;!-- ``` --&gt;
 &lt;/div&gt;
 </description>
     </item>
@@ -2475,90 +3758,6 @@ DIMM B
   day    = 12,
 }&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Standard Deviation</title>
-      <link>/post/standard-deviation/</link>
-      <pubDate>Fri, 09 Nov 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/standard-deviation/</guid>
-      <description>
-
-
-&lt;!-- ## Purpose --&gt;
-&lt;!-- Quantify amount of variation/spread/dispersion of values. --&gt;
-&lt;!-- ## Equations --&gt;
-&lt;!-- $\sigma_x = \sqrt{ \frac{\sum(x - \mu_x)^2} {N-1} }$ --&gt;
-&lt;!-- $\sigma_x = sqrt({ \frac{sum(~(x - mean(x)~)^2} {(N-1)}})$ --&gt;
-&lt;!-- $numerator = sum(~(x-mean(x)~)^2$ --&gt;
-&lt;!-- $mean = \frac {sum(x)} {length(x)}$ --&gt;
-&lt;!-- &lt;link rel=&#34;stylesheet&#34; href=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css&#34;&gt; --&gt;
-&lt;!-- &lt;script src=&#34;https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js&#34;&gt;&lt;/script&gt; --&gt;
-&lt;!-- &lt;script src=&#34;https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js&#34;&gt;&lt;/script&gt; --&gt;
-&lt;!-- &lt;link rel=&#34;stylesheet&#34; href=&#34;https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css&#34;&gt; --&gt;
-&lt;!-- # By Hand --&gt;
-&lt;!-- ```{r, echo=FALSE, cache=FALSE} --&gt;
-&lt;!-- as_chunk(&#34;standard-deviation/r-sd1.R&#34;) --&gt;
-&lt;!-- as_chunk(&#34;standard-deviation/rcpp-sd1.cpp&#34;) --&gt;
-&lt;!-- as_chunk(&#34;combo/helpers.h&#34;) --&gt;
-&lt;!-- as_chunk(&#34;combo/cpp-sd1.cpp&#34;) --&gt;
-&lt;!-- as_chunk(&#34;standard-deviation/numpy-sd1.py&#34;) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r, echo=FALSE} --&gt;
-&lt;!-- start_tabset() --&gt;
-&lt;!-- add_menu_tab(&#34;r-sd1&#34;, is_active = TRUE) --&gt;
-&lt;!-- add_menu_tab(&#34;rcpp-sd1&#34;, is_active = FALSE) --&gt;
-&lt;!-- add_menu_tab(&#34;cpp-sd1&#34;, is_active = FALSE) --&gt;
-&lt;!-- add_menu_tab(&#34;numpy-sd1&#34;, is_active = FALSE) --&gt;
-&lt;!-- end_menu() --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r, echo=FALSE} --&gt;
-&lt;!-- start_tab_content() --&gt;
-&lt;!-- add_active_tab(&#34;r-sd1&#34;) --&gt;
-&lt;!-- embed_github_link(&#34;standard-deviation/r-sd1.R&#34;) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r r-sd1} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r, echo=FALSE} --&gt;
-&lt;!-- end_tab() --&gt;
-&lt;!-- add_other_tab(&#34;rcpp-sd1&#34;) --&gt;
-&lt;!-- embed_github_link(&#34;standard-deviation/rcpp-sd1.cpp&#34;) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{Rcpp rcpp-sd1, class.source=&#34;cpp-cpp&#34;} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r} --&gt;
-&lt;!-- cpp_standard_deviation(1:20) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r, echo=FALSE} --&gt;
-&lt;!-- end_tab() --&gt;
-&lt;!-- add_other_tab(&#34;cpp-sd1&#34;) --&gt;
-&lt;!-- embed_github_link(&#34;standard-deviation/cpp-sd1.cpp&#34;) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{Rcpp cpp-sd1-header, eval=FALSE, class.source=&#34;cpp-header&#34;} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{Rcpp cpp-sd1, eval=FALSE, class.source=&#34;cpp-cpp&#34;} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{bash, eval=FALSE} --&gt;
-&lt;!-- g++ -std=c++17 cpp-sd1.cpp -o cpp-sd1.cpp &amp;&amp; ./cpp-sd1 --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{bash, echo=FALSE} --&gt;
-&lt;!-- cd /mnt/c/Users/Windows/Documents/tutorial-gists/sections/combo/ &amp;&amp; --&gt;
-&lt;!--   g++ -std=c++17 cpp-sd1.cpp -o cpp-sd1 &amp;&amp; --&gt;
-&lt;!--   ./cpp-sd1 --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r, echo=FALSE} --&gt;
-&lt;!-- end_tab() --&gt;
-&lt;!-- add_other_tab(&#34;numpy-sd1&#34;) --&gt;
-&lt;!-- embed_github_link(&#34;standard-deviation/numpy-sd1.py&#34;) --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{python numpy-sd1} --&gt;
-&lt;!-- ``` --&gt;
-&lt;!-- ```{r, echo=FALSE} --&gt;
-&lt;!-- end_tab() --&gt;
-&lt;!-- end_tabset() --&gt;
-&lt;!-- ``` --&gt;
 </description>
     </item>
     
@@ -11161,20 +12360,6 @@ Oceania
       
       <guid>/talk/intro-to-r/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Introduction to Python</title>
-      <link>/talk/intro-to-python/</link>
-      <pubDate>Fri, 31 Mar 2017 00:00:00 -0700</pubDate>
-      
-      <guid>/talk/intro-to-python/</guid>
-      <description>&lt;div class=&#34;alert alert-note&#34;&gt;
-  &lt;p&gt;Click on the &lt;strong&gt;Slides&lt;/strong&gt; or &lt;strong&gt;Code&lt;/strong&gt; buttons above to view content.&lt;/p&gt;
-
-&lt;/div&gt;
-
-</description>
     </item>
     
   </channel>

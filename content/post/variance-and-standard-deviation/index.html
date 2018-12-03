@@ -1,0 +1,855 @@
+---
+title: Variance and Standard Deviation
+author: Brendan Knapp
+date: '2018-11-23'
+slug: index
+categories:
+  - data-science-notes
+tags:
+  - data-science-from-scratch
+  - statistics
+  - programming
+  - r
+  - python
+  - rcpp
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: 'Finding the mode of a sequence, from scratch.'
+output:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 5
+citation_url: https://knapply.com/post/variance-and-standard-deviation/
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#what-is-it">What is it?</a><ul>
+<li><a href="#variance">Variance</a><ul>
+<li><a href="#translation">Translation</a></li>
+</ul></li>
+<li><a href="#standard-deviation">Standard Deviation</a><ul>
+<li><a href="#translation-1">Translation</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#r">R</a><ul>
+<li><a href="#base-r">Base R</a></li>
+</ul></li>
+<li><a href="#rcpp">Rcpp</a><ul>
+<li><a href="#sugar">Sugar</a></li>
+<li><a href="#rcpparmadillo">RcppArmadillo</a></li>
+<li><a href="#custom-template">Custom Template</a></li>
+</ul></li>
+<li><a href="#python">Python</a><ul>
+<li><a href="#pure-python">Pure Python</a></li>
+<li><a href="#numpy">NumPy</a></li>
+<li><a href="#cupy">CuPy</a></li>
+</ul></li>
+<li><a href="#shootout">Shootout</a></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<blockquote>
+<p><em>This post was last updated on 2018-12-02.</em></p>
+</blockquote>
+<div id="what-is-it" class="section level1">
+<h1>What is it?</h1>
+<div id="variance" class="section level2">
+<h2>Variance</h2>
+<span class="math display">\[Var(x) = \sigma^2 = \frac{\sum(x_i - \mu_x)^2} {N-1}\]</span>
+<center>
+or…
+</center>
+<p><span class="math display">\[Var(x) = s^2 = \frac{\sum(x_i - \bar{x})^2} {n-1}\]</span></p>
+<ul>
+<li><span class="math inline">\(x_i\)</span>: for each i in x</li>
+<li><span class="math inline">\(\mu_x\)</span> and <span class="math inline">\(\bar{x}\)</span>: arithmetic mean of the values in <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(N\)</span> and <span class="math inline">\(n\)</span>: number of observations in <span class="math inline">\(x\)</span></li>
+<li><span class="math inline">\(\sum\)</span>: sum</li>
+</ul>
+<div id="translation" class="section level3">
+<h3>Translation</h3>
+<p><span class="math display">\[\textbf{variance} ~←~ \frac{\textbf{sum}(~(~\textbf{for}~i~\textbf{in}~x: i -\textbf{mean}(x)~)^2~)} {\textbf{length}(x) - 1}\]</span></p>
+</div>
+</div>
+<div id="standard-deviation" class="section level2">
+<h2>Standard Deviation</h2>
+<span class="math display">\[\sigma = \sqrt{ \frac{\sum(x_i - \mu_x)^2} {N-1} }\]</span>
+<center>
+or…
+</center>
+<p><span class="math display">\[s = \sqrt{ \frac{\sum(x_i - \bar{x})^2} {n-1} }\]</span></p>
+<center>
+or, much more simply…
+</center>
+<p><span class="math display">\[\sigma = \sqrt{ Var(x) }\]</span></p>
+<div id="translation-1" class="section level3">
+<h3>Translation</h3>
+<p><span class="math display">\[\textbf{standard_deviation} ~←~ \textbf{sqrt}(~\textbf{variance}(x)~)\]</span></p>
+<pre class="r"><code>library(glue)</code></pre>
+</div>
+</div>
+</div>
+<div id="r" class="section level1">
+<h1>R</h1>
+<div id="base-r" class="section level2">
+<h2>Base R</h2>
+<ul>
+<li>variance: <a href="https://www.rdocumentation.org/packages/stats/topics/cor"><code>var()</code></a></li>
+<li>standard deviation: <a href="https://www.rdocumentation.org/packages/stats/topics/sd"><code>sd()</code></a></li>
+</ul>
+<pre class="r"><code>r_vector &lt;- c(1, 4, 3, 2, 4, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&quot;variance = {var(r_vector)}
+     standard deviation = {sd(r_vector)}&quot;)</code></pre>
+<pre><code>#&gt; variance = 1.71969696969697
+#&gt; standard deviation = 1.31137217055151</code></pre>
+</div>
+</div>
+<div id="rcpp" class="section level1">
+<h1>Rcpp</h1>
+<div id="sugar" class="section level2">
+<h2>Sugar</h2>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
+
+// [[Rcpp::export]]
+double rcpp_sugar_var(const Rcpp::NumericVector&amp; x) {
+  return Rcpp::var(x);
+}
+
+// [[Rcpp::export]]
+double rcpp_sug_sd(const Rcpp::NumericVector&amp; x) {
+  return Rcpp::sd(x);
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&quot;variance = {rcpp_sugar_var(r_vector)}
+     standard deviation = {rcpp_sug_sd(r_vector)}&quot;)</code></pre>
+<pre><code>#&gt; variance = 1.71969696969697
+#&gt; standard deviation = 1.31137217055151</code></pre>
+</div>
+<div id="rcpparmadillo" class="section level2">
+<h2>RcppArmadillo</h2>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
+// [[Rcpp::depends(RcppArmadillo)]]
+#include &lt;RcppArmadillo.h&gt;
+
+// [[Rcpp::export]]
+auto cpp_arma_var(const Rcpp::NumericVector&amp; x) {
+  return arma::var( Rcpp::as&lt;arma::vec&gt;(x) );
+}
+
+// [[Rcpp::export]]
+auto cpp_arma_sd(const Rcpp::NumericVector&amp; x) {
+  return arma::stddev( Rcpp::as&lt;arma::vec&gt;(x) );
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&quot;variance = {cpp_arma_var(r_vector)}
+     standard deviation = {cpp_arma_sd(r_vector)}&quot;)</code></pre>
+<pre><code>#&gt; variance = 1.71969696969697
+#&gt; standard deviation = 1.31137217055151</code></pre>
+</div>
+<div id="custom-template" class="section level2">
+<h2>Custom Template</h2>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp17)]]
+#include &lt;Rcpp.h&gt;
+#include &lt;cmath&gt; // std::pow
+
+// variance
+template &lt;int RTYPE, typename T&gt;                      // variance template
+auto cpp_var_(const Rcpp::Vector&lt;RTYPE&gt;&amp; x) {
+  const auto n = std::size(x);
+  const auto mean = std::accumulate(std::begin(x), std::end(x), 0.0) / n;
+
+  const auto x_minus_x_bar_squared = [mean] (const auto&amp; i) {
+    return std::pow(i - mean, 2.0);
+  };
+
+  double sum_squared_dev = 0;
+  for (auto i : x) {
+    sum_squared_dev += x_minus_x_bar_squared(i);
+  }
+
+  return sum_squared_dev / (n - 1);
+}
+
+// [[Rcpp::export]]
+SEXP cpp_var(const SEXP&amp; x) {                         // variance wrapper
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return Rcpp::wrap( cpp_var_&lt;INTSXP, int&gt;(x) );
+    case REALSXP:
+      return Rcpp::wrap( cpp_var_&lt;REALSXP, double&gt;(x) );
+  }
+  Rcpp::warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), Rcpp::type2name(x));
+  return R_NilValue;
+}
+
+// standard deviation
+template &lt;int RTYPE, typename T&gt;                      // stantard deviation template
+auto cpp_sd_(const Rcpp::Vector&lt;RTYPE&gt;&amp; x) {
+  return Rcpp::sqrt( cpp_var(x) );
+}
+
+// [[Rcpp::export]]
+SEXP cpp_sd(const SEXP&amp; x) {                          // standard deviation wrapper
+  switch( TYPEOF(x) ) {
+    case INTSXP:
+      return Rcpp::wrap( cpp_sd_&lt;INTSXP, int&gt;(x) );
+    case REALSXP:
+      return Rcpp::wrap( cpp_sd_&lt;REALSXP, double&gt;(x) );
+  }
+  Rcpp::warning(&quot;Invalid SEXPTYPE %d (%s).\n&quot;, TYPEOF(x), Rcpp::type2name(x));
+  return R_NilValue;
+}</code></pre>
+<pre class="r"><code>r_vector &lt;- c(4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3)
+
+glue(&quot;variance = {cpp_var(r_vector)}
+     standard deviation = {cpp_sd(r_vector)}&quot;)</code></pre>
+<pre><code>#&gt; variance = 1.71969696969697
+#&gt; standard deviation = 1.31137217055151</code></pre>
+</div>
+</div>
+<div id="python" class="section level1">
+<h1>Python</h1>
+<div id="pure-python" class="section level2">
+<h2>Pure Python</h2>
+<ul>
+<li>variance: <a href="https://docs.python.org/3/library/statistics.html#statistics.variance"><code>statistics.variance()</code></a></li>
+<li>standard deviation: <a href="https://docs.python.org/3/library/statistics.html#statistics.stdev"><code>statistics.stdev()</code></a></li>
+</ul>
+<pre class="python"><code>import statistics
+
+py_list = [4, 1, 4, 3, 2, 5, 4, 3, 4, 6, 4, 3]
+
+res = {
+  &quot;variance&quot;: statistics.variance(py_list),
+  &quot;standard deviation&quot;: statistics.stdev(py_list)
+  }
+
+for key, val in res.items():
+  print(f&quot;{key}: {val}&quot;)</code></pre>
+<pre><code>#&gt; variance: 1.7196969696969697
+#&gt; standard deviation: 1.3113721705515067</code></pre>
+</div>
+<div id="numpy" class="section level2">
+<h2>NumPy</h2>
+<ul>
+<li>variance: <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.var.html"><code>np.var()</code></a></li>
+<li>standard deviation: <a href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.std.html"><code>np.std()</code></a></li>
+</ul>
+<pre class="python"><code>import numpy as np
+    
+numpy_array = np.array(py_list).astype(&#39;float64&#39;)
+
+res = {
+  &quot;variance&quot;: np.var(numpy_array, ddof = 1),
+  &quot;standard deviation&quot;: np.std(numpy_array, ddof = 1)
+  }
+
+for key, val in res.items():
+  print(f&quot;{key}: {val}&quot;)</code></pre>
+<pre><code>#&gt; variance: 1.7196969696969697
+#&gt; standard deviation: 1.3113721705515067</code></pre>
+</div>
+<div id="cupy" class="section level2">
+<h2>CuPy</h2>
+<ul>
+<li>variance: <a href="https://docs-cupy.chainer.org/en/stable/reference/generated/cupy.var.html"><code>cp.var()</code></a></li>
+<li>standard deviation: <a href="https://docs-cupy.chainer.org/en/stable/reference/generated/cupy.std.html"><code>cp.std()</code></a></li>
+</ul>
+<pre class="python"><code>import cupy as cp
+  
+cupy_array = cp.array(numpy_array, copy = True)
+
+res = {
+  &quot;variance&quot;: cp.var(cupy_array, ddof = 1),
+  &quot;standard deviation&quot;: cp.std(cupy_array, ddof = 1)
+  }
+
+for key, val in res.items():
+ print(f&quot;{key}: {val}&quot;)</code></pre>
+<pre><code>#&gt; variance: 1.71969696969697
+#&gt; standard deviation: 1.3113721705515067</code></pre>
+</div>
+</div>
+<div id="shootout" class="section level1">
+<h1>Shootout</h1>
+<details>
+<summary> Test Setup </summary>
+<p>
+<pre class="r"><code>library(reticulate)
+library(tidyverse)
+library(bench)</code></pre>
+<p>Create R Data</p>
+<pre class="r"><code>set.seed(831)
+r_data &lt;- seq(-1e4, 1e4, by = 0.2) %&gt;%
+  sample(replace = TRUE, size = 1e7)
+
+validation_data &lt;- r_data</code></pre>
+<p>Transfer to Python</p>
+<pre class="python"><code>from copy import deepcopy
+
+numpy_data = np.array(deepcopy(r.r_data))
+cupy_data = cp.array(numpy_data, copy = True)</code></pre>
+<p>Do all the data match?</p>
+<pre class="r"><code>validate_data(
+   control_data = validation_data,
+  `R Data Used` = r_data,
+  `NumPy Data Used` = py$numpy_data,
+  `CuPy Data Used` = py$cp$asnumpy(py$cupy_data)
+  )</code></pre>
+<table class="table table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Method
+</th>
+<th style="text-align:left;">
+Still Intact?
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Original R Data
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R Data Used
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NumPy Data Used
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CuPy Data Used
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>(n &lt;- scales::comma(length(r_data)))</code></pre>
+<pre><code>#&gt; [1] &quot;10,000,000&quot;</code></pre>
+<pre class="r"><code>(mem &lt;- capture.output(pryr::object_size(r_data)))</code></pre>
+<pre><code>#&gt; [1] &quot;80 MB&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>bench::mark()</code> </summary>
+<p>
+<pre class="r"><code>res &lt;- mark(
+  sd(r_data),
+  rcpp_sug_sd(r_data),
+  cpp_sd(r_data),
+  py_run_string(&quot;np.std(numpy_data, ddof = 1)&quot;, convert = FALSE),
+  py_run_string(&quot;cp.std(cupy_data, ddof = 1)&quot;, convert = FALSE),
+  # min_iterations = 10,
+  iterations = 10,
+  check = FALSE, filter_gc = FALSE
+)</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>wrangle_plot_save()</code> </summary>
+<p>
+<pre class="r"><code>wrangle_plot_save &lt;- function(bench_marks, .n, .mem, .title, ...) {
+  depends &lt;- c(&quot;dplyr&quot;, &quot;tidyr&quot;, &quot;stringr&quot;, &quot;ggplot2&quot;, &quot;extrafont&quot;)
+  success &lt;- vector(mode = &quot;logical&quot;, length = length(depends))
+  for (i in seq_along(depends)) {
+    success[[i]] &lt;- require(depends[[i]], quietly = TRUE, character.only = TRUE)
+  }
+  if (!all(success)) {
+    stop(paste(depends[!success], &quot;packages not found.&quot;))
+  }
+  
+  extrafont::loadfonts(&quot;win&quot;, quiet = TRUE)
+
+  df &lt;- bench_marks %&gt;% 
+    mutate(expression = as.character(expression)) %&gt;% 
+    mutate(expression = if_else(
+      str_detect(expression, &quot;py_run_string&quot;),
+      str_extract(expression, &#39;(?&lt;=&quot;).*?(?=&quot;)&#39;),
+      expression)
+    ) %&gt;%
+    mutate(framework = case_when(
+      str_detect(expression, &quot;^(np\\.|numpy_)&quot;) ~ &quot;NumPy&quot;,
+      str_detect(expression, &quot;^numba_&quot;) ~ &quot;Numba&quot;,
+      str_detect(expression, &quot;^numba_&quot;) ~ &quot;Numba Parallel&quot;,
+      str_detect(expression, &quot;^(cp\\.|cupy_)&quot;) ~ &quot;CuPy&quot;,
+      str_detect(expression, &quot;^r?cpp_arma_&quot;) ~ &quot;RcppArmadillo&quot;,
+      str_detect(expression, &quot;^r?cpp_par&quot;) ~ &quot;RcppParallel&quot;,
+      str_detect(expression, &quot;^r?cpp_&quot;) ~ &quot;Rcpp&quot;,
+      str_detect(expression, &quot;^r_&quot;) ~ &quot;Base R&quot;,
+      TRUE ~ &quot;Base R&quot;
+      )
+    ) %&gt;%
+    mutate(expression = str_remove(expression, &quot;(?&lt;=\\().*?(?=\\))&quot;)) %&gt;%
+    mutate(framework = str_glue(&quot;  {framework}  &quot;)) %&gt;% 
+    mutate(is_parallel = str_detect(expression, &quot;_par_&quot;)) %&gt;% 
+    mutate(is_gpu = str_detect(expression, &quot;cupy_&quot;)) %&gt;% 
+    unnest() %&gt;%
+    group_by(expression) %&gt;%
+    mutate(med = median(as.numeric(time))) %&gt;%
+    ungroup() %&gt;%
+    arrange(desc(med)) %&gt;%
+    mutate(Expression = as_factor(expression)) %&gt;%
+    arrange(med) %&gt;%
+    # mutate(expression = as_factor(expression)) %&gt;%
+    mutate(framework = as_factor(framework)) %&gt;%
+    rename(Time = time)
+  
+  out &lt;- df %&gt;% 
+    ggplot(aes(x = Expression, y = Time)) +
+      ggbeeswarm::geom_beeswarm(aes(fill = framework), 
+                                alpha = 0.8, shape = 21, size = 4, cex = 2) +
+      scale_fill_viridis_d() +
+      bench::scale_y_bench_time(base = NULL) +
+      guides(fill = guide_legend(override.aes = list(size = 5))) +
+      coord_flip() +
+      theme_minimal(base_size = 18, base_family = &quot;Palatino Linotype&quot;) +
+      theme(axis.title = element_blank(),
+            axis.text.y = element_text(family = &quot;Fira Code Retina&quot;, size = 14, 
+                                       colour = &quot;black&quot;,
+                                       margin = margin(0, 0, 0, 0, &quot;lines&quot;)),
+            axis.text.x = element_text(size = 12, colour = &quot;black&quot;,
+                                       margin = margin(0, 0, 0, 0, &quot;lines&quot;)),
+            legend.position = &quot;bottom&quot;, legend.title = element_blank(),
+            plot.title = element_text(face = &quot;bold&quot;),
+            plot.subtitle = element_text(size = 12, face = &quot;italic&quot;),
+            plot.caption = element_text(family = &quot;Fira Code Retina&quot;, size = 14, 
+                                        face = &quot;bold&quot;),
+            panel.spacing = unit(0, &quot;lines&quot;),
+            panel.border = element_rect(colour = NA, fill = NA, size = 0)) +
+      labs(title = .title, 
+           subtitle = str_glue(&quot;n = {n} ({mem})&quot;),
+           caption = &quot;knapply.com&quot;)
+
+  write_gg(plot = out, ...)
+
+  out
+}</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>write_gg()</code> </summary>
+<p>
+<pre class="r"><code>write_gg &lt;- function(plot, path = get_post_path(), width = 580, height = 426) {
+  if (!require(ggplot2, quietly = TRUE)) {
+    stop(&quot;`ggplot2` package not found.&quot;)
+  }
+
+  out &lt;- plot +
+    ggplot2::theme(axis.text = ggplot2::element_text(size = 7),
+                   legend.position = &quot;none&quot;, 
+                   plot.caption = ggplot2::element_blank(),
+                   plot.subtitle = ggplot2::element_blank(),
+                   plot.title = ggplot2::element_blank())
+  
+  dpi &lt;- 125
+  width &lt;- width * 1.5 / dpi
+  height &lt;- height * 1.5 / dpi
+  
+  ggplot2::ggsave(filename = &quot;featured.png&quot;, plot = out, path = path, 
+                  width = width, height = height, dpi = dpi)
+}
+
+get_post_path &lt;- function() {
+  depends &lt;- c(&quot;here&quot;, &quot;rmarkdown&quot;, &quot;stringr&quot;)
+  success &lt;- vector(mode = &quot;logical&quot;, length = length(depends))
+  for (i in seq_along(depends)) {
+    success[[i]] &lt;- require(depends[[i]], quietly = TRUE, character.only = TRUE)
+  }
+  if (!all(success)) {
+    stop(paste(depends[!success], &quot;packages not found.&quot;))
+  }
+  post_title &lt;- rmarkdown::metadata$title
+  clean_title &lt;- stringr::str_to_lower(stringr::str_replace_all(post_title, &quot;\\s&quot;, &quot;-&quot;))
+  here::here(stringr::str_glue(&quot;content/post/{clean_title}/&quot;))
+}</code></pre>
+</p>
+</details>
+<details>
+<summary> <code>res_gg</code> </summary>
+<p>
+<pre class="r"><code>res_gg &lt;- wrangle_plot_save(res, .n = n, .mem = mem, 
+                            .title = &quot;Benchmarks: Standard Deviation&quot;)</code></pre>
+<pre class="r"><code>res_gg</code></pre>
+</p>
+</details>
+<p><img src="/post/variance-and-standard-deviation/index_files/figure-html/unnamed-chunk-22-1.png" width="768" style="display: block; margin: auto;" /></p>
+<details>
+<summary> Post Test Checks </summary>
+<p>
+<p>Do all methods obtain the same results?</p>
+<pre class="r"><code>validate_results &lt;- function(control_res, ..., tol = sqrt(.Machine$double.eps)) {
+  dots &lt;- list(`Base R` = control_res, ...)
+  res &lt;- vapply(dots, eval, double(1))
+  
+  stopifnot(all(vapply(res, all.equal, FUN.VALUE = logical(1), 
+                       control_res, tolerance = tol)))
+
+  res_df &lt;- tibble::tibble(Method = names(res), Result = res)
+  kableExtra::kable_styling(knitr::kable(res_df), 
+                            bootstrap_options = &quot;condensed&quot;,
+                            full_width = FALSE)
+}</code></pre>
+<pre class="r"><code>validate_results(
+   control_res = sd(r_data),
+  `Rcpp Sugar` = rcpp_sug_sd(r_data),
+   Rcpp =  cpp_sd(r_data),
+   NumPy = py$np$std(py$numpy_data, ddof = 1),
+   CuPy = py$cp$asnumpy(py$cp$std(py$cupy_data, ddof = 1))
+  )</code></pre>
+<table class="table table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Method
+</th>
+<th style="text-align:right;">
+Result
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Base R
+</td>
+<td style="text-align:right;">
+5775.081
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rcpp Sugar
+</td>
+<td style="text-align:right;">
+5775.081
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+Rcpp
+</td>
+<td style="text-align:right;">
+5775.081
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NumPy
+</td>
+<td style="text-align:right;">
+5775.081
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CuPy
+</td>
+<td style="text-align:right;">
+5775.081
+</td>
+</tr>
+</tbody>
+</table>
+<p>Did the input data remain unchanged?</p>
+<pre class="r"><code>validate_data(
+   control_data = validation_data,
+  `R Data Used` = r_data,
+  `NumPy Data Used` = py$numpy_data,
+  `CuPy Data Used` = py$cp$asnumpy(py$cupy_data)
+  )</code></pre>
+<table class="table table-condensed" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Method
+</th>
+<th style="text-align:left;">
+Still Intact?
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+Original R Data
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+R Data Used
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+NumPy Data Used
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+CuPy Data Used
+</td>
+<td style="text-align:left;">
+TRUE
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] rmarkdown_1.10         here_0.1-11            extrafont_0.17        
+#&gt;  [4] bench_1.0.1.9000       forcats_0.3.0          stringr_1.3.1.9000    
+#&gt;  [7] dplyr_0.7.99.9000      purrr_0.2.5            readr_1.2.1           
+#&gt; [10] tidyr_0.8.2.9000       tibble_1.4.99.9005     ggplot2_3.1.0.9000    
+#&gt; [13] tidyverse_1.2.1.9000   reticulate_1.10.0.9003 glue_1.3.0            
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] Rcpp_1.0.0                lubridate_1.7.4           lattice_0.20-35          
+#&gt;  [4] assertthat_0.2.0          rprojroot_1.3-2           digest_0.6.18            
+#&gt;  [7] R6_2.3.0                  cellranger_1.1.0          plyr_1.8.4               
+#&gt; [10] backports_1.1.2           evaluate_0.12             httr_1.3.1               
+#&gt; [13] highr_0.7                 blogdown_0.9.4            pillar_1.3.0.9001        
+#&gt; [16] rlang_0.3.0.1             lazyeval_0.2.1            readxl_1.1.0             
+#&gt; [19] rstudioapi_0.8            extrafontdb_1.0           Matrix_1.2-14            
+#&gt; [22] webshot_0.5.1             munsell_0.5.0             broom_0.5.0              
+#&gt; [25] vipor_0.4.5               compiler_3.6.0            modelr_0.1.2             
+#&gt; [28] xfun_0.4                  pkgconfig_2.0.2           ggbeeswarm_0.6.0         
+#&gt; [31] htmltools_0.3.6           tidyselect_0.2.5          bookdown_0.7             
+#&gt; [34] codetools_0.2-15          viridisLite_0.3.0         crayon_1.3.4             
+#&gt; [37] withr_2.1.2               grid_3.6.0                nlme_3.1-137             
+#&gt; [40] jsonlite_1.5              Rttf2pt1_1.3.7            gtable_0.2.0             
+#&gt; [43] magrittr_1.5              scales_1.0.0              cli_1.0.1                
+#&gt; [46] stringi_1.2.4             profmem_0.5.0             pryr_0.1.4.9000          
+#&gt; [49] RcppArmadillo_0.9.200.5.0 xml2_1.2.0                kableExtra_0.9.0         
+#&gt; [52] tools_3.6.0               beeswarm_0.2.3            hms_0.4.2                
+#&gt; [55] yaml_2.2.0                colorspace_1.3-2          rvest_0.3.2              
+#&gt; [58] knitr_1.20                haven_2.0.0</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="r"><code>if (R.version[&quot;minor&quot;] == &quot;6.0&quot;) {
+  &quot;GCC 8.2.0&quot;
+  } else {
+  system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
+  }</code></pre>
+<pre><code>#&gt; [1] &quot;GCC 8.2.0&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &quot;Python&quot;: sys.version,
+  &quot;NumPy&quot;: numpy.__version__,
+  &quot;Numba&quot;: numba.__version__,
+  &quot;CuPy&quot;: cupy.__version__,
+  &quot;Pandas&quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&quot;{k}: {v}&quot;)</code></pre>
+<pre><code>#&gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&gt; NumPy: 1.15.4
+#&gt; Numba: 0.40.0
+#&gt; CuPy: 5.0.0
+#&gt; Pandas: 0.23.4</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;%
+  str_trim() %&gt;%
+  as_tibble() %&gt;%
+  slice(2:3) %&gt;%
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;%
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;%
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
+  knitr::kable(format = &quot;html&quot;) %&gt;%
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Nov. 23). Variance and Standard Deviation. Retrieved from https://knapply.com/post/variance-and-standard-deviation/</code></pre>
+<pre class="citation"><code>@misc{variance-and-standard-deviation,
+  author = {Knapp, Brendan},
+  title  = {Variance and Standard Deviation},
+  url    = {https://knapply.com/post/variance-and-standard-deviation/},
+  year   = 2018,
+  month  = Nov,
+  day    = 23,
+}</code></pre>
+<pre class="r"><code># n_row &lt;- 1e4
+# n_col &lt;- 1e4
+# 
+# set.seed(831)
+# r_data &lt;- seq(-1000, 1000, by = 0.1) %&gt;%
+#   sample(replace = TRUE, size = n_row * n_col) %&gt;% 
+#   matrix(nrow = n_row, ncol = n_col)</code></pre>
+<!-- ```{python} -->
+<!-- import numpy as np -->
+<!-- import cupy as cp -->
+<!-- from copy import deepcopy -->
+<!-- numpy_data = np.array(deepcopy(r.r_data)) -->
+<!-- cupy64 = cp.array(numpy_data, copy = True) -->
+<!-- cupy32 = cp.array(numpy_data.astype('float32'), copy = True) -->
+<!-- ``` -->
+<!-- ```{python} -->
+<!-- cupy_res32 = cp.std(cupy32, axis=0, ddof = 1) -->
+<!-- cupy_res64 = cp.std(cupy64, axis=0, ddof = 1) -->
+<!-- ``` -->
+<!-- ```{python} -->
+<!-- import pycuda.driver as cuda -->
+<!-- import pycuda.autoinit -->
+<!-- from pycuda.compiler import SourceModule -->
+<!-- import skcuda.misc -->
+<!-- alloc = pycuda.driver.DeviceAllocation -->
+<!-- pycuda_array = pycuda.gpuarray.GPUArray(alloc, dtype = 'float64') -->
+<!-- skc.std(  ) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- library(reticulate) -->
+<!-- all.equal( -->
+<!--   as.vector(py$cp$asnumpy(py$cupy_res32)), -->
+<!--   as.vector(py$cp$asnumpy(py$cupy_res64)), -->
+<!--   cpp_arma_sd(r_data), -->
+<!--   apply(r_data, 2, sd) -->
+<!-- ) -->
+<!-- ``` -->
+<!-- ```{r} -->
+<!-- res <- bench::mark( -->
+<!--   py_run_string("cp.std(cupy32, axis=1, ddof = 1)", convert = FALSE), -->
+<!--   py_run_string("cp.std(cupy64, axis=1, ddof = 1)", convert = FALSE), -->
+<!--   py_run_string("np.std(numpy_data, axis=1, ddof = 1)", convert = FALSE), -->
+<!--   cpp_arma_sd(r_data, by_col = FALSE), -->
+<!--   check = FALSE -->
+<!--   ) -->
+<!-- res -->
+<!-- ggplot2::autoplot(res) -->
+<!-- ``` -->
+</div>

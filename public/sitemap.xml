@@ -4,8 +4,24 @@
     
     <url>
     
+      <loc>/post/linear-algebra/</loc>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
       <loc>/post/mode/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
+    </url>
+    
+  
+    
+    <url>
+    
+      <loc>/post/variance-and-standard-deviation/</loc>
+      <lastmod>2018-11-23T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -21,7 +37,7 @@
     <url>
     
       <loc>/post/mean/</loc>
-      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
     </url>
     
   
@@ -29,15 +45,7 @@
     <url>
     
       <loc>/post/median/</loc>
-      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
-    </url>
-    
-  
-    
-    <url>
-    
-      <loc>/post/standard-deviation/</loc>
-      <lastmod>2018-11-26T12:47:34-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
     </url>
     
   
@@ -45,7 +53,7 @@
     <url>
     
       <loc>/data-science-notes/</loc>
-      <lastmod>2018-11-28T14:58:14-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
     </url>
     
   
@@ -289,7 +297,7 @@
     <url>
     
       <loc>/tags/central-tendency/</loc>
-      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -298,7 +306,7 @@
     <url>
     
       <loc>/categories/central-tendency/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -343,7 +351,7 @@
     <url>
     
       <loc>/tags/data-science-from-scratch/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -352,7 +360,7 @@
     <url>
     
       <loc>/categories/data-science-from-scratch/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -361,7 +369,7 @@
     <url>
     
       <loc>/tags/data-science-notes/</loc>
-      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -370,7 +378,7 @@
     <url>
     
       <loc>/categories/data-science-notes/</loc>
-      <lastmod>2018-11-29T00:23:15-08:00</lastmod>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -424,7 +432,7 @@
     <url>
     
       <loc>/tags/programming/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -433,7 +441,7 @@
     <url>
     
       <loc>/categories/programming/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -442,7 +450,7 @@
     <url>
     
       <loc>/tags/python/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -460,7 +468,7 @@
     <url>
     
       <loc>/tags/rcpp/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -477,7 +485,7 @@
     <url>
     
       <loc>/tags/statistics/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-12-02T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -486,7 +494,7 @@
     <url>
     
       <loc>/categories/statistics/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -513,7 +521,7 @@
     <url>
     
       <loc>/categories/tutorial/</loc>
-      <lastmod>2018-11-27T12:45:00-08:00</lastmod>
+      <lastmod>2018-11-30T14:54:19-08:00</lastmod>
       <priority>0</priority>
     </url>
     
