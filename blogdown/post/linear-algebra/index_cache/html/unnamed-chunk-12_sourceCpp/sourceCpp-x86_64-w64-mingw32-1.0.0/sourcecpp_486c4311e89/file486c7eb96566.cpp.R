@@ -1,0 +1,5 @@
+`.sourceCpp_1_DLLInfo` <- dyn.load('C:/Users/Windows/Documents/knapply.com/content/post/linear-algebra/index_cache/html/unnamed-chunk-12_sourceCpp/sourceCpp-x86_64-w64-mingw32-1.0.0/sourcecpp_486c4311e89/sourceCpp_2.dll')
+
+cpp_mat_dot_vec <- Rcpp:::sourceCppFunction(function(mat, col_vec) {}, FALSE, `.sourceCpp_1_DLLInfo`, 'sourceCpp_1_cpp_mat_dot_vec')
+
+rm(`.sourceCpp_1_DLLInfo`)

@@ -27,13 +27,4 @@ weight = 5
   course = "BA in International Studies"
   institution = "Middlebury Institute of International Studies"
   year = 2017
- 
 +++
-
-<!--
-
-# Biography
-
-Brendan Knapp is...
-
--->

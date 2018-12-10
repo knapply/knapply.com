@@ -1,0 +1,1140 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Solutions to the 2018 Advent of Code with Rcpp">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/advent-of-code-2018/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700|Merriweather|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-115043043-7', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="knapply()">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="knapply()">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/advent-of-code-2018/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="knapply()">
+  <meta property="og:url" content="/post/advent-of-code-2018/">
+  <meta property="og:title" content="Advent of Code 2018 | knapply()">
+  <meta property="og:description" content="Solutions to the 2018 Advent of Code with Rcpp">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-12-05T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-12-05T00:00:00&#43;00:00">
+  
+
+  
+
+  
+
+  <title>Advent of Code 2018 | knapply()</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">knapply()</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/data-science-notes/">
+            
+            <span>Data Science Notes</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/talk/">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/files/cv.pdf">
+            
+            <span>Résumé</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1 itemprop="name">Advent of Code 2018</h1>
+
+  
+
+  
+    
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-12-05 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-12-05 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Dec 5, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    7 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/advent-of-code-2018/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science-notes/">data-science-notes</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Advent%20of%20Code%202018&amp;url=%2fpost%2fadvent-of-code-2018%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fadvent-of-code-2018%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fadvent-of-code-2018%2f&amp;title=Advent%20of%20Code%202018"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fadvent-of-code-2018%2f&amp;title=Advent%20of%20Code%202018"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Advent%20of%20Code%202018&amp;body=%2fpost%2fadvent-of-code-2018%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#day-1-chronal-calibration">Day 1: Chronal Calibration</a><ul>
+<li><a href="#part-1">Part 1</a></li>
+<li><a href="#part-2">Part 2</a></li>
+</ul></li>
+<li><a href="#day-2-inventory-management-system">Day 2: Inventory Management System</a><ul>
+<li><a href="#part-1-1">Part 1</a></li>
+<li><a href="#part2">Part2</a></li>
+</ul></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<p>The following contains solutions to the 2018 <a href="https://adventofcode.com/">Advent of Code</a> using Rcpp.</p>
+<pre class="r"><code>library(magrittr)
+library(here)</code></pre>
+<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
+
+#include &lt;Rcpp.h&gt;
+
+using namespace Rcpp;</code></pre>
+<div id="day-1-chronal-calibration" class="section level1">
+<h1>Day 1: Chronal Calibration</h1>
+<div id="part-1" class="section level2">
+<h2>Part 1</h2>
+<details>
+<summary> Description </summary>
+<p>
+<p>After feeling like you’ve been falling for a few minutes, you look at the device’s tiny screen. “Error: Device must be calibrated before first use. Frequency drift detected. Cannot maintain destination lock.” Below the message, the device shows a sequence of changes in frequency (your puzzle input). A value like +6 means the current frequency increases by 6; a value like -3 means the current frequency decreases by 3.</p>
+<p>For example, if the device displays frequency changes of +1, -2, +3, +1, then starting from a frequency of zero, the following changes would occur:</p>
+<ul>
+<li>Current frequency 0, change of +1; resulting frequency 1.</li>
+<li>Current frequency 1, change of -2; resulting frequency -1.</li>
+<li>Current frequency -1, change of +3; resulting frequency 2.</li>
+<li>Current frequency 2, change of +1; resulting frequency 3.</li>
+</ul>
+<p>In this example, the resulting frequency is 3.</p>
+<p>Here are other example situations:</p>
+<ul>
+<li>+1, +1, +1 results in 3</li>
+<li>+1, +1, -2 results in 0</li>
+<li>-1, -2, -3 results in -6</li>
+</ul>
+<p>Starting with a frequency of zero, what is the resulting frequency after all of the changes in frequency have been applied?</p>
+</p>
+</details>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_day1_part1(const IntegerVector&amp; x) {
+  return sum(x);
+}</code></pre>
+<pre class="r"><code>dat &lt;- here(&quot;content/post/advent-of-code-2018/input1-1.txt&quot;) %&gt;% 
+  readLines() %&gt;% 
+  as.integer() %&gt;% 
+  c(0L, .)
+
+stopifnot(cpp_day1_part1(dat) == 510L)
+
+cpp_day1_part1(dat)</code></pre>
+<pre><code>#&gt; [1] 510</code></pre>
+</div>
+<div id="part-2" class="section level2">
+<h2>Part 2</h2>
+<details>
+<summary> Description </summary>
+<p>
+<p>You notice that the device repeats the same frequency change list over and over. To calibrate the device, you need to find the first frequency it reaches twice.</p>
+<p>For example, using the same list of changes above, the device would loop as follows:</p>
+<ul>
+<li>Current frequency 0, change of +1; resulting frequency 1.</li>
+<li>Current frequency 1, change of -2; resulting frequency -1.</li>
+<li>Current frequency -1, change of +3; resulting frequency 2.</li>
+<li>Current frequency 2, change of +1; resulting frequency 3.</li>
+</ul>
+<p>(At this point, the device continues from the start of the list.)</p>
+<ul>
+<li>Current frequency 3, change of +1; resulting frequency 4.</li>
+<li>Current frequency 4, change of -2; resulting frequency 2, which has already been seen.</li>
+</ul>
+<p>In this example, the first frequency reached twice is 2. Note that your device might need to repeat its list of frequency changes many times before a duplicate frequency is found, and that duplicates might be found while in the middle of processing the list.</p>
+<p>Here are other examples:</p>
+<ul>
+<li>+1, -1 first reaches 0 twice.</li>
+<li>+3, +3, +4, -2, -4 first reaches 10 twice.</li>
+<li>-6, +3, +8, +5, -6 first reaches 5 twice.</li>
+<li>+7, +7, -2, -7, -4 first reaches 14 twice.</li>
+</ul>
+<p>What is the first frequency your device reaches twice?</p>
+</p>
+</details>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_day1_part2(const IntegerVector&amp; x) {
+  auto n = x.size();
+  std::unordered_map&lt;int, std::size_t&gt; counts;
+
+  int out = 0;
+  for (auto i = 0; i &lt; n; i++) {
+    out += x[i];
+    counts[out]++;
+    if (counts[out] &gt; 1) {
+      break;
+    }
+    if (i == n - 1) {
+      i = 0;
+    }
+  }
+  return out;
+}</code></pre>
+<pre class="r"><code>dat &lt;- here::here(&quot;content/post/advent-of-code-2018/input1-2.txt&quot;) %&gt;% 
+  readLines() %&gt;% 
+  as.integer() %&gt;% 
+  c(0L, .)
+
+stopifnot(cpp_day1_part2(dat) == 69074L)
+
+cpp_day1_part2(dat)</code></pre>
+<pre><code>#&gt; [1] 69074</code></pre>
+</div>
+</div>
+<div id="day-2-inventory-management-system" class="section level1">
+<h1>Day 2: Inventory Management System</h1>
+<div id="part-1-1" class="section level2">
+<h2>Part 1</h2>
+<details>
+<summary> Description </summary>
+<p>
+<p>You stop falling through time, catch your breath, and check the screen on the device. “Destination reached. Current Year: 1518. Current Location: North Pole Utility Closet 83N10.” You made it! Now, to find those anomalies.</p>
+<p>Outside the utility closet, you hear footsteps and a voice. “…I’m not sure either. But now that so many people have chimneys, maybe he could sneak in that way?” Another voice responds, “Actually, we’ve been working on a new kind of suit that would let him fit through tight spaces like that. But, I heard that a few days ago, they lost the prototype fabric, the design plans, everything! Nobody on the team can even seem to remember important details of the project!”</p>
+<p>“Wouldn’t they have had enough fabric to fill several boxes in the warehouse? They’d be stored together, so the box IDs should be similar. Too bad it would take forever to search the warehouse for two similar box IDs…” They walk too far away to hear any more.</p>
+<p>Late at night, you sneak to the warehouse - who knows what kinds of paradoxes you could cause if you were discovered - and use your fancy wrist device to quickly scan every box and produce a list of the likely candidates (your puzzle input).</p>
+<p>To make sure you didn’t miss any, you scan the likely candidate boxes again, counting the number that have an ID containing exactly two of any letter and then separately counting those with exactly three of any letter. You can multiply those two counts together to get a rudimentary checksum and compare it to what your device predicts.</p>
+<p>For example, if you see the following box IDs:</p>
+<ul>
+<li>abcdef contains no letters that appear exactly two or three times.</li>
+<li>bababc contains two a and three b, so it counts for both.</li>
+<li>abbcde contains two b, but no letter appears exactly three times.</li>
+<li>abcccd contains three c, but no letter appears exactly two times.</li>
+<li>aabcdd contains two a and two d, but it only counts once.</li>
+<li>abcdee contains two e.</li>
+<li>ababab contains three a and three b, but it only counts once.</li>
+</ul>
+<p>Of these box IDs, four of them contain a letter which appears exactly twice, and three of them contain a letter which appears exactly three times. Multiplying these together produces a checksum of 4 * 3 = 12.</p>
+<p>What is the checksum for your list of box IDs?</p>
+</p>
+</details>
+<pre class="cpp"><code>// [[Rcpp::export]]
+int cpp_day2_part1(const CharacterVector&amp; x) {
+  std::unordered_map&lt;String, std::size_t&gt; counts;
+  
+  int twos = 0;
+  int threes = 0;
+  
+  for (auto i : x) {
+    for (auto j : i) {
+      counts[j]++;
+    }
+    for (auto k : counts) {
+      if (k.second == 2) {
+        twos++;
+        break;
+      }
+    }
+    for (auto k : counts) {
+      if (k.second == 3) {
+        threes++;
+        break;
+      }
+    }
+    counts.clear();
+  }
+  
+  return twos * threes;
+}</code></pre>
+<pre class="r"><code>dat &lt;- here(&quot;content/post/advent-of-code-2018/input2-1.txt&quot;) %&gt;% 
+  readLines()
+
+stopifnot(cpp_day2_part1(dat) == 7872L)
+
+cpp_day2_part1(dat)</code></pre>
+<pre><code>#&gt; [1] 7872</code></pre>
+</div>
+<div id="part2" class="section level2">
+<h2>Part2</h2>
+</div>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.6.0 Under development (Testing Rtools) (2018-09-22 r75352)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252 
+#&gt; [2] LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252
+#&gt; [4] LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000   
+#&gt;  [4] purrr_0.2.5          readr_1.2.1          tidyr_0.8.2.9000    
+#&gt;  [7] tibble_1.4.99.9005   ggplot2_3.1.0.9000   tidyverse_1.2.1.9000
+#&gt; [10] here_0.1-11          magrittr_1.5        
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] Rcpp_1.0.0        cellranger_1.1.0  plyr_1.8.4        pillar_1.3.0.9001
+#&gt;  [5] compiler_3.6.0    tools_3.6.0       digest_0.6.18     jsonlite_1.5     
+#&gt;  [9] lubridate_1.7.4   evaluate_0.12     nlme_3.1-137      gtable_0.2.0     
+#&gt; [13] lattice_0.20-35   pkgconfig_2.0.2   rlang_0.3.0.1     cli_1.0.1        
+#&gt; [17] rstudioapi_0.8    yaml_2.2.0        haven_2.0.0       blogdown_0.9.4   
+#&gt; [21] xfun_0.4          withr_2.1.2       xml2_1.2.0        httr_1.3.1       
+#&gt; [25] knitr_1.20        hms_0.4.2         rprojroot_1.3-2   grid_3.6.0       
+#&gt; [29] tidyselect_0.2.5  glue_1.3.0        R6_2.3.0          readxl_1.1.0     
+#&gt; [33] rmarkdown_1.10    bookdown_0.7      modelr_0.1.2      backports_1.1.2  
+#&gt; [37] scales_1.0.0      htmltools_0.3.6   rvest_0.3.2       assertthat_0.2.0 
+#&gt; [41] colorspace_1.3-2  stringi_1.2.4     lazyeval_0.2.1    munsell_0.5.0    
+#&gt; [45] broom_0.5.0       crayon_1.3.4</code></pre>
+</p>
+</details>
+<details>
+<summary> Rcpp </summary>
+<p>
+<pre class="r"><code>if (R.version[&quot;minor&quot;] == &quot;6.0&quot;) {
+  &quot;GCC 8.2.0&quot;
+  } else {
+  system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
+  }</code></pre>
+<pre><code>#&gt; [1] &quot;GCC 8.2.0&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="bash"><code>gcc-8 --version</code></pre>
+<pre><code>#&gt; gcc-8 (Ubuntu 8.2.0-1ubuntu2~18.04) 8.2.0
+#&gt; Copyright (C) 2018 Free Software Foundation, Inc.
+#&gt; This is free software; see the source for copying conditions.  There is NO
+#&gt; warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &quot;Python&quot;: sys.version,
+  &quot;NumPy&quot;: numpy.__version__,
+  &quot;Numba&quot;: numba.__version__,
+  &quot;CuPy&quot;: cupy.__version__,
+  &quot;Pandas&quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&quot;{k}: {v}&quot;)</code></pre>
+<pre><code>#&gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&gt; NumPy: 1.15.4
+#&gt; Numba: 0.40.0
+#&gt; CuPy: 5.0.0
+#&gt; Pandas: 0.23.4</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;%
+  str_trim() %&gt;%
+  as_tibble() %&gt;%
+  slice(2:3) %&gt;%
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;%
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;%
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
+  knitr::kable(format = &quot;html&quot;) %&gt;%
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Dec. 5). Advent of Code 2018. Retrieved from https://knapply.com/post/advent-of-code-2018/</code></pre>
+<pre class="citation"><code>@misc{advent-of-code-2018,
+  author = {Knapp, Brendan},
+  title  = {Advent of Code 2018},
+  url    = {https://knapply.com/post/advent-of-code-2018/},
+  year   = 2018,
+  month  = Dec,
+  day    = 5,
+}</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/statistics/">statistics</a>
+  
+  <a class="badge badge-light" href="/tags/bayes/">bayes</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/logo.png" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/statistical-rethinking/">Statistical Rethinking: Notes and Practice Question Answers</a></li>
+        
+        <li><a href="/post/linear-algebra/">Linear Algebra</a></li>
+        
+        <li><a href="/post/variance-and-standard-deviation/">Variance and Standard Deviation</a></li>
+        
+        <li><a href="/post/mode/">Mode</a></li>
+        
+        <li><a href="/post/mean/">Mean</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
+  
+
+  <p class="powered-by">
+    &copy; 2018 Brendan Knapp &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.83b2a65cc1ca1f6c27c3f6943cbc37b88095532149bd65090e1ace0fafa090299c14cc980ebb55fed8a2b67507f355d0ff8f2e7beb5d5b7cd5903f53c74df423.js" integrity="sha512-g7KmXMHKH2wnw/aUPLw3uICVUyFJvWUJDhrOD6&#43;gkCmcFMyYDrtV/tiitnUH81XQ/48ue&#43;tdW3zVkD9Tx030Iw=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+

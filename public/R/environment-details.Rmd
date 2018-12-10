@@ -23,7 +23,7 @@ sessionInfo()
 
 
 <details>
-<summary> C++ </summary>
+<summary> Rcpp </summary>
 <p>
 
 ```{r}
@@ -37,6 +37,18 @@ if (R.version["minor"] == "6.0") {
 </p>
 </details>
 
+
+<details>
+<summary> C++ </summary>
+<p>
+
+```{bash}
+gcc-8 --version
+```
+
+
+</p>
+</details>
 
 <details>
 <summary> Python </summary>

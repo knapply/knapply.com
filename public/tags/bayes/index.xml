@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>bayes on knapply()</title>
+    <link>/tags/bayes/</link>
+    <description>Recent content in bayes on knapply()</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
+    <lastBuildDate>Wed, 05 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/bayes/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Statistical Rethinking: Notes and Practice Question Answers</title>
+      <link>/post/statistical-rethinking/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/statistical-rethinking/</guid>
+      <description>VariablesBayes’ RuleBayesian InferenceChapter 2: Small Worlds and Large WorldsGrid ApproximationPracticeEnvironmentlibrary(tidyverse)Variables\(H\): hypothesis\(P\) (or \(Pr\)): probability_\(P(A|B)\): conditional probability of event \(A\) given event \(B\)Bayes’ Rule\[P(H|E) = \frac{ P(E|H) \cdot P(H) } { P(E) } = \frac{ P(E|H) } { P(E) } \cdot P(H)\]
+\(P(H|E)\): posterior probability\(P\)robability of the \(H\)ypothesis given the \(E\)videncei.</description>
+    </item>
+    
+  </channel>
+</rss>

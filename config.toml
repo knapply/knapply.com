@@ -111,7 +111,7 @@ enableGitInfo = true
 
   # Font style.
   #   Choose from `default`, `classic`, or `playfair`.
-  font = "classic"
+  font = "default"
 
   # Description for social sharing and search engines. If undefined, author role is used in place.
   description = ""
@@ -326,10 +326,10 @@ enableGitInfo = true
   
 # Link to a PDF of your resume/CV from the menu.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
-[[menu.main]]
-   name = "Résumé"
-   url = "files/cv.pdf"
-   weight = 7
+# [[menu.main]]
+#    name = "Résumé"
+#    url = "files/cv.pdf"
+#    weight = 7
    
 [[menu.main]]
   name = "Tags"

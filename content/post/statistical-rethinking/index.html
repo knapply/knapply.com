@@ -1,0 +1,680 @@
+---
+title: "Statistical Rethinking: Notes and Practice Question Answers"
+draft: true
+author: Brendan Knapp
+date: '2018-12-05'
+slug: index
+categories:
+  - data-science-notes
+tags:
+  - statistics
+  - bayes
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: "Notes and answers to practice questions from Richard McElreath's _Statistical Rethinking: A Bayesian Course with Examples in R and Stan_."
+output:
+  # html_document:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+citation_url: https://knapply.com/post/statistical-rethinking/
+editor_options: 
+  chunk_output_type: console
+---
+
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#variables">Variables</a></li>
+<li><a href="#bayes-rule">Bayes’ Rule</a></li>
+<li><a href="#bayesian-inference">Bayesian Inference</a></li>
+<li><a href="#chapter-2-small-worlds-and-large-worlds">Chapter 2: Small Worlds and Large Worlds</a><ul>
+<li><a href="#grid-approximation">Grid Approximation</a></li>
+<li><a href="#practice">Practice</a></li>
+</ul></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<div id="variables" class="section level1">
+<h1>Variables</h1>
+<ul>
+<li><span class="math inline">\(H\)</span>: <strong>hypothesis</strong></li>
+<li><span class="math inline">\(P\)</span> (or <span class="math inline">\(Pr\)</span>): <strong>probability</strong>_</li>
+<li><span class="math inline">\(P(A|B)\)</span>: <strong>conditional probability</strong> of event <span class="math inline">\(A\)</span> given event <span class="math inline">\(B\)</span></li>
+</ul>
+</div>
+<div id="bayes-rule" class="section level1">
+<h1>Bayes’ Rule</h1>
+<p><span class="math display">\[P(H|E) = \frac{ P(E|H) \cdot P(H) } { P(E) } = \frac{ P(E|H) } { P(E) } \cdot P(H)\]</span></p>
+<ul>
+<li><span class="math inline">\(P(H|E)\)</span>: <strong>posterior probability</strong>
+<ul>
+<li><span class="math inline">\(P\)</span>robability of the <span class="math inline">\(H\)</span>ypothesis given the <span class="math inline">\(E\)</span>vidence
+<ul>
+<li>i.e. after <span class="math inline">\(E\)</span> is observed</li>
+</ul></li>
+<li>What we want to know: How probable is our hypothesis <em>given</em> the observed evidence?</li>
+</ul></li>
+<li><span class="math inline">\(P(H)\)</span>: <strong>prior</strong>
+<ul>
+<li>How probable was our hypothesis <em>before</em> observing the evidence?</li>
+<li><span class="math inline">\(P\)</span>robability of the <span class="math inline">\(H\)</span>ypothesis being true, before gathering <span class="math inline">\(e\)</span>vidence</li>
+</ul></li>
+<li><span class="math inline">\(P(E|H)\)</span>: <strong>likelihood</strong>
+<ul>
+<li>How probable is observing the <span class="math inline">\(E\)</span>vidence, given the <span class="math inline">\(H\)</span>ypothesis is true?</li>
+</ul></li>
+<li><span class="math inline">\(P(E)\)</span>: <strong>marginal likelihood</strong>
+<ul>
+<li>the (mean) <span class="math inline">\(P\)</span>robability of the <span class="math inline">\(E\)</span>vidence across all possible hypotheses</li>
+<li>“model evidence”</li>
+</ul></li>
+</ul>
+</div>
+<div id="bayesian-inference" class="section level1">
+<h1>Bayesian Inference</h1>
+<p><span class="math inline">\(p\)</span>: parameter
+<span class="math inline">\(x\)</span>: data point or vector of values
+<span class="math inline">\(\theta\)</span>: parameter of data point’s distribution
++ <span class="math inline">\(x \sim p(x|\theta)\)</span></p>
+</div>
+<div id="chapter-2-small-worlds-and-large-worlds" class="section level1">
+<h1>Chapter 2: Small Worlds and Large Worlds</h1>
+<p><strong>2.3 Components of the model</strong></p>
+<p><span class="math display">\[ Pr(w|n, p) = \frac{n!}{w!(n-2)!}p^w(1-p)^{n-w}\]</span>
+<span class="math display">\[n_{water~observations} = \frac{all~combinations}{}\]</span></p>
+<div id="grid-approximation" class="section level2">
+<h2>Grid Approximation</h2>
+<ol style="list-style-type: decimal">
+<li>Define the grid
+<ul>
+<li>How many points to use in estimating posterior?</li>
+<li>List parameter values on the grid.</li>
+</ul></li>
+</ol>
+<pre class="r"><code>(p_grid &lt;- seq(from = 0, to = 1, length.out = 20))</code></pre>
+<pre><code>#&gt;  [1] 0.00000000 0.05263158 0.10526316 0.15789474 0.21052632 0.26315789
+#&gt;  [7] 0.31578947 0.36842105 0.42105263 0.47368421 0.52631579 0.57894737
+#&gt; [13] 0.63157895 0.68421053 0.73684211 0.78947368 0.84210526 0.89473684
+#&gt; [19] 0.94736842 1.00000000</code></pre>
+<ol start="2" style="list-style-type: decimal">
+<li>Find prior’s value at each parameter value on the grid.</li>
+</ol>
+<pre class="r"><code>(prior &lt;- rep(x = 1, times = 20))</code></pre>
+<pre><code>#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Find likelihood at each parameter value.</li>
+</ol>
+<pre class="r"><code>(likelihood &lt;- dbinom(x = 6, size = 9, prob = p_grid))</code></pre>
+<pre><code>#&gt;  [1] 0.000000e+00 1.518149e-06 8.185093e-05 7.772923e-04 3.598575e-03
+#&gt;  [6] 1.116095e-02 2.668299e-02 5.292110e-02 9.082698e-02 1.383413e-01
+#&gt; [11] 1.897686e-01 2.361147e-01 2.666113e-01 2.714006e-01 2.450051e-01
+#&gt; [16] 1.897686e-01 1.179181e-01 5.026670e-02 8.853845e-03 0.000000e+00</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Find unstandardized posterior at each parameter value…
+<ul>
+<li><span class="math inline">\(posterior_{unstandardized} = prior \times likelihood\)</span></li>
+</ul></li>
+</ol>
+<pre class="r"><code>(unstandardized_posterior &lt;- prior * likelihood)</code></pre>
+<pre><code>#&gt;  [1] 0.000000e+00 1.518149e-06 8.185093e-05 7.772923e-04 3.598575e-03
+#&gt;  [6] 1.116095e-02 2.668299e-02 5.292110e-02 9.082698e-02 1.383413e-01
+#&gt; [11] 1.897686e-01 2.361147e-01 2.666113e-01 2.714006e-01 2.450051e-01
+#&gt; [16] 1.897686e-01 1.179181e-01 5.026670e-02 8.853845e-03 0.000000e+00</code></pre>
+<ol start="5" style="list-style-type: decimal">
+<li>Standardize posterior by dividing each value by sum of all values
+<ul>
+<li><span class="math inline">\(posterior_{standardized} = \frac{posterior_{unstandardized}}{\sum{posterior_{unstandardized}}}\)</span></li>
+</ul></li>
+</ol>
+<pre class="r"><code>( posterior &lt;- unstandardized_posterior / sum(unstandardized_posterior) )</code></pre>
+<pre><code>#&gt;  [1] 0.000000e+00 7.989837e-07 4.307717e-05 4.090797e-04 1.893887e-03
+#&gt;  [6] 5.873873e-03 1.404294e-02 2.785174e-02 4.780115e-02 7.280739e-02
+#&gt; [11] 9.987296e-02 1.242643e-01 1.403143e-01 1.428349e-01 1.289433e-01
+#&gt; [16] 9.987296e-02 6.205890e-02 2.645477e-02 4.659673e-03 0.000000e+00</code></pre>
+<pre class="r"><code>plot(p_grid, posterior, type = &quot;b&quot;, xlab = &quot;probability of water&quot;, ylab = &quot;posterior probability&quot;)</code></pre>
+<p><img src="/post/statistical-rethinking/index_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<pre class="r"><code>grid_df &lt;- tibble(p_grid = p_grid, 
+       likelihood = likelihood,
+       unstandardized_posterior = unstandardized_posterior,
+       posterior = posterior
+       ) 
+grid_df %&gt;% 
+  knitr::kable(format = &quot;html&quot;, escape = FALSE) %&gt;% 
+  kableExtra::kable_styling(position = &quot;center&quot;) %&gt;% 
+  kableExtra::row_spec(0:nrow(grid_df), align = &quot;center&quot;)</code></pre>
+<table class="table" style="margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:right;text-align: center;">
+p_grid
+</th>
+<th style="text-align:right;text-align: center;">
+likelihood
+</th>
+<th style="text-align:right;text-align: center;">
+unstandardized_posterior
+</th>
+<th style="text-align:right;text-align: center;">
+posterior
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.0526316
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000015
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000015
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000008
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.1052632
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000819
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000819
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000431
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.1578947
+</td>
+<td style="text-align:right;text-align: center;">
+0.0007773
+</td>
+<td style="text-align:right;text-align: center;">
+0.0007773
+</td>
+<td style="text-align:right;text-align: center;">
+0.0004091
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.2105263
+</td>
+<td style="text-align:right;text-align: center;">
+0.0035986
+</td>
+<td style="text-align:right;text-align: center;">
+0.0035986
+</td>
+<td style="text-align:right;text-align: center;">
+0.0018939
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.2631579
+</td>
+<td style="text-align:right;text-align: center;">
+0.0111609
+</td>
+<td style="text-align:right;text-align: center;">
+0.0111609
+</td>
+<td style="text-align:right;text-align: center;">
+0.0058739
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.3157895
+</td>
+<td style="text-align:right;text-align: center;">
+0.0266830
+</td>
+<td style="text-align:right;text-align: center;">
+0.0266830
+</td>
+<td style="text-align:right;text-align: center;">
+0.0140429
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.3684211
+</td>
+<td style="text-align:right;text-align: center;">
+0.0529211
+</td>
+<td style="text-align:right;text-align: center;">
+0.0529211
+</td>
+<td style="text-align:right;text-align: center;">
+0.0278517
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.4210526
+</td>
+<td style="text-align:right;text-align: center;">
+0.0908270
+</td>
+<td style="text-align:right;text-align: center;">
+0.0908270
+</td>
+<td style="text-align:right;text-align: center;">
+0.0478012
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.4736842
+</td>
+<td style="text-align:right;text-align: center;">
+0.1383413
+</td>
+<td style="text-align:right;text-align: center;">
+0.1383413
+</td>
+<td style="text-align:right;text-align: center;">
+0.0728074
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.5263158
+</td>
+<td style="text-align:right;text-align: center;">
+0.1897686
+</td>
+<td style="text-align:right;text-align: center;">
+0.1897686
+</td>
+<td style="text-align:right;text-align: center;">
+0.0998730
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.5789474
+</td>
+<td style="text-align:right;text-align: center;">
+0.2361147
+</td>
+<td style="text-align:right;text-align: center;">
+0.2361147
+</td>
+<td style="text-align:right;text-align: center;">
+0.1242643
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.6315789
+</td>
+<td style="text-align:right;text-align: center;">
+0.2666113
+</td>
+<td style="text-align:right;text-align: center;">
+0.2666113
+</td>
+<td style="text-align:right;text-align: center;">
+0.1403143
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.6842105
+</td>
+<td style="text-align:right;text-align: center;">
+0.2714006
+</td>
+<td style="text-align:right;text-align: center;">
+0.2714006
+</td>
+<td style="text-align:right;text-align: center;">
+0.1428349
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.7368421
+</td>
+<td style="text-align:right;text-align: center;">
+0.2450051
+</td>
+<td style="text-align:right;text-align: center;">
+0.2450051
+</td>
+<td style="text-align:right;text-align: center;">
+0.1289433
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.7894737
+</td>
+<td style="text-align:right;text-align: center;">
+0.1897686
+</td>
+<td style="text-align:right;text-align: center;">
+0.1897686
+</td>
+<td style="text-align:right;text-align: center;">
+0.0998730
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.8421053
+</td>
+<td style="text-align:right;text-align: center;">
+0.1179181
+</td>
+<td style="text-align:right;text-align: center;">
+0.1179181
+</td>
+<td style="text-align:right;text-align: center;">
+0.0620589
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.8947368
+</td>
+<td style="text-align:right;text-align: center;">
+0.0502667
+</td>
+<td style="text-align:right;text-align: center;">
+0.0502667
+</td>
+<td style="text-align:right;text-align: center;">
+0.0264548
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+0.9473684
+</td>
+<td style="text-align:right;text-align: center;">
+0.0088538
+</td>
+<td style="text-align:right;text-align: center;">
+0.0088538
+</td>
+<td style="text-align:right;text-align: center;">
+0.0046597
+</td>
+</tr>
+<tr>
+<td style="text-align:right;text-align: center;">
+1.0000000
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+<td style="text-align:right;text-align: center;">
+0.0000000
+</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>plot_grid &lt;- function(...) {
+  dots &lt;- list(...)
+  df &lt;- data.frame(dots, stringsAsFactors = FALSE)
+  col_names &lt;- names(df)
+  df %&gt;% 
+    ggplot(aes_string(x = col_names[[1]], y = col_names[[2]])) +
+    geom_line(color = &quot;dark gray&quot;) +
+    geom_point() +
+    theme_minimal()
+}
+
+plot_grid(`probability of water` = p_grid, `posterior probability` = posterior)</code></pre>
+<p><img src="/post/statistical-rethinking/index_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+</div>
+<div id="practice" class="section level2">
+<h2>Practice</h2>
+<p><strong>2E1.</strong> Which of the expressions below correspond the the statement: <em>the probability of rain on Monday</em>?</p>
+<ol style="list-style-type: decimal">
+<li>Pr(rain)</li>
+<li><strong>Pr(rain|Monday)</strong></li>
+<li>Pr(Monday|rain)</li>
+<li>Pr(rain, Monday)/Pr(Monday)</li>
+</ol>
+<p><strong>2E2.</strong> Which of the following statements correspond to the expression: Pr(Monday|rain)?</p>
+<ol style="list-style-type: decimal">
+<li>The probability of rain on Monday.</li>
+<li>The probability of rain, given that is is Monday.</li>
+<li><strong>The probability that it is Monday, given that it is raining.</strong></li>
+<li>The probability that it is Monday and that it is raining.</li>
+</ol>
+<p><strong>2E3.</strong> Which of the expressions below correspond to the statement: <em>the probability that it is Monday, given that it is raining</em>?</p>
+<ol style="list-style-type: decimal">
+<li><strong>Pr(Monday|rain)</strong></li>
+<li>Pr(rain|Monday)</li>
+<li>Pr(rain|Monday)Pr(Monday)</li>
+<li>Pr(rain|Monday)Pr(Monday)/Pr(rain)</li>
+<li>Pr(Monday|rain)Pr(rain)/Pr(Monday)</li>
+</ol>
+<p><strong>2E4.</strong></p>
+<p><strong>2M1.</strong> Recall the globe tossing model from the chapter. Compute and plot the grid approximate posterior distribution for each of the following sets of observations. In each case, assume a uniform prior for <span class="math inline">\(p\)</span>.</p>
+<pre class="r"><code>(p_grid &lt;- seq(from = 0, to = 1, length.out = 20))</code></pre>
+<pre><code>#&gt;  [1] 0.00000000 0.05263158 0.10526316 0.15789474 0.21052632 0.26315789
+#&gt;  [7] 0.31578947 0.36842105 0.42105263 0.47368421 0.52631579 0.57894737
+#&gt; [13] 0.63157895 0.68421053 0.73684211 0.78947368 0.84210526 0.89473684
+#&gt; [19] 0.94736842 1.00000000</code></pre>
+<pre class="r"><code>(prior &lt;- rep(x = 1, times = 20))</code></pre>
+<pre><code>#&gt;  [1] 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1</code></pre>
+<pre class="r"><code>(likelihood &lt;- dbinom(x = 6, size = 9, prob = p_grid))</code></pre>
+<pre><code>#&gt;  [1] 0.000000e+00 1.518149e-06 8.185093e-05 7.772923e-04 3.598575e-03
+#&gt;  [6] 1.116095e-02 2.668299e-02 5.292110e-02 9.082698e-02 1.383413e-01
+#&gt; [11] 1.897686e-01 2.361147e-01 2.666113e-01 2.714006e-01 2.450051e-01
+#&gt; [16] 1.897686e-01 1.179181e-01 5.026670e-02 8.853845e-03 0.000000e+00</code></pre>
+<pre class="r"><code>(unstandardized_posterior &lt;- prior * likelihood)</code></pre>
+<pre><code>#&gt;  [1] 0.000000e+00 1.518149e-06 8.185093e-05 7.772923e-04 3.598575e-03
+#&gt;  [6] 1.116095e-02 2.668299e-02 5.292110e-02 9.082698e-02 1.383413e-01
+#&gt; [11] 1.897686e-01 2.361147e-01 2.666113e-01 2.714006e-01 2.450051e-01
+#&gt; [16] 1.897686e-01 1.179181e-01 5.026670e-02 8.853845e-03 0.000000e+00</code></pre>
+<pre class="r"><code>( posterior &lt;- unstandardized_posterior / sum(unstandardized_posterior) )</code></pre>
+<pre><code>#&gt;  [1] 0.000000e+00 7.989837e-07 4.307717e-05 4.090797e-04 1.893887e-03
+#&gt;  [6] 5.873873e-03 1.404294e-02 2.785174e-02 4.780115e-02 7.280739e-02
+#&gt; [11] 9.987296e-02 1.242643e-01 1.403143e-01 1.428349e-01 1.289433e-01
+#&gt; [16] 9.987296e-02 6.205890e-02 2.645477e-02 4.659673e-03 0.000000e+00</code></pre>
+</div>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.5.1 (2018-07-02)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252 
+#&gt; [2] LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252
+#&gt; [4] LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt; [1] forcats_0.3.0        stringr_1.3.1.9000   dplyr_0.7.99.9000   
+#&gt; [4] purrr_0.2.4.9000     readr_1.1.1          tidyr_0.8.1.9000    
+#&gt; [7] tibble_1.4.2         ggplot2_3.1.0.9000   tidyverse_1.2.1.9000
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] Rcpp_1.0.0            cellranger_1.1.0      pillar_1.3.0.9001    
+#&gt;  [4] compiler_3.5.1        plyr_1.8.4            tools_3.5.1          
+#&gt;  [7] htmldeps_0.1.1        digest_0.6.18         viridisLite_0.3.0    
+#&gt; [10] lubridate_1.7.4       jsonlite_1.5          evaluate_0.12        
+#&gt; [13] gtable_0.2.0          pkgconfig_2.0.2       rlang_0.3.0.9001     
+#&gt; [16] cli_1.0.1             rstudioapi_0.8.0.9000 yaml_2.2.0           
+#&gt; [19] blogdown_0.9.1        haven_1.1.2.9000      xfun_0.4             
+#&gt; [22] kableExtra_0.9.0      withr_2.1.2.9000      xml2_1.2.0           
+#&gt; [25] httr_1.3.1            knitr_1.20.21         hms_0.4.2            
+#&gt; [28] generics_0.0.1.9000   rprojroot_1.3-2       grid_3.5.1           
+#&gt; [31] tidyselect_0.2.5      here_0.1              glue_1.3.0           
+#&gt; [34] R6_2.3.0              readxl_1.1.0          rmarkdown_1.10.14    
+#&gt; [37] bookdown_0.7.21       modelr_0.1.2          magrittr_1.5         
+#&gt; [40] backports_1.1.2       scales_1.0.0.9000     htmltools_0.3.6      
+#&gt; [43] rvest_0.3.2           assertthat_0.2.0      colorspace_1.3-2     
+#&gt; [46] labeling_0.3          stringi_1.2.4         lazyeval_0.2.1       
+#&gt; [49] munsell_0.5.0         broom_0.5.0.9001      crayon_1.3.4</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="r"><code>if (R.version[&quot;minor&quot;] == &quot;6.0&quot;) {
+  &quot;GCC 8.2.0&quot;
+  } else {
+  system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
+  }</code></pre>
+<pre><code>#&gt; [1] &quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &quot;Python&quot;: sys.version,
+  &quot;NumPy&quot;: numpy.__version__,
+  &quot;Numba&quot;: numba.__version__,
+  &quot;CuPy&quot;: cupy.__version__,
+  &quot;Pandas&quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&quot;{k}: {v}&quot;)</code></pre>
+<pre><code>#&gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&gt; NumPy: 1.15.4
+#&gt; Numba: 0.40.0
+#&gt; CuPy: 5.0.0
+#&gt; Pandas: 0.23.4</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;%
+  str_trim() %&gt;%
+  as_tibble() %&gt;%
+  slice(2:3) %&gt;%
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;%
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;%
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
+  knitr::kable(format = &quot;html&quot;) %&gt;%
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Dec. 5). Statistical Rethinking: Notes and Practice Question Answers. Retrieved from https://knapply.com/post/statistical-rethinking/</code></pre>
+<pre class="citation"><code>@misc{statistical-rethinking:-notes-and-practice-question-answers,
+  author = {Knapp, Brendan},
+  title  = {Statistical Rethinking: Notes and Practice Question Answers},
+  url    = {https://knapply.com/post/statistical-rethinking/},
+  year   = 2018,
+  month  = Dec,
+  day    = 5,
+}</code></pre>
+</div>

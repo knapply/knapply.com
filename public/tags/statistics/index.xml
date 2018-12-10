@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
-    <lastBuildDate>Sun, 02 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/statistics/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Statistical Rethinking: Notes and Practice Question Answers</title>
+      <link>/post/statistical-rethinking/</link>
+      <pubDate>Wed, 05 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/statistical-rethinking/</guid>
+      <description>VariablesBayes’ RuleBayesian InferenceChapter 2: Small Worlds and Large WorldsGrid ApproximationPracticeEnvironmentlibrary(tidyverse)Variables\(H\): hypothesis\(P\) (or \(Pr\)): probability_\(P(A|B)\): conditional probability of event \(A\) given event \(B\)Bayes’ Rule\[P(H|E) = \frac{ P(E|H) \cdot P(H) } { P(E) } = \frac{ P(E|H) } { P(E) } \cdot P(H)\]
+\(P(H|E)\): posterior probability\(P\)robability of the \(H\)ypothesis given the \(E\)videncei.</description>
+    </item>
     
     <item>
       <title>Linear Algebra</title>
@@ -18,7 +28,7 @@
       <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/linear-algebra/</guid>
-      <description>SetupRPythonScalar MultiplicationRRcppPythonMatrix-Vector MultiplicationRRcppPythonVector-Matrix MultiplicationRRcppPythonMatrix-Matrix MultiplicationRRcppPythonEnvironmentThis post was last updated on 2018-12-03.
+      <description>SetupRPythonScalar MultiplicationRRcppPythonMatrix-Vector MultiplicationRRcppPythonVector-Matrix MultiplicationRRcppPythonMatrix-Matrix MultiplicationRRcppPython\(|A|\): Determinant of a MatrixBreakdownExampleRPythonRcppEnvironmentThis post was last updated on 2018-12-10.
 Setuplibrary(reticulate)RBase Rr_mat &amp;lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),nrow = 3, ncol = 3)r_mat#&amp;gt; [,1] [,2] [,3]#&amp;gt; [1,] 1 4 7#&amp;gt; [2,] 2 5 8#&amp;gt; [3,] 3 6 9PythonNumPyimport numpy as npnp_mat = np.</description>
     </item>
     

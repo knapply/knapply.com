@@ -23,16 +23,6 @@
     </item>
     
     <item>
-      <title>Linear Algebra</title>
-      <link>/post/linear-algebra/</link>
-      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/linear-algebra/</guid>
-      <description>SetupRPythonScalar MultiplicationRRcppPythonMatrix-Vector MultiplicationRRcppPythonVector-Matrix MultiplicationRRcppPythonMatrix-Matrix MultiplicationRRcppPythonEnvironmentThis post was last updated on 2018-12-03.
-Setuplibrary(reticulate)RBase Rr_mat &amp;lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),nrow = 3, ncol = 3)r_mat#&amp;gt; [,1] [,2] [,3]#&amp;gt; [1,] 1 4 7#&amp;gt; [2,] 2 5 8#&amp;gt; [3,] 3 6 9PythonNumPyimport numpy as npnp_mat = np.</description>
-    </item>
-    
-    <item>
       <title>Mode</title>
       <link>/post/mode/</link>
       <pubDate>Fri, 23 Nov 2018 00:00:00 +0000</pubDate>

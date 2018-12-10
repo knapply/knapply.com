@@ -131,7 +131,8 @@ collapser <- "<br>"
 
 la_df <- tibble(
   ` ` = c(
-    rep("Basics", 7)
+    rep("Foundation", 6),
+    rep("Intermediate", 1)
     ),
   Topic  = c(
     build_link("Setup", "linear-algebra/#setup"),
@@ -143,10 +144,10 @@ la_df <- tibble(
                "linear-algebra/#vector-matrix-multiplication"),
     build_link("Matrix-Matrix Multiplication",
                "linear-algebra/#matrix-matrix-multiplication"),
-    build_link("Inverse and Identity",
-               "linear-algebra/#inverse-and-identity"),
     build_link("Transpose",
-               "linear-algebra/#transpose")
+               "linear-algebra/#transpose"),
+    build_link("Determinant",
+               "linear-algebra/#a-determinant-of-a-matrix")
     ),
   r_icon = c(
     build_link("<strong>R</strong>", "linear-algebra/#r"),

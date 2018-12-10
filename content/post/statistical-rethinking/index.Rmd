@@ -1,0 +1,199 @@
+---
+title: "Statistical Rethinking: Notes and Practice Question Answers"
+draft: true
+author: Brendan Knapp
+date: '2018-12-05'
+slug: index
+categories:
+  - data-science-notes
+tags:
+  - statistics
+  - bayes
+image:
+  caption: ''
+  focal_point: 'Smart'
+summary: "Notes and answers to practice questions from Richard McElreath's _Statistical Rethinking: A Bayesian Course with Examples in R and Stan_."
+output:
+  # html_document:
+  blogdown::html_page:
+    toc: true
+    toc_depth: 2
+citation_url: https://knapply.com/post/statistical-rethinking/
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(cache = FALSE, comment = "#>", message = FALSE, warning = FALSE)
+```
+
+```{r}
+library(tidyverse)
+```
+
+# Variables
+
+* $H$: __hypothesis__
+* $P$ (or $Pr$): __probability___
+* $P(A|B)$: __conditional probability__ of event $A$ given event $B$
+
+# Bayes' Rule
+
+$$P(H|E) = \frac{ P(E|H) \cdot P(H) } { P(E) } = \frac{ P(E|H) } { P(E) } \cdot P(H)$$
+
+
+* $P(H|E)$: __posterior probability__
+    + $P$robability of the $H$ypothesis given the $E$vidence
+        + i.e. after $E$ is observed
+    + What we want to know: How probable is our hypothesis _given_ the observed evidence?
+* $P(H)$: __prior__
+    + How probable was our hypothesis _before_ observing the evidence?
+    + $P$robability of the $H$ypothesis being true, before gathering $e$vidence
+* $P(E|H)$: __likelihood__
+    + How probable is observing the $E$vidence, given the $H$ypothesis is true?
+* $P(E)$: __marginal likelihood__
+    + the (mean) $P$robability of the $E$vidence across all possible hypotheses
+    + "model evidence"
+
+
+
+
+# Bayesian Inference
+
+$p$: parameter
+$x$: data point or vector of values
+$\theta$: parameter of data point's distribution 
+    + $x \sim p(x|\theta)$
+
+
+
+# Chapter 2: Small Worlds and Large Worlds
+
+__2.3 Components of the model__
+
+
+
+$$ Pr(w|n, p) = \frac{n!}{w!(n-2)!}p^w(1-p)^{n-w}$$
+$$n_{water~observations} = \frac{all~combinations}{}$$
+
+## Grid Approximation
+
+1. Define the grid
+    + How many points to use in estimating posterior?
+    + List parameter values on the grid.
+
+```{r}
+(p_grid <- seq(from = 0, to = 1, length.out = 20))
+```
+
+2. Find prior's value at each parameter value on the grid.
+
+```{r}
+(prior <- rep(x = 1, times = 20))
+```
+
+3. Find likelihood at each parameter value.
+
+```{r}
+(likelihood <- dbinom(x = 6, size = 9, prob = p_grid))
+```
+
+
+4. Find unstandardized posterior at each parameter value...
+    + $posterior_{unstandardized} = prior \times likelihood$
+    
+```{r}
+(unstandardized_posterior <- prior * likelihood)
+```
+
+5. Standardize posterior by dividing each value by sum of all values
+    + $posterior_{standardized} = \frac{posterior_{unstandardized}}{\sum{posterior_{unstandardized}}}$
+
+```{r}
+( posterior <- unstandardized_posterior / sum(unstandardized_posterior) )
+```
+
+
+```{r}
+plot(p_grid, posterior, type = "b", xlab = "probability of water", ylab = "posterior probability")
+```
+
+```{r}
+grid_df <- tibble(p_grid = p_grid, 
+       likelihood = likelihood,
+       unstandardized_posterior = unstandardized_posterior,
+       posterior = posterior
+       ) 
+grid_df %>% 
+  knitr::kable(format = "html", escape = FALSE) %>% 
+  kableExtra::kable_styling(position = "center") %>% 
+  kableExtra::row_spec(0:nrow(grid_df), align = "center")
+```
+
+
+```{r}
+plot_grid <- function(...) {
+  dots <- list(...)
+  df <- data.frame(dots, stringsAsFactors = FALSE)
+  col_names <- names(df)
+  df %>% 
+    ggplot(aes_string(x = col_names[[1]], y = col_names[[2]])) +
+    geom_line(color = "dark gray") +
+    geom_point() +
+    theme_minimal()
+}
+
+plot_grid(`probability of water` = p_grid, `posterior probability` = posterior)
+```
+
+
+
+
+
+## Practice
+
+__2E1.__ Which of the expressions below correspond the the statement: _the probability of rain on Monday_?
+
+  1. Pr(rain)
+  2. __Pr(rain|Monday)__
+  3. Pr(Monday|rain)
+  4. Pr(rain, Monday)/Pr(Monday)
+    
+
+__2E2.__ Which of the following statements correspond to the expression: Pr(Monday|rain)?
+  
+  1. The probability of rain on Monday.
+  2. The probability of rain, given that is is Monday.
+  3. __The probability that it is Monday, given that it is raining.__
+  4. The probability that it is Monday and that it is raining.
+  
+__2E3.__ Which of the expressions below correspond to the statement: _the probability that it is Monday, given that it is raining_?
+
+  1. __Pr(Monday|rain)__
+  2. Pr(rain|Monday)
+  3. Pr(rain|Monday)Pr(Monday)
+  4. Pr(rain|Monday)Pr(Monday)/Pr(rain)
+  5. Pr(Monday|rain)Pr(rain)/Pr(Monday)
+  
+__2E4.__
+  
+__2M1.__ Recall the globe tossing model from the chapter. Compute and plot the grid approximate posterior distribution for each of the following sets of observations. In each case, assume a uniform prior for $p$.
+
+```{r}
+(p_grid <- seq(from = 0, to = 1, length.out = 20))
+(prior <- rep(x = 1, times = 20))
+(likelihood <- dbinom(x = 6, size = 9, prob = p_grid))
+(unstandardized_posterior <- prior * likelihood)
+( posterior <- unstandardized_posterior / sum(unstandardized_posterior) )
+```
+
+
+
+
+
+```{r child=here::here("static/R/environment-details.Rmd")}
+```
+  
+  
+  

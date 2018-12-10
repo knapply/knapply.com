@@ -1,0 +1,15 @@
+base
+bench
+reticulate
+tidyverse
+ggplot2
+tibble
+tidyr
+readr
+purrr
+dplyr
+stringr
+forcats
+ggbeeswarm
+here
+rmarkdown
