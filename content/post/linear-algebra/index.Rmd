@@ -116,6 +116,9 @@ $$
   \color{green}2   &  \color{green}5   &  \color{green}8  \\
   \color{blue}3   &  \color{blue}6   &  \color{blue}9  \\
 \end{bmatrix}
+$$
+
+$$
   \\ \LARGE \downarrow
 $$
 
@@ -125,6 +128,9 @@ $$
   \color{green}2 \cdot 2  &  \color{green}5 \cdot 2  &  \color{green}8 \cdot 2 \\
   \color{blue}3 \cdot 2  &  \color{blue}6 \cdot 2  &  \color{blue}9 \cdot 2 \\
 \end{bmatrix}
+$$
+
+$$
   \\ \LARGE \downarrow
 $$
 
@@ -211,6 +217,9 @@ $$
   \color{green}B \\
   \color{blue}C \\
 \end{bmatrix} 
+$$
+
+$$
   \\ \LARGE \downarrow
 $$
 
@@ -235,7 +244,11 @@ $$
   \color{red}1 \\
   \color{green}2 \\
   \color{blue}3 \\
-\end{bmatrix} 
+\end{bmatrix}
+$$
+
+
+$$
   \\ \LARGE \downarrow
 $$
 
@@ -245,6 +258,9 @@ $$
   \color{red}2 \cdot \color{red}1 + \color{green}5 \cdot \color{green}2 + \color{blue}8 \cdot \color{blue}3 \\
   \color{red}3 \cdot \color{red}1 + \color{green}6 \cdot \color{green}2 + \color{blue}9 \cdot \color{blue}3 \\
 \end{bmatrix}
+$$
+
+$$
   \\ \LARGE \downarrow
 $$
 
@@ -254,6 +270,9 @@ $$
   \color{red}2 + \color{green}{10} + \color{blue}{24} \\
   \color{red}3 + \color{green}{12} + \color{blue}{27} \\
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$  
 
@@ -347,6 +366,9 @@ $$
   \color{green}d & \color{green}e &\color{green}f \\
   \color{blue}g & \color{blue}h &\color{blue}i
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -371,6 +393,9 @@ $$
   \color{green}2   &  \color{green}5   &  \color{green}8  \\
   \color{blue}3   &  \color{blue}6   &  \color{blue}9  \\
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -380,6 +405,9 @@ $$
     & \color{red}1 \cdot \color{blue}4 + \color{green}2 \cdot \color{green}5 + \color{blue}3 \cdot \color{blue}6
       & \color{red}1 \cdot \color{red}7 + \color{green}2 \cdot \color{green}8 + \color{blue}3 \cdot \color{blue}9
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -389,6 +417,9 @@ $$
     \color{red}4 + \color{green}{10} + \color{blue}{18} &
       \color{red}7 + \color{green}{16} + \color{blue}{27}
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -476,6 +507,9 @@ $$
   \color{red}d & \color{green}e & \color{blue}f \\
   \color{red}g & \color{green}h & \color{blue}i
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -505,6 +539,9 @@ $$
   \color{red}2   &  \color{green}5   &  \color{blue}8  \\
   \color{red}3   &  \color{green}6   &  \color{blue}9  \\
 \end{bmatrix}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 

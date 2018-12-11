@@ -98,6 +98,8 @@ A = \begin{bmatrix} a   &amp;amp;  b   &amp;amp;  c  \\
 &lt;p&gt;… and find their determinants.&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 |A| = \color{green}a \cdot \left| \begin{matrix} \color{red}e &amp;amp; \color{blue}f \\ \color{blue}h &amp;amp; \color{red}i \\ \end{matrix} \right| - \color{green}b \cdot \left| \begin{matrix} \color{red}d &amp;amp; \color{blue}f \\\color{blue}g &amp;amp; \color{red}h \\ \end{matrix}\right| - \color{green}c \cdot \left| \begin{matrix} \color{red}d &amp;amp; \color{blue}e \\ \color{blue}g &amp;amp; \color{red}h \\ \end{matrix}\right|
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -115,25 +117,33 @@ A = \begin{bmatrix} a   &amp;amp;  b   &amp;amp;  c  \\
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 |A| = \color{green}6 \cdot \left| \begin{matrix} \color{red}{\text{-}2} &amp;amp; \color{blue}5 \\ \color{blue}8 &amp;amp; \color{red}7 \\ \end{matrix} \right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 &amp;amp; \color{blue}5 \\\color{blue}2 &amp;amp; \color{red}7 \\ \end{matrix}\right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 &amp;amp; \color{blue}{\text{-}2} \\\color{blue}2 &amp;amp; \color{red}8 \\ \end{matrix}\right| \\
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \color{green}6(\color{red}{\text{-}2}\times \color{red}7 - \color{blue}5\times \color{blue}8) - \color{green}1(\color{red}4\times \color{red}7 - \color{blue}5\times \color{blue}2) - \color{green}1(\color{red}4\times \color{red}8 - \color{blue}{\text{-}2} \times \color{blue}2)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \color{green}6(\color{red}{\text{-}14} - \color{blue}{40}) - \color{green}1(\color{red}{28} - \color{blue}{10}) - \color{green}1(\color{red}{32} - \color{blue}{\text{-}4})
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \color{green}6\times \color{purple}{\text{-}54} - \color{green}1\times \color{purple}{18} - \color{green}1 \times \color{purple}{\text{-}36}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \text{-}324 - 18 + 36
 \\ \LARGE \downarrow
-\]&lt;/span&gt;
-&lt;span class=&#34;math display&#34;&gt;\[
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \text{-}306
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;/div&gt;
@@ -197,6 +207,8 @@ A = \begin{bmatrix} a   &amp;amp;  b   &amp;amp;  c  &amp;amp;  d  \\
   \color{green}e &amp;amp; \color{green}f &amp;amp; \color{green}g \\
   i &amp;amp; j &amp;amp; k \\
   m &amp;amp; n &amp;amp; o \end{matrix} \right|
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -281,6 +293,8 @@ A = \begin{bmatrix} a   &amp;amp;  b   &amp;amp;  c  &amp;amp;  d  \\
 \end{bmatrix}
 \end{array}
 \right)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -368,6 +382,8 @@ A = \begin{bmatrix} a   &amp;amp;  b   &amp;amp;  c  &amp;amp;  d  \\
 \end{matrix} \right|
 \end{array}
 \right)
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -1891,6 +1907,8 @@ np_mat&lt;/code&gt;&lt;/pre&gt;
   \color{green}2   &amp;amp;  \color{green}5   &amp;amp;  \color{green}8  \\
   \color{blue}3   &amp;amp;  \color{blue}6   &amp;amp;  \color{blue}9  \\
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
   \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -1899,6 +1917,8 @@ np_mat&lt;/code&gt;&lt;/pre&gt;
   \color{green}2 \cdot 2  &amp;amp;  \color{green}5 \cdot 2  &amp;amp;  \color{green}8 \cdot 2 \\
   \color{blue}3 \cdot 2  &amp;amp;  \color{blue}6 \cdot 2  &amp;amp;  \color{blue}9 \cdot 2 \\
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
   \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -1980,6 +2000,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{green}B \\
   \color{blue}C \\
 \end{bmatrix} 
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
   \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2003,7 +2025,9 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{red}1 \\
   \color{green}2 \\
   \color{blue}3 \\
-\end{bmatrix} 
+\end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
   \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2012,6 +2036,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{red}2 \cdot \color{red}1 + \color{green}5 \cdot \color{green}2 + \color{blue}8 \cdot \color{blue}3 \\
   \color{red}3 \cdot \color{red}1 + \color{green}6 \cdot \color{green}2 + \color{blue}9 \cdot \color{blue}3 \\
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
   \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2020,6 +2046,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{red}2 + \color{green}{10} + \color{blue}{24} \\
   \color{red}3 + \color{green}{12} + \color{blue}{27} \\
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2109,6 +2137,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{green}d &amp;amp; \color{green}e &amp;amp;\color{green}f \\
   \color{blue}g &amp;amp; \color{blue}h &amp;amp;\color{blue}i
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2131,6 +2161,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{green}2   &amp;amp;  \color{green}5   &amp;amp;  \color{green}8  \\
   \color{blue}3   &amp;amp;  \color{blue}6   &amp;amp;  \color{blue}9  \\
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2139,6 +2171,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
     &amp;amp; \color{red}1 \cdot \color{blue}4 + \color{green}2 \cdot \color{green}5 + \color{blue}3 \cdot \color{blue}6
       &amp;amp; \color{red}1 \cdot \color{red}7 + \color{green}2 \cdot \color{green}8 + \color{blue}3 \cdot \color{blue}9
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2147,6 +2181,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
     \color{red}4 + \color{green}{10} + \color{blue}{18} &amp;amp;
       \color{red}7 + \color{green}{16} + \color{blue}{27}
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2224,6 +2260,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{red}d &amp;amp; \color{green}e &amp;amp; \color{blue}f \\
   \color{red}g &amp;amp; \color{green}h &amp;amp; \color{blue}i
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
@@ -2251,6 +2289,8 @@ print(res)&lt;/code&gt;&lt;/pre&gt;
   \color{red}2   &amp;amp;  \color{green}5   &amp;amp;  \color{blue}8  \\
   \color{red}3   &amp;amp;  \color{green}6   &amp;amp;  \color{blue}9  \\
 \end{bmatrix}
+\]&lt;/span&gt;&lt;/p&gt;
+&lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[
 \\ \LARGE \downarrow
 \]&lt;/span&gt;&lt;/p&gt;
 &lt;p&gt;&lt;span class=&#34;math display&#34;&gt;\[

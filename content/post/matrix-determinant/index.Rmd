@@ -98,6 +98,9 @@ $$
 
 $$
 |A| = \color{green}a \cdot \left| \begin{matrix} \color{red}e & \color{blue}f \\ \color{blue}h & \color{red}i \\ \end{matrix} \right| - \color{green}b \cdot \left| \begin{matrix} \color{red}d & \color{blue}f \\\color{blue}g & \color{red}h \\ \end{matrix}\right| - \color{green}c \cdot \left| \begin{matrix} \color{red}d & \color{blue}e \\ \color{blue}g & \color{red}h \\ \end{matrix}\right|
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -118,21 +121,33 @@ $$
 
 $$
 |A| = \color{green}6 \cdot \left| \begin{matrix} \color{red}{\text{-}2} & \color{blue}5 \\ \color{blue}8 & \color{red}7 \\ \end{matrix} \right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 & \color{blue}5 \\\color{blue}2 & \color{red}7 \\ \end{matrix}\right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 & \color{blue}{\text{-}2} \\\color{blue}2 & \color{red}8 \\ \end{matrix}\right| \\
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
 $$
 \color{green}6(\color{red}{\text{-}2}\times \color{red}7 - \color{blue}5\times \color{blue}8) - \color{green}1(\color{red}4\times \color{red}7 - \color{blue}5\times \color{blue}2) - \color{green}1(\color{red}4\times \color{red}8 - \color{blue}{\text{-}2} \times \color{blue}2)
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
 $$
 \color{green}6(\color{red}{\text{-}14} - \color{blue}{40}) - \color{green}1(\color{red}{28} - \color{blue}{10}) - \color{green}1(\color{red}{32} - \color{blue}{\text{-}4})
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
 $$
 \color{green}6\times \color{purple}{\text{-}54} - \color{green}1\times \color{purple}{18} - \color{green}1 \times \color{purple}{\text{-}36}
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -140,6 +155,7 @@ $$
 \text{-}324 - 18 + 36
 \\ \LARGE \downarrow
 $$
+
 $$
 \text{-}306
 $$
@@ -207,6 +223,9 @@ $$
   \color{green}e & \color{green}f & \color{green}g \\
   i & j & k \\
   m & n & o \end{matrix} \right|
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -292,6 +311,9 @@ $$
 \end{bmatrix}
 \end{array}
 \right)
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 
@@ -380,6 +402,9 @@ $$
 \end{matrix} \right|
 \end{array}
 \right)
+$$
+
+$$
 \\ \LARGE \downarrow
 $$
 

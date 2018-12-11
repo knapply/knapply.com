@@ -124,7 +124,7 @@ style="color:<~icon_color~>; vertical-align:top; display:grid; font-size:50px; f
 ```
 
 
-# [Linear Algebra](/post/linear-algebra)
+# Linear Algebra
 
 ```{r}
 collapser <- "<br>"
