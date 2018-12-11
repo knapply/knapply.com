@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 3.0.0">
+  <meta name="generator" content="Hugo 0.50" />
+  <meta name="author" content="Brendan Knapp">
+
+  
+  
+  
+  
+    
+  
+  <meta name="description" content="Finding the determinant of a matrix.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/matrix-determinant/">
+
+  
+
+
+  
+
+  
+
+  
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha256-eSi1q2PG6J7g7ib17yAaWMcrr5GrtohYChqibrV7PBE=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css" crossorigin="anonymous">
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ==" crossorigin="anonymous">
+    
+
+    
+
+  
+
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700|Roboto:400,400italic,700|Roboto+Mono">
+  
+
+  <link rel="stylesheet" href="/styles.css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+  
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-115043043-7', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="knapply()">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="knapply()">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/matrix-determinant/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@knapply_">
+  <meta property="twitter:creator" content="@knapply_">
+  
+  <meta property="og:site_name" content="knapply()">
+  <meta property="og:url" content="/post/matrix-determinant/">
+  <meta property="og:title" content="$|A|$: Determinant of a Matrix | knapply()">
+  <meta property="og:description" content="Finding the determinant of a matrix.">
+  
+  
+    
+  <meta property="og:image" content="/img/logo.png">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-12-11T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-12-11T00:00:00&#43;00:00">
+  
+
+  
+
+  
+
+  <title>$|A|$: Determinant of a Matrix | knapply()</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
+
+<nav class="navbar navbar-light fixed-top navbar-expand-lg py-0" id="navbar-main">
+  <div class="container">
+
+    
+      <a class="navbar-brand" href="/">knapply()</a>
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+    
+    <div class="collapse navbar-collapse" id="navbar">
+
+      
+      
+      <ul class="navbar-nav ml-auto">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/data-science-notes/">
+            
+            <span>Data Science Notes</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/talk/">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link" href="/#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+      
+
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="article-header d-xl-none">
+  <img src="/post/matrix-determinant/featured_hub18f7b31c27f1473332a2fa5fc2244c5_64901_1600x400_fill_q90_box_top_2.png" class="article-banner" itemprop="image" alt="">
+  
+</div>
+
+
+<div class="container-fluid split-header d-none d-xl-block">
+  <div class="row">
+    <div class="col-6">
+      <div class="split-header-content">
+        <h1 itemprop="name">$|A|$: Determinant of a Matrix</h1>
+
+        
+
+        
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-12-11 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-12-11 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Dec 11, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/matrix-determinant/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science-notes/">data-science-notes</a>
+    
+  </span>
+  
+  
+
+  
+
+</div>
+
+
+        
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix&amp;url=%2fpost%2fmatrix-determinant%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fmatrix-determinant%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fmatrix-determinant%2f&amp;title=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fmatrix-determinant%2f&amp;title=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix&amp;body=%2fpost%2fmatrix-determinant%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+      </div>
+    </div>
+    <div class="col-6">
+      <div class="split-header-image">
+        <img src="/post/matrix-determinant/featured_hub18f7b31c27f1473332a2fa5fc2244c5_64901_680x500_fill_q90_box_top_2.png" itemprop="image" alt="">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="article-container d-xl-none">
+  <h1 itemprop="name">$|A|$: Determinant of a Matrix</h1>
+
+  
+
+  
+
+<div class="article-metadata">
+
+  
+  
+  <span itemscope itemprop="author" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+  
+
+  <span class="article-date">
+    
+    <meta content="2018-12-11 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+    <time datetime="2018-12-11 00:00:00 &#43;0000 UTC" itemprop="dateModified">
+      Dec 11, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Brendan Knapp">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    10 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="/post/matrix-determinant/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fas fa-folder"></i>
+    
+    <a href="/categories/data-science-notes/">data-science-notes</a>
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix&amp;url=%2fpost%2fmatrix-determinant%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fmatrix-determinant%2f"
+         target="_blank" rel="noopener">
+        <i class="fab fa-facebook-f"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fmatrix-determinant%2f&amp;title=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix"
+         target="_blank" rel="noopener">
+        <i class="fab fa-linkedin-in"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fmatrix-determinant%2f&amp;title=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix"
+         target="_blank" rel="noopener">
+        <i class="fab fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=%24%7cA%7c%24%3a%20Determinant%20of%20a%20Matrix&amp;body=%2fpost%2fmatrix-determinant%2f">
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style" itemprop="articleBody">
+      
+<script src="/rmarkdown-libs/kePrint/kePrint.js"></script>
+
+<div id="TOC">
+<ul>
+<li><a href="#breakdown">Breakdown</a><ul>
+<li><a href="#times-2-matrix"><span class="math inline">\(2 \times 2\)</span> Matrix</a></li>
+<li><a href="#times-3-matrix"><span class="math inline">\(3 \times 3\)</span> Matrix</a></li>
+<li><a href="#times-4-matrix-and-beyond"><span class="math inline">\(4 \times 4\)</span> Matrix (and Beyond)</a></li>
+</ul></li>
+<li><a href="#r">R</a><ul>
+<li><a href="#custom">Custom</a></li>
+<li><a href="#base-r">Base R</a></li>
+</ul></li>
+<li><a href="#python">Python</a><ul>
+<li><a href="#numpy">NumPy</a></li>
+</ul></li>
+<li><a href="#rcpp">Rcpp</a><ul>
+<li><a href="#rcpparmadillo">RcppArmadillo</a></li>
+</ul></li>
+<li><a href="#environment">Environment</a></li>
+</ul>
+</div>
+
+<blockquote>
+<p><em>This post was last updated on 2018-12-11.</em></p>
+</blockquote>
+<div id="breakdown" class="section level1">
+<h1>Breakdown</h1>
+<div id="times-2-matrix" class="section level2">
+<h2><span class="math inline">\(2 \times 2\)</span> Matrix</h2>
+<p><span class="math display">\[
+A = \begin{bmatrix}
+  a &amp; b \\
+  c &amp; d
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+\left| \begin{matrix}
+  \color{red}a &amp; &amp; &amp;  &amp; \color{blue}b \\
+  &amp;  \color{red}\nwarrow &amp; &amp;  \color{blue}\nearrow \\
+  &amp; &amp; \large\times &amp; &amp;  \\
+  &amp;  \color{blue}\swarrow &amp; &amp;  \color{red}\searrow \\
+  \color{blue}c &amp; &amp; &amp; &amp; \color{red}d \\
+\end{matrix} \right|
+\]</span></p>
+<p><span class="math display">\[
+|A| = \color{red}{ad} - \color{blue}{bc}
+\]</span></p>
+</div>
+<div id="times-3-matrix" class="section level2">
+<h2><span class="math inline">\(3 \times 3\)</span> Matrix</h2>
+<p><span class="math display">\[
+A = \begin{bmatrix} a   &amp;  b   &amp;  c  \\
+                    d   &amp;  e   &amp;  f  \\
+                    g   &amp;  h   &amp;  i  \\ \end{bmatrix}\\
+\]</span></p>
+<p>Break it into three 2 x 2 matrices…</p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  \color{green}{\Large{\textbf{a}}} &amp; \scriptsize{\color{gray}b} &amp; \scriptsize{\color{gray}c} \\
+  \scriptsize{\color{gray}d} &amp; \color{red}e &amp; \color{blue}f \\
+  \scriptsize{\color{gray}g} &amp; \color{blue}h &amp; \color{red}i
+\end{bmatrix}
+\LARGE{-}
+\normalsize
+\begin{bmatrix}
+  \scriptsize{\color{gray}a} &amp; \color{green}{\Large{\textbf{b}}} &amp; \scriptsize{\color{gray}c} \\
+  \color{red}d &amp; \scriptsize{\color{gray}e} &amp; \color{blue}f \\
+  \color{blue}g &amp; \scriptsize{\color{gray}h} &amp; \color{red}i
+\end{bmatrix}
+\LARGE+
+\normalsize
+\begin{bmatrix}
+  \scriptsize{\color{gray}a} &amp; \scriptsize{\color{gray}b} &amp; \color{green}{\Large{\textbf{c}}} \\
+  \color{red}d &amp; \color{blue}e &amp; \scriptsize{\color{gray}f} \\
+  \color{blue}g &amp; \color{red}h &amp; \scriptsize{\color{gray}i}
+\end{bmatrix}
+\]</span></p>
+<p>… and find their determinants.</p>
+<p><span class="math display">\[
+|A| = \color{green}a \cdot \left| \begin{matrix} \color{red}e &amp; \color{blue}f \\ \color{blue}h &amp; \color{red}i \\ \end{matrix} \right| - \color{green}b \cdot \left| \begin{matrix} \color{red}d &amp; \color{blue}f \\\color{blue}g &amp; \color{red}h \\ \end{matrix}\right| - \color{green}c \cdot \left| \begin{matrix} \color{red}d &amp; \color{blue}e \\ \color{blue}g &amp; \color{red}h \\ \end{matrix}\right|
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\color{green}a(\color{red}{ei} - \color{blue}{fh}) - \color{green}b(\color{red}{dh} - \color{blue}{fg}) - \color{green}c(\color{red}{dh} - \color{blue}{eg})
+\]</span></p>
+<div id="example" class="section level3">
+<h3>Example</h3>
+<p><span class="math display">\[
+  A = 
+\begin{bmatrix}
+  6   &amp;   1   &amp;  1  \\
+  4   &amp;  \text{-}2   &amp;  5  \\
+  2   &amp;   8   &amp;  7  \\
+\end{bmatrix}
+\]</span></p>
+<p><span class="math display">\[
+|A| = \color{green}6 \cdot \left| \begin{matrix} \color{red}{\text{-}2} &amp; \color{blue}5 \\ \color{blue}8 &amp; \color{red}7 \\ \end{matrix} \right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 &amp; \color{blue}5 \\\color{blue}2 &amp; \color{red}7 \\ \end{matrix}\right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 &amp; \color{blue}{\text{-}2} \\\color{blue}2 &amp; \color{red}8 \\ \end{matrix}\right| \\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\color{green}6(\color{red}{\text{-}2}\times \color{red}7 - \color{blue}5\times \color{blue}8) - \color{green}1(\color{red}4\times \color{red}7 - \color{blue}5\times \color{blue}2) - \color{green}1(\color{red}4\times \color{red}8 - \color{blue}{\text{-}2} \times \color{blue}2)
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\color{green}6(\color{red}{\text{-}14} - \color{blue}{40}) - \color{green}1(\color{red}{28} - \color{blue}{10}) - \color{green}1(\color{red}{32} - \color{blue}{\text{-}4})
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\color{green}6\times \color{purple}{\text{-}54} - \color{green}1\times \color{purple}{18} - \color{green}1 \times \color{purple}{\text{-}36}
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\text{-}324 - 18 + 36
+\\ \LARGE \downarrow
+\]</span>
+<span class="math display">\[
+\text{-}306
+\]</span></p>
+</div>
+</div>
+<div id="times-4-matrix-and-beyond" class="section level2">
+<h2><span class="math inline">\(4 \times 4\)</span> Matrix (and Beyond)</h2>
+<p><span class="math display">\[
+A = \begin{bmatrix} a   &amp;  b   &amp;  c  &amp;  d  \\
+                    e   &amp;  f   &amp;  g  &amp;  h  \\
+                    i   &amp;  j   &amp;  k  &amp;  l  \\
+                    m   &amp;  n   &amp;  o  &amp;  p  \\
+    \end{bmatrix}\\
+\]</span></p>
+<p>Break it into four <span class="math inline">\(3 \times 3\)</span> matrices…</p>
+<p><span class="math display">\[
+\small
+\begin{bmatrix} 
+  \color{darkorange}{\textbf{a}} &amp; \tiny{\color{lightgray}b} &amp; \tiny{\color{lightgray}c} &amp; \tiny{\color{lightgray}d}  \\
+  \tiny{\color{lightgray}e}   &amp;  \color{green}f   &amp;  \color{green}g  &amp;  \color{green}h  \\
+  \tiny{\color{lightgray}i}   &amp;  j   &amp;  k  &amp;  l  \\
+  \tiny{\color{lightgray}m}   &amp;  n   &amp;  o  &amp;  p  \\
+\end{bmatrix}
+~~
+\begin{bmatrix} 
+  \tiny{\color{lightgray}a} &amp; \color{darkorange}{\textbf{b}} &amp; \tiny{\color{lightgray}c} &amp; \tiny{\color{lightgray}d}  \\
+  \color{green}e   &amp;  \tiny{\color{lightgray}f}   &amp;  \color{green}g  &amp;  \color{green}h  \\
+  i   &amp;  \tiny{\color{lightgray}j}  &amp;  k  &amp;  l  \\
+  m   &amp;  \tiny{\color{lightgray}n}   &amp;  o  &amp;  p  \\
+\end{bmatrix}
+~~
+\begin{bmatrix} 
+  \tiny{\color{lightgray}a} &amp; \tiny{\color{lightgray}b} &amp; \color{darkorange}{\textbf{c}}  &amp; \tiny{\color{lightgray}d}  \\
+  \color{green}e   &amp;  \color{green}f  &amp; \tiny{\color{lightgray}g}  &amp;  \color{green}h  \\
+  i   &amp;  j  &amp; \tiny{\color{lightgray}k}  &amp;  l  \\
+  m   &amp;  n  &amp; \tiny{\color{lightgray}o}  &amp;  p  \\
+\end{bmatrix}
+~~
+\begin{bmatrix} 
+  \tiny{\color{lightgray}a} &amp; \tiny{\color{lightgray}b} &amp; \tiny{\color{lightgray}c} &amp; \color{darkorange}{\textbf{d}}  \\
+  \color{green}e   &amp;  \color{green}f  &amp;  \color{green}g &amp; \tiny{\color{lightgray}h} \\
+  i   &amp;  j  &amp;  k &amp; \tiny{\color{lightgray}l} \\
+  m   &amp;  n  &amp;  o  &amp;  \tiny{\color{lightgray}p}
+\end{bmatrix}
+\]</span></p>
+<p>… then break those into twelve <span class="math inline">\(2 \times 2\)</span> matrices, recursively finding their determinants (minors).</p>
+<p><span class="math display">\[
+\small
+|A| = \color{darkorange}a \cdot \left| \begin{matrix} 
+  \color{green}f &amp; \color{green}g &amp; \color{green}h \\
+  j &amp; k &amp; l \\
+  n &amp; o &amp; p \end{matrix} \right| -
+\color{darkorange}b \cdot \left| \begin{matrix} 
+  \color{green}e &amp; \color{green}g &amp; \color{green}h \\
+  i &amp; k &amp; l \\
+  m &amp; o &amp; p \end{matrix} \right| +
+\color{darkorange}c \cdot \left| \begin{matrix} 
+  \color{green}e &amp; \color{green}f &amp; \color{green}h \\
+  i &amp; j &amp; l \\
+  m &amp; n &amp; p \end{matrix} \right| -
+\color{darkorange}d \cdot \left| \begin{matrix} 
+  \color{green}e &amp; \color{green}f &amp; \color{green}g \\
+  i &amp; j &amp; k \\
+  m &amp; n &amp; o \end{matrix} \right|
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\scriptsize
+\color{darkorange}a \cdot 
+\left(
+\begin{array}{cc}
+\begin{bmatrix}
+\color{green}f &amp; \tiny{\color{lightgray}g} &amp; \tiny{\color{lightgray}h} \\
+\tiny{\color{lightgray}j} &amp; \color{red}k &amp; \color{blue}l \\
+\tiny{\color{lightgray}n} &amp; \color{blue}o &amp; \color{red}p \\
+\end{bmatrix} \\ - \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}f} &amp; \color{green}g  &amp; \tiny{\color{lightgray}h} \\
+  \color{red}j &amp; \tiny{\color{lightgray}k} &amp; \color{blue}l \\
+  \color{blue}n &amp; \tiny{\color{lightgray}o} &amp; \color{red}p \\
+\end{bmatrix} \\ + \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}g}  &amp; \color{green}h \\
+  \color{red}j &amp; \tiny{\color{lightgray}k} &amp; \color{blue}l \\
+  \color{blue}n &amp; \tiny{\color{lightgray}o} &amp; \color{red}p \\
+\end{bmatrix}
+\end{array}
+\right) -
+\color{darkorange}b \cdot 
+\left(
+\begin{array}{cc}
+\begin{bmatrix}
+\color{green}e &amp; \tiny{\color{lightgray}g} &amp; \tiny{\color{lightgray}h} \\
+\tiny{\color{lightgray}i} &amp; \color{red}k &amp; \color{blue}l \\
+\tiny{\color{lightgray}m} &amp; \color{blue}o &amp; \color{red}p \\
+\end{bmatrix} \\ - \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}f} &amp; \color{green}g  &amp; \tiny{\color{lightgray}h} \\
+  \color{red}i &amp; \tiny{\color{lightgray}k} &amp; \color{blue}l \\
+  \color{blue}m &amp; \tiny{\color{lightgray}o} &amp; \color{red}p \\
+\end{bmatrix} \\ + \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}g}  &amp; \color{green}h \\
+  \color{red}i &amp; \color{blue}k &amp; \tiny{\color{lightgray}l} \\
+  \color{blue}m &amp; \color{red}o &amp; \tiny{\color{lightgray}p} \\
+\end{bmatrix}
+\end{array}
+\right) +
+\color{darkorange}c \cdot 
+\left(
+\begin{array}{cc}
+\begin{bmatrix}
+\color{green}e &amp; \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}h} \\
+\tiny{\color{lightgray}i} &amp; \color{red}j &amp; \color{blue}l \\
+\tiny{\color{lightgray}m} &amp; \color{blue}n &amp; \color{red}p \\
+\end{bmatrix} \\ - \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}f} &amp; \color{green}f  &amp; \tiny{\color{lightgray}h} \\
+  \color{red}i &amp; \tiny{\color{lightgray}j} &amp; \color{blue}l \\
+  \color{blue}m &amp; \tiny{\color{lightgray}n} &amp; \color{red}p \\
+\end{bmatrix} \\ + \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}f}  &amp; \color{green}h \\
+  \color{red}i &amp; \color{blue}j &amp; \tiny{\color{lightgray}l} \\
+  \color{blue}m &amp; \color{red}n &amp; \tiny{\color{lightgray}p} \\
+\end{bmatrix}
+\end{array}
+\right) -
+\color{darkorange}d \cdot 
+\left(
+\begin{array}{cc}
+\begin{bmatrix}
+\color{green}e &amp; \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}g} \\
+\tiny{\color{lightgray}i} &amp; \color{red}j &amp; \color{blue}k \\
+\tiny{\color{lightgray}m} &amp; \color{blue}n &amp; \color{red}o \\
+\end{bmatrix} \\ - \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}e} &amp; \color{green}f  &amp; \tiny{\color{lightgray}g} \\
+  \color{red}i &amp; \tiny{\color{lightgray}j} &amp; \color{blue}k \\
+  \color{blue}m &amp; \tiny{\color{lightgray}n} &amp; \color{red}o \\
+\end{bmatrix} \\ + \\
+\begin{bmatrix}
+  \tiny{\color{lightgray}e} &amp; \tiny{\color{lightgray}f}  &amp; \color{green}g \\
+  \color{red}i &amp; \color{blue}j &amp; \tiny{\color{lightgray}k} \\
+  \color{blue}m &amp; \color{red}n &amp; \tiny{\color{lightgray}o} \\
+\end{bmatrix}
+\end{array}
+\right)
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\scriptsize
+\color{darkorange}a \cdot
+\left(
+\begin{array}{cc}
+\color{green}f \cdot
+\left| \begin{matrix} 
+  \color{red}k &amp; \color{blue}l \\
+  \color{blue}o &amp; \color{red}p \\
+\end{matrix} \right| \\-\\
+\color{green}g \cdot
+\left| \begin{matrix} 
+  \color{red}j &amp; \color{blue}l \\
+  \color{blue}n &amp; \color{red}p \\
+\end{matrix} \right| \\+\\
+\color{green}h \cdot
+\left| \begin{matrix} 
+  \color{red}j &amp; \color{blue}k \\
+  \color{blue}n &amp; \color{red}o \\
+\end{matrix} \right|
+\end{array}
+\right)
+-
+\color{darkorange}b \cdot
+\left(
+\begin{array}{cc}
+\color{green}e \cdot
+\left| \begin{matrix} 
+  \color{red}k &amp; \color{blue}l \\
+  \color{blue}o &amp; \color{red}p \\
+\end{matrix} \right|
+\\-\\
+\color{green}g \cdot
+\left| \begin{matrix} 
+  \color{red}i &amp; \color{blue}l \\
+  \color{blue}m &amp; \color{red}p \\
+\end{matrix} \right|
+\\+\\
+\color{green}h \cdot
+\left| \begin{matrix} 
+  \color{red}i &amp; \color{blue}k \\
+  \color{blue}m &amp; \color{red}o \\
+\end{matrix} \right|
+\end{array}
+\right) +
+\color{darkorange}c \cdot
+\left(
+\begin{array}{cc}
+\color{green}e \cdot
+\left| \begin{matrix} 
+  \color{red}j &amp; \color{blue}l \\
+  \color{blue}n &amp; \color{red}p \\
+\end{matrix} \right| \\-\\
+\color{green}f \cdot
+\left| \begin{matrix} 
+  \color{red}i &amp; \color{blue}l \\
+  \color{blue}m &amp; \color{red}p \\
+\end{matrix} \right| \\+\\
+\color{green}h \cdot
+\left| \begin{matrix} 
+  \color{red}i &amp; \color{blue}j \\
+  \color{blue}m &amp; \color{red}n \\
+\end{matrix} \right|
+\end{array}
+\right) -
+\color{darkorange}d \cdot
+\left(
+\begin{array}{cc}
+\color{green}e \cdot
+\left| \begin{matrix} 
+  \color{red}j &amp; \color{blue}k \\
+  \color{blue}n &amp; \color{red}o \\
+\end{matrix} \right| \\-\\
+\color{green}f \cdot
+\left| \begin{matrix} 
+  \color{red}i &amp; \color{blue}k \\
+  \color{blue}m &amp; \color{red}o \\
+\end{matrix} \right| \\+\\
+\color{green}g \cdot
+\left| \begin{matrix} 
+  \color{red}i &amp; \color{blue}j \\
+  \color{blue}m &amp; \color{red}n \\
+\end{matrix} \right|
+\end{array}
+\right)
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
+\scriptsize
+\color{darkorange}a \cdot 
+\left(
+\begin{array}{cc}
+\color{green}f(\color{red}{kp} - \color{blue}{lo})
+\\ - \\
+\color{green}g(\color{red}{jp} - \color{blue}{ln})
+\\ + \\
+\color{green}h(\color{red}{jo} - \color{blue}{kn})
+\end{array}
+\right)
+-
+\color{darkorange}b \cdot 
+\left(
+\begin{array}{cc}
+\color{green}e(\color{red}{kp} - \color{blue}{lo})
+\\ - \\
+\color{green}g(\color{red}{ip} - \color{blue}{lm})
+\\ + \\
+\color{green}h(\color{red}{io} - \color{blue}{km})
+\end{array}
+\right)
++
+\color{darkorange}c \cdot 
+\left(
+\begin{array}{cc}
+\color{green}e(\color{red}{jp} - \color{blue}{ln})
+\\ - \\
+\color{green}f(\color{red}{ip} - \color{blue}{lm})
+\\ + \\
+\color{green}h(\color{red}{in} - \color{blue}{jm})
+\end{array}
+\right)
+-
+\color{darkorange}d \cdot 
+\left(
+\begin{array}{cc}
+\color{green}e(\color{red}{jo} - \color{blue}{nk})
+\\ - \\
+\color{green}f(\color{red}{io} - \color{blue}{km})
+\\ + \\
+\color{green}g(\color{red}{in} - \color{blue}{jm})
+\end{array}
+\right)
+ \\ \LARGE \downarrow
+ \]</span></p>
+<p><span class="math display">\[
+\scriptsize
+\color{darkorange}a(\color{green}f\color{red}{kp} - \color{green}f\color{blue}{lo} - \color{green}g\color{red}{jp} - \color{green}g\color{blue}{ln} + \color{green}h\color{red}{jo} - \color{green}h\color{blue}{kn}) 
+-
+\scriptsize
+\color{darkorange}b(\color{green}e\color{red}{kp} - \color{green}e\color{blue}{lo} - \color{green}g\color{red}{ip} - \color{green}g\color{blue}{lm} + \color{green}h\color{red}{io} - \color{green}h\color{blue}{km}) 
+\\\scriptsize+\\
+\scriptsize
+\color{darkorange}c(\color{green}e\color{red}{jp} - \color{green}e\color{blue}{ln} - \color{green}f\color{red}{ip} - \color{green}f\color{blue}{lm} + \color{green}h\color{red}{in} - \color{green}h\color{blue}{jm}) 
+-
+\scriptsize
+\color{darkorange}d(\color{green}e\color{red}{jo} - \color{green}e\color{blue}{nk} - \color{green}f\color{red}{io} - \color{green}f\color{blue}{km} + \color{green}g\color{red}{in} - \color{green}g\color{blue}{jm})
+\]</span></p>
+</div>
+</div>
+<div id="r" class="section level1">
+<h1>R</h1>
+<pre class="r"><code>r_mat &lt;- matrix(c(6,  1, 1,  3,
+                  4, -2, 5,  9,
+                  2,  8, 7,  2,
+                  5, -1, 4, -2),
+  nrow = 4, ncol = 4, byrow = TRUE
+  )</code></pre>
+<div id="custom" class="section level2">
+<h2>Custom</h2>
+<pre class="r"><code>find_determinant &lt;- function(x) {
+  stopifnot(is.matrix(x) &amp;&amp; dim(x)[[1]] == dim(x)[[2]])
+  if (all(dim(x) == 2)) return(x[1, 1] * x[2, 2] - x[1, 2] * x[2, 1])
+  
+  out &lt;- 0
+  
+  for (i in seq_len(ncol(x))) {
+    out &lt;- out + x[1, i] * (-1)^(1 + i) * find_determinant(x[-1, -i])
+  }
+  
+  out
+}
+
+find_determinant(r_mat)</code></pre>
+<pre><code>#&gt; [1] 2913</code></pre>
+</div>
+<div id="base-r" class="section level2">
+<h2>Base R</h2>
+<pre class="r"><code>det(r_mat)</code></pre>
+<pre><code>#&gt; [1] 2913</code></pre>
+</div>
+</div>
+<div id="python" class="section level1">
+<h1>Python</h1>
+<div id="numpy" class="section level2">
+<h2>NumPy</h2>
+<pre class="python"><code>import numpy as np
+
+np_mat = np.array([[6,  1,  1,  3],
+                   [4, -2,  5,  9],
+                   [2,  8,  7,  2],
+                   [5, -1,  4, -2]])
+print(np_mat)</code></pre>
+<pre><code>#&gt; [[ 6  1  1  3]
+#&gt;  [ 4 -2  5  9]
+#&gt;  [ 2  8  7  2]
+#&gt;  [ 5 -1  4 -2]]</code></pre>
+<pre class="python"><code>res = np.linalg.det(np_mat)
+print(res)</code></pre>
+<pre><code>#&gt; 2912.999999999999</code></pre>
+</div>
+</div>
+<div id="rcpp" class="section level1">
+<h1>Rcpp</h1>
+<div id="rcpparmadillo" class="section level2">
+<h2>RcppArmadillo</h2>
+<pre class="cpp"><code>// [[Rcpp::depends(RcppArmadillo)]]
+#include &lt;RcppArmadillo.h&gt;
+using namespace Rcpp;
+
+// [[Rcpp::export]]
+double cpp_arma_determinant(const NumericMatrix&amp; x) {
+  const arma::mat arma_mat = as&lt;arma::mat&gt;(x);
+  
+  const double out = arma::det(arma_mat);
+
+  return out;
+}</code></pre>
+<pre class="r"><code>cpp_arma_determinant(r_mat)</code></pre>
+<pre><code>#&gt; [1] 2913</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>library(reticulate)
+
+stopifnot(
+  all.equal(det(r_mat),
+            cpp_arma_determinant(r_mat),
+            py$np$linalg$det(py$np_mat))
+  )</code></pre>
+</p>
+</details>
+</div>
+</div>
+<div id="environment" class="section level1">
+<h1>Environment</h1>
+<details>
+<summary> R </summary>
+<p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>#&gt; R version 3.5.1 (2018-07-02)
+#&gt; Platform: x86_64-w64-mingw32/x64 (64-bit)
+#&gt; Running under: Windows 10 x64 (build 17134)
+#&gt; 
+#&gt; Matrix products: default
+#&gt; 
+#&gt; locale:
+#&gt; [1] LC_COLLATE=English_United States.1252  LC_CTYPE=English_United States.1252   
+#&gt; [3] LC_MONETARY=English_United States.1252 LC_NUMERIC=C                          
+#&gt; [5] LC_TIME=English_United States.1252    
+#&gt; 
+#&gt; attached base packages:
+#&gt; [1] stats     graphics  grDevices utils     datasets  methods   base     
+#&gt; 
+#&gt; other attached packages:
+#&gt;  [1] forcats_0.3.0          stringr_1.3.1.9000     dplyr_0.7.99.9000     
+#&gt;  [4] purrr_0.2.4.9000       readr_1.1.1            tidyr_0.8.1.9000      
+#&gt;  [7] tibble_1.4.2           ggplot2_3.1.0.9000     tidyverse_1.2.1.9000  
+#&gt; [10] reticulate_1.10.0.9002
+#&gt; 
+#&gt; loaded via a namespace (and not attached):
+#&gt;  [1] Rcpp_1.0.0            cellranger_1.1.0      plyr_1.8.4           
+#&gt;  [4] compiler_3.5.1        pillar_1.3.0.9001     tools_3.5.1          
+#&gt;  [7] htmldeps_0.1.1        digest_0.6.18         gtable_0.2.0         
+#&gt; [10] lubridate_1.7.4       jsonlite_1.6          evaluate_0.12        
+#&gt; [13] lattice_0.20-35       pkgconfig_2.0.2       rlang_0.3.0.1        
+#&gt; [16] Matrix_1.2-14         cli_1.0.1             rstudioapi_0.8.0.9000
+#&gt; [19] yaml_2.2.0            haven_1.1.2.9000      blogdown_0.9.1       
+#&gt; [22] xfun_0.4              withr_2.1.2.9000      xml2_1.2.0           
+#&gt; [25] httr_1.3.1            knitr_1.20.21         hms_0.4.2            
+#&gt; [28] generics_0.0.1.9000   rprojroot_1.3-2       grid_3.5.1           
+#&gt; [31] tidyselect_0.2.5      glue_1.3.0            here_0.1             
+#&gt; [34] R6_2.3.0              readxl_1.1.0          rmarkdown_1.10.14    
+#&gt; [37] bookdown_0.7.21       modelr_0.1.2          magrittr_1.5         
+#&gt; [40] scales_1.0.0.9000     backports_1.1.2       htmltools_0.3.6      
+#&gt; [43] rvest_0.3.2           assertthat_0.2.0      colorspace_1.3-2     
+#&gt; [46] stringi_1.2.4         lazyeval_0.2.1        munsell_0.5.0        
+#&gt; [49] broom_0.5.0.9001      crayon_1.3.4</code></pre>
+</p>
+</details>
+<details>
+<summary> Rcpp </summary>
+<p>
+<pre class="r"><code>if (R.version[&quot;minor&quot;] == &quot;6.0&quot;) {
+  &quot;GCC 8.2.0&quot;
+  } else {
+  system(&quot;gcc --version&quot;, intern = TRUE)[[1]]
+  }</code></pre>
+<pre><code>#&gt; [1] &quot;gcc.exe (x86_64-posix-seh, Built by MinGW-W64 project) 4.9.3&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> C++ </summary>
+<p>
+<pre class="bash"><code>gcc-8 --version</code></pre>
+<pre><code>#&gt; gcc-8 (Ubuntu 8.2.0-1ubuntu2~18.04) 8.2.0
+#&gt; Copyright (C) 2018 Free Software Foundation, Inc.
+#&gt; This is free software; see the source for copying conditions.  There is NO
+#&gt; warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.</code></pre>
+</p>
+</details>
+<details>
+<summary> Python </summary>
+<p>
+<pre class="python"><code>import sys
+import numpy
+import numba
+import cupy
+import pandas
+
+mod_info = {
+  &quot;Python&quot;: sys.version,
+  &quot;NumPy&quot;: numpy.__version__,
+  &quot;Numba&quot;: numba.__version__,
+  &quot;CuPy&quot;: cupy.__version__,
+  &quot;Pandas&quot;: pandas.__version__
+}
+
+for k, v in mod_info.items():
+  print(f&quot;{k}: {v}&quot;)</code></pre>
+<pre><code>#&gt; Python: 3.6.5 |Anaconda, Inc.| (default, Mar 29 2018, 13:32:41) [MSC v.1900 64 bit (AMD64)]
+#&gt; NumPy: 1.15.4
+#&gt; Numba: 0.40.0
+#&gt; CuPy: 5.0.0
+#&gt; Pandas: 0.23.4</code></pre>
+</p>
+</details>
+<details>
+<summary> CPU </summary>
+<p>
+<pre class="r"><code>cat(system(&quot;wmic cpu get name&quot;, intern = TRUE)[[2]])</code></pre>
+<pre><code>#&gt; Intel(R) Core(TM) i7-6700HQ CPU @ 2.60GHz  </code></pre>
+</p>
+</details>
+<details>
+<summary> GPU </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic path win32_VideoController get name&quot;, intern = TRUE) %&gt;% 
+  str_subset(&quot;NVIDIA&quot;) %&gt;% 
+  str_trim()</code></pre>
+<pre><code>#&gt; [1] &quot;NVIDIA GeForce GTX 960M&quot;</code></pre>
+</p>
+</details>
+<details>
+<summary> Memory </summary>
+<p>
+<pre class="r"><code>system(&quot;wmic MEMORYCHIP get BankLabel, Capacity, Speed&quot;, intern = TRUE) %&gt;%
+  str_trim() %&gt;%
+  as_tibble() %&gt;%
+  slice(2:3) %&gt;%
+  separate(value, into = c(&quot;BankLabel&quot;, &quot;Capacity&quot;, &quot;Speed&quot;), sep = &quot;\\s{2,}&quot;) %&gt;%
+  mutate_at(vars(Capacity), ~ paste(round(as.numeric(.) / 1e9, 2), &quot;GB&quot;)) %&gt;%
+  mutate(Speed = paste(Speed, &quot;MHz&quot;)) %&gt;%
+  rename_all(str_replace, &quot;L&quot;, &quot; L&quot;) %&gt;%
+  knitr::kable(format = &quot;html&quot;) %&gt;%
+  kableExtra::kable_styling(full_width = FALSE)</code></pre>
+<table class="table" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Bank Label
+</th>
+<th style="text-align:left;">
+Capacity
+</th>
+<th style="text-align:left;">
+Speed
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+DIMM A
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+DIMM B
+</td>
+<td style="text-align:left;">
+17.18 GB
+</td>
+<td style="text-align:left;">
+2400 MHz
+</td>
+</tr>
+</tbody>
+</table>
+</p>
+</details>
+<p><br><br><br></p>
+<p><strong>Citation and <span class="math inline">\(\normalsize{\textrm B} \scriptsize{\textrm{IB}} \normalsize{\TeX}\)</span></strong></p>
+<p>When using or referring to this post, please consider citing it.</p>
+<pre class="citation"><code>Knapp, B. (2018, Dec. 11). $|A|$: Determinant of a Matrix. Retrieved from https://knapply.com/post/matrix-determinant/</code></pre>
+<pre class="citation"><code>@misc{$|a|$:-determinant-of-a-matrix,
+  author = {Knapp, Brendan},
+  title  = {$|A|$: Determinant of a Matrix},
+  url    = {https://knapply.com/post/matrix-determinant/},
+  year   = 2018,
+  month  = Dec,
+  day    = 11,
+}</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/data-science-notes/">data-science-notes</a>
+  
+  <a class="badge badge-light" href="/tags/linear-algebra/">linear-algebra</a>
+  
+  <a class="badge badge-light" href="/tags/r/">r</a>
+  
+  <a class="badge badge-light" href="/tags/python/">python</a>
+  
+  <a class="badge badge-light" href="/tags/rcpp/">rcpp</a>
+  
+</div>
+
+
+
+    
+
+
+
+
+
+
+<div class="media author-card" itemscope itemtype="http://schema.org/Person">
+  
+  <img class="portrait mr-3" src="/img/logo.png" itemprop="image" alt="Avatar">
+  
+  <div class="media-body">
+    <h5 class="card-title" itemprop="name"><a href="/">Brendan Knapp</a></h5>
+    <h6 class="card-subtitle">Data Analyst</h6>
+    
+    <ul class="network-icon" aria-hidden="true">
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="/#contact" >
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://twitter.com/knapply_" target="_blank" rel="noopener">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://stackoverflow.com/users/7678928/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-stack-overflow"></i>
+        </a>
+      </li>
+      
+      
+      
+      
+        
+      
+      
+      
+      
+      
+        
+      
+      <li>
+        <a itemprop="sameAs" href="https://github.com/knapply" target="_blank" rel="noopener">
+          <i class="fab fa-github"></i>
+        </a>
+      </li>
+      
+    </ul>
+  </div>
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/linear-algebra/">Linear Algebra</a></li>
+        
+        <li><a href="/post/mean/">Mean</a></li>
+        
+        <li><a href="/post/median/">Median</a></li>
+        
+        <li><a href="/post/mode/">Mode</a></li>
+        
+        <li><a href="/post/variance-and-standard-deviation/">Variance and Standard Deviation</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "knapply" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<div class="container">
+  <footer class="site-footer">
+  
+  <p class="powered-by">
+    <a href="/privacy/">Privacy Policy</a>
+  </p>
+  
+
+  <p class="powered-by">
+    &copy; 2018 Brendan Knapp &middot; 
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" id="back_to_top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+</div>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+    
+    
+    <script src="/js/mathjax-config.83b2a65cc1ca1f6c27c3f6943cbc37b88095532149bd65090e1ace0fafa090299c14cc980ebb55fed8a2b67507f355d0ff8f2e7beb5d5b7cd5903f53c74df423.js" integrity="sha512-g7KmXMHKH2wnw/aUPLw3uICVUyFJvWUJDhrOD6&#43;gkCmcFMyYDrtV/tiitnUH81XQ/48ue&#43;tdW3zVkD9Tx030Iw=="></script>
+    
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha512-+NqPlbbtM1QqiK8ZAo4Yrj2c4lNQoGv8P79DPtKzj++l5jnN39rHA/xsqn8zE9l0uSoxaCdrOgFs6yjyfbBxSg==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha256-VsEqElsCHSGmnmHXGQzvoWjWwoznFSZc6hs7ARLRacQ=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+        
+      
+
+      
+      
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=TeX-AMS_CHTML-full" integrity="sha256-GhM+5JHb6QUzOQPXSJLEWP7R73CbkisjzK5Eyij4U9w=" crossorigin="anonymous" async></script>
+      
+    
+
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.2.0/leaflet.js" integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log==" crossorigin="anonymous"></script>
+    
+
+    
+    
+    
+    <script id="dsq-count-scr" src="//knapply.disqus.com/count.js" async></script>
+    
+
+    
+    
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script>
+      const search_index_filename = "/index.json";
+      const i18n = {
+        'placeholder': "Search...",
+        'results': "Search Results",
+        'no_results': "No results found"
+      };
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    <script src="/js/search.js"></script>
+    
+
+    
+    
+
+  </body>
+</html>
+

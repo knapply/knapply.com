@@ -41,12 +41,14 @@
       <description>Linear AlgebraStatisticsLinear AlgebraTopic
 
 
-FoundationSetupRPython
-NumPyScalar MultiplicationRRcpp
+FoundationSetupR
+Base RPython
+NumPyScalar MultiplicationR
+Base RRcpp
 RcppAmardilloPython
-NumPyMatrix-Vector MultiplicationRRcpp
-RcppAmardilloPython
-NumPyVector-Matrix MultiplicationRRcpp</description>
+NumPyMatrix-Vector MultiplicationR
+Base RRcpp
+RcppAmardilloPython</description>
     </item>
     
     <item>

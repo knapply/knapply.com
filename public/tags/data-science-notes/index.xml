@@ -7,10 +7,21 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
-    <lastBuildDate>Sun, 02 Dec 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 11 Dec 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/data-science-notes/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>$|A|$: Determinant of a Matrix</title>
+      <link>/post/matrix-determinant/</link>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/matrix-determinant/</guid>
+      <description>Breakdown\(2 \times 2\) Matrix\(3 \times 3\) Matrix\(4 \times 4\) Matrix (and Beyond)RCustomBase RPythonNumPyRcppRcppArmadilloEnvironmentThis post was last updated on 2018-12-11.
+Breakdown\(2 \times 2\) Matrix\[A = \begin{bmatrix}a &amp;amp; b \\c &amp;amp; d\end{bmatrix}\]
+\[\left| \begin{matrix}\color{red}a &amp;amp; &amp;amp; &amp;amp; &amp;amp; \color{blue}b \\&amp;amp; \color{red}\nwarrow &amp;amp; &amp;amp; \color{blue}\nearrow \\&amp;amp; &amp;amp; \large\times &amp;amp; &amp;amp; \\&amp;amp; \color{blue}\swarrow &amp;amp; &amp;amp; \color{red}\searrow \\\color{blue}c &amp;amp; &amp;amp; &amp;amp; &amp;amp; \color{red}d \\\end{matrix} \right|\]</description>
+    </item>
     
     <item>
       <title>Linear Algebra</title>
@@ -18,7 +29,7 @@
       <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/linear-algebra/</guid>
-      <description>SetupRPythonScalar MultiplicationRRcppPythonMatrix-Vector MultiplicationRRcppPythonVector-Matrix MultiplicationRRcppPythonMatrix-Matrix MultiplicationRRcppPython\(|A|\): Determinant of a MatrixBreakdownExampleRPythonRcppEnvironmentThis post was last updated on 2018-12-10.
+      <description>SetupRPythonScalar MultiplicationExampleRRcppPythonMatrix-Vector MultiplicationBreakdownExampleRRcppPythonVector-Matrix MultiplicationBreakdownExampleRRcppPythonMatrix-Matrix MultiplicationBreakdownExampleRRcppPythonTransposeBreakdownRRcppPythonEnvironmentThis post was last updated on 2018-12-11.
 Setuplibrary(reticulate)RBase Rr_mat &amp;lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),nrow = 3, ncol = 3)r_mat#&amp;gt; [,1] [,2] [,3]#&amp;gt; [1,] 1 4 7#&amp;gt; [2,] 2 5 8#&amp;gt; [3,] 3 6 9PythonNumPyimport numpy as npnp_mat = np.</description>
     </item>
     

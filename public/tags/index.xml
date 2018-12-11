@@ -114,7 +114,7 @@
     <item>
       <title>data-science-notes</title>
       <link>/tags/data-science-notes/</link>
-      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/data-science-notes/</guid>
       <description></description>
@@ -135,6 +135,15 @@
       <pubDate>Sat, 17 Mar 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/ggplot/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>linear-algebra</title>
+      <link>/tags/linear-algebra/</link>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/linear-algebra/</guid>
       <description></description>
     </item>
     
@@ -177,7 +186,7 @@
     <item>
       <title>python</title>
       <link>/tags/python/</link>
-      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/python/</guid>
       <description></description>
@@ -195,7 +204,7 @@
     <item>
       <title>rcpp</title>
       <link>/tags/rcpp/</link>
-      <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/tags/rcpp/</guid>
       <description></description>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>linear-algebra on knapply()</title>
+    <link>/tags/linear-algebra/</link>
+    <description>Recent content in linear-algebra on knapply()</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018 Brendan Knapp</copyright>
+    <lastBuildDate>Tue, 11 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/linear-algebra/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>$|A|$: Determinant of a Matrix</title>
+      <link>/post/matrix-determinant/</link>
+      <pubDate>Tue, 11 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/matrix-determinant/</guid>
+      <description>Breakdown\(2 \times 2\) Matrix\(3 \times 3\) Matrix\(4 \times 4\) Matrix (and Beyond)RCustomBase RPythonNumPyRcppRcppArmadilloEnvironmentThis post was last updated on 2018-12-11.
+Breakdown\(2 \times 2\) Matrix\[A = \begin{bmatrix}a &amp;amp; b \\c &amp;amp; d\end{bmatrix}\]
+\[\left| \begin{matrix}\color{red}a &amp;amp; &amp;amp; &amp;amp; &amp;amp; \color{blue}b \\&amp;amp; \color{red}\nwarrow &amp;amp; &amp;amp; \color{blue}\nearrow \\&amp;amp; &amp;amp; \large\times &amp;amp; &amp;amp; \\&amp;amp; \color{blue}\swarrow &amp;amp; &amp;amp; \color{red}\searrow \\\color{blue}c &amp;amp; &amp;amp; &amp;amp; &amp;amp; \color{red}d \\\end{matrix} \right|\]</description>
+    </item>
+    
+  </channel>
+</rss>

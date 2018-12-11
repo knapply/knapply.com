@@ -34,38 +34,44 @@ editor_options:
 <li><a href="#python">Python</a></li>
 </ul></li>
 <li><a href="#scalar-multiplication">Scalar Multiplication</a><ul>
+<li><a href="#example">Example</a></li>
 <li><a href="#r-1">R</a></li>
 <li><a href="#rcpp">Rcpp</a></li>
 <li><a href="#python-1">Python</a></li>
 </ul></li>
 <li><a href="#matrix-vector-multiplication">Matrix-Vector Multiplication</a><ul>
+<li><a href="#breakdown">Breakdown</a></li>
+<li><a href="#example-1">Example</a></li>
 <li><a href="#r-2">R</a></li>
 <li><a href="#rcpp-1">Rcpp</a></li>
 <li><a href="#python-2">Python</a></li>
 </ul></li>
 <li><a href="#vector-matrix-multiplication">Vector-Matrix Multiplication</a><ul>
+<li><a href="#breakdown-1">Breakdown</a></li>
+<li><a href="#example-2">Example</a></li>
 <li><a href="#r-3">R</a></li>
 <li><a href="#rcpp-2">Rcpp</a></li>
 <li><a href="#python-3">Python</a></li>
 </ul></li>
 <li><a href="#matrix-matrix-multiplication">Matrix-Matrix Multiplication</a><ul>
+<li><a href="#breakdown-2">Breakdown</a></li>
+<li><a href="#example-3">Example</a></li>
 <li><a href="#r-4">R</a></li>
 <li><a href="#rcpp-3">Rcpp</a></li>
 <li><a href="#python-4">Python</a></li>
 </ul></li>
-<li><a href="#a-determinant-of-a-matrix"><span class="math inline">\(|A|\)</span>: Determinant of a Matrix</a><ul>
-<li><a href="#breakdown">Breakdown</a></li>
-<li><a href="#example">Example</a></li>
+<li><a href="#transpose">Transpose</a><ul>
+<li><a href="#breakdown-3">Breakdown</a></li>
 <li><a href="#r-5">R</a></li>
-<li><a href="#python-5">Python</a></li>
 <li><a href="#rcpp-4">Rcpp</a></li>
+<li><a href="#python-5">Python</a></li>
 </ul></li>
 <li><a href="#environment">Environment</a></li>
 </ul>
 </div>
 
 <blockquote>
-<p><em>This post was last updated on 2018-12-10.</em></p>
+<p><em>This post was last updated on 2018-12-11.</em></p>
 </blockquote>
 <div id="setup" class="section level1">
 <h1>Setup</h1>
@@ -109,33 +115,39 @@ np_mat</code></pre>
 </div>
 <div id="scalar-multiplication" class="section level1">
 <h1>Scalar Multiplication</h1>
+<div id="example" class="section level2">
+<h2>Example</h2>
 <p><span class="math display">\[
   2 
-\cdot
+~\cdot~
 \begin{bmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
+  \color{red}1   &amp;  \color{red}4   &amp;  \color{red}7  \\
+  \color{green}2   &amp;  \color{green}5   &amp;  \color{green}8  \\
+  \color{blue}3   &amp;  \color{blue}6   &amp;  \color{blue}9  \\
 \end{bmatrix}
-  =
+  \\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1 \cdot 2  &amp;  4 \cdot 2  &amp;  7 \cdot 2 \\
-  2 \cdot 2  &amp;  5 \cdot 2  &amp;  8 \cdot 2 \\
-  3 \cdot 2  &amp;  6 \cdot 2  &amp;  9 \cdot 2 \\
+  \color{red}1 \cdot 2  &amp;  \color{red}4 \cdot 2  &amp;  \color{red}7 \cdot 2 \\
+  \color{green}2 \cdot 2  &amp;  \color{green}5 \cdot 2  &amp;  \color{green}8 \cdot 2 \\
+  \color{blue}3 \cdot 2  &amp;  \color{blue}6 \cdot 2  &amp;  \color{blue}9 \cdot 2 \\
 \end{bmatrix}
-  =
+  \\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  2   &amp;  8   &amp;  14  \\
-  4   &amp;  10   &amp;  16  \\
-  6   &amp;  12   &amp;  18  \\
+  \color{darkred}2   &amp;  \color{darkred}8   &amp;  \color{darkred}{14}  \\
+  \color{darkgreen}4   &amp;  \color{darkgreen}{10}   &amp;  \color{darkgreen}{16}  \\
+  \color{darkblue}6   &amp;  \color{darkblue}{12}   &amp;  \color{darkblue}{18}  \\
 \end{bmatrix}
 \]</span></p>
+</div>
 <div id="r-1" class="section level2">
 <h2>R</h2>
 <div id="base-r-1" class="section level3">
 <h3>Base R</h3>
-<pre class="r"><code>r_res &lt;- r_mat * 2
-r_res</code></pre>
+<pre class="r"><code>r_mat * 2</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    2    8   14
 #&gt; [2,]    4   10   16
@@ -146,20 +158,18 @@ r_res</code></pre>
 <h2>Rcpp</h2>
 <div id="rcpparmadillo" class="section level3">
 <h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
+<pre class="cpp"><code>// [[Rcpp::depends(RcppArmadillo)]]
 #include &lt;RcppArmadillo.h&gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_mat_dot_scalar(NumericMatrix x, int scalar) {
-  auto arma_matrix = as&lt;arma::mat&gt;(x);
-  auto out = arma_matrix * scalar;
+NumericMatrix cpp_arma_mat_dot_scalar(const NumericMatrix&amp; x, const int&amp; scalar) {
+  const arma::mat arma_matrix = as&lt;arma::mat&gt;(x);
+  const arma::mat out = arma_matrix * scalar;
   
   return wrap(out);
 }</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_scalar(r_mat, 2)
-cpp_arma_res</code></pre>
+<pre class="r"><code>cpp_arma_mat_dot_scalar(r_mat, 2)</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    2    8   14
 #&gt; [2,]    4   10   16
@@ -179,9 +189,9 @@ print(res)</code></pre>
 <summary> Sanity Check </summary>
 <p>
 <pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
+  all.equal(r_mat * 2,
+            cpp_arma_mat_dot_scalar(r_mat, 2),
+            py$np_mat * 2)
   )</code></pre>
 </p>
 </details>
@@ -190,64 +200,77 @@ print(res)</code></pre>
 </div>
 <div id="matrix-vector-multiplication" class="section level1">
 <h1>Matrix-Vector Multiplication</h1>
+<div id="breakdown" class="section level2">
+<h2>Breakdown</h2>
 <p><span class="math display">\[
 \begin{bmatrix}
-  [1,1]   &amp;  [1,2]   &amp;  [1,3]  \\
-  [2,1]   &amp;  [2,2]   &amp;  [2,3]  \\
-  [3,1]   &amp;  [3,2]   &amp;  [3,3]  \\
+  \color{red}a &amp; \color{green}b &amp; \color{blue}c \\
+  \color{red}d &amp; \color{green}e &amp; \color{blue}f \\
+  \color{red}g &amp; \color{green}h &amp; \color{blue}i
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-  a \\
-  b \\
-  c \\
+  \color{red}A \\
+  \color{green}B \\
+  \color{blue}C \\
 \end{bmatrix} 
-  =
-\begin{bmatrix}
-  [1,1] \cdot a + [1,2] \cdot b + [1,3] \cdot c \\
-  [2,1] \cdot a + [2,2] \cdot b + [2,3] \cdot c \\
-  [3,1] \cdot a + [3,2] \cdot b + [3,3] \cdot c \\
-\end{bmatrix}
+  \\ \LARGE \downarrow
 \]</span></p>
 <p><span class="math display">\[
 \begin{bmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
+  \color{red}{aA} &amp; \color{green}{bB} &amp; \color{blue}{cC} \\
+  \color{red}{dA} &amp; \color{green}{eB} &amp; \color{blue}{fC} \\
+  \color{red}{gA} &amp; \color{green}{hB} &amp; \color{blue}{iC}
+\end{bmatrix}
+\]</span></p>
+</div>
+<div id="example-1" class="section level2">
+<h2>Example</h2>
+<p><span class="math display">\[
+\begin{bmatrix}
+  \color{red}1   &amp;  \color{green}4   &amp;  \color{blue}7  \\
+  \color{red}2   &amp;  \color{green}5   &amp;  \color{blue}8  \\
+  \color{red}3   &amp;  \color{green}6   &amp;  \color{blue}9  \\
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-  1 \\
-  2 \\
-  3 \\
+  \color{red}1 \\
+  \color{green}2 \\
+  \color{blue}3 \\
 \end{bmatrix} 
-  \\=
+  \\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1 \cdot 1 + 4 \cdot 2 + 7 \cdot 3 \\
-  2 \cdot 1 + 5 \cdot 2 + 8 \cdot 3 \\
-  3 \cdot 1 + 6 \cdot 2 + 9 \cdot 3 \\
+  \color{red}1 \cdot \color{red}1 + \color{green}4 \cdot \color{green}2 + \color{blue}7 \cdot \color{blue}3 \\
+  \color{red}2 \cdot \color{red}1 + \color{green}5 \cdot \color{green}2 + \color{blue}8 \cdot \color{blue}3 \\
+  \color{red}3 \cdot \color{red}1 + \color{green}6 \cdot \color{green}2 + \color{blue}9 \cdot \color{blue}3 \\
 \end{bmatrix}
-  \\=
+  \\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1 + 8 + 21 \\
-  2 + 10 + 24 \\
-  3 + 12 + 27 \\
+  \color{red}1 + \color{green}8 + \color{blue}{21} \\
+  \color{red}2 + \color{green}{10} + \color{blue}{24} \\
+  \color{red}3 + \color{green}{12} + \color{blue}{27} \\
 \end{bmatrix}
-  \\=
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
   30  \\
   36  \\
   42  \\
 \end{bmatrix}
 \]</span></p>
+</div>
 <div id="r-2" class="section level2">
 <h2>R</h2>
 <div id="base-r-2" class="section level3">
 <h3>Base R</h3>
-<pre class="r"><code>r_res &lt;- r_mat %*% c(1,
-                     2,
-                     3)
-r_res</code></pre>
+<pre class="r"><code>r_mat %*% c(1,
+            2,
+            3)</code></pre>
 <pre><code>#&gt;      [,1]
 #&gt; [1,]   30
 #&gt; [2,]   36
@@ -258,24 +281,22 @@ r_res</code></pre>
 <h2>Rcpp</h2>
 <div id="rcpparmadillo-1" class="section level3">
 <h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
+<pre class="cpp"><code>// [[Rcpp::depends(RcppArmadillo)]]
 #include &lt;RcppArmadillo.h&gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_mat_dot_vec(NumericMatrix mat, NumericVector col_vec) {
-  auto arma_mat = as&lt;arma::mat&gt;(mat);
-  auto arma_vec = as&lt;arma::colvec&gt;(col_vec);
+NumericMatrix cpp_arma_mat_dot_vec(const NumericMatrix&amp; mat, const NumericVector&amp; col_vec) {
+  const arma::mat arma_mat = as&lt;arma::mat&gt;(mat);
+  const arma::colvec arma_col_vec = as&lt;arma::colvec&gt;(col_vec);
   
-  auto out = arma_mat * arma_vec;
+  const arma::mat out = arma_mat * arma_col_vec;
   
   return wrap(out);
 }</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_vec(r_mat, c(1, 
-                                         2,
-                                         3))
-cpp_arma_res</code></pre>
+<pre class="r"><code>cpp_arma_mat_dot_vec(r_mat, c(1, 
+                              2,
+                              3))</code></pre>
 <pre><code>#&gt;      [,1]
 #&gt; [1,]   30
 #&gt; [2,]   36
@@ -286,9 +307,11 @@ cpp_arma_res</code></pre>
 <h2>Python</h2>
 <div id="numpy-2" class="section level3">
 <h3>NumPy</h3>
-<pre class="python"><code>res = np_mat.dot(np.array([[1],
-                           [2],
-                           [3]]))
+<pre class="python"><code>np_vec = np.array([[1],
+                   [2],
+                   [3]])
+
+res = np_mat.dot(np_vec)
 print(res)</code></pre>
 <pre><code>#&gt; [[30]
 #&gt;  [36]
@@ -297,9 +320,9 @@ print(res)</code></pre>
 <summary> Sanity Check </summary>
 <p>
 <pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
+  all.equal(r_mat %*% c(1, 2, 3),
+            cpp_arma_mat_dot_vec(r_mat, c(1, 2, 3)),
+            py$np$dot(py$np_mat, py$np_vec))
   )</code></pre>
 </p>
 </details>
@@ -308,52 +331,69 @@ print(res)</code></pre>
 </div>
 <div id="vector-matrix-multiplication" class="section level1">
 <h1>Vector-Matrix Multiplication</h1>
+<div id="breakdown-1" class="section level2">
+<h2>Breakdown</h2>
 <p><span class="math display">\[
 \begin{bmatrix}
-  a &amp; b &amp; c
+  \color{red}A &amp; \color{green}B &amp; \color{blue}C
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-  (1,1)   &amp;  (1,2)   &amp;  (1,3)  \\
-  (2,1)   &amp;  (2,2)   &amp;  (2,3)  \\
-  (3,1)   &amp;  (3,2)   &amp;  (3,3)  \\
+  \color{red}a &amp; \color{red}b &amp;\color{red}c \\
+  \color{green}d &amp; \color{green}e &amp;\color{green}f \\
+  \color{blue}g &amp; \color{blue}h &amp;\color{blue}i
 \end{bmatrix}
-\\\downarrow\\
-\scriptsize{
-\begin{bmatrix}a\cdot(1,1) + b\cdot(2,1) + c\cdot(3,1) &amp; a\cdot(1,2) + b\cdot (2,2) + c\cdot(3,2) &amp; a\cdot(1,3) + b\cdot(2,3) + c\cdot(3,3)\end{bmatrix}
-}
+\\ \LARGE \downarrow
 \]</span></p>
-<p><br></p>
 <p><span class="math display">\[
 \begin{bmatrix}
-  1 &amp; 2 &amp; 3
+\color{red}{Aa} + \color{green}{Bd} + \color{blue}{Cg} +
+  \color{red}{Ab} + \color{green}{Be} + \color{blue}{Ch} +
+    \color{red}{Ac} + \color{green}{Bf} + \color{blue}{Ci}
+\end{bmatrix}
+\]</span></p>
+</div>
+<div id="example-2" class="section level2">
+<h2>Example</h2>
+<p><span class="math display">\[
+\begin{bmatrix}
+  \color{red}1 &amp; \color{green}2 &amp; \color{blue}3
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
+  \color{red}1   &amp;  \color{red}4   &amp;  \color{red}7  \\
+  \color{green}2   &amp;  \color{green}5   &amp;  \color{green}8  \\
+  \color{blue}3   &amp;  \color{blue}6   &amp;  \color{blue}9  \\
 \end{bmatrix}
-\\\downarrow\\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1 \cdot 1 + 2 \cdot 2 + 3 \cdot 3 ~&amp;~ 1 \cdot 4 + 2 \cdot 5 + 3 \cdot 6 ~&amp;~ 1 \cdot 7 + 2 \cdot 8 + 3 \cdot 9
+  \color{red}1 \cdot \color{red}1 + \color{green}2 \cdot \color{green}2 + \color{blue}3 \cdot \color{blue}3
+    &amp; \color{red}1 \cdot \color{blue}4 + \color{green}2 \cdot \color{green}5 + \color{blue}3 \cdot \color{blue}6
+      &amp; \color{red}1 \cdot \color{red}7 + \color{green}2 \cdot \color{green}8 + \color{blue}3 \cdot \color{blue}9
 \end{bmatrix}
-\\\downarrow\\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1 + 4 + 9 ~&amp;~ 4 + 10 + 18 ~&amp;~ 7 + 16 + 27
+  \color{red}1 + \color{green}4 + \color{blue}9 &amp;
+    \color{red}4 + \color{green}{10} + \color{blue}{18} &amp;
+      \color{red}7 + \color{green}{16} + \color{blue}{27}
 \end{bmatrix}
-\\\downarrow\\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-14   &amp;  32   &amp;  50  \\
+14   &amp;  32   &amp;  50
 \end{bmatrix}
 \]</span></p>
+</div>
 <div id="r-3" class="section level2">
 <h2>R</h2>
 <div id="base-r-3" class="section level3">
 <h3>Base R</h3>
-<pre class="r"><code>r_res &lt;- c(1, 2, 3) %*% r_mat
-
-r_res</code></pre>
+<pre class="r"><code>c(1, 2, 3) %*% r_mat</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]   14   32   50</code></pre>
 </div>
@@ -362,24 +402,20 @@ r_res</code></pre>
 <h2>Rcpp</h2>
 <div id="rcpparmadillo-2" class="section level3">
 <h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
+<pre class="cpp"><code>// [[Rcpp::depends(RcppArmadillo)]]
 #include &lt;RcppArmadillo.h&gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_vec_dot_mat(NumericVector row_vec, NumericMatrix mat) {
-  auto arma_mat = as&lt;arma::mat&gt;(mat);
-  auto arma_vec = as&lt;arma::rowvec&gt;(row_vec);
+NumericMatrix cpp_arma_vec_dot_mat(const NumericVector&amp; row_vec, const NumericMatrix&amp; mat) {
+  const arma::mat arma_mat = as&lt;arma::mat&gt;(mat);
+  const arma::rowvec arma_row_vec = as&lt;arma::rowvec&gt;(row_vec);
   
-  auto out = arma_vec * arma_mat;
+  const arma::mat out = arma_row_vec * arma_mat;
   
   return wrap(out);
 }</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_vec_dot_mat(
-  c(1, 2, 3), r_mat
-  )
-cpp_arma_res</code></pre>
+<pre class="r"><code>cpp_arma_vec_dot_mat(c(1, 2, 3), r_mat)</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]   14   32   50</code></pre>
 </div>
@@ -388,16 +424,19 @@ cpp_arma_res</code></pre>
 <h2>Python</h2>
 <div id="numpy-3" class="section level3">
 <h3>NumPy</h3>
-<pre class="python"><code>res = np.array([[1, 2, 3]]).dot(np_mat)
+<pre class="python"><code>np_vec = np.array([[1, 2, 3]])
+print(np_vec)</code></pre>
+<pre><code>#&gt; [[1 2 3]]</code></pre>
+<pre class="python"><code>res = np_vec.dot(np_mat)
 print(res)</code></pre>
 <pre><code>#&gt; [[14 32 50]]</code></pre>
 <details>
 <summary> Sanity Check </summary>
 <p>
 <pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
+  all.equal(c(1, 2, 3) %*% r_mat,
+            cpp_arma_vec_dot_mat(c(1, 2, 3), r_mat),
+            py$np$dot(py$np_vec, py$np_mat))
   )</code></pre>
 </p>
 </details>
@@ -406,68 +445,88 @@ print(res)</code></pre>
 </div>
 <div id="matrix-matrix-multiplication" class="section level1">
 <h1>Matrix-Matrix Multiplication</h1>
+<div id="breakdown-2" class="section level2">
+<h2>Breakdown</h2>
 <p><span class="math display">\[
 \begin{bmatrix}
-  (1,1)_a   &amp;  (1,2)_a   &amp;  (1,3)_a  \\
-  (2,1)_a   &amp;  (2,2)_a   &amp;  (2,3)_a  \\
+  \color{red}A &amp; \color{red}B &amp; \color{red}C \\
+  \color{green}D &amp; \color{green}E &amp; \color{green}F
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-  (1,1)_b   &amp;  (1,2)_b   &amp;  (1,3)_b  \\
-  (2,1)_b   &amp;  (2,2)_b   &amp;  (2,3)_b  \\
-  (3,1)_b   &amp;  (3,2)_b   &amp;  (3,3)_b  \\
+  \color{red}a &amp; \color{green}b &amp; \color{blue}c \\
+  \color{red}d &amp; \color{green}e &amp; \color{blue}f \\
+  \color{red}g &amp; \color{green}h &amp; \color{blue}i
 \end{bmatrix}
-\\\downarrow\\
-\tiny{
-\begin{matrix}
-  (1,1)_a\cdot(1,1)_b  +  (1,2)_a\cdot(2,1)_b  +  (1,3)_a\cdot(2,1)_b &amp;
-  (1,1)_a\cdot(1,2)_b  +  (1,2)_a\cdot(2,2)_b  +  (1,3)_a\cdot(3,2)_b &amp;
-  (1,1)_a\cdot(1,3)_b  +  (1,2)_a\cdot(2,3)_b  +  (1,3)_a\cdot(3,3)_b \\
-  (2,1)_a\cdot(1,1)_b  +  (2,2)_a\cdot(2,1)_b  +  (2,3)_a\cdot(2,1)_b &amp;
-  (2,1)_a\cdot(1,2)_b  +  (2,2)_a\cdot(2,2)_b  +  (2,3)_a\cdot(3,2)_b &amp;
-  (2,1)_a\cdot(1,3)_b  +  (2,2)_a\cdot(2,3)_b  +  (2,3)_a\cdot(3,3)_b
-\end{matrix}
-}
+\\ \LARGE \downarrow
 \]</span></p>
+<p><span class="math display">\[
+\begin{bmatrix}
+  \color{red}{Aa} + \color{red}{Bd} + \color{red}{Cg} &amp;
+    \color{red}A\color{green}b + \color{red}B\color{green}e + \color{red}C\color{green}h &amp;
+    \color{red}A\color{blue}c + \color{red}B\color{blue}f + \color{red}C\color{blue}i \\
+  \color{green}D\color{red}a + \color{green}E\color{red}d + \color{green}F\color{red}g &amp;
+    \color{green}D\color{green}b + \color{green}E\color{green}e + \color{green}F\color{green}h &amp;
+    \color{green}D\color{blue}c + \color{green}E\color{blue}f + \color{green}F\color{blue}i
+\end{bmatrix}
+\]</span></p>
+</div>
+<div id="example-3" class="section level2">
+<h2>Example</h2>
 <p><br></p>
 <p><span class="math display">\[
 \begin{bmatrix}
-  1   &amp;  2   &amp;  3  \\
-  4   &amp;  5   &amp;  6  \\
+  \color{red}1   &amp;  \color{red}2   &amp;  \color{red}3  \\
+  \color{green}4   &amp;  \color{green}5   &amp;  \color{green}6  \\
 \end{bmatrix}
 \cdot
 \begin{bmatrix}
-  1   &amp;  4   &amp;  7  \\
-  2   &amp;  5   &amp;  8  \\
-  3   &amp;  6   &amp;  9  \\
+  \color{red}1   &amp;  \color{green}4   &amp;  \color{blue}7  \\
+  \color{red}2   &amp;  \color{green}5   &amp;  \color{blue}8  \\
+  \color{red}3   &amp;  \color{green}6   &amp;  \color{blue}9  \\
 \end{bmatrix}
-\\\downarrow\\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1\cdot1 + 2\cdot2 + 3\cdot3 ~&amp;~ 1\cdot4 + 2\cdot5 + 3\cdot6 ~&amp;~ 1\cdot7 + 2\cdot8 + 3\cdot9 \\
-  4\cdot1 + 5\cdot2 + 6\cdot3 ~&amp;~ 4\cdot4 + 5\cdot5 + 6\cdot6 ~&amp;~ 4\cdot7 + 5\cdot8 + 6\cdot9 \\
+  \color{red}1 \cdot \color{red}1 + \color{red}2 \cdot \color{red}2 + \color{red}3 \cdot \color{red}3 &amp;
+    \color{red}1 \cdot \color{green}4 + \color{red}2 \cdot \color{green}5 + \color{red}3 \cdot \color{green}6 &amp;
+    \color{red}1 \cdot \color{blue}7 + \color{red}2 \cdot \color{blue}8 + \color{red}3 \cdot \color{blue}9 \\
+  \color{green}4 \cdot \color{red}1 + \color{green}5 \cdot \color{red}2 + \color{green}6 \cdot \color{red}3 &amp; 
+    \color{green}4 \cdot \color{green}4 + \color{green}5 \cdot \color{green}5 + \color{green}6\cdot \color{green}6 &amp;
+    \color{green}4 \cdot \color{blue}7 + \color{green}5 \cdot \color{blue}8 + \color{green}6\cdot \color{blue}9 \\
 \end{bmatrix}
-\\\downarrow\\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
-  1+4+9 ~&amp;~ 4+10+18 ~&amp;~ 7+16+27 \\
-  4+10+18 ~&amp;~ 16+25+36 ~&amp;~ 28+40+54 \\
+  1 + 4 + 9 &amp; 4 + 10 + 18 &amp; 7 + 16 + 27 \\
+  4 + 10 + 18 &amp; 16 + 25 + 36 &amp; 28 + 40 + 54 \\
 \end{bmatrix}
-\\\downarrow\\
+\\ \LARGE \downarrow
+\]</span></p>
+<p><span class="math display">\[
 \begin{bmatrix}
   14   &amp;  32   &amp;  50  \\
   32   &amp;  77   &amp;  122  \\
 \end{bmatrix}
 \]</span></p>
+</div>
 <div id="r-4" class="section level2">
 <h2>R</h2>
 <div id="base-r-4" class="section level3">
 <h3>Base R</h3>
+<pre class="r"><code>r_mat</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3]
+#&gt; [1,]    1    4    7
+#&gt; [2,]    2    5    8
+#&gt; [3,]    3    6    9</code></pre>
 <pre class="r"><code>r_mat2 &lt;- t(r_mat[,1:2])
 r_mat2</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]    1    2    3
 #&gt; [2,]    4    5    6</code></pre>
-<pre class="r"><code>r_res &lt;- r_mat2 %*% r_mat
-r_res</code></pre>
+<pre class="r"><code>r_mat2 %*% r_mat</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]   14   32   50
 #&gt; [2,]   32   77  122</code></pre>
@@ -477,22 +536,20 @@ r_res</code></pre>
 <h2>Rcpp</h2>
 <div id="rcpparmadillo-3" class="section level3">
 <h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
+<pre class="cpp"><code>// [[Rcpp::depends(RcppArmadillo)]]
 #include &lt;RcppArmadillo.h&gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_mat_dot_mat(NumericMatrix mat1, NumericMatrix mat2) {
-  auto arma_mat1 = as&lt;arma::mat&gt;(mat1);
-  auto arma_mat2 = as&lt;arma::mat&gt;(mat2);
+NumericMatrix cpp_arma_mat_dot_mat(const NumericMatrix&amp; mat1, const NumericMatrix&amp; mat2) {
+  const arma::mat arma_mat1 = as&lt;arma::mat&gt;(mat1);
+  const arma::mat arma_mat2 = as&lt;arma::mat&gt;(mat2);
   
-  auto out = arma_mat1 * arma_mat2;
+  const arma::mat out = arma_mat1 * arma_mat2;
   
   return wrap(out);
 }</code></pre>
-<pre class="r"><code>cpp_arma_res &lt;- cpp_mat_dot_mat(r_mat2, r_mat)
-cpp_arma_res</code></pre>
+<pre class="r"><code>cpp_arma_mat_dot_mat(r_mat2, r_mat)</code></pre>
 <pre><code>#&gt;      [,1] [,2] [,3]
 #&gt; [1,]   14   32   50
 #&gt; [2,]   32   77  122</code></pre>
@@ -502,6 +559,10 @@ cpp_arma_res</code></pre>
 <h2>Python</h2>
 <div id="numpy-4" class="section level3">
 <h3>NumPy</h3>
+<pre class="python"><code>print(np_mat)</code></pre>
+<pre><code>#&gt; [[1 4 7]
+#&gt;  [2 5 8]
+#&gt;  [3 6 9]]</code></pre>
 <pre class="python"><code>np_mat2 = np_mat[:, 0:2].transpose()
 print(np_mat2)</code></pre>
 <pre><code>#&gt; [[1 2 3]
@@ -514,496 +575,106 @@ print(res)</code></pre>
 <summary> Sanity Check </summary>
 <p>
 <pre class="r"><code>stopifnot(
-  all.equal(r_res,
-            cpp_arma_res,
-            py$res)
+  all.equal(r_mat2 %*% r_mat,
+            cpp_arma_mat_dot_mat(r_mat2, r_mat),
+            py$np$dot(py$np_mat2, py$np_mat))
   )</code></pre>
 </p>
 </details>
 </div>
 </div>
 </div>
-<div id="a-determinant-of-a-matrix" class="section level1">
-<h1><span class="math inline">\(|A|\)</span>: Determinant of a Matrix</h1>
-<div id="breakdown" class="section level2">
+<div id="transpose" class="section level1">
+<h1>Transpose</h1>
+<div id="breakdown-3" class="section level2">
 <h2>Breakdown</h2>
-<div id="times-2-matrix" class="section level3">
-<h3><span class="math inline">\(2 \times 2\)</span> Matrix</h3>
-<p><span class="math display">\[
-A = \begin{bmatrix}
-  a &amp; b \\
-  c &amp; d
-\end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[
-\left| \begin{matrix}
-  \color{red}a &amp; &amp; &amp;  &amp; \color{blue}b \\
-  &amp;  \color{red}\nwarrow &amp; &amp;  \color{blue}\nearrow \\
-  &amp; &amp; \large\times &amp; &amp;  \\
-  &amp;  \color{blue}\swarrow &amp; &amp;  \color{red}\searrow \\
-  \color{blue}c &amp; &amp; &amp; &amp; \color{red}d \\
-\end{matrix} \right|
-\]</span></p>
-<p><span class="math display">\[
-\\ \downarrow \\
-|A| = \color{red}{ad} - \color{blue}{bc}
-\]</span></p>
-</div>
-<div id="times-3-matrix" class="section level3">
-<h3><span class="math inline">\(3 \times 3\)</span> Matrix</h3>
-<p><span class="math display">\[
-A = \begin{bmatrix} a   &amp;  b   &amp;  c  \\
-                    d   &amp;  e   &amp;  f  \\
-                    g   &amp;  h   &amp;  i  \\ \end{bmatrix}\\
-\]</span></p>
-<p>Break it into three 2 x 2 matrices and recursively find their determinants.</p>
 <p><span class="math display">\[
 \begin{bmatrix}
-  \color{green}{\Large{\textbf{a}}} &amp; \scriptsize{\color{gray}b} &amp; \scriptsize{\color{gray}c} \\
-  \scriptsize{\color{gray}d} &amp; \color{red}e &amp; \color{blue}f \\
-  \scriptsize{\color{gray}g} &amp; \color{blue}h &amp; \color{red}i
-\end{bmatrix}
-\LARGE{-}
-\normalsize
+  \color{green}{\large{\textbf{a}}}   &amp;  \color{blue}b   &amp;  \color{blue}c  \\
+  \color{red}d   &amp;  \color{green}{\large{\textbf{e}}}  &amp;  \color{blue}f  \\
+  \color{red}g   &amp;  \color{red}h   &amp;  \color{green}{\large{\textbf{i}}}
+\end{bmatrix}^T
+=
 \begin{bmatrix}
-  \scriptsize{\color{gray}a} &amp; \color{green}{\Large{\textbf{b}}} &amp; \scriptsize{\color{gray}c} \\
-  \color{red}d &amp; \scriptsize{\color{gray}e} &amp; \color{blue}f \\
-  \color{blue}g &amp; \scriptsize{\color{gray}h} &amp; \color{red}i
-\end{bmatrix}
-\LARGE+
-\normalsize
-\begin{bmatrix}
-  \scriptsize{\color{gray}a} &amp; \scriptsize{\color{gray}b} &amp; \color{green}{\Large{\textbf{c}}} \\
-  \color{red}d &amp; \color{blue}e &amp; \scriptsize{\color{gray}f} \\
-  \color{blue}g &amp; \color{red}h &amp; \scriptsize{\color{gray}i}
+  \color{green}{\large{\textbf{a}}}   &amp;  \color{red}d   &amp;  \color{red}g  \\
+  \color{blue}b   &amp;  \color{green}{\large{\textbf{e}}}   &amp;  \color{red}h  \\
+  \color{blue}c   &amp;  \color{blue}f   &amp;  \color{green}{\large{\textbf{i}}}
 \end{bmatrix}
 \]</span></p>
-<p><br></p>
-<p><span class="math display">\[
-|A| = \color{green}a \cdot \left| \begin{matrix} \color{red}e &amp; \color{blue}f \\ \color{blue}h &amp; \color{red}i \\ \end{matrix} \right| - \color{green}b \cdot \left| \begin{matrix} \color{red}d &amp; \color{blue}f \\\color{blue}g &amp; \color{red}h \\ \end{matrix}\right| - \color{green}c \cdot \left| \begin{matrix} \color{red}d &amp; \color{blue}e \\ \color{blue}g &amp; \color{red}h \\ \end{matrix}\right|
-\\ \downarrow \\
-\color{green}a(\color{red}{ei} - \color{blue}{fh}) - \color{green}b(\color{red}{dh} - \color{blue}{fg}) - \color{green}c(\color{red}{dh} - \color{blue}{eg})
-\]</span></p>
-</div>
-</div>
-<div id="example" class="section level2">
-<h2>Example</h2>
-<p><span class="math display">\[
-  A = 
-\begin{bmatrix}
-  6   &amp;   1   &amp;  1  \\
-  4   &amp;  \text{-}2   &amp;  5  \\
-  2   &amp;   8   &amp;  7  \\
-\end{bmatrix}
-\]</span></p>
-<p><span class="math display">\[
-|A| = \color{green}6 \cdot \left| \begin{matrix} \color{red}{\text{-}2} &amp; \color{blue}5 \\ \color{blue}8 &amp; \color{red}7 \\ \end{matrix} \right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 &amp; \color{blue}5 \\\color{blue}2 &amp; \color{red}7 \\ \end{matrix}\right|- \color{green}1 \cdot\left|\begin{matrix}\color{red}4 &amp; \color{blue}{\text{-}2} \\\color{blue}2 &amp; \color{red}8 \\ \end{matrix}\right| \\
-\\ \downarrow \\
-\color{green}6(\color{red}{\text{-}2}\times \color{red}7 - \color{blue}5\times \color{blue}8) - \color{green}1(\color{red}4\times \color{red}7 - \color{blue}5\times \color{blue}2) - \color{green}1(\color{red}4\times \color{red}8 - \color{blue}{\text{-}2} \times \color{blue}2)
-\\ \downarrow \\
-\color{green}6(\color{red}{\text{-}14} - \color{blue}{40}) - \color{green}1(\color{red}{28} - \color{blue}{10}) - \color{green}1(\color{red}{32} - \color{blue}{\text{-}4})
-\\ \downarrow \\
-\color{green}6\times \color{purple}{\text{-}54} - \color{green}1\times \color{purple}{18} - \color{green}1 \times \color{purple}{\text{-}36}
-\\ \downarrow \\
-\text{-}324 - 18 + 36
-\\ \downarrow \\
-\text{-}306
-\]</span></p>
-<div id="times-4-matrix-and-beyond" class="section level3">
-<h3><span class="math inline">\(4 \times 4\)</span> Matrix (and Beyond)</h3>
-<p><span class="math display">\[
-A = \begin{bmatrix} a   &amp;  b   &amp;  c  &amp;  d  \\
-                    e   &amp;  f   &amp;  g  &amp;  h  \\
-                    i   &amp;  j   &amp;  k  &amp;  l  \\
-                    m   &amp;  n   &amp;  o  &amp;  p  \\
-    \end{bmatrix}\\
-\]</span></p>
-<p>Break it into four <span class="math inline">\(3 \times 3\)</span> matrices…</p>
-<p><span class="math display">\[
-\small
-\begin{bmatrix} 
-  \color{darkorange}{\textbf{a}} &amp; \tiny{\color{lightgray}b} &amp; \tiny{\color{lightgray}c} &amp; \tiny{\color{lightgray}d}  \\
-  \tiny{\color{lightgray}e}   &amp;  \color{green}f   &amp;  \color{green}g  &amp;  \color{green}h  \\
-  \tiny{\color{lightgray}i}   &amp;  j   &amp;  k  &amp;  l  \\
-  \tiny{\color{lightgray}m}   &amp;  n   &amp;  o  &amp;  p  \\
-\end{bmatrix}
-~~
-\begin{bmatrix} 
-  \tiny{\color{lightgray}a} &amp; \color{darkorange}{\textbf{b}} &amp; \tiny{\color{lightgray}c} &amp; \tiny{\color{lightgray}d}  \\
-  \color{green}e   &amp;  \tiny{\color{lightgray}f}   &amp;  \color{green}g  &amp;  \color{green}h  \\
-  i   &amp;  \tiny{\color{lightgray}j}  &amp;  k  &amp;  l  \\
-  m   &amp;  \tiny{\color{lightgray}n}   &amp;  o  &amp;  p  \\
-\end{bmatrix}
-~~
-\begin{bmatrix} 
-  \tiny{\color{lightgray}a} &amp; \tiny{\color{lightgray}b} &amp; \color{darkorange}{\textbf{c}}  &amp; \tiny{\color{lightgray}d}  \\
-  \color{green}e   &amp;  \color{green}f  &amp; \tiny{\color{lightgray}g}  &amp;  \color{green}h  \\
-  i   &amp;  j  &amp; \tiny{\color{lightgray}k}  &amp;  l  \\
-  m   &amp;  n  &amp; \tiny{\color{lightgray}o}  &amp;  p  \\
-\end{bmatrix}
-~~
-\begin{bmatrix} 
-  \tiny{\color{lightgray}a} &amp; \tiny{\color{lightgray}b} &amp; \tiny{\color{lightgray}c} &amp; \color{darkorange}{\textbf{d}}  \\
-  \color{green}e   &amp;  \color{green}f  &amp;  \color{green}g &amp; \tiny{\color{lightgray}h} \\
-  i   &amp;  j  &amp;  k &amp; \tiny{\color{lightgray}l} \\
-  m   &amp;  n  &amp;  o  &amp;  \tiny{\color{lightgray}p}
-\end{bmatrix}
-\]</span></p>
-<p>… then break those into twelve <span class="math inline">\(2 \times 2\)</span> matrices, recursively finding their determinants (minors).</p>
-<p><span class="math display">\[
-\small
-|A| = \color{darkorange}a \cdot \left| \begin{matrix} 
-  \color{green}f &amp; \color{green}g &amp; \color{green}h \\
-  j &amp; k &amp; l \\
-  n &amp; o &amp; p \end{matrix} \right| -
-\color{darkorange}b \cdot \left| \begin{matrix} 
-  \color{green}e &amp; \color{green}g &amp; \color{green}h \\
-  i &amp; k &amp; l \\
-  m &amp; o &amp; p \end{matrix} \right| +
-\color{darkorange}c \cdot \left| \begin{matrix} 
-  \color{green}e &amp; \color{green}f &amp; \color{green}h \\
-  i &amp; j &amp; l \\
-  m &amp; n &amp; p \end{matrix} \right| -
-\color{darkorange}d \cdot \left| \begin{matrix} 
-  \color{green}e &amp; \color{green}f &amp; \color{green}g \\
-  i &amp; j &amp; k \\
-  m &amp; n &amp; o \end{matrix} \right|
-\\ \LARGE \downarrow \\
-\scriptsize
-\color{darkorange}a \cdot 
-\left(
-\begin{array}{cc}
-\begin{bmatrix}
-\color{green}f &amp; \tiny{\color{lightgray}g} &amp; \tiny{\color{lightgray}h} \\
-\tiny{\color{lightgray}j} &amp; \color{red}k &amp; \color{blue}l \\
-\tiny{\color{lightgray}n} &amp; \color{blue}o &amp; \color{red}p \\
-\end{bmatrix} \\ - \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}f} &amp; \color{green}g  &amp; \tiny{\color{lightgray}h} \\
-  \color{red}j &amp; \tiny{\color{lightgray}k} &amp; \color{blue}l \\
-  \color{blue}n &amp; \tiny{\color{lightgray}o} &amp; \color{red}p \\
-\end{bmatrix} \\ + \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}g}  &amp; \color{green}h \\
-  \color{red}j &amp; \tiny{\color{lightgray}k} &amp; \color{blue}l \\
-  \color{blue}n &amp; \tiny{\color{lightgray}o} &amp; \color{red}p \\
-\end{bmatrix}
-\end{array}
-\right) -
-\color{darkorange}b \cdot 
-\left(
-\begin{array}{cc}
-\begin{bmatrix}
-\color{green}e &amp; \tiny{\color{lightgray}g} &amp; \tiny{\color{lightgray}h} \\
-\tiny{\color{lightgray}i} &amp; \color{red}k &amp; \color{blue}l \\
-\tiny{\color{lightgray}m} &amp; \color{blue}o &amp; \color{red}p \\
-\end{bmatrix} \\ - \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}f} &amp; \color{green}g  &amp; \tiny{\color{lightgray}h} \\
-  \color{red}i &amp; \tiny{\color{lightgray}k} &amp; \color{blue}l \\
-  \color{blue}m &amp; \tiny{\color{lightgray}o} &amp; \color{red}p \\
-\end{bmatrix} \\ + \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}g}  &amp; \color{green}h \\
-  \color{red}i &amp; \color{blue}k &amp; \tiny{\color{lightgray}l} \\
-  \color{blue}m &amp; \color{red}o &amp; \tiny{\color{lightgray}p} \\
-\end{bmatrix}
-\end{array}
-\right) +
-\color{darkorange}c \cdot 
-\left(
-\begin{array}{cc}
-\begin{bmatrix}
-\color{green}e &amp; \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}h} \\
-\tiny{\color{lightgray}i} &amp; \color{red}j &amp; \color{blue}l \\
-\tiny{\color{lightgray}m} &amp; \color{blue}n &amp; \color{red}p \\
-\end{bmatrix} \\ - \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}f} &amp; \color{green}f  &amp; \tiny{\color{lightgray}h} \\
-  \color{red}i &amp; \tiny{\color{lightgray}j} &amp; \color{blue}l \\
-  \color{blue}m &amp; \tiny{\color{lightgray}n} &amp; \color{red}p \\
-\end{bmatrix} \\ + \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}f}  &amp; \color{green}h \\
-  \color{red}i &amp; \color{blue}j &amp; \tiny{\color{lightgray}l} \\
-  \color{blue}m &amp; \color{red}n &amp; \tiny{\color{lightgray}p} \\
-\end{bmatrix}
-\end{array}
-\right) -
-\color{darkorange}d \cdot 
-\left(
-\begin{array}{cc}
-\begin{bmatrix}
-\color{green}e &amp; \tiny{\color{lightgray}f} &amp; \tiny{\color{lightgray}g} \\
-\tiny{\color{lightgray}i} &amp; \color{red}j &amp; \color{blue}k \\
-\tiny{\color{lightgray}m} &amp; \color{blue}n &amp; \color{red}o \\
-\end{bmatrix} \\ - \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}e} &amp; \color{green}f  &amp; \tiny{\color{lightgray}g} \\
-  \color{red}i &amp; \tiny{\color{lightgray}j} &amp; \color{blue}k \\
-  \color{blue}m &amp; \tiny{\color{lightgray}n} &amp; \color{red}o \\
-\end{bmatrix} \\ + \\
-\begin{bmatrix}
-  \tiny{\color{lightgray}e} &amp; \tiny{\color{lightgray}f}  &amp; \color{green}g \\
-  \color{red}i &amp; \color{blue}j &amp; \tiny{\color{lightgray}k} \\
-  \color{blue}m &amp; \color{red}n &amp; \tiny{\color{lightgray}o} \\
-\end{bmatrix}
-\end{array}
-\right)
-\\ \LARGE \downarrow \\
-\scriptsize
-\color{darkorange}a \cdot
-\left(
-\begin{array}{cc}
-\color{green}f \cdot
-\left| \begin{matrix} 
-  \color{red}k &amp; \color{blue}l \\
-  \color{blue}o &amp; \color{red}p \\
-\end{matrix} \right| \\-\\
-\color{green}g \cdot
-\left| \begin{matrix} 
-  \color{red}j &amp; \color{blue}l \\
-  \color{blue}n &amp; \color{red}p \\
-\end{matrix} \right| \\+\\
-\color{green}h \cdot
-\left| \begin{matrix} 
-  \color{red}j &amp; \color{blue}k \\
-  \color{blue}n &amp; \color{red}o \\
-\end{matrix} \right|
-\end{array}
-\right)
--
-\color{darkorange}b \cdot
-\left(
-\begin{array}{cc}
-\color{green}e \cdot
-\left| \begin{matrix} 
-  \color{red}k &amp; \color{blue}l \\
-  \color{blue}o &amp; \color{red}p \\
-\end{matrix} \right|
-\\-\\
-\color{green}g \cdot
-\left| \begin{matrix} 
-  \color{red}i &amp; \color{blue}l \\
-  \color{blue}m &amp; \color{red}p \\
-\end{matrix} \right|
-\\+\\
-\color{green}h \cdot
-\left| \begin{matrix} 
-  \color{red}i &amp; \color{blue}k \\
-  \color{blue}m &amp; \color{red}o \\
-\end{matrix} \right|
-\end{array}
-\right) +
-\color{darkorange}c \cdot
-\left(
-\begin{array}{cc}
-\color{green}e \cdot
-\left| \begin{matrix} 
-  \color{red}j &amp; \color{blue}l \\
-  \color{blue}n &amp; \color{red}p \\
-\end{matrix} \right| \\-\\
-\color{green}f \cdot
-\left| \begin{matrix} 
-  \color{red}i &amp; \color{blue}l \\
-  \color{blue}m &amp; \color{red}p \\
-\end{matrix} \right| \\+\\
-\color{green}h \cdot
-\left| \begin{matrix} 
-  \color{red}i &amp; \color{blue}j \\
-  \color{blue}m &amp; \color{red}n \\
-\end{matrix} \right|
-\end{array}
-\right) -
-\color{darkorange}d \cdot
-\left(
-\begin{array}{cc}
-\color{green}e \cdot
-\left| \begin{matrix} 
-  \color{red}j &amp; \color{blue}k \\
-  \color{blue}n &amp; \color{red}o \\
-\end{matrix} \right| \\-\\
-\color{green}f \cdot
-\left| \begin{matrix} 
-  \color{red}i &amp; \color{blue}k \\
-  \color{blue}m &amp; \color{red}o \\
-\end{matrix} \right| \\+\\
-\color{green}g \cdot
-\left| \begin{matrix} 
-  \color{red}i &amp; \color{blue}j \\
-  \color{blue}m &amp; \color{red}n \\
-\end{matrix} \right|
-\end{array}
-\right) \\ \LARGE \downarrow \\
-\scriptsize
-\color{darkorange}a \cdot 
-\left(
-\begin{array}{cc}
-\color{green}f(\color{red}{kp} - \color{blue}{lo})
-\\ - \\
-\color{green}g(\color{red}{jp} - \color{blue}{ln})
-\\ + \\
-\color{green}h(\color{red}{jo} - \color{blue}{kn})
-\end{array}
-\right)
--
-\color{darkorange}b \cdot 
-\left(
-\begin{array}{cc}
-\color{green}e(\color{red}{kp} - \color{blue}{lo})
-\\ - \\
-\color{green}g(\color{red}{ip} - \color{blue}{lm})
-\\ + \\
-\color{green}h(\color{red}{io} - \color{blue}{km})
-\end{array}
-\right)
-+
-\color{darkorange}c \cdot 
-\left(
-\begin{array}{cc}
-\color{green}e(\color{red}{jp} - \color{blue}{ln})
-\\ - \\
-\color{green}f(\color{red}{ip} - \color{blue}{lm})
-\\ + \\
-\color{green}h(\color{red}{in} - \color{blue}{jm})
-\end{array}
-\right)
--
-\color{darkorange}d \cdot 
-\left(
-\begin{array}{cc}
-\color{green}e(\color{red}{jo} - \color{blue}{nk})
-\\ - \\
-\color{green}f(\color{red}{io} - \color{blue}{km})
-\\ + \\
-\color{green}g(\color{red}{in} - \color{blue}{jm})
-\end{array}
-\right)
- \\ \LARGE \downarrow \\
-\scriptsize
-\color{darkorange}a(\color{green}f\color{red}{kp} - \color{green}f\color{blue}{lo} - \color{green}g\color{red}{jp} - \color{green}g\color{blue}{ln} + \color{green}h\color{red}{jo} - \color{green}h\color{blue}{kn}) 
--
-\scriptsize
-\color{darkorange}b(\color{green}e\color{red}{kp} - \color{green}e\color{blue}{lo} - \color{green}g\color{red}{ip} - \color{green}g\color{blue}{lm} + \color{green}h\color{red}{io} - \color{green}h\color{blue}{km}) 
-\\\scriptsize+\\
-\scriptsize
-\color{darkorange}c(\color{green}e\color{red}{jp} - \color{green}e\color{blue}{ln} - \color{green}f\color{red}{ip} - \color{green}f\color{blue}{lm} + \color{green}h\color{red}{in} - \color{green}h\color{blue}{jm}) 
--
-\scriptsize
-\color{darkorange}d(\color{green}e\color{red}{jo} - \color{green}e\color{blue}{nk} - \color{green}f\color{red}{io} - \color{green}f\color{blue}{km} + \color{green}g\color{red}{in} - \color{green}g\color{blue}{jm})
-\]</span></p>
-</div>
+<center>
+<p><img src="transpose.gif" /></p>
+<p><small></p>
+<p>Source: <a href="https://physics.blogberth.com/2017/08/11/fuckyeahphysicaon-the-transpose-of-a-matrixin-this-post-i/">physics.blogberth.com</a></p>
+<p></small></p>
+</center>
 </div>
 <div id="r-5" class="section level2">
 <h2>R</h2>
-<pre class="r"><code>r_mat &lt;- matrix(
-  c(6, 1, 1,
-    4, -2, 5,
-    2, 8, 7),
-  nrow = 3, ncol = 3, byrow = TRUE
-  )
+<pre class="r"><code>r_mat &lt;- matrix(1:16, nrow = 4, ncol = 4, byrow = TRUE)
 r_mat</code></pre>
-<pre><code>#&gt;      [,1] [,2] [,3]
-#&gt; [1,]    6    1    1
-#&gt; [2,]    4   -2    5
-#&gt; [3,]    2    8    7</code></pre>
-<div id="by-hand" class="section level3">
-<h3>By Hand</h3>
-<pre class="r"><code>find_determinant &lt;- function(x, .verbose = TRUE) {
-  stopifnot(is.matrix(x) &amp;&amp; dim(x)[[1]] == dim(x)[[2]])
-  # if (all(dim(x) == 1)) return(x[1, 1])
-  if (all(dim(x) == 2)) return(x[1, 1] * x[2, 2] - x[1, 2] * x[2, 1])
-  out &lt;- 0
-  
-  for (i in seq_len(ncol(x))) {
-    if (.verbose) previous_out &lt;- out
-    
-    out &lt;- out + x[1, i] * (-1)^(1 + i) * find_determinant(x[-1, -i])
-    
-    if (.verbose) {
-      progress &lt;- glue::glue(
-        &quot;previous_out = {previous_out}
-        i = {i}
-        x[1, i] = x[1,{i}] = {x[1, i]}
-        (-1)^(1 + i) = (-1)^(1 + {i}) =  {(-1)^(1 + i)}
-        find_determinant(x[-1, -i]) = {find_determinant(x[-1, -i])}\n
-        {previous_out} + {x[1, i]} * {(-1)^(1 + i)} * {find_determinant(x[-1, -i])} = {out}&quot;
-      )
-      cat(progress, &quot;\n\n\n&quot;)
-    }
-  }
-  out
-}
-
-find_determinant(r_mat)</code></pre>
-<pre><code>#&gt; previous_out = 0
-#&gt; i = 1
-#&gt; x[1, i] = x[1,1] = 6
-#&gt; (-1)^(1 + i) = (-1)^(1 + 1) =  1
-#&gt; find_determinant(x[-1, -i]) = -54
-#&gt; 
-#&gt; 0 + 6 * 1 * -54 = -324 
-#&gt; 
-#&gt; 
-#&gt; previous_out = -324
-#&gt; i = 2
-#&gt; x[1, i] = x[1,2] = 1
-#&gt; (-1)^(1 + i) = (-1)^(1 + 2) =  -1
-#&gt; find_determinant(x[-1, -i]) = 18
-#&gt; 
-#&gt; -324 + 1 * -1 * 18 = -342 
-#&gt; 
-#&gt; 
-#&gt; previous_out = -342
-#&gt; i = 3
-#&gt; x[1, i] = x[1,3] = 1
-#&gt; (-1)^(1 + i) = (-1)^(1 + 3) =  1
-#&gt; find_determinant(x[-1, -i]) = 36
-#&gt; 
-#&gt; -342 + 1 * 1 * 36 = -306</code></pre>
-<pre><code>#&gt; [1] -306</code></pre>
-</div>
+<pre><code>#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]    1    2    3    4
+#&gt; [2,]    5    6    7    8
+#&gt; [3,]    9   10   11   12
+#&gt; [4,]   13   14   15   16</code></pre>
 <div id="base-r-5" class="section level3">
 <h3>Base R</h3>
-<pre class="r"><code>det(r_mat)</code></pre>
-<pre><code>#&gt; [1] -306</code></pre>
-</div>
-</div>
-<div id="python-5" class="section level2">
-<h2>Python</h2>
-<pre class="python"><code>np_mat = np.array([[6,  1,  1],
-                   [4, -2,  5],
-                   [2,  8,  7]])
-print(np_mat)</code></pre>
-<pre><code>#&gt; [[ 6  1  1]
-#&gt;  [ 4 -2  5]
-#&gt;  [ 2  8  7]]</code></pre>
-<div id="numpy-5" class="section level3">
-<h3>NumPy</h3>
-<pre class="python"><code>res = np.linalg.det(np_mat)
-print(res)</code></pre>
-<pre><code>#&gt; -306.0</code></pre>
+<pre class="r"><code>t(r_mat)</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]    1    5    9   13
+#&gt; [2,]    2    6   10   14
+#&gt; [3,]    3    7   11   15
+#&gt; [4,]    4    8   12   16</code></pre>
 </div>
 </div>
 <div id="rcpp-4" class="section level2">
 <h2>Rcpp</h2>
 <div id="rcpparmadillo-4" class="section level3">
 <h3>RcppArmadillo</h3>
-<pre class="cpp"><code>// [[Rcpp::plugins(cpp14)]]
-// [[Rcpp::depends(RcppArmadillo)]]
+<pre class="cpp"><code>// [[Rcpp::depends(RcppArmadillo)]]
 #include &lt;RcppArmadillo.h&gt;
 using namespace Rcpp;
 
 // [[Rcpp::export]]
-auto cpp_determinant(NumericMatrix x) {
-  auto arma_mat = as&lt;arma::mat&gt;(x);
+NumericMatrix cpp_arma_transpose(const NumericMatrix&amp; x) {
+  const arma::mat arma_mat = as&lt;arma::mat&gt;(x);
   
-  auto out = arma::det(arma_mat);
-
-  return out;
+  const arma::mat out = arma::trans(arma_mat);
+  
+  return wrap(out);
 }</code></pre>
-<pre class="r"><code>cpp_determinant(r_mat)</code></pre>
-<pre><code>#&gt; [1] -306</code></pre>
+<pre class="r"><code>cpp_arma_transpose(r_mat)</code></pre>
+<pre><code>#&gt;      [,1] [,2] [,3] [,4]
+#&gt; [1,]    1    5    9   13
+#&gt; [2,]    2    6   10   14
+#&gt; [3,]    3    7   11   15
+#&gt; [4,]    4    8   12   16</code></pre>
+</div>
+</div>
+<div id="python-5" class="section level2">
+<h2>Python</h2>
+<div id="numpy-5" class="section level3">
+<h3>NumPy</h3>
+<pre class="python"><code>np_mat = np.array([[1,  2,  3,  4],
+                   [5,  6,  7,  8],
+                   [9,  10, 11, 12],
+                   [13, 14, 15, 16]])</code></pre>
+<pre class="python"><code>res = np.transpose(np_mat) # transpose function
+print(res)</code></pre>
+<pre><code>#&gt; [[ 1  5  9 13]
+#&gt;  [ 2  6 10 14]
+#&gt;  [ 3  7 11 15]
+#&gt;  [ 4  8 12 16]]</code></pre>
+<details>
+<summary> Sanity Check </summary>
+<p>
+<pre class="r"><code>stopifnot(
+  all.equal(t(r_mat),
+            cpp_arma_transpose(r_mat),
+            py$np$transpose(py$np_mat))
+  )</code></pre>
+</p>
+</details>
 </div>
 </div>
 </div>
@@ -1036,8 +707,8 @@ auto cpp_determinant(NumericMatrix x) {
 #&gt; loaded via a namespace (and not attached):
 #&gt;  [1] Rcpp_1.0.0            cellranger_1.1.0      plyr_1.8.4           
 #&gt;  [4] compiler_3.5.1        pillar_1.3.0.9001     tools_3.5.1          
-#&gt;  [7] htmldeps_0.1.1        digest_0.6.18         lubridate_1.7.4      
-#&gt; [10] jsonlite_1.6          evaluate_0.12         gtable_0.2.0         
+#&gt;  [7] htmldeps_0.1.1        digest_0.6.18         gtable_0.2.0         
+#&gt; [10] lubridate_1.7.4       jsonlite_1.6          evaluate_0.12        
 #&gt; [13] lattice_0.20-35       pkgconfig_2.0.2       rlang_0.3.0.1        
 #&gt; [16] Matrix_1.2-14         cli_1.0.1             rstudioapi_0.8.0.9000
 #&gt; [19] yaml_2.2.0            haven_1.1.2.9000      blogdown_0.9.1       

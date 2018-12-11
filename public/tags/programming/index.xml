@@ -18,7 +18,7 @@
       <pubDate>Sun, 02 Dec 2018 00:00:00 +0000</pubDate>
       
       <guid>/post/linear-algebra/</guid>
-      <description>SetupRPythonScalar MultiplicationRRcppPythonMatrix-Vector MultiplicationRRcppPythonVector-Matrix MultiplicationRRcppPythonMatrix-Matrix MultiplicationRRcppPython\(|A|\): Determinant of a MatrixBreakdownExampleRPythonRcppEnvironmentThis post was last updated on 2018-12-10.
+      <description>SetupRPythonScalar MultiplicationExampleRRcppPythonMatrix-Vector MultiplicationBreakdownExampleRRcppPythonVector-Matrix MultiplicationBreakdownExampleRRcppPythonMatrix-Matrix MultiplicationBreakdownExampleRRcppPythonTransposeBreakdownRRcppPythonEnvironmentThis post was last updated on 2018-12-11.
 Setuplibrary(reticulate)RBase Rr_mat &amp;lt;- matrix(c(1, 2, 3, 4, 5, 6, 7, 8, 9),nrow = 3, ncol = 3)r_mat#&amp;gt; [,1] [,2] [,3]#&amp;gt; [1,] 1 4 7#&amp;gt; [2,] 2 5 8#&amp;gt; [3,] 3 6 9PythonNumPyimport numpy as npnp_mat = np.</description>
     </item>
     

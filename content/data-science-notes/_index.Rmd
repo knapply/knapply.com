@@ -132,7 +132,7 @@ collapser <- "<br>"
 la_df <- tibble(
   ` ` = c(
     rep("Foundation", 6),
-    rep("Intermediate", 1)
+    rep("", 1)
     ),
   Topic  = c(
     build_link("Setup", "linear-algebra/#setup"),
@@ -147,16 +147,39 @@ la_df <- tibble(
     build_link("Transpose",
                "linear-algebra/#transpose"),
     build_link("Determinant",
-               "linear-algebra/#a-determinant-of-a-matrix")
+               "matrix-determinant/")
     ),
   r_icon = c(
-    build_link("<strong>R</strong>", "linear-algebra/#r"),
-    build_link("<strong>R</strong>", "linear-algebra/#r-1"),
-    build_link("<strong>R</strong>", "linear-algebra/#r-2"),
-    build_link("<strong>R</strong>", "linear-algebra/#r-3"),
-    build_link("<strong>R</strong>", "linear-algebra/#r-4"),
-    build_link("<strong>R</strong>", "linear-algebra/#r-5"),
-    build_link("<strong>R</strong>", "linear-algebra/#r-6")
+    str_flatten(
+      c(build_link("<strong>R</strong>", "linear-algebra/#r"),
+        build_link("Base R", "linear-algebra/#base-r")), 
+      collapse = collapser),
+    str_flatten(
+      c(build_link("<strong>R</strong>", "linear-algebra/#r-1"),
+        build_link("Base R", "linear-algebra/#base-r-1")), 
+      collapse = collapser),
+    str_flatten(
+      c(build_link("<strong>R</strong>", "linear-algebra/#r-2"),
+        build_link("Base R", "linear-algebra/#base-r-2")), 
+      collapse = collapser),
+    str_flatten(
+      c(build_link("<strong>R</strong>", "linear-algebra/#r-3"),
+        build_link("Base R", "linear-algebra/#base-r-3")), 
+      collapse = collapser),
+    str_flatten(
+      c(build_link("<strong>R</strong>", "linear-algebra/#r-4"),
+        build_link("Base R", "linear-algebra/#base-r-4")), 
+      collapse = collapser),
+    str_flatten(
+      c(build_link("<strong>R</strong>", "linear-algebra/#r-5"),
+        build_link("Base R", "linear-algebra/#base-r-5")), 
+      collapse = collapser),
+    str_flatten(
+      c(build_link("<strong>R</strong>", "matrix-determinant/#r"),
+        build_link("Custom", "matrix-determinant/#custom"),
+        build_link("Base R", "matrix-determinant/#base-r")),
+      collapse = collapser
+      )
     ),
   rcpp = list(
     "",
@@ -191,8 +214,8 @@ la_df <- tibble(
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Rcpp</strong>", "linear-algebra/#rcpp-5"),
-        build_link("RcppAmardillo", "linear-algebra/#rcpparmadillo-5")),
+      c(build_link("<strong>Rcpp</strong>", "matrix-determinant/#rcpp"),
+        build_link("RcppArmadillo", "matrix-determinant/#rcpparmadillo")),
       collapse = collapser
       )
     ),
@@ -228,8 +251,8 @@ la_df <- tibble(
       collapse = collapser
       ),
     str_flatten(
-      c(build_link("<strong>Python</strong>", "linear-algebra/#python-6"),
-        build_link("NumPy", "linear-algebra/#numpy-6")),
+      c(build_link("<strong>Python</strong>", "matrix-determinant/#python"),
+        build_link("NumPy", "matrix-determinant/#numpy")),
       collapse = collapser
       )
     )
